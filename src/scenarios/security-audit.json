@@ -1,0 +1,104 @@
+{
+  "id": "security-audit",
+  "title": "Feature Security Review",
+  "description": "Before shipping, your feature must pass a basic security audit across code, data, and infrastructure.",
+  "subScenarios": {
+    "software-engineer": {
+      "type": "binary-choice",
+      "title": "Enforce Auth Flow",
+      "instruction": "Which UI-flow enforcement do you prioritize first?",
+      "options": [
+        {
+          "id": "auth-guard-first",
+          "label": "Apply Auth Guard around Profile page",
+          "axisImpact": {
+            "Stability": 1,
+            "Precision": 0.5,
+            "Cost-Conscious": 0.3
+          }
+        },
+        {
+          "id": "role-check-first",
+          "label": "Perform Role Check before showing Login Button",
+          "axisImpact": {
+            "Precision": 1,
+            "Speed": -0.5,
+            "Collaboration": 0.2 
+          }
+        },
+        {
+          "id": "login-first",
+          "label": "Show Login Button then apply Auth Guard",
+          "axisImpact": {
+            "Precision": 1,
+            "Autonomy": 0.5,
+            "Innovation": 0.2
+          }
+        },
+        {
+          "id": "profile-readonly",
+          "label": "Render Profile Read-Only with a warning (defer full auth)",
+          "axisImpact": {
+            "Autonomy": 1,
+            "Collaboration": 0.5,
+            "Innovation": 0.2
+          }
+        }
+      ]
+    },
+    "data-scientist": {
+      "type": "binary-choice",
+      "title": "Assess Breach Probability",
+      "instruction": "You find 2 vulnerabilities after 1000 scans.\n\nWhich method do you prefer for reporting “probability per scan”?",
+      "options": [
+        {
+          "id": "simple-percent",
+          "label": "(2/1000)×100 = 0.2%",
+          "axisImpact": { "Precision": 1, "Stability": 0.5 }
+        },
+        {
+          "id": "bayesian-prior",
+          "label": "Use Bayesian estimate with prior knowledge",
+          "axisImpact": { "Innovation": 1, "Precision": -0.5, "Cost-Conscious": 0.5 }
+        },
+        {
+          "id": "monte-carlo",
+          "label": "Monte Carlo simulation approach",
+          "axisImpact": { "Innovation": 1, "Autonomy": 0.5, "Collaboration": 0.5 }
+        },
+        {
+          "id": "rule-of-thumb",
+          "label": "Use a quick “rule of thumb” estimate",
+          "axisImpact": { "Speed": 1, "Precision": -0.5 }
+        }
+      ]
+    },
+    "cloud-engineer": {
+      "type": "binary-choice",
+      "title": "Network Protection Strategy",
+      "instruction": "Which action will you take to protect your network?",
+      "options": [
+        {
+          "id": "waf",
+          "label": "Deploy WAF",
+          "axisImpact": { "Innovation": 1, "Cost-Conscious": -1, "Performance-First": 0.5 }
+        },
+        {
+          "id": "isolate",
+          "label": "Use Private Subnet",
+          "axisImpact": { "Stability": 1, "Cost-Conscious": 1, "Speed": -1 }
+        },
+        {
+          "id": "scan-automation",
+          "label": "Automate Vulnerability Scans",
+          "axisImpact": { "Precision": 1, "Innovation": -1, "Collaboration": 1 }
+        },
+        {
+          "id": "encrypt-data",
+          "label": "Enforce Data Encryption at Rest",
+          "axisImpact": { "Precision": 1, "Cost-Conscious": -1, "Autonomy": 0.5 }
+        }
+      ]
+    }
+  }
+}
