@@ -1,0 +1,105 @@
+{
+  "id": "feature-release",
+  "title": "Release the Analytics Dashboard",
+  "description": "Your startup needs to ship a new analytics dashboard. Each of you has a piece of the puzzle:",
+  "subScenarios": {
+    "software-engineer": {
+      "type": "binary-choice",
+      "title": "Choose Your Dashboard Priority",
+      "instruction": "Which UI component should appear at the top of the dashboard?\n\nYour choice reflects what you value most when laying out a new interface.",
+      "options": [
+        {
+          "id": "header",
+          "label": "Page Header – structure & branding",
+          "axisImpact": {
+            "Stability": 1,
+            "Precision": 0.5,
+            "Autonomy": 0.3
+          }
+        },
+        {
+          "id": "filter",
+          "label": "Date Filter – user control & customization",
+          "axisImpact": {
+            "Innovation": 1,
+            "Collaboration": 0.5,
+            "Autonomy": 0.2
+          }
+        },
+        {
+          "id": "chart",
+          "label": "Analytics Chart – data visualization upfront",
+          "axisImpact": {
+            "Performance-First": 1,
+            "Innovation": 0.5,
+            "Collaboration": 0.2, 
+            "Cost-Conscious": 0.3
+          }
+        },
+        {
+          "id": "table",
+          "label": "Data Table – detailed information first",
+          "axisImpact": {
+            "Precision": 1,
+            "Stability": 0.5,
+            "Cost-Conscious": 0.2
+          }
+        }
+      ]
+    },
+    "data-scientist": {
+      "type": "binary-choice",
+      "title": "Choose Your Aggregation Strategy",
+      "instruction": "You have three sources of daily events [300, 450, 500].\n\nWhich method best matches your mindset for reporting a single daily average?",
+      "options": [
+        {
+          "id": "arithmetic",
+          "label": "Arithmetic Mean – equal weight to all regions",
+          "axisImpact": { "Precision": 1, "Speed": 0.5 }
+        },
+        {
+          "id": "geometric",
+          "label": "Geometric Mean – penalize extreme regions",
+          "axisImpact": { "Innovation": 1, "Precision": -0.5 }
+        },
+        {
+          "id": "median",
+          "label": "Median – focus on stability over outliers",
+          "axisImpact": { "Stability": 1, "Cost-Conscious": 0.5, "Autonomy": 0.5 }
+        },
+        { 
+          "id": "mean",
+          "label": "Trimmed Mean – drop top/bottom 10%",
+          "axisImpact": { "Precision": 0.5, "Collaboration": 0.5, "Speed": -0.5, "Autonomy": 0.5 }
+        }
+      ]
+    },
+    "cloud-engineer": {
+      "type": "binary-choice",
+      "title": "Choose Hosting Option",
+      "instruction": "To serve your dashboard with low latency globally, which deployment model do you pick?",
+      "options": [
+        {
+          "id": "single",
+          "label": "Single Large VM (Centralized)",
+          "axisImpact": { "Cost-Conscious": 1, "Speed": -1, "Precision": -1, "Stability": 0.5 }
+        },
+        {
+          "id": "multi",
+          "label": "Multi-region Small VMs",
+          "axisImpact": { "Performance-First": 1, "Cost-Conscious": -1, "Speed": 1 }
+        },
+        {
+          "id": "serverless",
+          "label": "Serverless Functions",
+          "axisImpact": { "Cost-Conscious": -1, "Innovation": 1, "Collaboration": -1 }
+        },
+        {
+          "id": "edgecache",
+          "label": "Edge-Caching CDN",
+          "axisImpact": { "Speed": 1, "Performance-First": 1, "Cost-Conscious": -1 }
+        }
+      ]
+    }
+  }
+}
