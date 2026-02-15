@@ -1,0 +1,106 @@
+{
+  "id": "operation-overwatch",
+  "title": "Operation Overwatch",
+  "description": "The final mission. Singapore is hosting a massive international summit in 72 hours. Intelligence suggests a sophisticated threat actor plans to disrupt it, digitally, physically, or both. You're leading the digital defense for the entire nation. This is what you've been training for.",
+  "round": 4,
+  "storyContext": "You're no longer a recruit. After Operation Firewall, command promoted your squad to lead the digital security operation for the upcoming Global Tech & Security Summit. 40 world leaders. 10,000 delegates. Live-streamed to billions. Your CO's final briefing: 'We have credible intelligence that a threat group is planning to embarrass Singapore on the world stage. Could be a data leak, a broadcast hijack, a deepfake, or something we haven't seen before. You have 72 hours to build the shield. This is the mission that determines your final C4X vocation assignment. The leaderboard closes after this round, make it count.'",
+  "leaderboard": {
+    "enabled": true,
+    "roundLabel": "Final Mission 4 of 4",
+    "rankTitle": "C4X Vocation Ranking",
+    "isFinalRound": true
+  },
+  "subScenarios": {
+    "software-engineer": {
+      "type": "binary-choice",
+      "title": "Build the Digital Shield",
+      "vocationType": "Cyber Specialist",
+      "instruction": "You need to protect the summit's entire digital presence: the official website, live stream, delegate communications, and voting systems. But you only have time to build ONE advanced defense layer. What's your priority?",
+      "options": [
+        {
+          "id": "deepfake-detector",
+          "label": "Build a deepfake detection system. An AI that monitors every video feed and audio stream in real time, flagging anything that might be synthetically generated. Stops fake videos of world leaders before they spread, but it's cutting-edge tech that might produce false alarms.",
+          "axisImpact": {
+            "Innovation": 1,
+            "Precision": 0.5,
+            "Stability": -0.5
+          }
+        },
+        {
+          "id": "zero-trust-network",
+          "label": "Implement a zero-trust network. Treat every device and every user as potentially compromised. Everyone has to verify their identity for every single action. Incredibly secure, but delegates might complain about the extra steps. Think airport security every time you open a door.",
+          "axisImpact": {
+            "Stability": 1,
+            "Precision": 0.5,
+            "Speed": -0.8
+          }
+        },
+        {
+          "id": "honeypot-trap",
+          "label": "Set up a honeypot trap. Create a fake version of the summit's systems that looks completely real. When the attacker tries to break in, they waste their time on the decoy while you watch their every move. Like setting up a fake vault and watching who tries to rob it.",
+          "axisImpact": {
+            "Innovation": 0.8,
+            "Autonomy": 0.5,
+            "Collaboration": -0.5
+          }
+        },
+        {
+          "id": "rapid-response",
+          "label": "Assemble a rapid response team. Instead of building one big wall, put a crack team of cyber operators on standby who can respond to ANY attack in under 60 seconds. You can't predict every threat, but you can be ready for anything.",
+          "axisImpact": {
+            "Speed": 1,
+            "Collaboration": 0.5,
+            "Cost-Conscious": -0.5
+          }
+        }
+      ]
+    },
+    "data-scientist": {
+      "type": "numeric-input",
+      "title": "Threat Level Forecast",
+      "vocationType": "Data Analyst",
+      "instruction": "Intelligence analysts have tracked cyber threat activity targeting Singapore over the past 4 weeks as the summit approaches. The numbers show attempted intrusions per day escalating. Predict the number of attack attempts expected on summit day so the defense team can staff appropriately. Your prediction determines whether we're overstaffed (wasting resources) or understaffed (vulnerable). The final leaderboard score rewards accuracy!",
+      "chartData": [150, 400, 1100, 3200],
+      "expected": 8500,
+      "tolerance": 3000,
+      "axisImpact": {
+        "Precision": 1,
+        "Cost-Conscious": 0.5
+      }
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Architect the Fortress",
+      "vocationType": "Signals Engineer",
+      "instruction": "You're building the digital infrastructure for the summit from scratch. 40 world leaders need bulletproof communications, secure voting, and reliable live streaming, all at once. Put these infrastructure layers in the correct deployment order. Build the foundation first, or the whole fortress crumbles. This is your final assessment!",
+      "items": [
+        {
+          "id": "secure-backbone",
+          "label": "Deploy the secure network backbone, the encrypted highway everything else runs on"
+        },
+        {
+          "id": "identity-layer",
+          "label": "Set up the identity verification layer so only authorized personnel can access each system"
+        },
+        {
+          "id": "comm-channels",
+          "label": "Establish encrypted communication channels for secure messaging and video across all delegations"
+        },
+        {
+          "id": "monitoring-layer",
+          "label": "Activate the real-time threat monitoring dashboard with eyes on every packet flowing through the network"
+        },
+        {
+          "id": "redundancy-failover",
+          "label": "Configure redundancy and failover so if any system goes down, the backup takes over in under 10 seconds"
+        }
+      ],
+      "correctOrder": ["secure-backbone", "identity-layer", "comm-channels", "monitoring-layer", "redundancy-failover"],
+      "axisImpact": {
+        "Stability": 1,
+        "Precision": 0.5
+      }
+    }
+  }
+}

@@ -1,14 +1,15 @@
 import { Scenario } from '@/types/scenario';
-import featureRelease from '../scenarios/feature-release.json';
-import incidentResp   from '../scenarios/incident-response.json';
-import perfTune       from '../scenarios/performance-tuning.json';
-import secAudit       from '../scenarios/security-audit.json';
+import opFirstLight from '../scenarios/operation-first-light.json';
+import opHawkeye    from '../scenarios/operation-hawkeye.json';
+import opFirewall   from '../scenarios/operation-firewall.json';
+import opOverwatch  from '../scenarios/operation-overwatch.json';
 
+// Scenarios ordered by mission round (1 to 4)
 export const ALL_SCENARIOS: Scenario[] = [
-  featureRelease as Scenario,
-  incidentResp as Scenario,
-  perfTune as Scenario,
-  secAudit as Scenario,
+  opFirstLight as unknown as Scenario,
+  opHawkeye    as unknown as Scenario,
+  opFirewall   as unknown as Scenario,
+  opOverwatch  as unknown as Scenario,
 ];
 
 export function getScenario(index: number): Scenario | null {

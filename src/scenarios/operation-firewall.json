@@ -1,0 +1,136 @@
+{
+  "id": "operation-firewall",
+  "title": "Operation Firewall",
+  "description": "RED ALERT. A coordinated cyberattack just hit Singapore's power grid, hospital systems, and transport network simultaneously. 5.6 million people are affected. Your squad is activated for national emergency response. The clock is ticking and every second offline costs lives.",
+  "round": 3,
+  "storyContext": "3 AM. Your phone screams with an emergency alert. When you reach HQ, the ops room is chaos. Three screens show cascading failures across the nation: traffic lights going dark, hospital backup generators kicking in, MRT signalling systems throwing errors. Your CO's face is grim: 'This isn't a glitch. Someone attacked us. They hit the power grid first to blind us, then went after hospitals and transport while we were scrambling. This is the real deal, operators. Every decision you make in the next 2 hours matters. The leaderboard doesn't just track your score now, it tracks who steps up when the nation needs them.'",
+  "leaderboard": {
+    "enabled": true,
+    "roundLabel": "Crisis Response 3 of 4",
+    "rankTitle": "Crisis Operator Ranking"
+  },
+  "subScenarios": {
+    "software-engineer": {
+      "type": "binary-choice",
+      "title": "Triage the Attack",
+      "vocationType": "Cyber Specialist",
+      "instruction": "Three critical systems are under attack at the same time: hospitals, power grid, and public transport. You can only focus your team on ONE system first. The other two will keep taking damage while you work. Which do you save first?",
+      "options": [
+        {
+          "id": "hospitals-first",
+          "label": "Save hospitals first. Life support machines and emergency systems are on backup power that lasts 4 hours. If the digital systems fail, doctors lose access to patient records during surgeries happening right now.",
+          "axisImpact": {
+            "Precision": 1,
+            "Stability": 0.5,
+            "Speed": -0.3
+          }
+        },
+        {
+          "id": "power-grid-first",
+          "label": "Fix the power grid first. Go for the root cause. Everything else runs on electricity, so if you restore power, hospitals and transport partially recover on their own. But it's the hardest system to fix.",
+          "axisImpact": {
+            "Performance-First": 1,
+            "Innovation": 0.5,
+            "Speed": -0.8
+          }
+        },
+        {
+          "id": "transport-first",
+          "label": "Restore transport first. 200,000 people are stuck in trains and on roads right now. Emergency vehicles can't move. Fix transport so ambulances can reach hospitals and repair crews can reach power stations.",
+          "axisImpact": {
+            "Collaboration": 1,
+            "Speed": 0.5,
+            "Autonomy": -0.5
+          }
+        },
+        {
+          "id": "isolate-attacker",
+          "label": "Hunt the attacker first. Forget defense, find and cut off the attacker's access before they do even more damage. If you don't stop them, every system you fix might just get hit again.",
+          "axisImpact": {
+            "Innovation": 1,
+            "Autonomy": 0.8,
+            "Stability": -0.5
+          }
+        }
+      ]
+    },
+    "data-scientist": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Trace the Attack Pattern",
+      "vocationType": "Data Analyst",
+      "instruction": "The attack hit 3 systems in a specific sequence and that sequence is the attacker's fingerprint. Put these investigation steps in the right order to reconstruct the attack timeline and figure out where they'll strike next. Speed and accuracy both matter, the leaderboard rewards getting it right FAST.",
+      "items": [
+        {
+          "id": "collect-timestamps",
+          "label": "Pull timestamps from all three systems to find out exactly when each one was hit"
+        },
+        {
+          "id": "correlate-events",
+          "label": "Line up the events side by side and look for the 'domino chain' showing how one attack triggered the next"
+        },
+        {
+          "id": "identify-origin",
+          "label": "Trace the attack traffic back to its origin point to find where the first domino was pushed"
+        },
+        {
+          "id": "predict-next",
+          "label": "Based on the pattern, predict which system is the next target and alert the defense team"
+        },
+        {
+          "id": "brief-command",
+          "label": "Compile a 1-page intel brief for the national command center with your findings"
+        }
+      ],
+      "correctOrder": ["collect-timestamps", "correlate-events", "identify-origin", "predict-next", "brief-command"],
+      "axisImpact": {
+        "Precision": 1,
+        "Speed": 0.5
+      }
+    },
+    "cloud-engineer": {
+      "type": "binary-choice",
+      "title": "Emergency Infrastructure Recovery",
+      "vocationType": "Signals Engineer",
+      "instruction": "The nation's digital backbone is fractured. You need to get critical services back online while keeping the attacker out. How do you rebuild the infrastructure under fire?",
+      "options": [
+        {
+          "id": "backup-activation",
+          "label": "Activate the backup systems. Switch everything to the national disaster recovery servers. They're old and slower, but they're isolated from the attack. Think of it as retreating to a bunker while the storm passes.",
+          "axisImpact": {
+            "Stability": 1,
+            "Speed": 0.5,
+            "Performance-First": -0.5
+          }
+        },
+        {
+          "id": "rolling-restore",
+          "label": "Do a rolling restore. Bring systems back one at a time, checking each one for hidden traps before turning it on. Slower, but you won't accidentally let the attacker back in through a booby-trapped server.",
+          "axisImpact": {
+            "Precision": 1,
+            "Stability": 0.5,
+            "Speed": -0.8
+          }
+        },
+        {
+          "id": "parallel-rebuild",
+          "label": "Go for a parallel rebuild. Build brand new, clean versions of each system alongside the damaged ones, then cut over instantly. Fast recovery but needs twice the resources. Like building a second bridge while the first one burns.",
+          "axisImpact": {
+            "Speed": 0.8,
+            "Innovation": 0.5,
+            "Cost-Conscious": -1
+          }
+        },
+        {
+          "id": "coalition-support",
+          "label": "Call in coalition support. Request emergency infrastructure help from allied nations' cyber commands. They've dealt with similar attacks before and can help restore services faster, but they'll see our systems from the inside.",
+          "axisImpact": {
+            "Collaboration": 1,
+            "Speed": 0.5,
+            "Autonomy": -0.8
+          }
+        }
+      ]
+    }
+  }
+}

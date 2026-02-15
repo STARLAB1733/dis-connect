@@ -44,7 +44,7 @@ export const ALL_ARCHETYPES: PersonaArchetype[] = [
     axes: ['Innovation', 'Collaboration'],
     name: 'The Creative Collaborator',
     description:
-      'Brainstorming with peers energizes you. You fuel innovation by harnessing collective insight—group ideation is your superpower.',
+      'Brainstorming with peers energizes you. You fuel innovation by harnessing collective insight, and group ideation is your superpower.',
     svgPath: '/personas/cc.svg',
   },
   {
