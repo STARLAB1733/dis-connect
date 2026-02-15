@@ -1,0 +1,158 @@
+{
+  "id": "operation-hawkeye",
+  "title": "Operation Hawkeye",
+  "description": "Your first real field op. A hostile network is recruiting through a fake gaming platform. 15,000 teenagers are on it right now. Your squad has 48 hours to map the network, protect the kids, and trace it back to the source without tipping off the operators.",
+  "round": 2,
+  "storyContext": "You've made it past selection. Your CO pulls your squad into a classified briefing: 'A gaming platform called PulseArena launched 3 weeks ago. Looks legit on the surface: tournaments, leaderboards, chat rooms. But our analysts flagged it. Buried in the chat rooms, someone is profiling and recruiting vulnerable teenagers. We need to understand the full network before we shut it down, or they'll just pop up somewhere else. You have 48 hours before the press finds out. This is your squad's first real operation. The leaderboard shows who's ready for the next level.'",
+  "leaderboard": {
+    "enabled": true,
+    "roundLabel": "Field Op 2 of 4",
+    "rankTitle": "Operator Ranking"
+  },
+  "subScenarios": {
+    "software-engineer": {
+      "type": "binary-choice",
+      "title": "Infiltrate the Platform",
+      "vocationType": "Cyber Specialist",
+      "instruction": "You need to get inside PulseArena's systems without the operators knowing you're there. One wrong move and they'll burn the evidence. How do you get in?",
+      "options": [
+        {
+          "id": "exploit-vuln",
+          "label": "Find a backdoor. Scan the platform's code for security holes. If there's a crack in the wall, slip through it quietly. Risky if they have alarms set up, but you get deep access fast.",
+          "axisImpact": {
+            "Speed": 1,
+            "Innovation": 0.5,
+            "Stability": -0.5
+          }
+        },
+        {
+          "id": "fake-profile",
+          "label": "Go undercover. Create a convincing fake gaming profile and join as a regular user. Slow and steady, you see what a normal user sees, then work your way deeper.",
+          "axisImpact": {
+            "Precision": 0.8,
+            "Stability": 0.5,
+            "Speed": -0.5
+          }
+        },
+        {
+          "id": "traffic-analysis",
+          "label": "Tap the pipes. Monitor all the data flowing in and out of PulseArena's servers from the outside. You never touch the platform itself, so there's zero risk of detection. Downside is you only see the surface.",
+          "axisImpact": {
+            "Stability": 1,
+            "Autonomy": 0.5,
+            "Performance-First": -0.5
+          }
+        },
+        {
+          "id": "ally-cooperation",
+          "label": "Call in allies. The platform's servers are hosted overseas. Reach out to allied intelligence agencies who have local access. Faster coverage, but you share control of the operation.",
+          "axisImpact": {
+            "Collaboration": 1,
+            "Speed": 0.5,
+            "Autonomy": -0.8
+          }
+        }
+      ]
+    },
+    "data-scientist": {
+      "type": "drag-drop",
+      "variant": "layout",
+      "title": "Map the Threat Network",
+      "vocationType": "Data Analyst",
+      "instruction": "You've pulled data from PulseArena showing 6 suspicious accounts with different behavior patterns. Classify each account into the right threat category so the ops team knows who to watch, who to trace, and who's just a regular gamer caught in the crossfire.",
+      "items": [
+        {
+          "id": "account-alpha",
+          "label": "Account 'PixelKing': Messages 200+ users daily, never plays any games"
+        },
+        {
+          "id": "account-bravo",
+          "label": "Account 'StormRider': Created 3 weeks ago, only active between 2-4 AM, accesses admin-level pages"
+        },
+        {
+          "id": "account-charlie",
+          "label": "Account 'xXGamerGirlXx': Normal gameplay patterns, but receives private messages from 5 flagged accounts"
+        },
+        {
+          "id": "account-delta",
+          "label": "Account 'TechNova': Posts tournament links that redirect to encrypted external chat rooms"
+        },
+        {
+          "id": "account-echo",
+          "label": "Account 'JustVibing': Plays daily, normal chat, no contact with flagged accounts, joined 2 weeks ago"
+        },
+        {
+          "id": "account-foxtrot",
+          "label": "Account 'ShadowNet99': Account created with a recycled email from a previously dismantled network"
+        }
+      ],
+      "dropZones": [
+        {
+          "id": "primary-operator",
+          "label": "Primary Operator (running the recruitment)"
+        },
+        {
+          "id": "support-role",
+          "label": "Support Role (enabling or facilitating)"
+        },
+        {
+          "id": "potential-target",
+          "label": "Potential Target (may be at risk)"
+        },
+        {
+          "id": "likely-innocent",
+          "label": "Likely Innocent (regular user)"
+        }
+      ],
+      "correctOrder": ["account-alpha", "account-bravo", "account-delta", "account-foxtrot", "account-charlie", "account-echo"],
+      "axisImpact": {
+        "Precision": 1,
+        "Collaboration": 0.5
+      }
+    },
+    "cloud-engineer": {
+      "type": "binary-choice",
+      "title": "Secure the Evidence Vault",
+      "vocationType": "Signals Engineer",
+      "instruction": "Everything your squad collects needs to be stored securely. If the evidence gets corrupted, deleted, or leaked, the entire case falls apart and the bad guys walk free. How do you set up the evidence storage system?",
+      "options": [
+        {
+          "id": "air-gapped",
+          "label": "Use an air-gapped vault. Store everything on a system completely disconnected from the internet. Nobody can hack what they can't reach. But your team has to physically be at the vault to add or access files.",
+          "axisImpact": {
+            "Stability": 1,
+            "Precision": 0.5,
+            "Speed": -0.8
+          }
+        },
+        {
+          "id": "encrypted-cloud",
+          "label": "Go with encrypted cloud storage. Use military-grade encryption on a secure cloud server. Your whole squad can access it from anywhere, anytime. Fast and flexible, but it's still connected to the internet.",
+          "axisImpact": {
+            "Speed": 0.8,
+            "Collaboration": 0.5,
+            "Stability": -0.3
+          }
+        },
+        {
+          "id": "blockchain-log",
+          "label": "Set up a blockchain evidence log. Record every piece of evidence on an unalterable digital ledger. Nobody, not even your own team, can tamper with it. Perfect for court, but complex to set up.",
+          "axisImpact": {
+            "Precision": 1,
+            "Innovation": 0.5,
+            "Cost-Conscious": -0.5
+          }
+        },
+        {
+          "id": "distributed-backup",
+          "label": "Use distributed backup. Split the evidence across multiple secure locations. Even if one gets compromised, the others are safe. Like hiding treasure in 4 different vaults across the country.",
+          "axisImpact": {
+            "Stability": 0.8,
+            "Cost-Conscious": 0.3,
+            "Autonomy": 0.5
+          }
+        }
+      ]
+    }
+  }
+}
