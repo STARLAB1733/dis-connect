@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { auth, db } from '@/lib/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { doc, onSnapshot, updateDoc, serverTimestamp } from 'firebase/firestore';
@@ -18,6 +18,7 @@ import {
   type RoleKey,
 } from '@/lib/roleRotation';
 import Image from 'next/image';
+import { useAudio } from '@/components/AudioProvider';
 
 type LobbyData = {
   players: { uid: string; name: string }[];
@@ -43,8 +44,15 @@ export default function GamePage() {
   const router = useRouter();
   const [user] = useAuthState(auth);
   const [lobby, setLobby] = useState<LobbyData | null>(null);
-  const [answered, setAnswered] = useState(false);
-  const [waiting, setWaiting] = useState(false);
+  // Track the chapter key we last submitted an answer for, to detect genuine new chapters
+  const submittedForRef = useRef<string | null>(null);
+  const { switchBgm, playSfx } = useAudio();
+
+  // Switch to game BGM on mount, back to lobby on unmount
+  useEffect(() => {
+    switchBgm('game');
+    return () => switchBgm('lobby');
+  }, [switchBgm]);
 
   useEffect(() => {
     if (!lobbyId) return;
@@ -53,20 +61,8 @@ export default function GamePage() {
       const data = snap.data() as LobbyData | undefined;
       if (!data) return;
       setLobby(data);
-
       if (data.finished) {
         router.push(`/results/${lobbyId}`);
-        return;
-      }
-
-      // When everyone has answered, host advances the round
-      if (data.roundAnswers && data.players?.length > 0) {
-        const uids = data.players.map(p => p.uid);
-        if (allPlayersAnswered(data.roundAnswers, uids)) {
-          // Reset answered state for next chapter
-          setAnswered(false);
-          setWaiting(false);
-        }
       }
     });
   }, [lobbyId, router]);
@@ -79,29 +75,32 @@ export default function GamePage() {
   const chapterIdx = lobby.chapterIdx ?? 0;
   const rotationIdx = lobby.rotationIdx ?? 0;
 
-  // Derive role from currentRoles map (set on game start) or compute from rotation
   const myRole: RoleKey = lobby.currentRoles?.[user.uid]
     ?? (myIdx >= 0 ? getPlayerRole(myIdx, rotationIdx) : 'software-engineer');
 
   const scenario = getScenario(arcIdx, chapterIdx);
   const roundAnswers = lobby.roundAnswers || {};
-  const iHaveAnswered = answered || !!roundAnswers[user.uid];
+
+  // A unique key for this chapter — used to detect when Firestore advances to a new chapter
+  const chapterKey = `${arcIdx}-${chapterIdx}`;
+  // I have answered this chapter if I submitted for this exact chapterKey OR if Firestore shows my answer
+  const iHaveAnswered = submittedForRef.current === chapterKey || !!roundAnswers[user.uid];
+
   const isHost = players.length > 0 && players[0].uid === user.uid;
+  const allAnswered = players.length > 0 && allPlayersAnswered(roundAnswers, players.map(p => p.uid));
 
   const totalChapters = NUM_ARCS * CHAPTERS_PER_ARC;
   const completedChapters = arcIdx * CHAPTERS_PER_ARC + chapterIdx;
   const percent = Math.round((completedChapters / totalChapters) * 100);
 
-  const allAnswered = players.length > 0 && allPlayersAnswered(roundAnswers, players.map(p => p.uid));
-
-  // Advance to next chapter (host only, called after all answer)
   const advanceChapter = async () => {
     const next = nextChapterState(arcIdx, chapterIdx, rotationIdx);
     const ref = doc(db, 'lobbies', lobbyId);
     if (next.finished) {
+      playSfx('complete');
       await updateDoc(ref, { finished: true, finishedAt: serverTimestamp(), roundAnswers: {} });
     } else {
-      // Reassign roles based on new rotation
+      playSfx('advance');
       const newRoles = Object.fromEntries(
         players.map((p, i) => [p.uid, ROLE_KEYS[(i + next.rotationIdx) % 3]])
       );
@@ -112,13 +111,15 @@ export default function GamePage() {
         roundAnswers: {},
         currentRoles: newRoles,
       });
+      // Clear our local submission record so next chapter renders the scenario
+      submittedForRef.current = null;
     }
   };
 
   const onNext = async () => {
-    setAnswered(true);
-    setWaiting(true);
-    // Mark this player as answered
+    playSfx('success');
+    // Record that we submitted for this specific chapter
+    submittedForRef.current = chapterKey;
     await updateDoc(doc(db, 'lobbies', lobbyId), {
       [`roundAnswers.${user.uid}`]: true,
     });
@@ -126,19 +127,61 @@ export default function GamePage() {
 
   if (!scenario) return <Spinner />;
 
-  // Show waiting screen while waiting for others
-  if (iHaveAnswered && !allAnswered) {
+  // ── All players answered → show advance screen ──────────────────────────
+  if (allAnswered) {
+    if (isHost) {
+      const next = nextChapterState(arcIdx, chapterIdx, rotationIdx);
+      return (
+        <div className="min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
+          <div className="text-[#FF6600] text-4xl">✓</div>
+          <p className="text-[#e2e8f0] text-lg font-semibold tracking-wider text-center">
+            All agents reporting in.
+          </p>
+          <p className="text-[#94a3b8] text-sm text-center">
+            {next.finished
+              ? 'All 12 chapters complete. Prepare final debrief.'
+              : `Arc ${arcIdx + 1} · Chapter ${chapterIdx + 1} complete.`}
+          </p>
+          <button
+            onClick={advanceChapter}
+            className="px-8 py-4 bg-[#FF6600] hover:bg-[#e65a00] text-white rounded-lg tracking-wider uppercase font-semibold text-lg transition"
+          >
+            {next.finished ? 'VIEW RESULTS →' : 'NEXT CHAPTER →'}
+          </button>
+        </div>
+      );
+    } else {
+      return (
+        <div className="min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
+          <div className="w-12 h-12 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
+          <p className="text-[#94a3b8] text-center tracking-wider text-sm uppercase">
+            Standby — awaiting next briefing...
+          </p>
+          <div className="flex gap-2 flex-wrap justify-center">
+            {players.map(p => (
+              <span key={p.uid} className="text-xs px-3 py-1 rounded-full bg-[#FF6600] text-white">
+                {p.name}
+              </span>
+            ))}
+          </div>
+        </div>
+      );
+    }
+  }
+
+  // ── This player answered, waiting for others ─────────────────────────────
+  if (iHaveAnswered) {
     return (
       <div className="min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
         <div className="w-12 h-12 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
         <p className="text-[#94a3b8] text-center tracking-wider text-sm uppercase">
-          Waiting for other agents to complete their tasks...
+          Waiting for other agents...
         </p>
         <div className="flex gap-2 flex-wrap justify-center">
           {players.map(p => (
             <span
               key={p.uid}
-              className={`text-xs px-3 py-1 rounded-full ${
+              className={`text-xs px-3 py-1 rounded-full transition ${
                 roundAnswers[p.uid] ? 'bg-[#FF6600] text-white' : 'bg-[#1e293b] text-[#94a3b8]'
               }`}
             >
@@ -150,43 +193,13 @@ export default function GamePage() {
     );
   }
 
-  // All answered — host can advance (others see standby)
-  if (allAnswered && players.length > 0) {
-    if (isHost) {
-      return (
-        <div className="min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
-          <p className="text-[#e2e8f0] text-lg font-semibold tracking-wider">All agents reporting in.</p>
-          <p className="text-[#94a3b8] text-sm text-center">
-            {nextChapterState(arcIdx, chapterIdx, rotationIdx).finished
-              ? 'Mission complete. Prepare final debrief.'
-              : `Proceeding to Chapter ${chapterIdx + 2} of Arc ${arcIdx + 1}.`}
-          </p>
-          <button
-            onClick={advanceChapter}
-            className="px-8 py-4 bg-[#FF6600] hover:bg-[#e65a00] text-white rounded-lg tracking-wider uppercase font-semibold text-lg transition"
-          >
-            {nextChapterState(arcIdx, chapterIdx, rotationIdx).finished ? 'VIEW RESULTS' : 'NEXT CHAPTER →'}
-          </button>
-        </div>
-      );
-    } else {
-      return (
-        <div className="min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
-          <div className="w-12 h-12 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
-          <p className="text-[#94a3b8] text-center tracking-wider text-sm uppercase">
-            Standby — awaiting briefing for next chapter...
-          </p>
-        </div>
-      );
-    }
-  }
-
+  // ── Active scenario ───────────────────────────────────────────────────────
   const arcNames = ['NDP 2026', 'Exercise Northstar', 'Ops Resilience'];
 
   return (
     <div className="min-h-dvh flex flex-col bg-[#0f172a]">
       <main className="p-4 max-w-md mx-auto w-full">
-        {/* Progress Bar */}
+        {/* Progress bar */}
         <div className="mb-3">
           <div className="w-full bg-[#334155] h-1.5 rounded-full overflow-hidden">
             <div className="h-1.5 bg-[#FF6600] transition-[width] duration-500" style={{ width: `${percent}%` }} />
@@ -232,19 +245,6 @@ export default function GamePage() {
           arcIdx={arcIdx}
           chapterIdx={chapterIdx}
         />
-
-        {/* Player status dots */}
-        {waiting && (
-          <div className="mt-4 flex gap-1.5 justify-center">
-            {players.map(p => (
-              <div
-                key={p.uid}
-                title={p.name}
-                className={`w-2 h-2 rounded-full ${roundAnswers[p.uid] ? 'bg-[#FF6600]' : 'bg-[#334155]'}`}
-              />
-            ))}
-          </div>
-        )}
       </main>
     </div>
   );
