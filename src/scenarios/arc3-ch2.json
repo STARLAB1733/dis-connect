@@ -1,0 +1,74 @@
+{
+  "id": "arc3-ch2",
+  "title": "Ops Resilience: The Lights Go Out",
+  "description": "The intrusion was real. Sectors of Singapore have lost power. The attacker has taken control of 12 substations. Your team has minutes to cut the spread and protect the remaining grid.",
+  "image": "/chapters/arc3-ch2.svg",
+  "arc": 2,
+  "chapter": 1,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "binary-choice",
+      "title": "Contain the Intrusion",
+      "instruction": "The attacker has control of 12 substations and is moving laterally through the SCADA network. You can see their next target. How do you stop the spread?",
+      "options": [
+        {
+          "id": "network-isolation",
+          "label": "Immediately cut all network connections to the 12 compromised substations. They go to manual control mode. Stops the spread instantly but those substations can't be remotely managed until cleaned.",
+          "axisImpact": { "Stability": 1, "Speed": 0.8, "Autonomy": -0.3 }
+        },
+        {
+          "id": "honeypot-divert",
+          "label": "Deploy honeypot systems on the attacker's likely next targets. Let them think they've succeeded while you track their tools and techniques. Risky if they don't take the bait.",
+          "axisImpact": { "Innovation": 1, "Precision": 0.5, "Stability": -0.5 }
+        },
+        {
+          "id": "credential-rotation",
+          "label": "Emergency credential rotation across all SCADA nodes. If they're using stolen credentials, this locks them out. But rotating credentials on live infrastructure during an incident is itself risky.",
+          "axisImpact": { "Precision": 1, "Stability": 0.3, "Speed": -0.3 }
+        },
+        {
+          "id": "deceptive-traffic",
+          "label": "Flood the network with fake SCADA traffic to confuse the attacker's automated tools. Buys time but also makes it harder for your own defenders to see clearly.",
+          "axisImpact": { "Innovation": 0.8, "Speed": 0.5, "Precision": -0.5 }
+        }
+      ]
+    },
+    "data-scientist": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Trace the Attack Path",
+      "instruction": "Leadership wants to know how the attacker got in and what they touched. You need to reconstruct the intrusion timeline from logs. Put these forensic steps in order.",
+      "items": [
+        { "id": "collect-logs", "label": "Collect logs from all network devices, authentication systems, and SCADA controllers" },
+        { "id": "timeline-build", "label": "Build a chronological timeline of all events using log timestamps" },
+        { "id": "find-patient-zero", "label": "Identify the first compromised node by finding the earliest anomalous event" },
+        { "id": "map-lateral", "label": "Map lateral movement by tracing authentication and connection events" },
+        { "id": "ioc-extract", "label": "Extract indicators of compromise to block the attacker from returning" }
+      ],
+      "correctOrder": ["collect-logs", "timeline-build", "find-patient-zero", "map-lateral", "ioc-extract"],
+      "axisImpact": { "Precision": 1, "Speed": 0.5 }
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "layout",
+      "title": "Emergency Network Segmentation",
+      "instruction": "You need to segment the power grid network to stop lateral movement. Drag each network zone to the right isolation level. Zone 1 is fully isolated (no external connections), Zones 2 and 3 are partially restricted, Zone 4 maintains normal operations.",
+      "items": [
+        { "id": "compromised-substations", "label": "Compromised Substations (12 nodes)" },
+        { "id": "adjacent-substations", "label": "Adjacent Substations (at risk)" },
+        { "id": "control-centre", "label": "Central Control Centre" },
+        { "id": "clean-substations", "label": "Verified Clean Substations" },
+        { "id": "corporate-network", "label": "Corporate IT Network" },
+        { "id": "external-vendors", "label": "Vendor Remote Access" }
+      ],
+      "dropZones": [
+        { "id": "zone-1", "label": "Full Isolation" },
+        { "id": "zone-2", "label": "Restricted Access" },
+        { "id": "zone-3", "label": "Monitored Access" },
+        { "id": "zone-4", "label": "Normal Operations" }
+      ],
+      "correctOrder": ["compromised-substations", "adjacent-substations", "control-centre", "clean-substations"],
+      "axisImpact": { "Stability": 1, "Precision": 0.5 }
+    }
+  }
+}

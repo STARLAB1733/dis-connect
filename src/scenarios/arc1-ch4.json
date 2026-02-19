@@ -1,0 +1,67 @@
+{
+  "id": "arc1-ch4",
+  "title": "NDP 2026: Showtime",
+  "description": "The show is live. 40,000 in the stands, millions watching from home. Then the livestream starts stuttering. You have 20 minutes before the fireworks finale. The whole nation is watching.",
+  "image": "/chapters/arc1-ch4.svg",
+  "arc": 0,
+  "chapter": 3,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "binary-choice",
+      "title": "Fix the Livestream",
+      "instruction": "The video feed is dropping frames and buffering every few seconds. Millions of viewers are complaining on social media. Your monitoring shows the video encoding pipeline is the bottleneck. You have exactly 20 minutes before the fireworks. What do you do?",
+      "options": [
+        {
+          "id": "reduce-quality",
+          "label": "Drop the stream quality from 4K to 1080p. Viewers get a smooth experience but the committee specifically wanted 4K for the drone formation segment coming up.",
+          "axisImpact": { "Speed": 1, "Stability": 0.8, "Performance-First": -0.5 }
+        },
+        {
+          "id": "parallel-encode",
+          "label": "Spin up parallel encoding nodes to split the workload. Risky because it takes 10 of your 20 minutes to deploy and test, but if it works the quality stays perfect.",
+          "axisImpact": { "Innovation": 1, "Performance-First": 0.8, "Stability": -0.3 }
+        },
+        {
+          "id": "cdn-switch",
+          "label": "Switch to a backup CDN provider that has better capacity in Southeast Asia. Fast to switch but you lose your custom player analytics integration.",
+          "axisImpact": { "Speed": 0.8, "Collaboration": 0.5, "Autonomy": -0.5 }
+        },
+        {
+          "id": "adaptive-bitrate",
+          "label": "Enable adaptive bitrate streaming so each viewer gets the best quality their connection can handle. Some see 4K, some see 720p, but nobody buffers.",
+          "axisImpact": { "Innovation": 0.8, "Collaboration": 0.3, "Performance-First": 0.5 }
+        }
+      ]
+    },
+    "data-scientist": {
+      "type": "numeric-input",
+      "title": "Predict Viewer Dropoff",
+      "instruction": "Social media complaints are spiking and viewers are leaving the livestream. Based on the viewer count trend over the last 4 minutes (in thousands), predict how many viewers (in thousands) will still be watching in 5 minutes if you do nothing. This number determines how urgently the team needs to act.",
+      "chartData": [850, 780, 690, 610],
+      "expected": 480,
+      "tolerance": 80,
+      "axisImpact": {
+        "Precision": 1,
+        "Speed": 0.5
+      }
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Emergency Traffic Reroute",
+      "instruction": "The primary streaming servers in Singapore are overwhelmed. You need to execute an emergency traffic redistribution across your regional infrastructure. Put these steps in the right order. One misstep and you knock the stream offline completely.",
+      "items": [
+        { "id": "health-check", "label": "Run health checks on all regional backup servers to confirm they're ready" },
+        { "id": "dns-update", "label": "Update DNS records to distribute traffic across multiple regions" },
+        { "id": "warm-cache", "label": "Pre warm the CDN caches on backup servers with the livestream segments" },
+        { "id": "gradual-shift", "label": "Gradually shift 30% of traffic to backup servers to test stability" },
+        { "id": "full-balance", "label": "Enable full load balancing across all healthy servers once confirmed stable" }
+      ],
+      "correctOrder": ["health-check", "warm-cache", "dns-update", "gradual-shift", "full-balance"],
+      "axisImpact": {
+        "Stability": 1,
+        "Speed": 0.5
+      }
+    }
+  }
+}

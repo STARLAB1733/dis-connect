@@ -72,7 +72,7 @@ export default function DragDropOrderStep({ items, onComplete }: DragDropOrderSt
         </SortableContext>
         <DragOverlay>
           {activeId && (
-            <div className="p-2 bg-white rounded shadow cursor-move">
+            <div className="p-2 bg-[#1e293b] border border-[#FF6600] rounded shadow cursor-move text-[#e2e8f0]">
               {items.find(i => i.id === activeId)!.label}
             </div>
           )}
@@ -81,25 +81,15 @@ export default function DragDropOrderStep({ items, onComplete }: DragDropOrderSt
       <button
         onClick={() => onComplete(order)}
         className="
-          mt-10
-          px-4
-          py-2
-          bg-[#FF6600]
-          hover:bg-[#b34400]
-          hover:cursor-pointer
-          rounded
-          disabled:opacity-50
-          disabled:cursor-not-allowed
-          border
-          border-black
-          border-2
-          text-black
-          rounded-lg
-          tracking-wider
-          uppercase
-          transition duration-200
-          text-xl
-          "
+          mt-10 px-4 py-2
+          bg-[#FF6600] hover:bg-[#e65a00]
+          hover:cursor-pointer rounded-lg
+          disabled:opacity-50 disabled:cursor-not-allowed
+          border-2 border-[#FF6600]
+          text-white font-semibold
+          tracking-wider uppercase
+          transition duration-200 text-xl
+        "
       >
         Submit
       </button>
@@ -115,9 +105,9 @@ function SortableItem({ id, label, step }: { id: string; label: string, step: nu
       style={{ transform: CSS.Transform.toString(transform), transition }}
       {...attributes}
       {...listeners}
-      className="p-2 bg-white rounded shadow mb-2 cursor-move flex items-center text-gray-600"
+      className="p-2 bg-[#1e293b] border border-[#334155] rounded shadow mb-2 cursor-move flex items-center text-[#e2e8f0]"
     >
-      <span className="font-semibold mr-2">Step {step}:</span>
+      <span className="font-semibold mr-2 text-[#FF6600]">Step {step}:</span>
       <span>{label}</span>
     </div>
   );

@@ -1,0 +1,61 @@
+{
+  "id": "arc3-ch3",
+  "title": "Ops Resilience: Restoration Race",
+  "description": "Grid secured. Now comes the hard part: restoring power to 200,000 homes and businesses without triggering another cascade failure. Every decision affects real people.",
+  "image": "/chapters/arc3-ch3.svg",
+  "arc": 2,
+  "chapter": 2,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Deploy the Recovery Scripts",
+      "instruction": "You've written automated scripts to restore each substation safely. But they must run in a specific sequence or you risk overloading the still-healthy sections of the grid. Put the restoration sequence in order.",
+      "items": [
+        { "id": "verify-clean", "label": "Verify all compromised substations have been wiped and reimaged" },
+        { "id": "restore-backbone", "label": "Restore the backbone transmission substations that feed multiple zones" },
+        { "id": "test-load", "label": "Bring up a test load to verify the backbone can handle demand" },
+        { "id": "restore-district", "label": "Sequentially restore district-level substations in order of hospital and critical service priority" },
+        { "id": "residential-last", "label": "Restore residential areas last in order of grid zone capacity" }
+      ],
+      "correctOrder": ["verify-clean", "restore-backbone", "test-load", "restore-district", "residential-last"],
+      "axisImpact": { "Stability": 1, "Precision": 0.8 }
+    },
+    "data-scientist": {
+      "type": "numeric-input",
+      "title": "Predict Safe Restoration Rate",
+      "instruction": "Restoring power too fast can overload transformer lines. Based on the load increase capacity tests over the last 4 hours (percentage of normal load the grid accepted safely), predict the maximum safe restoration percentage per hour to avoid a cascade failure.",
+      "chartData": [10, 22, 38, 51],
+      "expected": 65,
+      "tolerance": 12,
+      "axisImpact": { "Precision": 1, "Stability": 0.8 }
+    },
+    "cloud-engineer": {
+      "type": "binary-choice",
+      "title": "Rebuild or Patch the SCADA Systems",
+      "instruction": "The compromised SCADA systems need to be secured before they go back online. You have two options and time is critical because people are still without power.",
+      "options": [
+        {
+          "id": "full-rebuild",
+          "label": "Full rebuild from a known clean image. Every compromised node gets a fresh OS install and config. Takes 6 hours but you're 100% sure the attacker left no traces.",
+          "axisImpact": { "Stability": 1, "Precision": 0.8, "Speed": -0.8 }
+        },
+        {
+          "id": "forensic-patch",
+          "label": "Forensic patching: surgically remove only the identified malware and close the specific vulnerabilities exploited. Faster (2 hours) but there's a 15% chance of missing something.",
+          "axisImpact": { "Speed": 1, "Cost-Conscious": 0.5, "Stability": -0.5 }
+        },
+        {
+          "id": "shadow-monitor",
+          "label": "Bring systems back online under intense monitoring. If the attacker is still hiding, they'll reveal themselves when they try to move. Very risky but gives the best intelligence.",
+          "axisImpact": { "Innovation": 1, "Precision": 0.5, "Stability": -0.8 }
+        },
+        {
+          "id": "hardware-swap",
+          "label": "Replace the physical hardware entirely. Most expensive and takes 12 hours but removes any possibility of firmware-level persistence.",
+          "axisImpact": { "Stability": 0.8, "Precision": 1, "Cost-Conscious": -1 }
+        }
+      ]
+    }
+  }
+}

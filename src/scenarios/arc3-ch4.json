@@ -1,0 +1,74 @@
+{
+  "id": "arc3-ch4",
+  "title": "Ops Resilience: Never Again",
+  "description": "Power is restored. The PM wants answers: who did this, how did they do it, and what prevents it from happening again? DIS has one week to brief Parliament.",
+  "image": "/chapters/arc3-ch4.svg",
+  "arc": 2,
+  "chapter": 3,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "binary-choice",
+      "title": "Design the Permanent Defence",
+      "instruction": "The attack exploited a gap between the SCADA network and IT network monitoring. Leadership wants a permanent technical solution. What do you propose?",
+      "options": [
+        {
+          "id": "zero-trust-ot",
+          "label": "Implement Zero Trust architecture for all OT/IT interactions. Every device, every request is verified before being granted access. Gold standard security but requires 18 months of implementation.",
+          "axisImpact": { "Stability": 1, "Precision": 0.8, "Speed": -0.5 }
+        },
+        {
+          "id": "ai-soc",
+          "label": "Deploy an AI powered Security Operations Centre that monitors both IT and OT networks 24/7. Detects anomalies in real time and auto responds to known threat patterns. Can be operational in 3 months.",
+          "axisImpact": { "Innovation": 1, "Speed": 0.5, "Cost-Conscious": -0.5 }
+        },
+        {
+          "id": "air-gap",
+          "label": "Physically air gap all critical SCADA systems from any internet connected network. The ultimate defence but makes remote management impossible and requires on-site engineers for every update.",
+          "axisImpact": { "Stability": 1, "Autonomy": 0.5, "Innovation": -0.8 }
+        },
+        {
+          "id": "threat-sharing",
+          "label": "Create a Five Eyes style threat sharing programme with regional utilities. Share attack signatures in real time so everyone benefits from each country's incidents.",
+          "axisImpact": { "Collaboration": 1, "Innovation": 0.5, "Autonomy": -0.5 }
+        }
+      ]
+    },
+    "data-scientist": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Build the Attribution Report",
+      "instruction": "Intelligence points to a state actor but the PM needs rock solid evidence before Parliament. Put these attribution analysis steps in the right order.",
+      "items": [
+        { "id": "ttps-match", "label": "Match the attacker's tools and techniques against known threat actor playbooks" },
+        { "id": "infrastructure-trace", "label": "Trace command and control infrastructure through multiple proxy layers" },
+        { "id": "code-analysis", "label": "Analyse the malware code for language, error messages, and compile artefacts" },
+        { "id": "timing-analysis", "label": "Check attack timing against time zones and known working hours of suspect groups" },
+        { "id": "confidence-statement", "label": "Write a calibrated confidence statement that is honest about certainty levels" }
+      ],
+      "correctOrder": ["ttps-match", "infrastructure-trace", "code-analysis", "timing-analysis", "confidence-statement"],
+      "axisImpact": { "Precision": 1, "Collaboration": 0.5 }
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "layout",
+      "title": "Design the Resilience Architecture",
+      "instruction": "Design a resilient infrastructure that survives future attacks. Drag each component to the right layer. Area 1 is prevention, Areas 2 and 3 are detection and response, Area 4 is recovery.",
+      "items": [
+        { "id": "waf", "label": "Web Application Firewall" },
+        { "id": "siem", "label": "SIEM Platform" },
+        { "id": "soar", "label": "SOAR Automation" },
+        { "id": "dr-site", "label": "Disaster Recovery Site" },
+        { "id": "vuln-scanner", "label": "Vulnerability Scanner" },
+        { "id": "backup-system", "label": "Immutable Backup System" }
+      ],
+      "dropZones": [
+        { "id": "zone-1", "label": "Prevention Layer" },
+        { "id": "zone-2", "label": "Detection Layer" },
+        { "id": "zone-3", "label": "Response Layer" },
+        { "id": "zone-4", "label": "Recovery Layer" }
+      ],
+      "correctOrder": ["waf", "siem", "soar", "dr-site"],
+      "axisImpact": { "Stability": 1, "Innovation": 0.5 }
+    }
+  }
+}

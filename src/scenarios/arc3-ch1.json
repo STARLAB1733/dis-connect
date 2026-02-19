@@ -1,0 +1,61 @@
+{
+  "id": "arc3-ch1",
+  "title": "Ops Resilience: First Signs",
+  "description": "Unusual power fluctuations across Singapore's grid. Sensors are reporting anomalies that don't match any known fault pattern. DIS suspects a sophisticated cyber intrusion into critical infrastructure.",
+  "image": "/chapters/arc3-ch1.svg",
+  "arc": 2,
+  "chapter": 0,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Instrument the Anomaly Detectors",
+      "instruction": "You need to deploy monitoring probes across the power grid's SCADA systems to catch the intrusion pattern before it escalates. Put the deployment steps in the right order.",
+      "items": [
+        { "id": "map-systems", "label": "Map all SCADA endpoints and their network connections" },
+        { "id": "deploy-agents", "label": "Deploy lightweight monitoring agents to each SCADA node" },
+        { "id": "baseline-normal", "label": "Record 2 hours of normal behaviour to establish a baseline" },
+        { "id": "set-thresholds", "label": "Configure anomaly thresholds based on the baseline data" },
+        { "id": "alert-pipeline", "label": "Wire up the alert pipeline so anomalies immediately notify the SOC" }
+      ],
+      "correctOrder": ["map-systems", "deploy-agents", "baseline-normal", "set-thresholds", "alert-pipeline"],
+      "axisImpact": { "Precision": 1, "Stability": 0.5 }
+    },
+    "data-scientist": {
+      "type": "binary-choice",
+      "title": "Classify the Anomaly",
+      "instruction": "The sensor data shows a pattern unlike anything in the playbooks. You have 30 minutes to classify the threat before leadership decides on a response. What analytical approach do you take?",
+      "options": [
+        {
+          "id": "ml-classify",
+          "label": "Run the data through the trained intrusion detection model. Fast answer in 5 minutes but the model was trained on known attack patterns and this looks novel.",
+          "axisImpact": { "Speed": 1, "Innovation": 0.5, "Precision": -0.3 }
+        },
+        {
+          "id": "manual-analysis",
+          "label": "Manual forensic analysis comparing the pattern against historical incidents and threat intelligence feeds. Takes the full 30 minutes but produces a high confidence classification.",
+          "axisImpact": { "Precision": 1, "Stability": 0.5, "Speed": -0.5 }
+        },
+        {
+          "id": "ensemble-method",
+          "label": "Run three different detection models and take the majority vote. Slower than a single model but much more robust against novel attacks.",
+          "axisImpact": { "Precision": 0.8, "Innovation": 0.5, "Speed": -0.3 }
+        },
+        {
+          "id": "ally-intel",
+          "label": "Share the anomaly signature with partner CERT teams and ask if they've seen it before. Could get an answer in 10 minutes but you're showing your hand to external parties.",
+          "axisImpact": { "Collaboration": 1, "Speed": 0.5, "Autonomy": -0.8 }
+        }
+      ]
+    },
+    "cloud-engineer": {
+      "type": "numeric-input",
+      "title": "Estimate the Blast Radius",
+      "instruction": "The anomaly has been active for an unknown period. Based on network traffic anomaly scores over the last 4 days (higher = more suspicious activity), estimate how many SCADA nodes (out of 200 total) may already be compromised.",
+      "chartData": [3, 12, 35, 68],
+      "expected": 45,
+      "tolerance": 15,
+      "axisImpact": { "Precision": 1, "Cost-Conscious": 0.5 }
+    }
+  }
+}

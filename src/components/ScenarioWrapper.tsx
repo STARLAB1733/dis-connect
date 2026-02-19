@@ -23,9 +23,11 @@ type Props = {
   scenario: Scenario;
   role: string;
   onNext: () => void;
+  arcIdx?: number;
+  chapterIdx?: number;
 };
 
-export default function ScenarioWrapper({ lobbyId, scenario, role, onNext }: Props) {
+export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcIdx, chapterIdx }: Props) {
   const [user] = useAuthState(auth);
   const sub: SubScenario = scenario.subScenarios[role];
 
@@ -163,7 +165,9 @@ export default function ScenarioWrapper({ lobbyId, scenario, role, onNext }: Pro
       playerId: user.uid,
       role,
       scenarioId: scenario.id,
-      result,            // raw answer (array, mapping, number, or chosenId)
+      arcIdx: arcIdx ?? 0,
+      chapterIdx: chapterIdx ?? 0,
+      result,
       axisImpact: weightedImpact,
       timestamp: serverTimestamp(),
     });
@@ -176,8 +180,8 @@ export default function ScenarioWrapper({ lobbyId, scenario, role, onNext }: Pro
     <div className="space-y-4 space-x-4">
       {/* Role header (always rendered) */}
       <section className="space-y-1">
-        <h2 className="text-xl font-semibold text-black">{sub.title}</h2>
-        <p className="text-sm text-gray-900 italic whitespace-pre-line">{sub.instruction}</p>
+        <h2 className="text-xl font-semibold text-[#e2e8f0]">{sub.title}</h2>
+        <p className="text-sm text-[#94a3b8] italic whitespace-pre-line">{sub.instruction}</p>
       </section>
 
       {/* Scenario body */}
