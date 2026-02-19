@@ -29,16 +29,13 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-dvh flex flex-col max-w-md mx-auto">
-      <div className="flex flex-1 items-center justify-center">
-        <h1 className="text-center">
-          <span className="text-7xl font-bold text-[#FF6600] font-sans">DIS</span>
-          <span className="text-6xl font-bold text-[#94a3b8] font-sans">Connect</span>
-        </h1>
-      </div>
+    <main className="min-h-dvh flex flex-col items-center justify-center gap-12 max-w-md mx-auto px-4">
+      <h1 className="text-center">
+        <span className="text-7xl font-bold text-[#FF6600] font-sans">DIS</span>
+        <span className="text-6xl font-bold text-[#94a3b8] font-sans">Connect</span>
+      </h1>
 
-      <div className="flex flex-1 items-start justify-center">
-        <div className="flex flex-col items-center space-y-6 w-full px-4 max-w-sm">
+      <div className="flex flex-col items-center space-y-6 w-full max-w-sm">
           <button
             onClick={createLobby}
             className="
@@ -55,26 +52,28 @@ export default function HomePage() {
 
           <span className="text-[#94a3b8] font-medium">OR</span>
 
-          <div className="flex w-full max-w-sm mx-auto">
+          <div className="flex w-full max-w-sm mx-auto rounded-lg overflow-hidden border border-[#334155] focus-within:border-[#FF6600] transition-colors">
             <input
               type="text"
               value={code}
               onChange={(e) => setCode(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && joinLobby()}
               placeholder="Enter lobby code"
               className="
-                flex-grow px-4 py-2
-                bg-[#1e293b] border border-[#334155]
+                flex-grow px-4 py-3
+                bg-[#1e293b]
                 text-[#e2e8f0] placeholder:text-[#94a3b8]
-                rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#FF6600]
+                focus:outline-none
               "
             />
             <button
               onClick={joinLobby}
               className="
-                px-4 py-2
+                px-5 py-3
                 bg-[#334155] text-[#e2e8f0]
-                rounded-r-lg hover:bg-[#475569]
+                hover:bg-[#475569]
                 transition duration-200 hover:cursor-pointer
+                font-medium tracking-wide
               "
             >
               Join
@@ -88,7 +87,6 @@ export default function HomePage() {
             View Leaderboard
           </button>
         </div>
-      </div>
     </main>
   );
 }
