@@ -1,0 +1,130 @@
+{
+  "id": "chapter-3-crunch-time",
+  "title": "Chapter 3: Crunch Time",
+  "description": "The attacker makes their move. Systems start failing. Your team has minutes to respond.",
+  "round": 3,
+  "storyContext": "It happens fast. At 1347 hours, three government systems go offline simultaneously. The ops room erupts. Phones are ringing, screens are flashing, and your commanding officer is standing right next to you: 'They've activated. This is no longer a watch-and-wait situation. I need decisions in the next five minutes. Go.'",
+  "leaderboard": {
+    "enabled": true,
+    "roundLabel": "Chapter 3 of 4",
+    "rankTitle": "Recruit Standing"
+  },
+  "subScenarios": {
+    "software-engineer": {
+      "type": "drag-drop",
+      "variant": "layout",
+      "title": "Patch Priority",
+      "vocationType": "Software Engineer",
+      "instruction": "Four vulnerabilities have been exposed in the attack. You have limited engineers available right now. Assign each vulnerability to the right response team — some need your best people on it immediately, others can wait or be automated.",
+      "items": [
+        {
+          "id": "rce-flaw",
+          "label": "Remote code execution flaw — attacker can run any command on the server"
+        },
+        {
+          "id": "auth-bypass",
+          "label": "Authentication bypass — attacker is logged in as admin without a password"
+        },
+        {
+          "id": "data-leak",
+          "label": "Data leakage via API — citizen records are being quietly copied out"
+        },
+        {
+          "id": "old-dependency",
+          "label": "Outdated library with known vulnerability — hasn't been exploited yet but could be"
+        }
+      ],
+      "dropZones": [
+        { "id": "critical-now", "label": "Fix right now (all hands)" },
+        { "id": "urgent-next", "label": "Fix within the hour" },
+        { "id": "schedule", "label": "Schedule for today" },
+        { "id": "automate", "label": "Auto-patch and monitor" }
+      ],
+      "correctOrder": ["rce-flaw", "auth-bypass", "data-leak", "old-dependency"],
+      "axisImpact": {
+        "se": 1,
+        "cloud": 0.3,
+        "data": 0.2
+      }
+    },
+    "data-scientist": {
+      "type": "binary-choice",
+      "title": "Trust the Model?",
+      "vocationType": "Data & AI Engineer",
+      "instruction": "Your AI threat-detection model just flagged 200 user accounts as compromised and recommended locking all of them out immediately. The model is 85% accurate — which means about 30 of those accounts might be innocent people getting locked out of critical systems during a crisis. What do you do?",
+      "options": [
+        {
+          "id": "trust-model",
+          "label": "Trust the model and lock all 200 accounts. Yes, some false positives — but the risk of leaving compromised accounts active during an active attack is too high. Speed matters more than perfection right now.",
+          "axisImpact": {
+            "data": 1,
+            "se": 0.3,
+            "cloud": 0.2
+          }
+        },
+        {
+          "id": "manual-review",
+          "label": "Don't act yet. Run a quick manual review of the top 50 highest-risk accounts first, then decide. Slower but more accurate — and you won't accidentally lock out someone running a critical system.",
+          "axisImpact": {
+            "data": 0.7,
+            "se": 0.5,
+            "cloud": 0.1
+          }
+        },
+        {
+          "id": "partial-lock",
+          "label": "Lock the top 50 highest-confidence accounts immediately, and flag the rest for human review in the next 30 minutes. A balanced approach that buys time without going all-in on the model.",
+          "axisImpact": {
+            "data": 0.8,
+            "se": 0.4,
+            "cloud": 0.2
+          }
+        },
+        {
+          "id": "retrain-first",
+          "label": "Pause and retrain the model with today's new data before acting. Better accuracy — but that takes at least an hour, during which the attack keeps going.",
+          "axisImpact": {
+            "data": 0.5,
+            "se": 0.2,
+            "cloud": 0.1
+          }
+        }
+      ]
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Restore the Grid",
+      "vocationType": "Cloud Platform Engineer",
+      "instruction": "Three government systems have gone down. You're leading the cloud recovery effort. What's the right order to bring things back online? Get this wrong and you could make the situation worse — or bring back a system that's still compromised.",
+      "items": [
+        {
+          "id": "isolate-breach",
+          "label": "Isolate the breached segment so the clean systems can't be reinfected"
+        },
+        {
+          "id": "restore-backups",
+          "label": "Restore from last known clean backup — verified as uncompromised"
+        },
+        {
+          "id": "validate-integrity",
+          "label": "Run integrity checks on the restored systems before reconnecting anything"
+        },
+        {
+          "id": "reconnect-network",
+          "label": "Reconnect to the main network and resume operations"
+        },
+        {
+          "id": "monitor-post",
+          "label": "Deploy enhanced monitoring on the restored systems for the next 24 hours"
+        }
+      ],
+      "correctOrder": ["isolate-breach", "restore-backups", "validate-integrity", "reconnect-network", "monitor-post"],
+      "axisImpact": {
+        "cloud": 1,
+        "se": 0.3,
+        "data": 0.2
+      }
+    }
+  }
+}

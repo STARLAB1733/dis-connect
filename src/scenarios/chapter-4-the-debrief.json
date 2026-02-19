@@ -1,0 +1,110 @@
+{
+  "id": "chapter-4-the-debrief",
+  "title": "Chapter 4: The Debrief",
+  "description": "The dust settles. Your team stopped the attack — but now comes the harder part: making sure it never happens again.",
+  "round": 4,
+  "storyContext": "It's 1900 hours. The attack has been contained. No data was exfiltrated, no systems permanently damaged. The commanding officer brings your team together one last time: 'Good work today. But we got lucky. Now let's make sure we're never in this position again. What do we build, what do we change, and how do we get stronger from this?' This is your final chance to show what kind of digital defender you are.",
+  "leaderboard": {
+    "enabled": true,
+    "roundLabel": "Chapter 4 of 4",
+    "rankTitle": "Final Standing",
+    "isFinalRound": true
+  },
+  "subScenarios": {
+    "software-engineer": {
+      "type": "binary-choice",
+      "title": "Build the Shield",
+      "vocationType": "Software Engineer",
+      "instruction": "HQ wants a new layer of protection built to prevent this kind of breach. You've got the budget and the team — what do you build first?",
+      "options": [
+        {
+          "id": "zero-trust",
+          "label": "Zero-trust architecture: verify every user, every device, every request — no one gets automatic access to anything just because they're 'inside' the network. It's the gold standard but takes months to roll out properly.",
+          "axisImpact": {
+            "se": 1,
+            "cloud": 0.5,
+            "data": 0.2
+          }
+        },
+        {
+          "id": "automated-scanner",
+          "label": "Automated vulnerability scanner: a system that constantly scans all government code and infrastructure for weaknesses, 24/7, and flags anything before an attacker can exploit it.",
+          "axisImpact": {
+            "se": 0.8,
+            "data": 0.5,
+            "cloud": 0.3
+          }
+        },
+        {
+          "id": "red-team",
+          "label": "Permanent red team: hire a dedicated team of ethical hackers whose full-time job is to try to break into our own systems before the bad guys do.",
+          "axisImpact": {
+            "se": 0.7,
+            "cloud": 0.4,
+            "data": 0.3
+          }
+        },
+        {
+          "id": "security-training",
+          "label": "Mandatory security training for all 150,000 civil servants: most breaches start with a human — phishing, weak passwords, careless clicks. Fix the human problem first.",
+          "axisImpact": {
+            "se": 0.3,
+            "cloud": 0.2,
+            "data": 0.5
+          }
+        }
+      ]
+    },
+    "data-scientist": {
+      "type": "numeric-input",
+      "title": "Predict the Next Hit",
+      "vocationType": "Data & AI Engineer",
+      "instruction": "You've been analysing historical attack data. State-sponsored cyber operations targeting Singapore have been increasing. Based on the trend shown (attacks per quarter), predict how many incidents we should expect in the next quarter so we can staff and budget accordingly.",
+      "chartData": [8, 14, 23, 37, 55],
+      "expected": 78,
+      "tolerance": 20,
+      "axisImpact": {
+        "data": 1,
+        "se": 0.2,
+        "cloud": 0.1
+      }
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "layout",
+      "title": "Design the Resilient Cloud",
+      "vocationType": "Cloud Platform Engineer",
+      "instruction": "You're redesigning the government cloud architecture so that next time, the infrastructure holds even under attack. Assign each design component to the right priority tier. Some are must-haves from day one, others are nice-to-haves for later.",
+      "items": [
+        {
+          "id": "multi-region",
+          "label": "Multi-region failover: if one data centre goes down, traffic automatically reroutes to a backup region"
+        },
+        {
+          "id": "immutable-infra",
+          "label": "Immutable infrastructure: servers can never be modified in place — only replaced with clean new ones"
+        },
+        {
+          "id": "real-time-logs",
+          "label": "Real-time centralised logging: every action on every server is logged and shipped to a secure, tamper-proof store"
+        },
+        {
+          "id": "cost-dashboard",
+          "label": "Cost optimisation dashboard: track and reduce cloud spend, identify unused resources"
+        }
+      ],
+      "dropZones": [
+        { "id": "foundational", "label": "Build first (critical foundation)" },
+        { "id": "early-phase", "label": "Build early (within 3 months)" },
+        { "id": "mid-phase", "label": "Build next (3–6 months)" },
+        { "id": "later", "label": "Nice to have (plan for later)" }
+      ],
+      "correctOrder": ["real-time-logs", "immutable-infra", "multi-region", "cost-dashboard"],
+      "axisImpact": {
+        "cloud": 1,
+        "se": 0.3,
+        "data": 0.2
+      }
+    }
+  }
+}

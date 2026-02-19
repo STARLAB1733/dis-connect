@@ -1,4 +1,13 @@
 {
-  "indexes": [],
+  "indexes": [
+    {
+      "collectionGroup": "lobbies",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "started", "order": "ASCENDING" },
+        { "fieldPath": "teamScore", "order": "DESCENDING" }
+      ]
+    }
+  ],
   "fieldOverrides": []
 }

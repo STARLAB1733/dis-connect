@@ -61,7 +61,8 @@ export default function DragDropLayoutStep({
     const id   = active.id  as string;
     const dest = over.id    as string;
     // find where we came from
-    const src = Object.keys(lists).find(key => lists[key].includes(id))!;
+    const src = Object.keys(lists).find(key => lists[key].includes(id));
+    if (!src) { setActiveId(null); return; }
     const next = { ...lists };
     // remove from old
     next[src] = next[src].filter(x => x !== id);
@@ -123,7 +124,7 @@ export default function DragDropLayoutStep({
                 {/* Full-width first zone */}
                 <Container
                     id={dropZones[0].id}
-                    label={'Area 1'}
+                    label={dropZones[0].label}
                     itemsList={lists[dropZones[0].id]}
                 />
 
@@ -135,7 +136,7 @@ export default function DragDropLayoutStep({
                         <Container
                         key={z.id}
                         id={z.id}
-                        label={'Area ' + (i+1).toString()}
+                        label={z.label}
                         itemsList={lists[z.id]}
                         />
                     );
@@ -145,7 +146,7 @@ export default function DragDropLayoutStep({
                 {/* Full-width last zone */}
                 <Container
                     id={dropZones[3].id}
-                    label={'Area 4'}
+                    label={dropZones[3].label}
                     itemsList={lists[dropZones[3].id]}
                 />
                 </div>

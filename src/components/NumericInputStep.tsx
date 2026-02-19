@@ -25,10 +25,11 @@ const NumericInputStep: React.FC<NumericInputStepProps> = ({ chartData, expected
 
   const handleSubmit = () => {
     const num = parseFloat(value);
-    if (isNaN(num) || Math.abs(num - expected) > tolerance) {
-      setError('Impractical value, please try again.');
+    if (isNaN(num)) {
+      setError('Please enter a number.');
       return;
     }
+    setError('');
     onComplete({ userValue: num });
   };
 

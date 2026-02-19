@@ -1,15 +1,15 @@
 import { Scenario } from '@/types/scenario';
-import opFirstLight from '../scenarios/operation-first-light.json';
-import opHawkeye    from '../scenarios/operation-hawkeye.json';
-import opFirewall   from '../scenarios/operation-firewall.json';
-import opOverwatch  from '../scenarios/operation-overwatch.json';
+import chapter1 from '../scenarios/chapter-1-the-call.json';
+import chapter2 from '../scenarios/chapter-2-going-deep.json';
+import chapter3 from '../scenarios/chapter-3-crunch-time.json';
+import chapter4 from '../scenarios/chapter-4-the-debrief.json';
 
-// Scenarios ordered by mission round (1 to 4)
+// Scenarios ordered by chapter (1 to 4)
 export const ALL_SCENARIOS: Scenario[] = [
-  opFirstLight as unknown as Scenario,
-  opHawkeye    as unknown as Scenario,
-  opFirewall   as unknown as Scenario,
-  opOverwatch  as unknown as Scenario,
+  chapter1 as unknown as Scenario,
+  chapter2 as unknown as Scenario,
+  chapter3 as unknown as Scenario,
+  chapter4 as unknown as Scenario,
 ];
 
 export function getScenario(index: number): Scenario | null {

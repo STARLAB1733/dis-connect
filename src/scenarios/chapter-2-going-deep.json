@@ -1,0 +1,107 @@
+{
+  "id": "chapter-2-going-deep",
+  "title": "Chapter 2: Going Deep",
+  "description": "The anomaly is real. Your team digs deeper and starts uncovering something more organised than anyone expected.",
+  "round": 2,
+  "storyContext": "An hour in, and the picture is getting clearer — and scarier. The traffic isn't random. It's coordinated, probing different systems methodically. Someone knows what they're looking for. Your commanding officer reconvenes the team: 'This isn't a script kiddie. This is planned. We need to know how far in they are and what they're after before we can do anything about it.'",
+  "leaderboard": {
+    "enabled": true,
+    "roundLabel": "Chapter 2 of 4",
+    "rankTitle": "Recruit Standing"
+  },
+  "subScenarios": {
+    "software-engineer": {
+      "type": "binary-choice",
+      "title": "Build a Honeypot",
+      "vocationType": "Software Engineer",
+      "instruction": "One tactic is to build a honeypot — a fake system that looks real to the attacker but is actually a trap. If they go for it, you learn exactly how they operate. How do you build yours?",
+      "options": [
+        {
+          "id": "full-replica",
+          "label": "Build a full replica of the real system with fake data. Looks completely legit. High chance of drawing the attacker in — but takes time and engineering effort to set up convincingly.",
+          "axisImpact": {
+            "se": 1,
+            "data": 0.3,
+            "cloud": 0.2
+          }
+        },
+        {
+          "id": "lightweight-lure",
+          "label": "Deploy a lightweight lure — just enough to look interesting. Faster to set up, but a smart attacker might sniff it out as fake.",
+          "axisImpact": {
+            "se": 0.7,
+            "cloud": 0.5,
+            "data": 0.2
+          }
+        },
+        {
+          "id": "mirror-live",
+          "label": "Mirror the live system's behaviour in real time, so any probe gets a genuine-looking response. The most realistic option but also the riskiest if the attacker gets more than you bargained for.",
+          "axisImpact": {
+            "se": 0.8,
+            "data": 0.5,
+            "cloud": 0.3
+          }
+        },
+        {
+          "id": "skip-honeypot",
+          "label": "Skip the honeypot. Don't waste time on deception — focus on patching and hardening the real systems while we still can.",
+          "axisImpact": {
+            "cloud": 0.8,
+            "se": 0.3,
+            "data": 0.1
+          }
+        }
+      ]
+    },
+    "data-scientist": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Rank the Targets",
+      "vocationType": "Data & AI Engineer",
+      "instruction": "You've identified 5 government systems being probed. Not all of them are equally important. Rank them from highest risk (most critical to protect) to lowest — your ranking determines where the defensive resources get deployed first.",
+      "items": [
+        {
+          "id": "citizen-database",
+          "label": "Citizen identity database — 4 million personal records, used by every government agency"
+        },
+        {
+          "id": "payment-rails",
+          "label": "National payment infrastructure — processes $2B in transactions daily"
+        },
+        {
+          "id": "comms-backbone",
+          "label": "Encrypted government comms network — how agencies talk to each other securely"
+        },
+        {
+          "id": "hr-portal",
+          "label": "Civil service HR portal — leave applications and payroll for 150,000 staff"
+        },
+        {
+          "id": "public-portal",
+          "label": "Public-facing government website — news and announcements, no sensitive data"
+        }
+      ],
+      "correctOrder": ["payment-rails", "citizen-database", "comms-backbone", "hr-portal", "public-portal"],
+      "axisImpact": {
+        "data": 1,
+        "se": 0.3,
+        "cloud": 0.2
+      }
+    },
+    "cloud-engineer": {
+      "type": "numeric-input",
+      "title": "Scale the Response",
+      "vocationType": "Cloud Platform Engineer",
+      "instruction": "The threat is growing and you need to spin up additional security monitoring capacity on the cloud. Based on the current load (shown in the chart), how many additional server instances should you provision right now to handle the surge without overspending?",
+      "chartData": [5, 8, 14, 22, 31],
+      "expected": 40,
+      "tolerance": 10,
+      "axisImpact": {
+        "cloud": 1,
+        "se": 0.2,
+        "data": 0.3
+      }
+    }
+  }
+}

@@ -14,27 +14,18 @@ export default function BinaryChoiceStep({ options, onComplete }: BinaryChoiceSt
 
   return (
     <div className="flex flex-col h-full space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="flex flex-col gap-3">
         {options.map(opt => {
           const isSelected = opt.id === selected;
           return (
             <label
               key={opt.id}
               className={`
-                flex 
-                items-center 
-                justify-center 
-                cursor-pointer 
-                p-4 
-                rounded-lg 
-                border-2 
-                transition-all 
-                duration-200 
-                ease-in-out
-                h-16
-                ${isSelected 
-                  ? 'border-[#FF6600] bg-[#FFF3E0] shadow-inner' 
-                  : 'border-gray-300 bg-white hover:border-[#FF6600] hover:shadow-sm'}
+                flex items-start gap-3 cursor-pointer p-4 rounded-xl border-2
+                transition-all duration-200 ease-in-out
+                ${isSelected
+                  ? 'border-[#FF6600] bg-white/10'
+                  : 'border-white/20 bg-white/5 hover:border-white/40'}
               `}
               onClick={() => setSelected(opt.id)}
             >
@@ -46,16 +37,13 @@ export default function BinaryChoiceStep({ options, onComplete }: BinaryChoiceSt
                 onChange={() => setSelected(opt.id)}
                 className="sr-only"
               />
-              <div className="flex items-center justify-center">
-                <span className={`
-                  text-center 
-                  text-sm
-                  font-medium 
-                  ${isSelected ? 'text-[#FF6600]' : 'text-gray-800'}
-                `}>
-                  {opt.label}
-                </span>
-              </div>
+              <span className={`w-4 h-4 mt-0.5 flex-shrink-0 rounded-full border-2 flex items-center justify-center
+                ${isSelected ? 'border-[#FF6600] bg-[#FF6600]' : 'border-white/40'}`}>
+                {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
+              </span>
+              <span className={`text-sm leading-relaxed ${isSelected ? 'text-white font-medium' : 'text-white/70'}`}>
+                {opt.label}
+              </span>
             </label>
           );
         })}

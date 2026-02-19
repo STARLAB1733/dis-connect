@@ -46,9 +46,9 @@ export default function DragDropOrderStep({ items, onComplete }: DragDropOrderSt
   };
   const handleDragEnd = (e: DragEndEvent) => {
     const { active, over } = e;
-    if (active.id !== over?.id) {
+    if (over && active.id !== over.id) {
       const oldIndex = order.indexOf(active.id as string);
-      const newIndex = order.indexOf(over!.id as string);
+      const newIndex = order.indexOf(over.id as string);
       const next = Array.from(order);
       next.splice(oldIndex, 1);
       next.splice(newIndex, 0, active.id as string);

@@ -1,0 +1,107 @@
+{
+  "id": "chapter-1-the-call",
+  "title": "Chapter 1: The Call",
+  "description": "A routine morning at HQ is interrupted by an urgent alert. Something's wrong — and your team just got pulled in.",
+  "round": 1,
+  "storyContext": "It's 0800 on a Monday. You've just arrived at DIS headquarters and grabbed your coffee when every screen in the ops room lights up red. A senior officer strides in: 'We've picked up unusual traffic on a government network. Could be nothing. Could be very much something. Your team is on it. Let's find out what we're dealing with.'",
+  "leaderboard": {
+    "enabled": true,
+    "roundLabel": "Chapter 1 of 4",
+    "rankTitle": "Recruit Standing"
+  },
+  "subScenarios": {
+    "software-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Trace the Anomaly",
+      "vocationType": "Software Engineer",
+      "instruction": "Your job: dig into the suspicious network logs and figure out what happened. The logs are messy and out of order. Put the investigation steps in the right sequence before the trail goes cold — the longer you wait, the harder it gets to pin anything down.",
+      "items": [
+        {
+          "id": "preserve-logs",
+          "label": "Back up the raw logs immediately so nothing gets overwritten or tampered with"
+        },
+        {
+          "id": "filter-noise",
+          "label": "Filter out normal background traffic to isolate the weird stuff"
+        },
+        {
+          "id": "find-origin",
+          "label": "Trace the suspicious traffic back to its source IP and timestamp"
+        },
+        {
+          "id": "check-pattern",
+          "label": "Compare against known attack signatures to see if this matches anything in our database"
+        },
+        {
+          "id": "flag-report",
+          "label": "Write up your findings and flag for escalation with a confidence rating"
+        }
+      ],
+      "correctOrder": ["preserve-logs", "filter-noise", "find-origin", "check-pattern", "flag-report"],
+      "axisImpact": {
+        "se": 1,
+        "cloud": 0.2,
+        "data": 0.3
+      }
+    },
+    "data-scientist": {
+      "type": "numeric-input",
+      "title": "Read the Spike",
+      "vocationType": "Data & AI Engineer",
+      "instruction": "You're looking at network activity data from the past 5 days. Something spiked and then dropped off. Based on the pattern, predict today's anomaly score (0 to 100) — 0 means quiet, 100 means all-hands emergency. Your call helps the team decide how many people to mobilise.",
+      "chartData": [12, 18, 45, 67, 89],
+      "expected": 95,
+      "tolerance": 15,
+      "axisImpact": {
+        "data": 1,
+        "se": 0.2,
+        "cloud": 0.1
+      }
+    },
+    "cloud-engineer": {
+      "type": "binary-choice",
+      "title": "Lock It Down or Keep Watching?",
+      "vocationType": "Cloud Platform Engineer",
+      "instruction": "You manage the government cloud infrastructure where the weird traffic is coming from. You've got a call to make right now: do you isolate the affected servers immediately, or keep them running while the team investigates? Both choices have real consequences.",
+      "options": [
+        {
+          "id": "isolate-now",
+          "label": "Pull the plug. Isolate the affected servers from the rest of the network right now. Yes, some services will go down — but you stop any damage from spreading while the team investigates.",
+          "axisImpact": {
+            "cloud": 1,
+            "se": 0.3,
+            "data": 0.1
+          }
+        },
+        {
+          "id": "monitor-first",
+          "label": "Keep it running. Let the servers stay online so the team can watch the attacker in real time and gather more evidence before making a move.",
+          "axisImpact": {
+            "data": 0.6,
+            "cloud": 0.5,
+            "se": 0.2
+          }
+        },
+        {
+          "id": "partial-block",
+          "label": "Middle ground: block inbound connections to the affected servers but keep them online internally so the investigation can continue without full exposure.",
+          "axisImpact": {
+            "cloud": 0.8,
+            "data": 0.4,
+            "se": 0.3
+          }
+        },
+        {
+          "id": "escalate-up",
+          "label": "This is above your pay grade. Escalate immediately to senior command and wait for orders before touching anything.",
+          "axisImpact": {
+            "cloud": 0.2,
+            "se": 0.1,
+            "data": 0.2
+          }
+        }
+      ]
+    }
+  }
+}
