@@ -6,37 +6,27 @@ type AudioContextType = {
   isMuted: boolean;
   toggleMute: () => void;
   playSfx: (name: 'select' | 'success' | 'advance' | 'complete') => void;
+  switchBgm: (track: 'lobby' | 'game') => void;
 };
 
 const AudioContext = createContext<AudioContextType>({
   isMuted: false,
   toggleMute: () => {},
   playSfx: () => {},
+  switchBgm: () => {},
 });
 
 export function useAudio() {
   return useContext(AudioContext);
 }
 
-/**
- * AudioProvider wraps the app and provides:
- * - Background music (loops, respects mute)
- * - SFX playback via playSfx()
- * - Mute toggle (persisted to localStorage)
- *
- * Audio files expected in /public/audio/:
- *   bgm-lobby.mp3   – ambient lobby music
- *   bgm-game.mp3    – tense game music
- *   sfx-select.mp3  – button/choice select
- *   sfx-success.mp3 – correct answer
- *   sfx-advance.mp3 – chapter advance
- *   sfx-complete.mp3 – mission complete
- */
 export function AudioProvider({ children }: { children: React.ReactNode }) {
   const [isMuted, setIsMuted] = useState(false);
   const bgmRef = useRef<HTMLAudioElement | null>(null);
   const sfxRefs = useRef<Record<string, HTMLAudioElement>>({});
   const [ready, setReady] = useState(false);
+  const currentTrackRef = useRef<string>('lobby');
+  const startedRef = useRef(false);
 
   // Load mute preference
   useEffect(() => {
@@ -45,27 +35,32 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     setReady(true);
   }, []);
 
-  // Init BGM
+  // Init BGM on first user interaction
   useEffect(() => {
     if (!ready) return;
-    const audio = new Audio('/audio/bgm-lobby.mp3');
-    audio.loop = true;
-    audio.volume = 0.35;
-    audio.muted = isMuted;
-    bgmRef.current = audio;
 
-    // Start on first user interaction
-    const startBgm = () => {
-      audio.play().catch(() => {});
-      document.removeEventListener('click', startBgm);
-      document.removeEventListener('keydown', startBgm);
+    const createBgm = (src: string) => {
+      const audio = new Audio(src);
+      audio.loop = true;
+      audio.volume = 0.3;
+      audio.muted = isMuted;
+      return audio;
     };
+
+    const startBgm = () => {
+      if (startedRef.current) return;
+      startedRef.current = true;
+      const audio = createBgm(`/audio/bgm-${currentTrackRef.current}.wav`);
+      bgmRef.current = audio;
+      audio.play().catch(() => {});
+    };
+
     document.addEventListener('click', startBgm, { once: true });
     document.addEventListener('keydown', startBgm, { once: true });
 
     return () => {
-      audio.pause();
-      bgmRef.current = null;
+      document.removeEventListener('click', startBgm);
+      document.removeEventListener('keydown', startBgm);
     };
   }, [ready]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -74,20 +69,50 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     if (bgmRef.current) bgmRef.current.muted = isMuted;
   }, [isMuted]);
 
+  const switchBgm = useCallback((track: 'lobby' | 'game') => {
+    if (currentTrackRef.current === track) return;
+    currentTrackRef.current = track;
+
+    if (!startedRef.current) return; // BGM hasn't started yet — will pick up new track on start
+
+    const old = bgmRef.current;
+    const audio = new Audio(`/audio/bgm-${track}.wav`);
+    audio.loop = true;
+    audio.volume = 0.3;
+    audio.muted = isMuted;
+
+    // Crossfade: fade out old, start new
+    if (old) {
+      let vol = old.volume;
+      const fadeOut = setInterval(() => {
+        vol = Math.max(0, vol - 0.05);
+        old.volume = vol;
+        if (vol <= 0) {
+          clearInterval(fadeOut);
+          old.pause();
+        }
+      }, 50);
+    }
+
+    audio.play().catch(() => {});
+    bgmRef.current = audio;
+  }, [isMuted]);
+
   const toggleMute = useCallback(() => {
     setIsMuted(prev => {
       const next = !prev;
       localStorage.setItem('dis-muted', String(next));
+      if (bgmRef.current) bgmRef.current.muted = next;
       return next;
     });
   }, []);
 
   const playSfx = useCallback((name: 'select' | 'success' | 'advance' | 'complete') => {
     if (isMuted) return;
-    const src = `/audio/sfx-${name}.mp3`;
+    const src = `/audio/sfx-${name}.wav`;
     if (!sfxRefs.current[name]) {
       sfxRefs.current[name] = new Audio(src);
-      sfxRefs.current[name].volume = 0.6;
+      sfxRefs.current[name].volume = 0.55;
     }
     const sfx = sfxRefs.current[name];
     sfx.currentTime = 0;
@@ -95,9 +120,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   }, [isMuted]);
 
   return (
-    <AudioContext.Provider value={{ isMuted, toggleMute, playSfx }}>
+    <AudioContext.Provider value={{ isMuted, toggleMute, playSfx, switchBgm }}>
       {children}
-      {/* Mute toggle button — fixed bottom-right */}
       {ready && (
         <button
           onClick={toggleMute}
