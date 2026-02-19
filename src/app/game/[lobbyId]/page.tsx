@@ -69,6 +69,9 @@ export default function GamePage() {
 
   if (!lobby || !user) return <Spinner />;
 
+  // Redirect guard in render path (belt-and-suspenders alongside onSnapshot)
+  if (lobby.finished) return <Spinner />;
+
   const players = lobby.players || [];
   const myIdx = players.findIndex(p => p.uid === user.uid);
   const arcIdx = lobby.arcIdx ?? 0;
