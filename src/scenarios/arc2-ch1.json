@@ -1,0 +1,80 @@
+{
+  "id": "arc2-ch1",
+  "title": "Exercise Northstar: D-30",
+  "description": "A major military exercise kicks off in 30 days. Command wants a live dashboard showing unit positions, supply levels, and readiness status in real time. Your team gets to build it from scratch.",
+  "image": "/chapters/arc2-ch1.svg",
+  "arc": 1,
+  "chapter": 0,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "drag-drop",
+      "variant": "layout",
+      "title": "Design the Dashboard Architecture",
+      "instruction": "The commanders want a single screen that shows everything: where units are, what supplies they have, and whether comms are working. Drag each component into the right area of the dashboard layout. Area 1 is the main display, Areas 2 and 3 are side panels, and Area 4 is the status bar.",
+      "items": [
+        { "id": "live-map", "label": "Live Map with Unit Markers" },
+        { "id": "supply-chart", "label": "Supply Level Charts" },
+        { "id": "comms-status", "label": "Comms Network Status" },
+        { "id": "alert-feed", "label": "Real Time Alert Feed" },
+        { "id": "unit-roster", "label": "Unit Roster & Readiness" },
+        { "id": "weather-overlay", "label": "Weather Conditions" }
+      ],
+      "dropZones": [
+        { "id": "zone-1", "label": "Main Display" },
+        { "id": "zone-2", "label": "Left Panel" },
+        { "id": "zone-3", "label": "Right Panel" },
+        { "id": "zone-4", "label": "Status Bar" }
+      ],
+      "correctOrder": ["live-map", "supply-chart", "unit-roster", "comms-status"],
+      "axisImpact": {
+        "Innovation": 1,
+        "Precision": 0.5
+      }
+    },
+    "data-scientist": {
+      "type": "binary-choice",
+      "title": "Choose the Data Pipeline",
+      "instruction": "Field units will send position updates every 30 seconds from tablets and GPS trackers. That's potentially thousands of data points per minute. How do you build the pipeline that turns raw GPS pings into useful dashboard data?",
+      "options": [
+        {
+          "id": "stream-processing",
+          "label": "Real time stream processing. Every GPS ping is processed the moment it arrives. The map updates instantly but you need serious compute power and one bad data point could glitch the whole display.",
+          "axisImpact": { "Speed": 1, "Performance-First": 0.8, "Stability": -0.3 }
+        },
+        {
+          "id": "micro-batch",
+          "label": "Micro batch processing every 5 seconds. Slightly delayed but you can clean and validate the data before it hits the dashboard. Commanders see positions that are at most 5 seconds old.",
+          "axisImpact": { "Precision": 1, "Stability": 0.5, "Speed": -0.3 }
+        },
+        {
+          "id": "edge-compute",
+          "label": "Process data at the edge on each unit's device before sending summaries. Reduces bandwidth by 80% which matters in the field, but you lose the raw granular data.",
+          "axisImpact": { "Cost-Conscious": 1, "Innovation": 0.5, "Precision": -0.3 }
+        },
+        {
+          "id": "hybrid-approach",
+          "label": "Hybrid: stream critical alerts in real time but batch everything else every 10 seconds. Balanced but more complex to build and maintain.",
+          "axisImpact": { "Stability": 0.8, "Innovation": 0.5, "Speed": 0.3 }
+        }
+      ]
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Set Up the Field Network",
+      "instruction": "The exercise happens in a training area with patchy cellular coverage. You need to set up a reliable network that connects field units to the central dashboard. Put the setup steps in the right order.",
+      "items": [
+        { "id": "survey-terrain", "label": "Survey the training ground to map dead zones and terrain obstacles" },
+        { "id": "deploy-mesh", "label": "Deploy portable mesh network nodes at key positions" },
+        { "id": "satellite-backup", "label": "Configure satellite uplink as backup for when cellular drops" },
+        { "id": "test-throughput", "label": "Test data throughput from the furthest unit position to command post" },
+        { "id": "failover-config", "label": "Set up automatic failover so devices switch networks seamlessly" }
+      ],
+      "correctOrder": ["survey-terrain", "deploy-mesh", "satellite-backup", "test-throughput", "failover-config"],
+      "axisImpact": {
+        "Stability": 1,
+        "Precision": 0.5
+      }
+    }
+  }
+}

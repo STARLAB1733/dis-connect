@@ -1,0 +1,80 @@
+{
+  "id": "arc2-ch3",
+  "title": "Exercise Northstar: D-Day",
+  "description": "The exercise is live. But field commanders are reporting stale data on their dashboards. Units moved 20 minutes ago but the map still shows them at their old positions. Decisions are being made on outdated intel.",
+  "image": "/chapters/arc2-ch3.svg",
+  "arc": 1,
+  "chapter": 2,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Debug the Stale Data Problem",
+      "instruction": "Commanders are furious. The dashboard is showing unit positions from 20 minutes ago. You need to trace the data flow and find where the delay is happening. Put these debugging steps in order.",
+      "items": [
+        { "id": "check-source", "label": "Verify that field GPS devices are actually sending fresh data by checking raw transmissions" },
+        { "id": "check-pipeline", "label": "Inspect the data pipeline to see if messages are queuing up somewhere" },
+        { "id": "check-cache", "label": "Check if an overly aggressive cache is serving stale data instead of fresh updates" },
+        { "id": "check-websocket", "label": "Test if the WebSocket connections are actually pushing updates to the browser" },
+        { "id": "deploy-fix", "label": "Deploy the fix and verify live data starts flowing to commander dashboards" }
+      ],
+      "correctOrder": ["check-source", "check-pipeline", "check-cache", "check-websocket", "deploy-fix"],
+      "axisImpact": {
+        "Speed": 1,
+        "Precision": 0.5
+      }
+    },
+    "data-scientist": {
+      "type": "binary-choice",
+      "title": "Compensate for Missing Data",
+      "instruction": "While the engineers fix the pipeline, commanders still need to make decisions NOW. You have 20 minute old position data and the exercise is moving fast. How do you help commanders get a usable picture of the battlefield?",
+      "options": [
+        {
+          "id": "predict-positions",
+          "label": "Use the last known velocity and heading of each unit to predict where they are now. Machine learning on movement patterns from training data makes this surprisingly accurate for short windows.",
+          "axisImpact": { "Innovation": 1, "Speed": 0.8, "Precision": -0.3 }
+        },
+        {
+          "id": "radio-reports",
+          "label": "Fall back to manual radio position reports. Have each unit call in their grid coordinates every 5 minutes. Old school but guaranteed accurate.",
+          "axisImpact": { "Stability": 1, "Precision": 0.5, "Innovation": -0.5 }
+        },
+        {
+          "id": "confidence-overlay",
+          "label": "Show the stale positions but add a confidence radius that grows over time. Commanders can see that old dots are uncertain while fresh data is precise. Honest but might cause decision paralysis.",
+          "axisImpact": { "Precision": 1, "Collaboration": 0.5, "Speed": -0.3 }
+        },
+        {
+          "id": "drone-feed",
+          "label": "Redirect the exercise drone feeds to the dashboard as a live visual overlay. Commanders can literally see the ground truth. Works great until clouds roll in.",
+          "axisImpact": { "Performance-First": 1, "Innovation": 0.5, "Cost-Conscious": -0.5 }
+        }
+      ]
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "layout",
+      "title": "Rebuild the Data Pipeline",
+      "instruction": "The stale data problem is caused by a bottleneck in the message queue. You need to redesign the pipeline architecture. Drag each component to the right layer. Area 1 is data ingestion, Areas 2 and 3 are processing, and Area 4 is delivery.",
+      "items": [
+        { "id": "mqtt-broker", "label": "MQTT Message Broker" },
+        { "id": "stream-processor", "label": "Stream Processor" },
+        { "id": "cache-invalidator", "label": "Cache Invalidation Service" },
+        { "id": "websocket-gateway", "label": "WebSocket Gateway" },
+        { "id": "dead-letter-queue", "label": "Dead Letter Queue" },
+        { "id": "health-monitor", "label": "Pipeline Health Monitor" }
+      ],
+      "dropZones": [
+        { "id": "zone-1", "label": "Data Ingestion" },
+        { "id": "zone-2", "label": "Processing Layer A" },
+        { "id": "zone-3", "label": "Processing Layer B" },
+        { "id": "zone-4", "label": "Delivery Layer" }
+      ],
+      "correctOrder": ["mqtt-broker", "stream-processor", "cache-invalidator", "websocket-gateway"],
+      "axisImpact": {
+        "Speed": 1,
+        "Stability": 0.5
+      }
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "id": "arc2-ch2",
+  "title": "Exercise Northstar: D-7",
+  "description": "One week out. Stress testing reveals the dashboard crashes when more than 500 users connect simultaneously. The exercise will have 3,000. Time to fix this before the generals notice.",
+  "image": "/chapters/arc2-ch2.svg",
+  "arc": 1,
+  "chapter": 1,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "binary-choice",
+      "title": "Fix the Concurrency Problem",
+      "instruction": "The dashboard works great for 500 users but falls apart at scale. Your profiling shows the WebSocket connection handler is the bottleneck. Each connection spawns its own data processing thread. With 3,000 users that's 3,000 threads fighting for resources. What's your fix?",
+      "options": [
+        {
+          "id": "connection-pooling",
+          "label": "Implement connection pooling with shared data channels. Groups of 50 users share one processed data stream instead of each getting their own. Cuts server load by 95% but adds 1 second latency.",
+          "axisImpact": { "Cost-Conscious": 1, "Performance-First": 0.5, "Speed": -0.3 }
+        },
+        {
+          "id": "horizontal-scale",
+          "label": "Throw more hardware at it. Deploy 6 identical dashboard servers behind a load balancer. Each server handles 500 users comfortably. More expensive but zero code changes needed.",
+          "axisImpact": { "Stability": 1, "Speed": 0.5, "Cost-Conscious": -0.8 }
+        },
+        {
+          "id": "rewrite-async",
+          "label": "Rewrite the connection handler using async event loops instead of threads. One server can handle 10,000+ connections. But it's a major rewrite with 7 days left.",
+          "axisImpact": { "Innovation": 1, "Performance-First": 0.8, "Stability": -0.5 }
+        },
+        {
+          "id": "tiered-access",
+          "label": "Create tiered access: commanders get real time data, officers get 10 second updates, everyone else gets 30 second snapshots. Reduces concurrent real time connections to under 200.",
+          "axisImpact": { "Precision": 0.8, "Cost-Conscious": 0.5, "Collaboration": -0.3 }
+        }
+      ]
+    },
+    "data-scientist": {
+      "type": "numeric-input",
+      "title": "Estimate Peak Concurrent Users",
+      "instruction": "Not all 3,000 exercise participants will be online at the same time. Based on login patterns from previous exercises (peak concurrent users in hundreds), predict the actual peak concurrent user count (in hundreds) during the exercise's most intense phase.",
+      "chartData": [2, 5, 9, 14],
+      "expected": 20,
+      "tolerance": 5,
+      "axisImpact": {
+        "Precision": 1,
+        "Cost-Conscious": 0.5
+      }
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Stress Test Protocol",
+      "instruction": "Before you can fix the 500 user limit you need to properly stress test the system and identify every breaking point. Put the test steps in order.",
+      "items": [
+        { "id": "baseline", "label": "Record baseline performance metrics with 100 simulated users" },
+        { "id": "ramp-up", "label": "Gradually increase to 500 users and document where metrics degrade" },
+        { "id": "break-point", "label": "Push past 500 to find the exact breaking point and failure mode" },
+        { "id": "profile-bottleneck", "label": "Profile CPU, memory, and network at the breaking point to find the root cause" },
+        { "id": "fix-and-retest", "label": "Apply the fix and rerun the full test to verify the new limit" }
+      ],
+      "correctOrder": ["baseline", "ramp-up", "break-point", "profile-bottleneck", "fix-and-retest"],
+      "axisImpact": {
+        "Precision": 1,
+        "Stability": 0.5
+      }
+    }
+  }
+}

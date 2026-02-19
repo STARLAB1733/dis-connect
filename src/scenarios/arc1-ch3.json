@@ -1,0 +1,80 @@
+{
+  "id": "arc1-ch3",
+  "title": "NDP 2026: Morning of the Show",
+  "description": "NDP morning. A contractor accidentally ran a script that overwrote the production database. You have 3 hours before the gates open. The backup is 6 hours old. Go.",
+  "image": "/chapters/arc1-ch3.svg",
+  "arc": 0,
+  "chapter": 2,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Database Recovery Pipeline",
+      "instruction": "The production database just got nuked. You need to restore it before 40,000 people show up expecting a working app. Put the recovery steps in the right order. One wrong move and you lose data permanently.",
+      "items": [
+        { "id": "stop-writes", "label": "Immediately stop all write operations to prevent the corrupted data from spreading" },
+        { "id": "assess-damage", "label": "Compare the current database state against the backup to see what was lost" },
+        { "id": "restore-backup", "label": "Restore from the 6 hour old backup to a staging environment first" },
+        { "id": "replay-logs", "label": "Replay the transaction logs from the last 6 hours to recover recent changes" },
+        { "id": "verify-switch", "label": "Run validation checks and switch production traffic to the restored database" }
+      ],
+      "correctOrder": ["stop-writes", "assess-damage", "restore-backup", "replay-logs", "verify-switch"],
+      "axisImpact": {
+        "Precision": 1,
+        "Stability": 0.8
+      }
+    },
+    "data-scientist": {
+      "type": "binary-choice",
+      "title": "Recover the Lost Analytics",
+      "instruction": "The overwritten database included 6 hours of user analytics that marketing needs for their NDP social media campaign. The raw event logs still exist in a separate system but they're messy and unprocessed. What's your play?",
+      "options": [
+        {
+          "id": "rebuild-full",
+          "label": "Rebuild the full analytics dataset from raw logs. Takes 2 hours but gives marketing complete and accurate data for their campaign.",
+          "axisImpact": { "Precision": 1, "Stability": 0.5, "Speed": -0.5 }
+        },
+        {
+          "id": "estimate-stats",
+          "label": "Use statistical sampling to estimate the lost metrics from a subset of logs. Done in 30 minutes but accuracy drops to about 85%.",
+          "axisImpact": { "Speed": 1, "Innovation": 0.5, "Precision": -0.3 }
+        },
+        {
+          "id": "focus-forward",
+          "label": "Skip recovery entirely and set up enhanced tracking for NDP day itself. The real show data is more valuable than rehearsal week analytics anyway.",
+          "axisImpact": { "Speed": 0.8, "Innovation": 0.8, "Precision": -0.5 }
+        },
+        {
+          "id": "crowdsource-data",
+          "label": "Ask marketing to cross reference their social media engagement data with what you can pull from CDN logs. Not perfect but fills the gaps collaboratively.",
+          "axisImpact": { "Collaboration": 1, "Innovation": 0.5, "Autonomy": -0.3 }
+        }
+      ]
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "layout",
+      "title": "Emergency Infrastructure Layout",
+      "instruction": "With the production database down, you need to rebuild the infrastructure fast. Drag each component to where it belongs in the recovery architecture. Area 1 is the first thing to restore, Areas 2 and 3 run in parallel, and Area 4 is the final step.",
+      "items": [
+        { "id": "load-balancer", "label": "Load Balancer" },
+        { "id": "db-primary", "label": "Primary Database" },
+        { "id": "db-replica", "label": "Read Replica" },
+        { "id": "cache-layer", "label": "Redis Cache" },
+        { "id": "api-servers", "label": "API Servers" },
+        { "id": "monitoring", "label": "Monitoring Stack" }
+      ],
+      "dropZones": [
+        { "id": "zone-1", "label": "Restore First" },
+        { "id": "zone-2", "label": "Parallel Track A" },
+        { "id": "zone-3", "label": "Parallel Track B" },
+        { "id": "zone-4", "label": "Final Verification" }
+      ],
+      "correctOrder": ["db-primary", "api-servers", "cache-layer", "monitoring"],
+      "axisImpact": {
+        "Stability": 1,
+        "Precision": 0.5
+      }
+    }
+  }
+}

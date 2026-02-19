@@ -1,0 +1,67 @@
+{
+  "id": "arc1-ch1",
+  "title": "NDP 2026: T-Minus 3 Weeks",
+  "description": "The NDP committee just greenlit a brand new parade segment and they want a companion app feature for 40,000 attendees. Your team has 3 weeks to ship it. No pressure.",
+  "image": "/chapters/arc1-ch1.svg",
+  "arc": 0,
+  "chapter": 0,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Build the Parade Companion Feature",
+      "instruction": "The NDP app needs a live AR overlay that lets spectators point their phone at parade floats and see fun facts pop up. You need to plan the development pipeline. Put these steps in the right order so the feature ships on time without breaking the existing app.",
+      "items": [
+        { "id": "api-spec", "label": "Write the API specification so frontend and backend teams can work in parallel" },
+        { "id": "ar-prototype", "label": "Build a quick AR prototype to test float recognition accuracy" },
+        { "id": "backend-endpoints", "label": "Set up the backend endpoints that serve float data and fun facts" },
+        { "id": "integration-test", "label": "Run integration tests with the existing NDP app to catch conflicts" },
+        { "id": "load-test", "label": "Simulate 40,000 concurrent users to make sure servers hold up" }
+      ],
+      "correctOrder": ["api-spec", "ar-prototype", "backend-endpoints", "integration-test", "load-test"],
+      "axisImpact": {
+        "Speed": 1,
+        "Precision": 0.5
+      }
+    },
+    "data-scientist": {
+      "type": "numeric-input",
+      "title": "Forecast App Downloads",
+      "instruction": "Marketing wants to know how many app downloads to expect in the week before NDP so they can plan server capacity. Past years show downloads spike closer to the event. Looking at the last 4 weeks of download data (in thousands), predict the total downloads (in thousands) for the final week before NDP.",
+      "chartData": [8, 15, 28, 52],
+      "expected": 95,
+      "tolerance": 25,
+      "axisImpact": {
+        "Precision": 1,
+        "Cost-Conscious": 0.5
+      }
+    },
+    "cloud-engineer": {
+      "type": "binary-choice",
+      "title": "Choose Your Hosting Strategy",
+      "instruction": "The NDP app feature needs cloud hosting that can handle massive traffic on the actual day but not waste money sitting idle the other 364 days. What's your approach?",
+      "options": [
+        {
+          "id": "serverless",
+          "label": "Go fully serverless with auto scaling. Zero cost when idle, scales infinitely on NDP day. But cold starts might cause a 2 second delay for the first users each hour.",
+          "axisImpact": { "Cost-Conscious": 1, "Innovation": 0.5, "Speed": -0.3 }
+        },
+        {
+          "id": "reserved-burst",
+          "label": "Reserve a baseline of servers and add burst capacity for NDP day. Predictable performance but you're paying for idle servers during the build phase.",
+          "axisImpact": { "Stability": 1, "Performance-First": 0.5, "Cost-Conscious": -0.5 }
+        },
+        {
+          "id": "cdn-edge",
+          "label": "Push everything to CDN edge nodes across Singapore. Lightning fast for static content but real time features like the AR overlay might lag behind.",
+          "axisImpact": { "Speed": 1, "Performance-First": 0.5, "Innovation": -0.3 }
+        },
+        {
+          "id": "hybrid-partner",
+          "label": "Partner with a local cloud provider who already hosts government services. Guaranteed SLA and data stays in Singapore, but limited customisation options.",
+          "axisImpact": { "Collaboration": 1, "Stability": 0.5, "Autonomy": -0.5 }
+        }
+      ]
+    }
+  }
+}

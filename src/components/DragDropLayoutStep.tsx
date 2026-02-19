@@ -58,14 +58,21 @@ export default function DragDropLayoutStep({
     const { active, over } = e;
     if (!active || !over) return;
 
-    const id   = active.id  as string;
-    const dest = over.id    as string;
-    // find where we came from
+    const id = active.id as string;
+    let dest = over.id as string;
+
+    // If dest is not a known zone/palette key, resolve its parent zone
+    if (!lists[dest]) {
+      const parentZone = Object.keys(lists).find(key => lists[key].includes(dest));
+      if (!parentZone) return;
+      dest = parentZone;
+    }
+
     const src = Object.keys(lists).find(key => lists[key].includes(id))!;
+    if (src === dest) { setActiveId(null); return; }
+
     const next = { ...lists };
-    // remove from old
     next[src] = next[src].filter(x => x !== id);
-    // place in new
     next[dest] = [...next[dest], id];
     setLists(next);
     setActiveId(null);
@@ -92,13 +99,13 @@ export default function DragDropLayoutStep({
         className={
           `relative flex flex-col p-4 border-2 border-dashed rounded-lg ` +
           `transition-colors ease-in-out duration-200 ` +
-          `${isOver ? 'bg-blue-50 border-blue-400 shadow-lg' : 'bg-white border-gray-300 hover:border-blue-300'} ` +
+          `${isOver ? 'bg-[#FF6600]/10 border-[#FF6600] shadow-lg' : 'bg-[#1e293b] border-[#334155] hover:border-[#FF6600]/50'} ` +
           `min-h-[180px]`
         }
       >
-        {label && <h4 className="font-semibold text-sm mb-2 text-gray-400">{label}</h4>}
+        {label && <h4 className="font-semibold text-sm mb-2 text-[#94a3b8]">{label}</h4>}
         <SortableContext items={itemsList} strategy={verticalListSortingStrategy}>
-          <div className="flex flex-col space-y-2 flex-1 overflow-auto text-gray-600 font-semibold text-md">
+          <div className="flex flex-col space-y-2 flex-1 overflow-auto text-[#e2e8f0] font-semibold text-md">
             {itemsList.map(itemId => (
               <SortableItem key={itemId} id={itemId} label={itemLabels[itemId]} />
             ))}
@@ -158,7 +165,7 @@ export default function DragDropLayoutStep({
                         items={lists['palette']}
                         strategy={verticalListSortingStrategy}
                     >
-                        <div className="flex flex-col space-y-2 text-gray-800 font-semibold text-sm">
+                        <div className="flex flex-col space-y-2 text-[#e2e8f0] font-semibold text-sm">
                         {lists['palette'].map(itemId => (
                             <SortableItem
                             key={itemId}
@@ -172,7 +179,7 @@ export default function DragDropLayoutStep({
             
                 <DragOverlay>
                     {activeId && (
-                    <div className="p-2 bg-white rounded shadow opacity-80 cursor-move">
+                    <div className="p-2 bg-[#1e293b] border border-[#FF6600] rounded shadow opacity-80 cursor-move text-[#e2e8f0]">
                         {items.find(i => i.id === activeId)!.label}
                     </div>
                     )}
@@ -188,16 +195,15 @@ export default function DragDropLayoutStep({
           px-4
           py-2
           bg-[#FF6600]
-          hover:bg-[#b34400]
+          hover:bg-[#e65a00]
           hover:cursor-pointer
-          rounded
+          rounded-lg
           disabled:opacity-50
           disabled:cursor-not-allowed
-          border
-          border-black
           border-2
-          text-black
-          rounded-lg
+          border-[#FF6600]
+          text-white
+          font-semibold
           tracking-wider
           uppercase
           transition duration-200
@@ -222,7 +228,7 @@ function SortableItem({ id, label }: { id: string; label: string }) {
         transform: CSS.Transform.toString(transform),
         transition,
       }}
-      className="p-2 bg-white rounded shadow cursor-move"
+      className="p-2 bg-[#1e293b] border border-[#334155] rounded shadow cursor-move text-[#e2e8f0]"
     >
       {label}
     </div>

@@ -115,6 +115,12 @@ export interface Scenario {
   id: string;
   title: string;
   description: string;
+  /** Path to chapter illustration (e.g. "/chapters/arc1-ch1.svg") */
+  image?: string;
+  /** Arc index (0, 1, or 2) */
+  arc?: number;
+  /** Chapter index within an arc (0-3) */
+  chapter?: number;
   /** Mission round number (1-4) for progressive difficulty */
   round?: number;
   /** Narrative story context shown before the mission begins */
