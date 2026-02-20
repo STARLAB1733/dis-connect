@@ -40,7 +40,7 @@ function LeaderboardContent() {
     i === 0 ? 'text-yellow-400' : i === 1 ? 'text-slate-300' : i === 2 ? 'text-amber-600' : 'text-[#94a3b8]';
 
   return (
-    <main className="min-h-dvh max-w-md mx-auto p-4 pb-12">
+    <main className="min-h-dvh page-container p-4 pb-12">
       <div className="flex items-center justify-between mb-6 pt-4">
         <button onClick={() => router.push('/')} className="py-3 pr-4 text-[#94a3b8] hover:text-[#FF6600] text-sm tracking-wide transition">← Back</button>
         <h1 className="text-xl font-bold text-[#FF6600] tracking-widest uppercase">Leaderboard</h1>

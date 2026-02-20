@@ -29,7 +29,7 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-dvh flex flex-col max-w-md mx-auto px-4">
+    <main className="min-h-dvh flex flex-col page-container px-4">
       <div className="flex-1 flex flex-col items-center justify-center gap-6 sm:gap-12">
         <h1 className="text-center">
           <span className="text-5xl sm:text-7xl font-bold text-[#FF6600] font-sans">DIS</span>
