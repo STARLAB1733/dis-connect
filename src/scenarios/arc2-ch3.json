@@ -1,0 +1,83 @@
+{
+  "id": "arc2-ch3",
+  "title": "Exercise Northstar: D-Day",
+  "description": "The exercise is live. But field commanders are reporting stale information on their screens. Units moved 20 minutes ago but the screen still shows them at their old positions. Decisions are being made on outdated intel.",
+  "image": "/chapters/arc2-ch3.svg",
+  "arc": 1,
+  "chapter": 2,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Track Down the Stale Data",
+      "instruction": "Commanders are seeing 20-minute-old positions. You need to trace where in the chain the data is getting stuck. Put these investigation steps in order.",
+      "hint": "Start from where the data is created (the field devices), then follow the trail through each stage until you find where freshness is lost.",
+      "items": [
+        { "id": "check-source", "label": "Confirm that the GPS devices in the field are actually sending fresh updates" },
+        { "id": "check-pipeline", "label": "Check if updates are piling up somewhere between the field and the server" },
+        { "id": "check-cache", "label": "Check if the system is serving old saved answers instead of fetching fresh ones" },
+        { "id": "check-websocket", "label": "Verify that the live connection between servers and commander screens is actually pushing updates" },
+        { "id": "deploy-fix", "label": "Deploy the fix and confirm fresh data starts flowing to commander screens" }
+      ],
+      "correctOrder": ["check-source", "check-pipeline", "check-cache", "check-websocket", "deploy-fix"],
+      "axisImpact": {
+        "Speed": 1,
+        "Precision": 0.5
+      }
+    },
+    "data-scientist": {
+      "type": "binary-choice",
+      "title": "Help Commanders Decide Now",
+      "instruction": "While engineers fix the data problem, commanders still need to make decisions NOW using 20-minute-old positions. The exercise is moving fast. How do you help them get a usable picture?",
+      "hint": "Think about what commanders need most right now: a confident educated guess, trusted manual reports, honest uncertainty, or a completely different source of truth.",
+      "options": [
+        {
+          "id": "predict-positions",
+          "label": "Use each unit's last known speed and direction to calculate where they probably are now. Surprisingly accurate for short gaps in time.",
+          "axisImpact": { "Innovation": 1, "Speed": 0.8, "Precision": -0.3 }
+        },
+        {
+          "id": "radio-reports",
+          "label": "Have each unit call in their position by radio every 5 minutes. Old school but 100% accurate.",
+          "axisImpact": { "Stability": 1, "Precision": 0.5, "Innovation": -0.5 }
+        },
+        {
+          "id": "confidence-overlay",
+          "label": "Show the old positions but add a growing circle of uncertainty so commanders know which dots to trust. Honest, but might cause decision paralysis.",
+          "axisImpact": { "Precision": 1, "Collaboration": 0.5, "Speed": -0.3 }
+        },
+        {
+          "id": "drone-feed",
+          "label": "Show live drone camera feeds over the exercise area so commanders can literally see where units are. Works perfectly unless clouds roll in.",
+          "axisImpact": { "Performance-First": 1, "Innovation": 0.5, "Cost-Conscious": -0.5 }
+        }
+      ]
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "layout",
+      "title": "Rebuild the Data Pipeline",
+      "instruction": "The stale data is caused by a bottleneck in how updates flow from the field to the screen. You need to rebuild the pipeline. Drag each component to the right stage. Stage 1 is where data arrives from the field, Stages 2 and 3 process it, and Stage 4 delivers it to screens.",
+      "hint": "Think about the natural order: data arrives first, then gets sorted and cleaned, then gets pushed out to whoever needs it.",
+      "items": [
+        { "id": "mqtt-broker", "label": "Field Device Radio Hub (receives all incoming data from field devices)" },
+        { "id": "stream-processor", "label": "Live Data Sorter (processes and organises incoming updates)" },
+        { "id": "cache-invalidator", "label": "Old Data Cleaner (marks saved data as expired so fresh data replaces it)" },
+        { "id": "websocket-gateway", "label": "Live Update Relay (pushes fresh data to commander screens in real time)" },
+        { "id": "dead-letter-queue", "label": "Failed Message Store (holds updates that couldn't be delivered for retry)" },
+        { "id": "health-monitor", "label": "System Health Watcher (alerts the team if any stage stops working)" }
+      ],
+      "dropZones": [
+        { "id": "zone-1", "label": "Data Arrives" },
+        { "id": "zone-2", "label": "Processing Stage A" },
+        { "id": "zone-3", "label": "Processing Stage B" },
+        { "id": "zone-4", "label": "Delivered to Screens" }
+      ],
+      "correctOrder": ["mqtt-broker", "stream-processor", "cache-invalidator", "websocket-gateway"],
+      "axisImpact": {
+        "Speed": 1,
+        "Stability": 0.5
+      }
+    }
+  }
+}

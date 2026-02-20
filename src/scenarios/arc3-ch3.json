@@ -1,0 +1,64 @@
+{
+  "id": "arc3-ch3",
+  "title": "Ops Resilience: Restoration Race",
+  "description": "Grid secured. Now comes the hard part: restoring power to 200,000 homes and businesses without triggering another cascade failure. Every decision affects real people.",
+  "image": "/chapters/arc3-ch3.svg",
+  "arc": 2,
+  "chapter": 2,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Run the Power Restoration Sequence",
+      "instruction": "Automated scripts will bring each station back online safely — but they must run in the right sequence or you risk overloading the healthy parts of the grid. Put the restoration steps in order.",
+      "hint": "Before restoring power, make absolutely sure the stations are clean. Then restore the main backbone before the branches — and always restore hospitals and critical services before homes.",
+      "items": [
+        { "id": "verify-clean", "label": "Confirm every compromised station has been wiped and is definitely clean" },
+        { "id": "restore-backbone", "label": "Bring back the main transmission stations that supply power to multiple zones" },
+        { "id": "test-load", "label": "Run a test load to verify the backbone can handle the demand before connecting more" },
+        { "id": "restore-district", "label": "Restore district stations in priority order — hospitals and critical services first" },
+        { "id": "residential-last", "label": "Restore residential areas last, zone by zone based on grid capacity" }
+      ],
+      "correctOrder": ["verify-clean", "restore-backbone", "test-load", "restore-district", "residential-last"],
+      "axisImpact": { "Stability": 1, "Precision": 0.8 }
+    },
+    "data-scientist": {
+      "type": "numeric-input",
+      "title": "Find the Safe Restoration Speed",
+      "instruction": "Restoring power too fast can overload the lines and cause another blackout. Based on safety tests over the last 4 hours (percentage of normal load the grid safely handled), predict the maximum safe percentage of power you can restore per hour without risking a cascade failure.",
+      "hint": "The safe load percentage is growing each hour by a similar amount. Extend the trend one more step forward.",
+      "chartData": [10, 22, 38, 51],
+      "expected": 65,
+      "tolerance": 12,
+      "axisImpact": { "Precision": 1, "Stability": 0.8 }
+    },
+    "cloud-engineer": {
+      "type": "binary-choice",
+      "title": "Secure the Stations Before Restoring Power",
+      "instruction": "The compromised control systems need to be fully secured before going back online. People are still without power, so time matters. What do you do?",
+      "hint": "Remember that 200,000 people are without power — but restoring a system that still has the attacker inside just hands them back control.",
+      "options": [
+        {
+          "id": "full-rebuild",
+          "label": "Complete rebuild from scratch — every compromised device gets a fresh install of everything. Takes 6 hours but you're 100% certain the attacker left no traces.",
+          "axisImpact": { "Stability": 1, "Precision": 0.8, "Speed": -0.8 }
+        },
+        {
+          "id": "forensic-patch",
+          "label": "Surgically remove only the identified malicious code and close the specific holes used in the attack. Done in 2 hours but there's a 15% chance of missing something hidden.",
+          "axisImpact": { "Speed": 1, "Cost-Conscious": 0.5, "Stability": -0.5 }
+        },
+        {
+          "id": "shadow-monitor",
+          "label": "Bring systems back online under intense observation. If the attacker is still hiding, they'll reveal themselves when they try to move again. Risky but gives the best intelligence on what they left behind.",
+          "axisImpact": { "Innovation": 1, "Precision": 0.5, "Stability": -0.8 }
+        },
+        {
+          "id": "hardware-swap",
+          "label": "Replace the physical hardware entirely. The most expensive option and takes 12 hours, but eliminates any possibility of hidden software surviving at a deep level.",
+          "axisImpact": { "Stability": 0.8, "Precision": 1, "Cost-Conscious": -1 }
+        }
+      ]
+    }
+  }
+}

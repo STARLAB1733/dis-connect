@@ -12,136 +12,101 @@ import {
   serverTimestamp,
   getDoc
 } from 'firebase/firestore';
-import RoleCarousel, { RoleKey } from '@/components/RoleCarousel';
-import Image from 'next/image'
 import QRCode from 'react-qr-code';
 
-type Player = { uid: string; name: string; role?: string };
+type Player = { uid: string; name: string };
 
 export default function LobbyPage() {
   const { lobbyId } = useParams() as { lobbyId: string };
   const router = useRouter();
-  const [userUid, setUserUid] = useState<string|null>(null);
+  const [userUid, setUserUid] = useState<string | null>(null);
   const [name, setName] = useState('');
+  const [teamName, setTeamName] = useState('');
   const [players, setPlayers] = useState<Player[]>([]);
-  const [myPlayer, setMyPlayer] = useState<Player|null>(null);
+  const [myPlayer, setMyPlayer] = useState<Player | null>(null);
   const [isStarting, setIsStarting] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false);
   const [fullLobbyURL, setFullLobbyURL] = useState<string>('');
+  const [lobbyTeamName, setLobbyTeamName] = useState<string | null>(null);
 
-  // 1. Init Firebase auth
   useEffect(() => { initAuth(); }, []);
 
-  // 2. Grab `window.location.origin` on the client, so we can build the QR code.
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const origin = window.location.origin;
-      setFullLobbyURL(`${origin}/lobby/${lobbyId}`);
+      setFullLobbyURL(`${window.location.origin}/lobby/${lobbyId}`);
     }
   }, [lobbyId]);
 
-  // 3. Listen for anonymous auth
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, user => {
-      setUserUid(user?.uid || null);
-    });
+    const unsub = onAuthStateChanged(auth, user => setUserUid(user?.uid || null));
     return unsub;
   }, []);
 
-  // 4. Create & listen lobby doc
   useEffect(() => {
     if (!userUid) return;
     const ref = doc(db, 'lobbies', lobbyId);
 
-    // Check if it already exists
     getDoc(ref).then(snap => {
-        if (!snap.exists()) {
-        // Only on first creation, set the defaults:
+      if (!snap.exists()) {
         setDoc(ref, {
-            // don't set players here, so it starts undefined
-            currentIdx: 0,
-            started: false,
-            created: serverTimestamp()
-        },
-        { merge: true } // (merge: true) ensures we don't clobber anything if it already exists
-      );
-    }
-  });
+          started: false,
+          players: [],
+          rotationIdx: 0,
+          chapterIdx: 0,
+          roundAnswers: {},
+          finished: false,
+          created: serverTimestamp()
+        }, { merge: true });
+      }
+    });
 
-  // Then subscribe to changes
-  const unsub = onSnapshot(ref, snap => {
-    const data = snap.data() || {};
-    setPlayers(data.players || []);
-    const me = (data.players || []).find((p: Player) => p.uid === userUid) ?? null;
-    setMyPlayer(me);
+    const unsub = onSnapshot(ref, snap => {
+      const data = snap.data() || {};
+      setPlayers(data.players || []);
+      if (data.teamName) setLobbyTeamName(data.teamName);
+      const me = (data.players || []).find((p: Player) => p.uid === userUid) ?? null;
+      setMyPlayer(me);
+      setGameStarted(!!data.started);
 
-    // If Firestore says `started: true`, show overlay and then navigate:
-    if (data.started && !isStarting) {
-      setIsStarting(true);
-      // Give React a moment to show the overlay, then navigate:
-      setTimeout(() => {
-        router.push(`/game/${lobbyId}`);
-      }, 50);
-    }
-  });
+      if (data.started && !isStarting) {
+        setIsStarting(true);
+        // Redirect returning players immediately; new visitors become spectators
+        setTimeout(() => router.push(`/game/${lobbyId}`), 50);
+      }
+    });
 
-  return unsub;
-}, [lobbyId, router, userUid, isStarting]);
+    return unsub;
+  }, [lobbyId, router, userUid, isStarting]);
 
-  // 5. Join with name
   const joinLobby = async () => {
     if (!name || !userUid) return;
-    const ref = doc(db, 'lobbies', lobbyId);
-    await updateDoc(ref, {
-      players: arrayUnion({ uid: userUid, name })
-    });
+    await updateDoc(doc(db, 'lobbies', lobbyId), { players: arrayUnion({ uid: userUid, name }) });
   };
 
-  // 6. Pick a role
-  const pickRole = async (role: string) => {
-    if (!myPlayer) return;
-    const updated = players.map(p =>
-      p.uid === userUid ? { ...p, role } : p
-    );
-    const ref = doc(db, 'lobbies', lobbyId);
-    await updateDoc(ref, { players: updated });
-    // if all 3 have roles, start the game
-    if (updated.filter(p => p.role).length === 3) {
-      await updateDoc(ref, { started: true, startTime: serverTimestamp() });
-    }
+  const startGame = async () => {
+    if (players.length === 0) return;
+    const ROLES = ['software-engineer', 'data-scientist', 'cloud-engineer'];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const updates: Record<string, any> = {
+      started: true,
+      rotationIdx: 0,
+      chapterIdx: 0,
+      roundAnswers: {},
+      currentRoles: Object.fromEntries(players.map((p, i) => [p.uid, ROLES[i % 3]])),
+      startTime: serverTimestamp()
+    };
+    if (teamName.trim()) updates.teamName = teamName.trim();
+    await updateDoc(doc(db, 'lobbies', lobbyId), updates);
   };
 
-  // Compute which roles have already been picked
-  const takenRoles: RoleKey[] = players
-  .map((p) => p.role)
-  .filter((r): r is RoleKey => typeof r === 'string');
+  const isHost = players.length > 0 && players[0]?.uid === userUid;
 
-  const roleToSvg: Record<RoleKey, string> = {
-    'software-engineer': '/roles/swe.svg',
-    'data-scientist': '/roles/ds.svg',
-    'cloud-engineer': '/roles/ce.svg'
-  };
-
-  const roleToLabel: Record<RoleKey, string> = {
-    'software-engineer': 'Software Engineer',
-    'data-scientist': 'Data Science / AI Engineer',
-    'cloud-engineer': 'Cloud Engineer'
-  };
-
-  // If we’re in the “just switched to started” phase, render a full‐screen overlay:
   if (isStarting) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
         <div className="flex flex-col items-center">
-          <div
-            className="
-              w-12 h-12
-              border-4 border-[#FF6600]
-              border-t-transparent
-              rounded-full
-              animate-spin
-            "
-          />
-          <p className="mt-4 text-white text-lg">Starting game…</p>
+          <div className="w-12 h-12 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
+          <p className="mt-4 text-white text-lg tracking-wider">DEPLOYING...</p>
         </div>
       </div>
     );
@@ -149,134 +114,111 @@ export default function LobbyPage() {
 
   return (
     <main className="min-h-dvh flex flex-col text-white p-6 max-w-md mx-auto">
-      {/* -------------------------------------
-           Lobby header
-         ------------------------------------- */}
-      <h1 className="text-2xl font-semibold text-center tracking-wider text-[#FF6600]">
+      <h1 className="text-2xl font-semibold text-center tracking-wider text-[#FF6600] mb-2">
         LOBBY : <span className="font-mono font-normal">{lobbyId}</span>
       </h1>
 
-      {/* -------------------------------------
-        QR CODE: show only once the lobby exists (i.e. after the onSnapshot has run once)
-      ------------------------------------- */}
+      {lobbyTeamName && (
+        <p className="text-center text-[#94a3b8] text-sm tracking-widest mb-4">
+          TEAM: <span className="text-[#e2e8f0] font-semibold">{lobbyTeamName}</span>
+        </p>
+      )}
+
       {fullLobbyURL && (
         <div className="flex flex-col items-center mb-6">
-          <p className="mb-2 tracking-wider text-[#FF6600] text-xs font-medium">
-            Scan to join this lobby
-          </p>
+          <p className="mb-2 tracking-wider text-[#FF6600] text-xs font-medium">Scan to join</p>
           <div className="bg-white p-2 rounded-md">
             <QRCode value={fullLobbyURL} size={128} />
           </div>
         </div>
       )}
 
-      {!userUid && (
-        <p className="italic text-gray-500 text-center ">Initializing…</p>
+      {!userUid && <p className="italic text-[#94a3b8] text-center">Initializing...</p>}
+
+      {/* Game in progress — reconnecting player (known UID) */}
+      {userUid && myPlayer && gameStarted && (
+        <div className="flex flex-col items-center gap-3 mt-8 text-center">
+          <div className="w-8 h-8 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
+          <p className="text-[#FF6600] text-sm uppercase tracking-widest font-semibold">Reconnecting...</p>
+          <p className="text-[#94a3b8] text-xs">Returning you to the active session.</p>
+        </div>
       )}
 
-      {/* -------------------------------------
-           If user has not joined, show name input
-         ------------------------------------- */}
-      {userUid && !myPlayer && (
+      {/* Game in progress — unknown player, block new joins */}
+      {userUid && !myPlayer && gameStarted && (
+        <div className="mt-8 text-center space-y-2 border border-[#334155] rounded-xl p-6">
+          <p className="text-[#FF6600] font-semibold uppercase tracking-widest text-sm">Game in Progress</p>
+          <p className="text-[#94a3b8] text-sm leading-relaxed">
+            This session has already started. New players cannot join mid-game.
+          </p>
+          <button
+            onClick={() => router.push('/')}
+            className="mt-4 px-5 py-2 text-sm text-[#94a3b8] border border-[#334155] rounded-lg hover:border-[#FF6600] hover:text-[#FF6600] transition"
+          >
+            Back to Home
+          </button>
+        </div>
+      )}
+
+      {/* Pre-game — join form for new players */}
+      {userUid && !myPlayer && !gameStarted && (
         <div className="space-y-3 mb-12 mt-6">
           <input
             type="text"
             value={name}
-            onChange={e=>setName(e.target.value)}
+            onChange={e => setName(e.target.value)}
             placeholder="YOUR NAME"
-            className="
-              w-full
-              border-2
-              border-[#FF6600]
-              text-[#FF6600]
-              placeholder:text-[#FF6600]/50
-              bg-transparent
-              py-3 px-4
-              rounded-lg
-              text-center
-              tracking-widest
-              focus:outline-none 
-              focus:ring-2 
-              focus:ring-[#FF6600]
-            "
+            className="w-full border-2 border-[#FF6600] text-[#FF6600] placeholder:text-[#FF6600]/50 bg-transparent py-3 px-4 rounded-lg text-center tracking-widest focus:outline-none focus:ring-2 focus:ring-[#FF6600]"
           />
           <button
             onClick={joinLobby}
-            className="
-              flex 
-              items-center
-              mx-auto
-              text-[#FF6600]
-              uppercase tracking-wide
-              text-lg
-              underline underline-offset-6
-              hover:text-[#ff7a1a]
-              hover:cursor-pointer
-              disabled:opacity-40 disabled:cursor-not-allowed
-              font-semibold
-            "
             disabled={!name.trim()}
+            className="flex items-center mx-auto text-[#FF6600] uppercase tracking-wide text-lg underline underline-offset-6 hover:text-[#ff7a1a] hover:cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed font-semibold"
           >
             &gt;&gt; JOIN &gt;&gt;
           </button>
         </div>
       )}
 
-      {/* -------------------------------------
-           Player list (always show exactly 3 slots)
-           Only show “Player list” if the user hasn't joined yet OR has already chosen a role
-         ------------------------------------- */}
-      {( !myPlayer || myPlayer.role ) && (
-        <div className="w-full">
-          <div className="border-y border-gray-700 py-1 border-y-2">
-            <h2 className="flex justify-center tracking-wider text-gray-400">
-              <span className="font-semibold">PLAYERS</span>
+      {myPlayer && !gameStarted && (
+        <div className="w-full mt-4">
+          <div className="border-y border-[#334155] py-1 border-y-2">
+            <h2 className="flex justify-center tracking-wider text-[#94a3b8]">
+              <span className="font-semibold">PLAYERS ({players.length})</span>
             </h2>
           </div>
-
           <ul className="mt-2 space-y-2 text-center">
-            {players.map((p) => (
-              <li key={p.uid} className="text-gray-400 text-md">
-                {p.name}{' '}
-                {p.role && <em>({p.role.replace('-', ' ')})</em>}
-              </li>
-            ))}
-            {Array.from({ length: Math.max(0, 3 - players.length) }).map((_, idx) => (
-              <li key={`waiting-${idx}`} className="text-gray-500 italic">
-                Waiting for player…
+            {players.map((p, idx) => (
+              <li key={p.uid} className="text-[#94a3b8] text-md">
+                {p.name}
+                {idx === 0 && <span className="text-[#FF6600] text-xs ml-2">(HOST)</span>}
               </li>
             ))}
           </ul>
         </div>
       )}
 
-      {/* -------------------------------------
-           If current user has not yet chosen a role, show the carousel
-         ------------------------------------- */}
-      {myPlayer && !myPlayer.role && (
-        <div className="w-full">
-          <RoleCarousel 
-            onConfirm={(chosenRole: RoleKey) => pickRole(chosenRole)}
-            unavailableRoles={takenRoles}
+      {myPlayer && isHost && !gameStarted && (
+        <div className="w-full mt-8 flex flex-col items-center space-y-4">
+          <input
+            type="text"
+            value={teamName}
+            onChange={e => setTeamName(e.target.value)}
+            placeholder="Team name (optional)"
+            className="w-full border-2 border-[#334155] text-[#e2e8f0] placeholder:text-[#94a3b8]/60 bg-transparent py-2 px-4 rounded-lg text-center tracking-widest text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6600]"
           />
+          <button
+            onClick={startGame}
+            className="w-full px-6 py-4 bg-[#FF6600] hover:bg-[#e65a00] hover:cursor-pointer text-white rounded-lg tracking-wider uppercase transition duration-200 text-xl font-semibold"
+          >
+            START GAME
+          </button>
         </div>
       )}
 
-      {/* -------------------------------------
-           As soon as the current user has confirmed role, show that user's SVG *below* the player list
-         ------------------------------------- */}
-      {myPlayer && myPlayer.role && (
-        <div className="w-full mt-4 flex flex-col items-center">
-          <span className="text-[#FF6600] uppercase tracking-wide">
-            You are a <span className="underline underline-offset-3 font-semibold">{roleToLabel[myPlayer.role as RoleKey]}</span>
-          </span>
-          <Image
-            src={roleToSvg[myPlayer.role as RoleKey]}
-            alt={roleToLabel[myPlayer.role as RoleKey]}
-            width={192}
-            height={192}
-            className="w-48 h-48 object-contain"
-          />
+      {myPlayer && !isHost && !gameStarted && (
+        <div className="mt-8 text-center">
+          <p className="text-[#94a3b8] uppercase tracking-wider text-sm">Waiting for host to start...</p>
         </div>
       )}
     </main>

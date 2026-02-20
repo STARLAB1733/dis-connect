@@ -1,0 +1,77 @@
+{
+  "id": "arc3-ch2",
+  "title": "Ops Resilience: The Lights Go Out",
+  "description": "The intrusion was real. Parts of Singapore have lost power. The attacker has taken control of 12 substations. Your team has minutes to stop the spread and protect the rest of the grid.",
+  "image": "/chapters/arc3-ch2.svg",
+  "arc": 2,
+  "chapter": 1,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "binary-choice",
+      "title": "Stop the Attacker Spreading",
+      "instruction": "The attacker controls 12 power substations and is moving to the next ones. You can see their next target. How do you stop the spread?",
+      "hint": "When a threat is actively spreading, stopping it quickly is more important than understanding it perfectly. Speed of containment beats elegance.",
+      "options": [
+        {
+          "id": "network-isolation",
+          "label": "Cut all network connections to the 12 compromised substations immediately. They switch to manual control. Stops the spread instantly but those stations can't be managed remotely until they're cleaned.",
+          "axisImpact": { "Stability": 1, "Speed": 0.8, "Autonomy": -0.3 }
+        },
+        {
+          "id": "honeypot-divert",
+          "label": "Set up fake systems on the attacker's likely next targets. Let them think they've succeeded while you watch their moves. Risky if they don't take the bait.",
+          "axisImpact": { "Innovation": 1, "Precision": 0.5, "Stability": -0.5 }
+        },
+        {
+          "id": "credential-rotation",
+          "label": "Emergency change of all system passwords across every device. If they're using stolen credentials, this locks them out — but changing passwords on live critical infrastructure mid-incident is risky.",
+          "axisImpact": { "Precision": 1, "Stability": 0.3, "Speed": -0.3 }
+        },
+        {
+          "id": "deceptive-traffic",
+          "label": "Flood the network with fake signals to confuse the attacker's automated tools. Buys time but makes it harder for your own team to see what's real.",
+          "axisImpact": { "Innovation": 0.8, "Speed": 0.5, "Precision": -0.5 }
+        }
+      ]
+    },
+    "data-scientist": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Reconstruct How They Got In",
+      "instruction": "Leadership needs to know how the attacker entered and what they've touched. You need to reconstruct the intrusion timeline from logs. Put these steps in order.",
+      "hint": "Gather all the evidence first before drawing any conclusions. Build a timeline before looking for the cause — the cause only makes sense once you can see the full story.",
+      "items": [
+        { "id": "collect-logs", "label": "Gather logs from every network device, login system, and power station controller" },
+        { "id": "timeline-build", "label": "Arrange all events in order using timestamps to build a chronological picture" },
+        { "id": "find-patient-zero", "label": "Find the very first infected device by looking for the earliest unusual event" },
+        { "id": "map-lateral", "label": "Trace how the attacker moved from device to device using login and connection records" },
+        { "id": "ioc-extract", "label": "Extract the attacker's digital fingerprints so you can block them from coming back" }
+      ],
+      "correctOrder": ["collect-logs", "timeline-build", "find-patient-zero", "map-lateral", "ioc-extract"],
+      "axisImpact": { "Precision": 1, "Speed": 0.5 }
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "layout",
+      "title": "Isolate the Network Zones",
+      "instruction": "You need to split the power grid's network into isolated sections to stop the attacker jumping between them. Drag each part of the network to the right isolation level. Zone 1 is fully cut off, Zones 2 and 3 are partially restricted, Zone 4 continues normally.",
+      "hint": "The most dangerous zones — the ones already compromised or right next to them — need the most restrictions. The further from the threat, the more normal operations can continue.",
+      "items": [
+        { "id": "compromised-substations", "label": "The 12 Compromised Stations (attacker is in control)" },
+        { "id": "adjacent-substations", "label": "Neighbouring Stations (at risk of being targeted next)" },
+        { "id": "control-centre", "label": "Central Control Room (where commanders manage the grid)" },
+        { "id": "clean-substations", "label": "Confirmed Safe Stations (verified clean)" },
+        { "id": "corporate-network", "label": "Office IT Network (admin and support systems)" },
+        { "id": "external-vendors", "label": "Contractor Remote Access (external vendors with maintenance access)" }
+      ],
+      "dropZones": [
+        { "id": "zone-1", "label": "Fully Isolated" },
+        { "id": "zone-2", "label": "Restricted Access" },
+        { "id": "zone-3", "label": "Monitored Access" },
+        { "id": "zone-4", "label": "Normal Operations" }
+      ],
+      "correctOrder": ["compromised-substations", "adjacent-substations", "control-centre", "clean-substations"],
+      "axisImpact": { "Stability": 1, "Precision": 0.5 }
+    }
+  }
+}

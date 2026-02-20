@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300">
+<rect width="800" height="300" fill="#0f172a"/>
+<line x1="0" y1="60" x2="800" y2="60" stroke="#1e293b" stroke-width="1"/>
+<line x1="0" y1="120" x2="800" y2="120" stroke="#1e293b" stroke-width="1"/>
+<line x1="0" y1="180" x2="800" y2="180" stroke="#1e293b" stroke-width="1"/>
+<line x1="0" y1="240" x2="800" y2="240" stroke="#1e293b" stroke-width="1"/>
+<line x1="80" y1="0" x2="80" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="160" y1="0" x2="160" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="240" y1="0" x2="240" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="320" y1="0" x2="320" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="400" y1="0" x2="400" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="480" y1="0" x2="480" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="560" y1="0" x2="560" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="640" y1="0" x2="640" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="720" y1="0" x2="720" y2="300" stroke="#1e293b" stroke-width="1"/>
+<rect x="0" y="0" width="800" height="26" fill="#0a2010" opacity="0.97"/>
+<text x="10" y="17" font-family="monospace" font-size="10" fill="#22c55e" font-weight="bold">POWER RESTORATION OPS - CRITICAL INFRA RECOVERY - T+02:14:38</text>
+<circle cx="778" cy="13" r="5.0" fill="#22c55e"/>
+<circle cx="764" cy="13" r="5.0" fill="#22c55e" opacity="0.60"/>
+<rect x="10" y="34" width="780" height="28" fill="#1e293b" stroke="#334155" stroke-width="1" rx="2"/>
+<text x="18" y="49" font-family="monospace" font-size="11" fill="#e2e8f0">SYSTEM RESTORE</text>
+<rect x="160" y="38" width="580" height="20" fill="#0f172a" rx="2"/>
+<rect x="161" y="39" width="411" height="18" fill="#22c55e" rx="2" opacity="0.80"/>
+<text x="750" y="51" font-family="monospace" font-size="10" fill="#22c55e" font-weight="bold">71%</text>
+<rect x="10" y="70" width="370" height="215" fill="#1e293b" stroke="#334155" stroke-width="1" rx="2"/>
+<text x="20" y="86" font-family="monospace" font-size="11" fill="#e2e8f0">SECTOR STATUS</text>
+<line x1="20" y1="90" x2="372" y2="90" stroke="#334155" stroke-width="1.0" opacity="0.40"/>
+<rect x="14" y="96" width="362" height="22" fill="#0a2010" stroke="#22c55e" stroke-width="1" rx="1"/>
+<text x="18" y="110" font-family="monospace" font-size="8" fill="#22c55e">HOSP - SECTOR A</text>
+<text x="210" y="110" font-family="monospace" font-size="8" fill="#22c55e" font-weight="bold">ONLINE</text>
+<text x="300" y="110" font-family="monospace" font-size="7" fill="#94a3b8">CRITICAL</text>
+<circle cx="364" cy="107" r="4.0" fill="#22c55e"/>
+<rect x="14" y="120" width="362" height="22" fill="#0a2010" stroke="#22c55e" stroke-width="1" rx="1"/>
+<text x="18" y="134" font-family="monospace" font-size="8" fill="#22c55e">MRT - SECTOR B</text>
+<text x="210" y="134" font-family="monospace" font-size="8" fill="#22c55e" font-weight="bold">ONLINE</text>
+<text x="300" y="134" font-family="monospace" font-size="7" fill="#94a3b8">CRITICAL</text>
+<circle cx="364" cy="131" r="4.0" fill="#22c55e"/>
+<rect x="14" y="144" width="362" height="22" fill="#2d1a0a" stroke="#FF6600" stroke-width="1" rx="1"/>
+<text x="18" y="158" font-family="monospace" font-size="8" fill="#FF6600" font-weight="bold">TELE - SECTOR C</text>
+<text x="210" y="158" font-family="monospace" font-size="8" fill="#FF6600" font-weight="bold">PARTIAL</text>
+<text x="300" y="158" font-family="monospace" font-size="7" fill="#94a3b8">HIGH</text>
+<circle cx="364" cy="155" r="4.0" fill="#FF6600"/>
+<rect x="14" y="168" width="362" height="22" fill="#2d1a0a" stroke="#FF6600" stroke-width="1" rx="1"/>
+<text x="18" y="182" font-family="monospace" font-size="8" fill="#FF6600" font-weight="bold">COMM - SECTOR D</text>
+<text x="210" y="182" font-family="monospace" font-size="8" fill="#FF6600" font-weight="bold">RESTORING</text>
+<text x="300" y="182" font-family="monospace" font-size="7" fill="#94a3b8">HIGH</text>
+<circle cx="364" cy="179" r="4.0" fill="#FF6600"/>
+<rect x="14" y="192" width="362" height="22" fill="#2d1a0a" stroke="#FF6600" stroke-width="1" rx="1"/>
+<text x="18" y="206" font-family="monospace" font-size="8" fill="#FF6600" font-weight="bold">RESI - SECTOR E</text>
+<text x="210" y="206" font-family="monospace" font-size="8" fill="#FF6600" font-weight="bold">RESTORING</text>
+<text x="300" y="206" font-family="monospace" font-size="7" fill="#94a3b8">MEDIUM</text>
+<circle cx="364" cy="203" r="4.0" fill="#FF6600"/>
+<rect x="14" y="216" width="362" height="22" fill="#2d0f0f" stroke="#ef4444" stroke-width="1" rx="1"/>
+<text x="18" y="230" font-family="monospace" font-size="8" fill="#ef4444" font-weight="bold">COMM2 - SECTOR F</text>
+<text x="210" y="230" font-family="monospace" font-size="8" fill="#ef4444" font-weight="bold">OFFLINE</text>
+<text x="300" y="230" font-family="monospace" font-size="7" fill="#94a3b8">MEDIUM</text>
+<circle cx="364" cy="227" r="4.0" fill="#ef4444"/>
+<rect x="14" y="240" width="362" height="22" fill="#0a2010" stroke="#22c55e" stroke-width="1" rx="1"/>
+<text x="18" y="254" font-family="monospace" font-size="8" fill="#22c55e">CTRL - SECTOR G</text>
+<text x="210" y="254" font-family="monospace" font-size="8" fill="#22c55e" font-weight="bold">ONLINE</text>
+<text x="300" y="254" font-family="monospace" font-size="7" fill="#94a3b8">HIGH</text>
+<circle cx="364" cy="251" r="4.0" fill="#22c55e"/>
+<rect x="14" y="264" width="362" height="22" fill="#0f172a" stroke="#94a3b8" stroke-width="1" rx="1"/>
+<text x="18" y="278" font-family="monospace" font-size="8" fill="#94a3b8">BKUP - SECTOR H</text>
+<text x="210" y="278" font-family="monospace" font-size="8" fill="#94a3b8" font-weight="bold">STANDBY</text>
+<text x="300" y="278" font-family="monospace" font-size="7" fill="#94a3b8">LOW</text>
+<circle cx="364" cy="275" r="4.0" fill="#94a3b8"/>
+<rect x="390" y="70" width="400" height="215" fill="#1e293b" stroke="#334155" stroke-width="1" rx="2"/>
+<text x="400" y="86" font-family="monospace" font-size="11" fill="#e2e8f0">RESTORE PROGRESS</text>
+<line x1="400" y1="90" x2="782" y2="90" stroke="#334155" stroke-width="1.0" opacity="0.40"/>
+<text x="400" y="110" font-family="monospace" font-size="8" fill="#22c55e">HOSP</text>
+<text x="450" y="110" font-family="monospace" font-size="7" fill="#94a3b8">SGH HOSP / NUH</text>
+<rect x="560" y="98" width="190" height="16" fill="#0f172a" rx="2"/>
+<rect x="561" y="99" width="188" height="14" fill="#22c55e" rx="2" opacity="0.80"/>
+<text x="758" y="110" font-family="monospace" font-size="8" fill="#22c55e" font-weight="bold">100%</text>
+<text x="400" y="134" font-family="monospace" font-size="8" fill="#22c55e">MRT</text>
+<text x="450" y="134" font-family="monospace" font-size="7" fill="#94a3b8">EW LINE / NS LINE</text>
+<rect x="560" y="122" width="190" height="16" fill="#0f172a" rx="2"/>
+<rect x="561" y="123" width="188" height="14" fill="#22c55e" rx="2" opacity="0.80"/>
+<text x="758" y="134" font-family="monospace" font-size="8" fill="#22c55e" font-weight="bold">100%</text>
+<text x="400" y="158" font-family="monospace" font-size="8" fill="#FF6600">TELE</text>
+<text x="450" y="158" font-family="monospace" font-size="7" fill="#94a3b8">TELECOM EXCHANGE</text>
+<rect x="560" y="146" width="190" height="16" fill="#0f172a" rx="2"/>
+<rect x="561" y="147" width="127" height="14" fill="#FF6600" rx="2" opacity="0.80"/>
+<text x="758" y="158" font-family="monospace" font-size="8" fill="#FF6600" font-weight="bold">68%</text>
+<text x="400" y="182" font-family="monospace" font-size="8" fill="#FF6600">COMM</text>
+<text x="450" y="182" font-family="monospace" font-size="7" fill="#94a3b8">COMMS HUB</text>
+<rect x="560" y="170" width="190" height="16" fill="#0f172a" rx="2"/>
+<rect x="561" y="171" width="84" height="14" fill="#FF6600" rx="2" opacity="0.80"/>
+<text x="758" y="182" font-family="monospace" font-size="8" fill="#FF6600" font-weight="bold">45%</text>
+<text x="400" y="206" font-family="monospace" font-size="8" fill="#FF6600">RESI</text>
+<text x="450" y="206" font-family="monospace" font-size="7" fill="#94a3b8">RESIDENTIAL</text>
+<rect x="560" y="194" width="190" height="16" fill="#0f172a" rx="2"/>
+<rect x="561" y="195" width="71" height="14" fill="#FF6600" rx="2" opacity="0.80"/>
+<text x="758" y="206" font-family="monospace" font-size="8" fill="#FF6600" font-weight="bold">38%</text>
+<text x="400" y="230" font-family="monospace" font-size="8" fill="#ef4444">COMM2</text>
+<text x="450" y="230" font-family="monospace" font-size="7" fill="#94a3b8">COMM SECTOR 2</text>
+<rect x="560" y="218" width="190" height="16" fill="#0f172a" rx="2"/>
+<text x="758" y="230" font-family="monospace" font-size="8" fill="#ef4444" font-weight="bold">0%</text>
+<text x="400" y="254" font-family="monospace" font-size="8" fill="#22c55e">CTRL</text>
+<text x="450" y="254" font-family="monospace" font-size="7" fill="#94a3b8">CTRL CENTER</text>
+<rect x="560" y="242" width="190" height="16" fill="#0f172a" rx="2"/>
+<rect x="561" y="243" width="178" height="14" fill="#22c55e" rx="2" opacity="0.80"/>
+<text x="758" y="254" font-family="monospace" font-size="8" fill="#22c55e" font-weight="bold">95%</text>
+<text x="400" y="278" font-family="monospace" font-size="8" fill="#94a3b8">BKUP</text>
+<text x="450" y="278" font-family="monospace" font-size="7" fill="#94a3b8">BACKUP POWER</text>
+<rect x="560" y="266" width="190" height="16" fill="#0f172a" rx="2"/>
+<rect x="561" y="267" width="188" height="14" fill="#94a3b8" rx="2" opacity="0.80"/>
+<text x="758" y="278" font-family="monospace" font-size="8" fill="#94a3b8" font-weight="bold">100%</text>
+<rect x="10" y="290" width="780" height="8" fill="#1e293b" stroke="#334155" stroke-width="1" rx="2"/>
+<rect x="11" y="291" width="553" height="6" fill="#22c55e" rx="2" opacity="0.70"/>
+<text x="300" y="296" font-family="monospace" font-size="7" fill="#94a3b8">NEXT MILESTONE: 75% @ T+02:45</text>
+<text x="560" y="296" font-family="monospace" font-size="7" fill="#22c55e">ETA FULL RESTORE: T+06:30</text>
+<rect x="10" y="266" width="252" height="22" fill="#0f172a" opacity="0.85"/>
+<text x="16" y="281" font-family="monospace" font-size="12" fill="#e2e8f0">ARC 3 CH 3 - POWER RESTORATION</text>
+</svg>
