@@ -99,7 +99,7 @@ const NumericInputStep: React.FC<NumericInputStepProps> = ({ chartData, onComple
           text-[#e2e8f0]
           placeholder:text-[#94a3b8]
           p-2 rounded-lg
-          w-3/5 my-2 mx-auto text-center
+          w-full max-w-xs my-2 mx-auto text-center
           focus:outline-none focus:ring-2 focus:ring-[#FF6600]
         "
       />
@@ -107,14 +107,14 @@ const NumericInputStep: React.FC<NumericInputStepProps> = ({ chartData, onComple
       <button
         onClick={handleSubmit}
         className="
-          mt-10 px-4 py-2
+          w-full mt-4 px-4 py-4
           bg-[#FF6600] hover:bg-[#e65a00]
           hover:cursor-pointer rounded-lg
           disabled:opacity-50 disabled:cursor-not-allowed
           border-2 border-[#FF6600]
           text-white font-semibold
           tracking-wider uppercase
-          transition duration-200 text-xl
+          transition duration-200 text-lg
         "
         disabled={!value || isSubmitting}
       >

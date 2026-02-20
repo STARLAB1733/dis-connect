@@ -5,6 +5,7 @@ import {
   DndContext,
   closestCorners,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   DragStartEvent,
@@ -40,7 +41,10 @@ export default function DragDropLayoutStep({
   dropZones,
   onComplete,
 }: DragDropLayoutStepProps) {
-  const sensors = useSensors(useSensor(PointerSensor));
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor)
+  );
   const [activeId, setActiveId] = React.useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
@@ -124,10 +128,27 @@ export default function DragDropLayoutStep({
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
         >
-            {/* === Canvas + Palette row === */}
-            <div className="flex flex-1 overflow-hidden">
-                {/* === Drop-zone Canvas === */}
-                <div className="flex-1 p-2 overflow-auto space-y-0.5">
+            {/* === Palette at Top === */}
+            <div className="p-3 border-b border-[#334155]">
+              <h4 className="font-semibold text-sm mb-2 text-[#94a3b8]">Available Items</h4>
+              <SortableContext
+                  items={lists['palette']}
+                  strategy={verticalListSortingStrategy}
+              >
+                  <div className="flex flex-wrap gap-2 text-[#e2e8f0] font-semibold text-sm">
+                  {lists['palette'].map(itemId => (
+                      <SortableItem
+                      key={itemId}
+                      id={itemId}
+                      label={items.find(i => i.id === itemId)!.label}
+                      />
+                  ))}
+                  </div>
+              </SortableContext>
+            </div>
+
+            {/* === Drop Zones (responsive grid) === */}
+            <div className="flex-1 p-3 overflow-auto space-y-2">
                 {dropZones.length >= 4 ? (
                   <>
                     {/* Full-width first zone */}
@@ -137,8 +158,8 @@ export default function DragDropLayoutStep({
                         itemsList={lists[dropZones[0].id]}
                     />
 
-                    {/* Two-column middle panels */}
-                    <div className="grid grid-cols-2 gap-0.5">
+                    {/* Two-column middle panels (responsive: 1 col on mobile, 2 on md+) */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         {[1,2].map(i => {
                         const z = dropZones[i];
                         return (
@@ -170,37 +191,17 @@ export default function DragDropLayoutStep({
                     />
                   ))
                 )}
-                </div>
-
-                {/* === Palette Bar === */}
-                {/* === Palette Bar on the Right === */}
-                <aside className="w-22 rounded-lg">
-                    <h4 className="font-semibold text-sm mb-2">Components</h4>
-                    <SortableContext
-                        items={lists['palette']}
-                        strategy={verticalListSortingStrategy}
-                    >
-                        <div className="flex flex-col space-y-2 text-[#e2e8f0] font-semibold text-sm">
-                        {lists['palette'].map(itemId => (
-                            <SortableItem
-                            key={itemId}
-                            id={itemId}
-                            label={items.find(i => i.id === itemId)!.label}
-                            />
-                        ))}
-                        </div>
-                    </SortableContext>
-                </aside>
-            
-                <DragOverlay>
-                    {activeId && (
-                    <div className="p-2 bg-[#1e293b] border border-[#FF6600] rounded shadow opacity-80 cursor-move text-[#e2e8f0]">
-                        {items.find(i => i.id === activeId)!.label}
-                    </div>
-                    )}
-                </DragOverlay>
             </div>
+
+            <DragOverlay>
+                {activeId && (
+                <div className="p-2 bg-[#1e293b] border border-[#FF6600] rounded shadow opacity-80 cursor-move text-[#e2e8f0]">
+                    {items.find(i => i.id === activeId)!.label}
+                </div>
+                )}
+            </DragOverlay>
         </DndContext>
+
         {/* === Submit Button === */}
         <button
         onClick={() => {
@@ -210,9 +211,10 @@ export default function DragDropLayoutStep({
         }}
         disabled={isSubmitting || lists['palette'].length > 0}
         className="
-          mt-10
+          w-full
+          mt-4
           px-4
-          py-2
+          py-4
           bg-[#FF6600]
           hover:bg-[#e65a00]
           hover:cursor-pointer
@@ -226,7 +228,7 @@ export default function DragDropLayoutStep({
           tracking-wider
           uppercase
           transition duration-200
-          text-xl
+          text-lg
           "
           >
             Submit Layout

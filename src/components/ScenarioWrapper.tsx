@@ -194,7 +194,7 @@ export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcId
   };
 
   return (
-    <div className="space-y-4 space-x-4">
+    <div className="space-y-4">
       {/* Role header (always rendered) */}
       <section className="space-y-1">
         <h2 className="text-xl font-semibold text-[#e2e8f0]">{sub.title}</h2>
