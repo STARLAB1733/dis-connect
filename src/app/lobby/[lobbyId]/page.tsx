@@ -25,6 +25,7 @@ export default function LobbyPage() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [myPlayer, setMyPlayer] = useState<Player | null>(null);
   const [isStarting, setIsStarting] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false);
   const [fullLobbyURL, setFullLobbyURL] = useState<string>('');
   const [lobbyTeamName, setLobbyTeamName] = useState<string | null>(null);
 
@@ -65,9 +66,11 @@ export default function LobbyPage() {
       if (data.teamName) setLobbyTeamName(data.teamName);
       const me = (data.players || []).find((p: Player) => p.uid === userUid) ?? null;
       setMyPlayer(me);
+      setGameStarted(!!data.started);
 
       if (data.started && !isStarting) {
         setIsStarting(true);
+        // Redirect returning players immediately; new visitors become spectators
         setTimeout(() => router.push(`/game/${lobbyId}`), 50);
       }
     });
@@ -132,7 +135,33 @@ export default function LobbyPage() {
 
       {!userUid && <p className="italic text-[#94a3b8] text-center">Initializing...</p>}
 
-      {userUid && !myPlayer && (
+      {/* Game in progress — reconnecting player (known UID) */}
+      {userUid && myPlayer && gameStarted && (
+        <div className="flex flex-col items-center gap-3 mt-8 text-center">
+          <div className="w-8 h-8 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
+          <p className="text-[#FF6600] text-sm uppercase tracking-widest font-semibold">Reconnecting...</p>
+          <p className="text-[#94a3b8] text-xs">Returning you to the active session.</p>
+        </div>
+      )}
+
+      {/* Game in progress — unknown player, block new joins */}
+      {userUid && !myPlayer && gameStarted && (
+        <div className="mt-8 text-center space-y-2 border border-[#334155] rounded-xl p-6">
+          <p className="text-[#FF6600] font-semibold uppercase tracking-widest text-sm">Game in Progress</p>
+          <p className="text-[#94a3b8] text-sm leading-relaxed">
+            This session has already started. New players cannot join mid-game.
+          </p>
+          <button
+            onClick={() => router.push('/')}
+            className="mt-4 px-5 py-2 text-sm text-[#94a3b8] border border-[#334155] rounded-lg hover:border-[#FF6600] hover:text-[#FF6600] transition"
+          >
+            Back to Home
+          </button>
+        </div>
+      )}
+
+      {/* Pre-game — join form for new players */}
+      {userUid && !myPlayer && !gameStarted && (
         <div className="space-y-3 mb-12 mt-6">
           <input
             type="text"
@@ -151,7 +180,7 @@ export default function LobbyPage() {
         </div>
       )}
 
-      {myPlayer && (
+      {myPlayer && !gameStarted && (
         <div className="w-full mt-4">
           <div className="border-y border-[#334155] py-1 border-y-2">
             <h2 className="flex justify-center tracking-wider text-[#94a3b8]">
@@ -169,7 +198,7 @@ export default function LobbyPage() {
         </div>
       )}
 
-      {myPlayer && isHost && (
+      {myPlayer && isHost && !gameStarted && (
         <div className="w-full mt-8 flex flex-col items-center space-y-4">
           <input
             type="text"
@@ -187,7 +216,7 @@ export default function LobbyPage() {
         </div>
       )}
 
-      {myPlayer && !isHost && (
+      {myPlayer && !isHost && !gameStarted && (
         <div className="mt-8 text-center">
           <p className="text-[#94a3b8] uppercase tracking-wider text-sm">Waiting for host to start...</p>
         </div>
