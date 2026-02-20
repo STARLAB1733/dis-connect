@@ -21,6 +21,8 @@ import {
 import Image from 'next/image';
 import { useAudio } from '@/components/AudioProvider';
 
+const ARC_NAMES = ['NDP 2026', 'Exercise Northstar', 'Ops Resilience'];
+
 type LobbyData = {
   players: { uid: string; name: string }[];
   rotationIdx: number;
@@ -323,18 +325,16 @@ export default function GamePage() {
   }
 
   // ── Active scenario ───────────────────────────────────────────────────────
-  const arcNames = ['NDP 2026', 'Exercise Northstar', 'Ops Resilience'];
-
   return (
     <div className="min-h-dvh flex flex-col bg-[#0f172a]">
-      <main className="p-4 max-w-md mx-auto w-full">
+      <main className="p-4 page-container w-full">
         {/* Progress bar */}
         <div className="mb-3">
           <div className="w-full bg-[#334155] h-1.5 rounded-full overflow-hidden">
             <div className="h-1.5 bg-[#FF6600] transition-[width] duration-500" style={{ width: `${percent}%` }} />
           </div>
           <div className="flex justify-between items-center mt-1">
-            <span className="text-xs text-[#94a3b8]">{arcNames[arcIdx]} · Ch {chapterIdx + 1}/{CHAPTERS_PER_ARC}</span>
+            <span className="text-xs text-[#94a3b8]">{ARC_NAMES[arcIdx]} · Ch {chapterIdx + 1}/{CHAPTERS_PER_ARC}</span>
             <div className="flex items-center gap-2">
               <span className="font-mono text-xs text-[#475569] bg-[#1e293b] border border-[#334155] px-2 py-0.5 rounded tracking-widest">{lobbyId}</span>
               <span className="text-xs text-[#94a3b8]">{percent}%</span>
@@ -343,43 +343,43 @@ export default function GamePage() {
         </div>
 
         {/* Role pills */}
-        <div className="flex gap-1.5 mb-4 flex-wrap">
+        <div className="flex gap-1.5 mb-4 flex-wrap game-role-pills">
           {ROLE_KEYS.map(rk => (
             <span
               key={rk}
-              className={`px-2.5 py-1 rounded-full font-semibold transition flex flex-col items-center leading-tight
+              className={`px-2.5 py-1 rounded-full font-semibold transition flex flex-col items-center leading-tight game-role-pill
                 ${myRole === rk ? 'bg-[#FF6600] text-white text-xs' : 'bg-[#1e293b] text-[#94a3b8] text-xs'}`}
             >
               {ROLE_LABELS[rk]}
-              {myRole === rk && (
-                <span className="text-[0.65rem] font-normal opacity-80">{ROLE_SUBTITLES[rk]}</span>
-              )}
+              <span className="text-[0.65rem] font-normal opacity-80">{ROLE_SUBTITLES[rk]}</span>
             </span>
           ))}
         </div>
 
         {/* Chapter image */}
         {scenario.image && (
-          <div className="w-full h-32 sm:h-40 relative mb-4 rounded-lg overflow-hidden">
-            <Image src={scenario.image} alt={scenario.title} fill style={{ objectFit: 'cover' }} priority />
+          <div className="w-full h-32 sm:h-40 relative mb-4 rounded-lg overflow-hidden bg-[#1e293b] game-chapter-image flex items-center justify-center">
+            <Image src={scenario.image} alt={scenario.title} fill sizes="(max-width: 768px) 100vw, 56rem" style={{ objectFit: 'contain' }} priority />
           </div>
         )}
 
         {/* Scenario header */}
-        <header className="bg-[#1e293b] border border-[#334155] rounded-lg p-3 mb-5 text-center">
+        <header className="bg-[#1e293b] border border-[#334155] rounded-lg p-3 mb-5 text-center game-header">
           <h1 className="text-lg font-bold text-[#e2e8f0] pb-1">{scenario.title}</h1>
           <p className="text-sm text-[#94a3b8]">{scenario.description}</p>
         </header>
 
         {/* Scenario content */}
-        <ScenarioWrapper
-          lobbyId={lobbyId}
-          scenario={scenario}
-          role={myRole}
-          onNext={onNext}
-          arcIdx={arcIdx}
-          chapterIdx={chapterIdx}
-        />
+        <div className="scenario-wrapper">
+          <ScenarioWrapper
+            lobbyId={lobbyId}
+            scenario={scenario}
+            role={myRole}
+            onNext={onNext}
+            arcIdx={arcIdx}
+            chapterIdx={chapterIdx}
+          />
+        </div>
       </main>
     </div>
   );

@@ -301,7 +301,7 @@ export default function ResultsPage() {
   const myTeamRank = myTeamName ? teamLeaderboard.findIndex(t => t.teamName === myTeamName) + 1 : null;
 
   return (
-    <main className="max-w-md mx-auto p-4 pb-12">
+    <main className="page-container p-4 pb-12">
 
       {/* 1. Score + Team — single unified card */}
       <section className="mb-6 pt-4">
@@ -430,7 +430,7 @@ export default function ResultsPage() {
       {/* 4. Vocation breakdown chart */}
       <section className="mb-8">
         <h2 className="text-sm uppercase tracking-wider text-[#94a3b8] mb-3">Vocation Breakdown</h2>
-        <div className="w-full h-44 bg-[#1e293b] rounded-lg p-3">
+        <div className="w-full h-44 chart-container bg-[#1e293b] rounded-lg p-3">
           <Bar data={barData} options={barOptions} />
         </div>
       </section>
@@ -439,17 +439,16 @@ export default function ResultsPage() {
       <section className="text-center mb-6">
         <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-2">Your Decision Style</p>
         {identity.svgPath && (
-          <div className="w-full h-48 sm:h-60 relative max-w-md mb-4">
+          <div className="w-full h-48 sm:h-60 relative mx-auto mb-4 persona-image">
             <Image src={identity.svgPath} alt={identity.name} fill style={{ objectFit: 'contain' }} priority />
           </div>
         )}
-        <h2 className="text-2xl font-bold mb-2">{identity.name}</h2>
         <p className="text-[#cbd5e1] text-center">{identity.description}</p>
       </section>
 
       {/* 6. Radar chart */}
       <section className="mb-8">
-        <div className="w-full h-72">
+        <div className="w-full h-72 radar-container">
           <Radar data={radarData} options={radarOptions} />
         </div>
       </section>

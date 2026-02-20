@@ -114,7 +114,7 @@ export default function LobbyPage() {
   }
 
   return (
-    <main className="min-h-dvh flex flex-col text-white p-4 sm:p-6 max-w-md mx-auto">
+    <main className="min-h-dvh flex flex-col text-white p-4 sm:p-6 page-container">
       <h1 className="text-2xl font-semibold text-center tracking-wider text-[#FF6600] mb-2">
         LOBBY : <span className="font-mono font-normal">{lobbyId}</span>
       </h1>

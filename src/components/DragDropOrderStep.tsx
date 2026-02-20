@@ -38,7 +38,9 @@ function shuffleArray<T>(arr: T[]): T[] {
 export default function DragDropOrderStep({ items, onComplete }: DragDropOrderStepProps) {
   const sensors = useSensors(
     useSensor(PointerSensor),
-    useSensor(TouchSensor)
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 200, tolerance: 8 },
+    })
   );
   const [activeId, setActiveId] = React.useState<string | null>(null);
   const [order, setOrder] = React.useState<string[]>(() =>
@@ -51,13 +53,15 @@ export default function DragDropOrderStep({ items, onComplete }: DragDropOrderSt
   };
   const handleDragEnd = (e: DragEndEvent) => {
     const { active, over } = e;
-    if (active.id !== over?.id) {
+    if (over && active.id !== over.id) {
       const oldIndex = order.indexOf(active.id as string);
-      const newIndex = order.indexOf(over!.id as string);
-      const next = Array.from(order);
-      next.splice(oldIndex, 1);
-      next.splice(newIndex, 0, active.id as string);
-      setOrder(next);
+      const newIndex = order.indexOf(over.id as string);
+      if (oldIndex !== -1 && newIndex !== -1) {
+        const next = Array.from(order);
+        next.splice(oldIndex, 1);
+        next.splice(newIndex, 0, active.id as string);
+        setOrder(next);
+      }
     }
     setActiveId(null);
   };

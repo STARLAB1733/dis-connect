@@ -14,12 +14,6 @@
   --color-foreground: var(--foreground);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0f172a;
-    --foreground: #e2e8f0;
-  }
-}
 
 html, body {
   background: var(--background);
@@ -40,3 +34,106 @@ html, body {
     transform: scale(1.3);
   }
 }
+
+.page-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 28rem;  /* same as max-w-md */
+  transition: max-width 300ms ease;
+}
+
+[data-device="desktop"] .page-container {
+  max-width: 56rem;  /* same as max-w-4xl */
+}
+
+[data-device="desktop"] .chart-container {
+  height: 20rem;   /* expands bar chart from h-44 (176px) */
+}
+
+[data-device="desktop"] .radar-container {
+  height: 28rem;   /* expands radar chart from h-72 (288px) */
+}
+
+/* Game page role pills — Mobile & Desktop */
+.game-role-pills {
+  display: flex;
+  justify-content: space-around;
+  gap: 0.75rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+/* Desktop: 3-column grid with larger pills */
+[data-device="desktop"] .game-role-pills {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  justify-items: stretch;
+}
+
+[data-device="desktop"] .game-role-pill {
+  padding: 0.625rem 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+[data-device="desktop"] .game-chapter-image {
+  height: 22rem;
+}
+
+[data-device="desktop"] .game-chapter-image img {
+  object-fit: contain;
+}
+
+[data-device="desktop"] .game-header {
+  padding: 2rem;
+}
+
+[data-device="desktop"] .game-header h1 {
+  font-size: 1.875rem;  /* text-3xl */
+}
+
+[data-device="desktop"] .game-header p {
+  font-size: 1rem;  /* text-base */
+}
+
+[data-device="desktop"] .scenario-wrapper {
+  padding: 2rem 1.5rem;
+}
+
+[data-device="desktop"] .persona-image {
+  height: 22rem;
+  max-width: 36rem;
+}
+
+/* Drag-drop layout optimization for desktop */
+[data-device="desktop"] .drag-drop-layout-container {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+[data-device="desktop"] .drag-drop-palette {
+  border-bottom: none;
+  border-right: 1px solid #334155;
+  padding-right: 1rem;
+  min-height: 100%;
+}
+
+[data-device="desktop"] .drag-drop-palette-items {
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+[data-device="desktop"] .drag-drop-zones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+[data-device="desktop"] .drag-drop-zone-full {
+  grid-column: 1 / -1;
+}
+

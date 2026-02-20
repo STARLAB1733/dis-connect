@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Sans } from "next/font/google";
 import "./globals.css";
 import { AudioProvider } from "@/components/AudioProvider";
+import { DeviceToggle } from "@/components/DeviceToggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,11 +30,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} ${noto.variable} antialiased`}>
         <AudioProvider>
           {children}
         </AudioProvider>
+        <DeviceToggle />
       </body>
     </html>
   );
