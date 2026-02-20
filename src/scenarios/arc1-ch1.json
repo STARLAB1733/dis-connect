@@ -1,7 +1,7 @@
 {
   "id": "arc1-ch1",
   "title": "NDP 2026: T-Minus 3 Weeks",
-  "description": "The NDP committee just approved a brand new parade segment and they want a companion app feature for 40,000 attendees. Your team has 3 weeks to ship it. No pressure.",
+  "description": "The NDP committee just approved a brand new parade segment and they want a companion app feature for 40,000 attendees. You have 3 weeks to ship it.",
   "image": "/chapters/arc1-ch1.svg",
   "arc": 0,
   "chapter": 0,
@@ -11,7 +11,7 @@
       "variant": "order",
       "title": "Plan the Parade App Feature",
       "instruction": "The NDP app needs a live camera overlay so spectators can point their phone at parade floats and see fun facts pop up. You need to plan how the team builds this. Put these steps in the right order so the feature ships on time without breaking the existing app.",
-      "hint": "In any project, agree on the shared plan before building, and always test the trickiest part early before committing to the full build.",
+      "hint": "What happens if two teams build the same feature at the same time without talking? When should you test the hardest part?",
       "items": [
         { "id": "api-spec", "label": "Write a shared rulebook so the frontend and backend teams can build in parallel without stepping on each other" },
         { "id": "ar-prototype", "label": "Build a quick test to see if the phone camera can actually recognise the parade floats" },
@@ -29,7 +29,7 @@
       "type": "numeric-input",
       "title": "Forecast App Downloads",
       "instruction": "Marketing needs to know how many people will download the app in the week before NDP so they can prepare enough server space. Downloads spike closer to the event. Based on the last 4 weeks of download data (in thousands), predict the total downloads (in thousands) for the final week before NDP.",
-      "hint": "Look at how much the number grows each week. The jump keeps getting bigger — extend that pattern one more step.",
+      "hint": "Downloads are climbing as the event gets closer. How fast is that climb accelerating?",
       "chartData": [8, 15, 28, 52],
       "expected": 95,
       "tolerance": 25,
@@ -42,11 +42,11 @@
       "type": "binary-choice",
       "title": "Pick a Hosting Plan",
       "instruction": "The NDP app feature needs a cloud hosting plan that can handle massive traffic on the actual day but not waste money sitting idle the other 364 days. What's your approach?",
-      "hint": "For something that's only busy one day a year, the smartest choice is usually the one that costs the least when nobody's using it.",
+      "hint": "Your budget has to cover 364 days of waiting plus 1 day of peak load. What matters most — upfront cost, ongoing costs, or reliability?",
       "options": [
         {
           "id": "serverless",
-          "label": "Pay-per-use hosting — costs nothing when idle, scales up automatically on NDP day. The trade-off: the very first users each hour might wait an extra 2 seconds for the system to wake up.",
+          "label": "Pay-per-use hosting costs nothing when idle and scales up automatically on NDP day, but the very first users each hour might wait an extra 2 seconds for the system to wake up.",
           "axisImpact": { "Cost-Conscious": 1, "Innovation": 0.5, "Speed": -0.3 }
         },
         {

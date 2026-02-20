@@ -11,7 +11,7 @@
       "variant": "order",
       "title": "Rescue the Database",
       "instruction": "The live database just got wiped. You need to restore it before 40,000 people show up expecting a working app. Put the rescue steps in the right order. One wrong move and you lose data permanently.",
-      "hint": "In a data emergency, stop things getting worse first, then understand the damage, then restore, then verify — never skip straight to fixing.",
+      "hint": "In a crisis: first, make sure nothing else gets destroyed. Then figure out what you've lost. Then fix it. Then double-check before you switch it live.",
       "items": [
         { "id": "stop-writes", "label": "Immediately stop all new data from being written so nothing else gets corrupted" },
         { "id": "assess-damage", "label": "Compare the current state against the backup to see exactly what was lost" },

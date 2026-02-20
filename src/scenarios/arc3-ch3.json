@@ -11,7 +11,7 @@
       "variant": "order",
       "title": "Run the Power Restoration Sequence",
       "instruction": "Automated scripts will bring each station back online safely — but they must run in the right sequence or you risk overloading the healthy parts of the grid. Put the restoration steps in order.",
-      "hint": "Before restoring power, make absolutely sure the stations are clean. Then restore the main backbone before the branches — and always restore hospitals and critical services before homes.",
+      "hint": "The whole grid depends on the main transmission lines. Hospitals and emergency services come before residential areas. Test before you go full-scale.",
       "items": [
         { "id": "verify-clean", "label": "Confirm every compromised station has been wiped and is definitely clean" },
         { "id": "restore-backbone", "label": "Bring back the main transmission stations that supply power to multiple zones" },
@@ -26,7 +26,7 @@
       "type": "numeric-input",
       "title": "Find the Safe Restoration Speed",
       "instruction": "Restoring power too fast can overload the lines and cause another blackout. Based on safety tests over the last 4 hours (percentage of normal load the grid safely handled), predict the maximum safe percentage of power you can restore per hour without risking a cascade failure.",
-      "hint": "The safe load percentage is growing each hour by a similar amount. Extend the trend one more step forward.",
+      "hint": "The grid can safely handle more power each hour. How much did the capacity grow between hours 1 and 2? Between 2 and 3? 3 and 4?",
       "chartData": [10, 22, 38, 51],
       "expected": 65,
       "tolerance": 12,

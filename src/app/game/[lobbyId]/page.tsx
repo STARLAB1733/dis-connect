@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { auth, db, initAuth } from '@/lib/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { doc, onSnapshot, updateDoc, serverTimestamp } from 'firebase/firestore';
@@ -50,20 +50,20 @@ export default function GamePage() {
   const { switchBgm, playSfx } = useAudio();
   const [skipReady, setSkipReady] = useState(false);
   const [promoteReady, setPromoteReady] = useState(false);
-  // Persists for the whole game session: once host has manually skipped once,
-  // all future dropped players in subsequent chapters are skipped automatically.
-  const hasEverSkippedRef = useRef(false);
+  // UIDs that have been explicitly skipped at least once — confirmed dropouts.
+  // Only these players are auto-skipped in subsequent chapters; active players are never touched.
+  const knownDropoutsRef = useRef<Set<string>>(new Set());
   // Ref to always-current skipMissingPlayers so effects can call it without stale closure
   const doSkipRef = useRef<(() => Promise<void>) | null>(null);
 
   // ── Derive values safely (lobby may be null at hook time) ─────────────────
-  const players = lobby?.players || [];
+  const players = useMemo(() => lobby?.players || [], [lobby]);
   const arcIdx = lobby?.arcIdx ?? 0;
   const chapterIdx = lobby?.chapterIdx ?? 0;
   const rotationIdx = lobby?.rotationIdx ?? 0;
   const chapterKey = `${arcIdx}-${chapterIdx}`;
   const myIdx = user ? players.findIndex(p => p.uid === user.uid) : -1;
-  const roundAnswers = lobby?.roundAnswers || {};
+  const roundAnswers = useMemo(() => lobby?.roundAnswers || {}, [lobby]);
   const iHaveAnswered = !!(user && (submittedForRef.current === chapterKey || roundAnswers[user.uid]));
   const isHost = players.length > 0 && players[0]?.uid === user?.uid;
   const allAnswered = players.length > 0 && allPlayersAnswered(roundAnswers, players.map(p => p.uid));
@@ -98,22 +98,28 @@ export default function GamePage() {
     setPromoteReady(false);
   }, [chapterKey]);
 
-  // Skip timer: 30s on first dropout; instant on subsequent chapters if host already skipped once
+  // Skip timer: fires after this player has answered but others haven't.
+  // Uses a 5s delay when the only pending players are confirmed dropouts (fast auto-advance),
+  // otherwise 30s (gives active players time to answer before the host sees the skip button).
   useEffect(() => {
     if (!iHaveAnswered || allAnswered) return;
-    if (hasEverSkippedRef.current) {
-      setSkipReady(true);
-      return;
-    }
-    const t = setTimeout(() => setSkipReady(true), 30_000);
+    const pendingUids = players.map(p => p.uid).filter(uid => !roundAnswers[uid]);
+    const onlyKnownDropouts =
+      pendingUids.length > 0 && pendingUids.every(uid => knownDropoutsRef.current.has(uid));
+    const delay = onlyKnownDropouts ? 5_000 : 30_000;
+    const t = setTimeout(() => setSkipReady(true), delay);
     return () => clearTimeout(t);
-  }, [iHaveAnswered, allAnswered, chapterKey]);
+  }, [iHaveAnswered, allAnswered, chapterKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Auto-execute skip when ready and host has skipped before (no button needed)
+  // Auto-execute skip when skipReady AND every still-pending player is a confirmed dropout.
+  // This ensures active players (who just haven't answered yet) are never force-skipped.
   useEffect(() => {
-    if (!skipReady || !isHost || !hasEverSkippedRef.current) return;
-    doSkipRef.current?.();
-  }, [skipReady, isHost]);
+    if (!skipReady || !isHost) return;
+    const pendingUids = players.map(p => p.uid).filter(uid => !roundAnswers[uid]);
+    const onlyKnownDropouts =
+      pendingUids.length > 0 && pendingUids.every(uid => knownDropoutsRef.current.has(uid));
+    if (onlyKnownDropouts) doSkipRef.current?.();
+  }, [skipReady, isHost, players, roundAnswers]);
 
   // Promote timer: 30s after all answered but host hasn't advanced
   useEffect(() => {
@@ -201,14 +207,17 @@ export default function GamePage() {
     });
   };
 
-  // Host-only: mark pending players as answered to unblock the chapter
+  // Host-only: mark pending players as answered to unblock the chapter,
+  // and record their UIDs as confirmed dropouts so subsequent chapters auto-skip them.
   const skipMissingPlayers = async () => {
     const pendingUids = players.map(p => p.uid).filter(uid => !roundAnswers[uid]);
     if (pendingUids.length === 0) return;
     const updates: Record<string, true> = {};
-    pendingUids.forEach(uid => { updates[`roundAnswers.${uid}`] = true; });
+    pendingUids.forEach(uid => {
+      updates[`roundAnswers.${uid}`] = true;
+      knownDropoutsRef.current.add(uid);
+    });
     await updateDoc(doc(db, 'lobbies', lobbyId), updates);
-    hasEverSkippedRef.current = true;
   };
   // Keep ref current so the auto-skip effect always calls the latest version
   doSkipRef.current = skipMissingPlayers;
@@ -230,7 +239,7 @@ export default function GamePage() {
         <div className="relative min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
           <div className="text-[#FF6600] text-4xl">✓</div>
           <p className="text-[#e2e8f0] text-lg font-semibold tracking-wider text-center">
-            All agents reporting in.
+            All guardians reporting in.
           </p>
           <p className="text-[#94a3b8] text-sm text-center">
             {next.finished
@@ -283,7 +292,7 @@ export default function GamePage() {
       <div className="relative min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
         <div className="w-12 h-12 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
         <p className="text-[#94a3b8] text-center tracking-wider text-sm uppercase">
-          Waiting for other agents...
+          Waiting for other guardians...
         </p>
         <div className="flex gap-2 flex-wrap justify-center">
           {players.map(p => (
@@ -299,12 +308,12 @@ export default function GamePage() {
         </div>
         {skipReady && isHost && (
           <div className="mt-4 flex flex-col items-center gap-2">
-            <p className="text-[#94a3b8] text-xs text-center">Some agents appear to be offline.</p>
+            <p className="text-[#94a3b8] text-xs text-center">Some guardians appear to be offline.</p>
             <button
               onClick={skipMissingPlayers}
               className="px-6 py-3 bg-[#1e293b] border border-[#334155] text-[#94a3b8] rounded-lg text-sm font-semibold tracking-wider uppercase transition hover:border-[#FF6600] hover:text-[#FF6600]"
             >
-              Skip Offline Agents
+              Skip Offline Guardians
             </button>
           </div>
         )}
