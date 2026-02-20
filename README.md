@@ -96,7 +96,3 @@ ME4 Anthony Tan · ME4 Wilson Gwee · ME4 Keith Chew
 Music by Matthew Pablo · CC BY 3.0 · opengameart.org
 
 ---
-
-## Recruitment
-
-Interested in joining the DIS? [Find out more](https://www.dis.gov.sg/careers/military-domain-experts-scheme/c4-expert/)
