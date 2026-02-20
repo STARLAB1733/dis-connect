@@ -42,6 +42,7 @@ export default function DragDropLayoutStep({
 }: DragDropLayoutStepProps) {
   const sensors = useSensors(useSensor(PointerSensor));
   const [activeId, setActiveId] = React.useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   // one list per zone + palette
   const [lists, setLists] = React.useState<Record<string,string[]>>(() => {
@@ -127,34 +128,48 @@ export default function DragDropLayoutStep({
             <div className="flex flex-1 overflow-hidden">
                 {/* === Drop-zone Canvas === */}
                 <div className="flex-1 p-2 overflow-auto space-y-0.5">
-                {/* Full-width first zone */}
-                <Container
-                    id={dropZones[0].id}
-                    label={'Area 1'}
-                    itemsList={lists[dropZones[0].id]}
-                />
+                {dropZones.length >= 4 ? (
+                  <>
+                    {/* Full-width first zone */}
+                    <Container
+                        id={dropZones[0].id}
+                        label={'Area 1'}
+                        itemsList={lists[dropZones[0].id]}
+                    />
 
-                {/* Two-column middle panels */}
-                <div className="grid grid-cols-2 gap-0.5">
-                    {[1,2].map(i => {
-                    const z = dropZones[i];
-                    return (
-                        <Container
-                        key={z.id}
-                        id={z.id}
-                        label={'Area ' + (i+1).toString()}
-                        itemsList={lists[z.id]}
-                        />
-                    );
-                    })}
-                </div>
+                    {/* Two-column middle panels */}
+                    <div className="grid grid-cols-2 gap-0.5">
+                        {[1,2].map(i => {
+                        const z = dropZones[i];
+                        return (
+                            <Container
+                            key={z.id}
+                            id={z.id}
+                            label={'Area ' + (i+1).toString()}
+                            itemsList={lists[z.id]}
+                            />
+                        );
+                        })}
+                    </div>
 
-                {/* Full-width last zone */}
-                <Container
-                    id={dropZones[3].id}
-                    label={'Area 4'}
-                    itemsList={lists[dropZones[3].id]}
-                />
+                    {/* Full-width last zone */}
+                    <Container
+                        id={dropZones[3].id}
+                        label={'Area 4'}
+                        itemsList={lists[dropZones[3].id]}
+                    />
+                  </>
+                ) : (
+                  /* Fallback: render all zones in a stack */
+                  dropZones.map((z, i) => (
+                    <Container
+                      key={z.id}
+                      id={z.id}
+                      label={'Area ' + (i + 1)}
+                      itemsList={lists[z.id]}
+                    />
+                  ))
+                )}
                 </div>
 
                 {/* === Palette Bar === */}
@@ -188,8 +203,12 @@ export default function DragDropLayoutStep({
         </DndContext>
         {/* === Submit Button === */}
         <button
-        onClick={() => onComplete(lists)}
-        disabled={lists['palette'].length > 0}
+        onClick={() => {
+          if (isSubmitting || lists['palette'].length > 0) return;
+          setIsSubmitting(true);
+          onComplete(lists);
+        }}
+        disabled={isSubmitting || lists['palette'].length > 0}
         className="
           mt-10
           px-4

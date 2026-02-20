@@ -1,7 +1,7 @@
 // src/components/ScenarioWrapper.tsx
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
@@ -29,7 +29,8 @@ type Props = {
 
 export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcIdx, chapterIdx }: Props) {
   const [user] = useAuthState(auth);
-  const sub: SubScenario = scenario.subScenarios[role];
+  const [hintShown, setHintShown] = useState(false);
+  const sub: SubScenario | undefined = scenario.subScenarios[role];
 
    /**
    * handleComplete is called with different `result` shapes:
@@ -38,6 +39,14 @@ export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcId
    *  - For numeric‐input: result is `{ userValue: number }`
    *  - For binary‐choice: result is the chosen `optionId: string`
    */
+  if (!sub) {
+    return (
+      <div className="rounded-lg border border-[#334155] p-4 text-center">
+        <p className="text-[#94a3b8] text-sm">No task assigned for your role in this chapter.</p>
+      </div>
+    );
+  }
+
    const handleComplete = async (result: unknown) => {
     if (!user) return;
 
@@ -160,7 +169,14 @@ export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcId
       }
     }
 
-    // 4) Finally, write to Firestore using weightedImpact
+    // 4) Apply hint penalty if the hint was revealed (–30%)
+    if (hintShown) {
+      Object.keys(weightedImpact).forEach(axis => {
+        weightedImpact[axis] = (weightedImpact[axis] ?? 0) * 0.7;
+      });
+    }
+
+    // 5) Finally, write to Firestore using weightedImpact
     await addDoc(collection(db, 'lobbies', lobbyId, 'logs'), {
       playerId: user.uid,
       role,
@@ -169,6 +185,7 @@ export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcId
       chapterIdx: chapterIdx ?? 0,
       result,
       axisImpact: weightedImpact,
+      hintUsed: hintShown,
       timestamp: serverTimestamp(),
     });
 
@@ -183,6 +200,26 @@ export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcId
         <h2 className="text-xl font-semibold text-[#e2e8f0]">{sub.title}</h2>
         <p className="text-sm text-[#94a3b8] italic whitespace-pre-line">{sub.instruction}</p>
       </section>
+
+      {/* Hint system */}
+      {sub.hint && (
+        <div className="rounded-lg border border-[#334155] overflow-hidden">
+          {!hintShown ? (
+            <button
+              onClick={() => setHintShown(true)}
+              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-[#94a3b8] hover:text-[#FF6600] hover:bg-[#1e293b] transition text-left"
+            >
+              <span>💡</span>
+              <span>Show hint <span className="text-xs opacity-70">(−30% score for this chapter)</span></span>
+            </button>
+          ) : (
+            <div className="px-3 py-2 bg-[#1e293b]">
+              <p className="text-xs text-[#FF6600] font-semibold mb-1">💡 Hint <span className="text-[#94a3b8] font-normal">(−30% applied)</span></p>
+              <p className="text-sm text-[#cbd5e1]">{sub.hint}</p>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Scenario body */}
       {sub.type === 'drag-drop' && (

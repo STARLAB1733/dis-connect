@@ -11,6 +11,7 @@ type BinaryChoiceStepProps = {
 
 export default function BinaryChoiceStep({ options, onComplete }: BinaryChoiceStepProps) {
   const [selected, setSelected] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <div className="flex flex-col h-full space-y-4">
@@ -49,8 +50,12 @@ export default function BinaryChoiceStep({ options, onComplete }: BinaryChoiceSt
       </div>
 
       <button
-        onClick={() => selected && onComplete(selected)}
-        disabled={!selected}
+        onClick={() => {
+          if (!selected || isSubmitting) return;
+          setIsSubmitting(true);
+          onComplete(selected);
+        }}
+        disabled={!selected || isSubmitting}
         className="
           mt-10 px-4 py-2
           bg-[#FF6600] hover:bg-[#e65a00]

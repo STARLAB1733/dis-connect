@@ -1,7 +1,7 @@
 {
   "id": "arc1-ch4",
   "title": "NDP 2026: Showtime",
-  "description": "The show is live. 40,000 in the stands, millions watching from home. Then the livestream starts stuttering. You have 20 minutes before the fireworks finale. The whole nation is watching.",
+  "description": "The show is live. 40,000 in the stands, millions watching from home. Then the livestream starts buffering. You have 20 minutes before the fireworks finale. The whole nation is watching.",
   "image": "/chapters/arc1-ch4.svg",
   "arc": 0,
   "chapter": 3,
@@ -9,34 +9,36 @@
     "software-engineer": {
       "type": "binary-choice",
       "title": "Fix the Livestream",
-      "instruction": "The video feed is dropping frames and buffering every few seconds. Millions of viewers are complaining on social media. Your monitoring shows the video encoding pipeline is the bottleneck. You have exactly 20 minutes before the fireworks. What do you do?",
+      "instruction": "The video is freezing every few seconds and millions of viewers are complaining. The video processing pipeline is the bottleneck. You have exactly 20 minutes before the fireworks. What do you do?",
+      "hint": "When millions are watching and time is very short, a solution that works for everyone at lower quality beats a risky perfect fix that might fail during deployment.",
       "options": [
         {
           "id": "reduce-quality",
-          "label": "Drop the stream quality from 4K to 1080p. Viewers get a smooth experience but the committee specifically wanted 4K for the drone formation segment coming up.",
+          "label": "Drop stream quality from 4K to 1080p. Everyone gets a smooth experience instantly, but the committee specifically wanted 4K for the drone formation coming up.",
           "axisImpact": { "Speed": 1, "Stability": 0.8, "Performance-First": -0.5 }
         },
         {
           "id": "parallel-encode",
-          "label": "Spin up parallel encoding nodes to split the workload. Risky because it takes 10 of your 20 minutes to deploy and test, but if it works the quality stays perfect.",
+          "label": "Start extra processing machines to share the workload. Risky — it takes 10 of your 20 minutes to set up and test, but if it works, quality stays perfect.",
           "axisImpact": { "Innovation": 1, "Performance-First": 0.8, "Stability": -0.3 }
         },
         {
           "id": "cdn-switch",
-          "label": "Switch to a backup CDN provider that has better capacity in Southeast Asia. Fast to switch but you lose your custom player analytics integration.",
+          "label": "Switch to a backup content delivery network with better capacity in Southeast Asia. Quick to do but you lose some viewer statistics in the process.",
           "axisImpact": { "Speed": 0.8, "Collaboration": 0.5, "Autonomy": -0.5 }
         },
         {
           "id": "adaptive-bitrate",
-          "label": "Enable adaptive bitrate streaming so each viewer gets the best quality their connection can handle. Some see 4K, some see 720p, but nobody buffers.",
+          "label": "Turn on smart streaming that gives each viewer the best quality their internet can handle. Some see 4K, some see lower quality, but nobody's video freezes.",
           "axisImpact": { "Innovation": 0.8, "Collaboration": 0.3, "Performance-First": 0.5 }
         }
       ]
     },
     "data-scientist": {
       "type": "numeric-input",
-      "title": "Predict Viewer Dropoff",
-      "instruction": "Social media complaints are spiking and viewers are leaving the livestream. Based on the viewer count trend over the last 4 minutes (in thousands), predict how many viewers (in thousands) will still be watching in 5 minutes if you do nothing. This number determines how urgently the team needs to act.",
+      "title": "Predict Viewer Drop-off",
+      "instruction": "Viewers are leaving the livestream because of the buffering. Based on the viewer count trend over the last 4 minutes (in thousands), predict how many viewers (in thousands) will still be watching in 5 minutes if nothing is done. This tells the team how urgently they need to act.",
+      "hint": "Look at how many viewers are leaving per minute. The number leaving each minute is roughly the same — extend that trend 5 minutes forward.",
       "chartData": [850, 780, 690, 610],
       "expected": 480,
       "tolerance": 80,
@@ -48,14 +50,15 @@
     "cloud-engineer": {
       "type": "drag-drop",
       "variant": "order",
-      "title": "Emergency Traffic Reroute",
-      "instruction": "The primary streaming servers in Singapore are overwhelmed. You need to execute an emergency traffic redistribution across your regional infrastructure. Put these steps in the right order. One misstep and you knock the stream offline completely.",
+      "title": "Reroute the Traffic",
+      "instruction": "The main streaming servers are overwhelmed. You need to spread the load across backup servers around the region. Put these steps in the right order. One wrong move and the stream goes offline completely.",
+      "hint": "Never move traffic to a destination you haven't checked is ready. Always verify, prepare, then gradually shift — never all at once.",
       "items": [
-        { "id": "health-check", "label": "Run health checks on all regional backup servers to confirm they're ready" },
-        { "id": "dns-update", "label": "Update DNS records to distribute traffic across multiple regions" },
-        { "id": "warm-cache", "label": "Pre warm the CDN caches on backup servers with the livestream segments" },
-        { "id": "gradual-shift", "label": "Gradually shift 30% of traffic to backup servers to test stability" },
-        { "id": "full-balance", "label": "Enable full load balancing across all healthy servers once confirmed stable" }
+        { "id": "health-check", "label": "Check that all backup servers in other regions are healthy and ready to receive traffic" },
+        { "id": "dns-update", "label": "Update the internet address book to point traffic to multiple regions" },
+        { "id": "warm-cache", "label": "Pre-load the backup servers with the latest video segments so viewers don't hit empty servers" },
+        { "id": "gradual-shift", "label": "Move 30% of traffic to backup servers first as a test run" },
+        { "id": "full-balance", "label": "Once confirmed stable, spread traffic evenly across all healthy servers" }
       ],
       "correctOrder": ["health-check", "warm-cache", "dns-update", "gradual-shift", "full-balance"],
       "axisImpact": {

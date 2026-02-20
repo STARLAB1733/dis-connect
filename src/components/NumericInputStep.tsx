@@ -22,8 +22,10 @@ type NumericInputStepProps = {
 const NumericInputStep: React.FC<NumericInputStepProps> = ({ chartData, onComplete }) => {
   const [value, setValue] = useState('');
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = () => {
+    if (isSubmitting) return;
     const num = parseFloat(value);
     if (isNaN(num)) {
       setError('Please enter a number.');
@@ -34,6 +36,7 @@ const NumericInputStep: React.FC<NumericInputStepProps> = ({ chartData, onComple
       return;
     }
     setError('');
+    setIsSubmitting(true);
     onComplete({ userValue: num });
   };
 
@@ -113,7 +116,7 @@ const NumericInputStep: React.FC<NumericInputStepProps> = ({ chartData, onComple
           tracking-wider uppercase
           transition duration-200 text-xl
         "
-        disabled={!value}
+        disabled={!value || isSubmitting}
       >
         Submit
       </button>

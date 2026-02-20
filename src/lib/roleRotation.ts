@@ -8,8 +8,14 @@ export type RoleKey = typeof ROLE_KEYS[number];
 
 export const ROLE_LABELS: Record<RoleKey, string> = {
   'software-engineer': 'Software Engineer',
-  'data-scientist': 'Data Science & AI',
+  'data-scientist': 'Data Engineer',
   'cloud-engineer': 'Cloud Engineer',
+};
+
+export const ROLE_SUBTITLES: Record<RoleKey, string> = {
+  'software-engineer': 'System Crafter',
+  'data-scientist': 'Insight Architect',
+  'cloud-engineer': 'Infrastructure Guardian',
 };
 
 export const NUM_ARCS = 3;
