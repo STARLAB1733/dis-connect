@@ -302,59 +302,32 @@ export default function ResultsPage() {
 
   return (
     <main className="max-w-md mx-auto p-4 pb-12">
-      {/* Vocation Recommendation */}
-      <section className="text-center mb-8 pt-4">
-        <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-2">Your recommended C4X vocation</p>
-        <h1 className="text-3xl font-bold text-[#FF6600] mb-1">{vocation.label}</h1>
-        <p className="text-sm text-[#94a3b8]">Based on 12 chapters across 3 story arcs</p>
-        <p className="text-lg font-semibold text-[#e2e8f0] mt-2">Score: <span className="text-[#FF6600]">{myResult.totalScore}</span></p>
-      </section>
 
-      {/* Team result banner */}
-      {myTeamName && myTeamEntry && (
-        <section className="mb-6 bg-[#1e293b] border border-[#FF6600]/30 rounded-xl p-4 text-center">
-          <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-1">Your Team</p>
-          <p className="text-xl font-bold text-[#FF6600]">{myTeamName}</p>
-          <p className="text-[#e2e8f0] text-sm mt-1">
-            Team Score: <span className="font-bold text-[#FF6600]">{myTeamEntry.totalScore}</span>
-            <span className="text-[#94a3b8] ml-2">· {myTeamEntry.playerCount} player{myTeamEntry.playerCount !== 1 ? 's' : ''}</span>
-          </p>
-          {myTeamRank && myTeamRank <= 3 && (
-            <p className={`text-2xl font-bold mt-1 ${medalColour(myTeamRank - 1)}`}>
-              #{myTeamRank} Team 🏆
-            </p>
-          )}
-        </section>
-      )}
-
-      {/* Vocation breakdown chart */}
-      <section className="mb-8">
-        <h2 className="text-sm uppercase tracking-wider text-[#94a3b8] mb-3">Vocation Breakdown</h2>
-        <div className="w-full h-36 bg-[#1e293b] rounded-lg p-3">
-          <Bar data={barData} options={barOptions} />
+      {/* 1. Score + Team banner */}
+      <section className="mb-6 pt-4">
+        <div className="bg-[#1e293b] border border-[#334155] rounded-xl p-5 text-center">
+          <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-1">Your Score</p>
+          <p className="text-5xl font-bold text-[#FF6600]">{myResult.totalScore}</p>
+          <p className="text-xs text-[#94a3b8] mt-1">Based on 12 chapters across 3 story arcs</p>
         </div>
-      </section>
-
-      {/* Persona archetype */}
-      <section className="text-center mb-6">
-        <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-2">Your Decision Style</p>
-        {identity.svgPath && (
-          <div className="w-full h-60 relative max-w-md mb-4">
-            <Image src={identity.svgPath} alt={identity.name} fill style={{ objectFit: 'contain' }} priority />
+        {myTeamName && myTeamEntry && (
+          <div className="mt-2 bg-[#1e293b] border border-[#FF6600]/30 rounded-xl p-4 text-center">
+            <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-1">Your Team</p>
+            <p className="text-xl font-bold text-[#FF6600]">{myTeamName}</p>
+            <p className="text-[#e2e8f0] text-sm mt-1">
+              Team Score: <span className="font-bold text-[#FF6600]">{myTeamEntry.totalScore}</span>
+              <span className="text-[#94a3b8] ml-2">· {myTeamEntry.playerCount} player{myTeamEntry.playerCount !== 1 ? 's' : ''}</span>
+            </p>
+            {myTeamRank && myTeamRank <= 3 && (
+              <p className={`text-2xl font-bold mt-1 ${medalColour(myTeamRank - 1)}`}>
+                #{myTeamRank} Team 🏆
+              </p>
+            )}
           </div>
         )}
-        <h2 className="text-2xl font-bold mb-2">{identity.name}</h2>
-        <p className="text-[#cbd5e1] text-center">{identity.description}</p>
       </section>
 
-      {/* Radar chart */}
-      <section className="mb-8">
-        <div className="w-full h-60">
-          <Radar data={radarData} options={radarOptions} />
-        </div>
-      </section>
-
-      {/* Leaderboard with tabs */}
+      {/* 2. Leaderboard with tabs */}
       {(teamLeaderboard.length > 0 || individualLeaderboard.length > 0) && (
         <section className="mb-8">
           <div className="flex mb-3 bg-[#1e293b] rounded-lg p-1">
@@ -440,7 +413,40 @@ export default function ResultsPage() {
         </section>
       )}
 
-      {/* Recruitment CTA */}
+      {/* 3. Recommended vocation */}
+      <section className="text-center mb-8">
+        <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-2">Your recommended C4X vocation</p>
+        <h1 className="text-3xl font-bold text-[#FF6600]">{vocation.label}</h1>
+      </section>
+
+      {/* 4. Vocation breakdown chart */}
+      <section className="mb-8">
+        <h2 className="text-sm uppercase tracking-wider text-[#94a3b8] mb-3">Vocation Breakdown</h2>
+        <div className="w-full h-36 bg-[#1e293b] rounded-lg p-3">
+          <Bar data={barData} options={barOptions} />
+        </div>
+      </section>
+
+      {/* 5. Persona archetype */}
+      <section className="text-center mb-6">
+        <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-2">Your Decision Style</p>
+        {identity.svgPath && (
+          <div className="w-full h-60 relative max-w-md mb-4">
+            <Image src={identity.svgPath} alt={identity.name} fill style={{ objectFit: 'contain' }} priority />
+          </div>
+        )}
+        <h2 className="text-2xl font-bold mb-2">{identity.name}</h2>
+        <p className="text-[#cbd5e1] text-center">{identity.description}</p>
+      </section>
+
+      {/* 6. Radar chart */}
+      <section className="mb-8">
+        <div className="w-full h-60">
+          <Radar data={radarData} options={radarOptions} />
+        </div>
+      </section>
+
+      {/* 7. Recruitment CTA */}
       <section className="mb-6 bg-[#1e293b] border border-[#334155] rounded-xl p-5 text-center space-y-3">
         <p className="text-xs text-[#94a3b8] uppercase tracking-widest">Think you have what it takes?</p>
         <p className="text-[#e2e8f0] text-sm leading-relaxed">
