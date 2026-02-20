@@ -114,7 +114,7 @@ export default function LobbyPage() {
   }
 
   return (
-    <main className="min-h-dvh flex flex-col text-white p-6 max-w-md mx-auto">
+    <main className="min-h-dvh flex flex-col text-white p-4 sm:p-6 max-w-md mx-auto">
       <h1 className="text-2xl font-semibold text-center tracking-wider text-[#FF6600] mb-2">
         LOBBY : <span className="font-mono font-normal">{lobbyId}</span>
       </h1>
@@ -167,7 +167,7 @@ export default function LobbyPage() {
           </p>
           <button
             onClick={() => router.push('/')}
-            className="mt-4 px-5 py-2 text-sm text-[#94a3b8] border border-[#334155] rounded-lg hover:border-[#FF6600] hover:text-[#FF6600] transition"
+            className="mt-4 px-5 py-3 text-sm text-[#94a3b8] border border-[#334155] rounded-lg hover:border-[#FF6600] hover:text-[#FF6600] transition"
           >
             Back to Home
           </button>
@@ -176,7 +176,7 @@ export default function LobbyPage() {
 
       {/* Pre-game — join form for new players */}
       {userUid && !myPlayer && !gameStarted && (
-        <div className="space-y-3 mb-12 mt-6">
+        <div className="space-y-3 mb-6 sm:mb-12 mt-6">
           <input
             type="text"
             value={name}
@@ -187,7 +187,7 @@ export default function LobbyPage() {
           <button
             onClick={joinLobby}
             disabled={!name.trim()}
-            className="flex items-center mx-auto text-[#FF6600] uppercase tracking-wide text-lg underline underline-offset-6 hover:text-[#ff7a1a] hover:cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed font-semibold"
+            className="flex items-center mx-auto py-3 px-6 text-[#FF6600] uppercase tracking-wide text-lg underline underline-offset-6 hover:text-[#ff7a1a] hover:cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed font-semibold"
           >
             &gt;&gt; JOIN &gt;&gt;
           </button>
@@ -203,7 +203,7 @@ export default function LobbyPage() {
           </div>
           <ul className="mt-2 space-y-2 text-center">
             {players.map((p, idx) => (
-              <li key={p.uid} className="text-[#94a3b8] text-md">
+              <li key={p.uid} className="text-[#94a3b8] text-base">
                 {p.name}
                 {idx === 0 && <span className="text-[#FF6600] text-xs ml-2">(HOST)</span>}
               </li>
@@ -219,7 +219,7 @@ export default function LobbyPage() {
             value={teamName}
             onChange={e => setTeamName(e.target.value)}
             placeholder="Team name (optional)"
-            className="w-full border-2 border-[#334155] text-[#e2e8f0] placeholder:text-[#94a3b8]/60 bg-transparent py-2 px-4 rounded-lg text-center tracking-widest text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6600]"
+            className="w-full border-2 border-[#334155] text-[#e2e8f0] placeholder:text-[#94a3b8]/60 bg-transparent py-3 px-4 rounded-lg text-center tracking-widest text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6600]"
           />
           <button
             onClick={startGame}
@@ -245,14 +245,14 @@ export default function LobbyPage() {
               <h2 className="text-xl font-semibold text-[#FF6600] tracking-wider">HOW TO PLAY</h2>
               <button
                 onClick={() => setShowHowToPlay(false)}
-                className="text-[#94a3b8] hover:text-[#FF6600] text-2xl font-light"
+                className="p-2 text-[#94a3b8] hover:text-[#FF6600] text-2xl font-light"
               >
                 ✕
               </button>
             </div>
 
             {/* Content */}
-            <div className="px-6 py-6 space-y-6 text-[#e2e8f0] text-sm leading-relaxed">
+            <div className="px-4 sm:px-6 py-4 sm:py-6 space-y-6 text-[#e2e8f0] text-sm leading-relaxed">
               <section>
                 <h3 className="text-[#FF6600] font-semibold text-base mb-2">🎮 THE GAME</h3>
                 <p className="text-[#94a3b8]">
@@ -311,7 +311,7 @@ export default function LobbyPage() {
             <div className="border-t border-[#334155] px-6 py-4 bg-[#1e293b]/30">
               <button
                 onClick={() => setShowHowToPlay(false)}
-                className="w-full px-4 py-2 bg-[#FF6600] hover:bg-[#e65a00] text-white rounded-lg font-semibold text-sm tracking-wider transition"
+                className="w-full px-4 py-3 bg-[#FF6600] hover:bg-[#e65a00] text-white rounded-lg font-semibold text-sm tracking-wider transition"
               >
                 GOT IT
               </button>

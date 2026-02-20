@@ -30,10 +30,10 @@ export default function HomePage() {
 
   return (
     <main className="min-h-dvh flex flex-col max-w-md mx-auto px-4">
-      <div className="flex-1 flex flex-col items-center justify-center gap-12">
+      <div className="flex-1 flex flex-col items-center justify-center gap-6 sm:gap-12">
         <h1 className="text-center">
-          <span className="text-7xl font-bold text-[#FF6600] font-sans">DIS</span>
-          <span className="text-6xl font-bold text-[#94a3b8] font-sans">Connect</span>
+          <span className="text-5xl sm:text-7xl font-bold text-[#FF6600] font-sans">DIS</span>
+          <span className="text-4xl sm:text-6xl font-bold text-[#94a3b8] font-sans">Connect</span>
         </h1>
 
         <p className="text-center text-sm text-[#94a3b8] tracking-wider italic max-w-xs">
@@ -49,7 +49,7 @@ export default function HomePage() {
                 hover:cursor-pointer
                 text-white font-semibold
                 rounded-lg tracking-wider uppercase
-                transition duration-200 text-2xl
+                transition duration-200 text-lg sm:text-2xl
               "
             >
               CREATE LOBBY
@@ -87,14 +87,14 @@ export default function HomePage() {
 
             <button
               onClick={() => router.push('/leaderboard')}
-              className="text-[#94a3b8] hover:text-[#FF6600] text-sm uppercase tracking-wider transition"
+              className="py-3 px-2 text-[#94a3b8] hover:text-[#FF6600] text-sm uppercase tracking-wider transition"
             >
               View Leaderboard
             </button>
           </div>
       </div>
 
-      <footer className="text-center space-y-1 py-5 text-[#475569] text-[0.7rem]">
+      <footer className="text-center space-y-1 py-3 sm:py-5 text-[#475569] text-[0.7rem]">
         <p className="text-[#64748b] tracking-widest uppercase font-medium">DISConnect v2.0</p>
         <p>ME4 Anthony Tan · ME4 Wilson Gwee · ME4 Keith Chew</p>
         <p className="text-[#3d5068]">Music by Matthew Pablo · CC BY 3.0 · opengameart.org</p>

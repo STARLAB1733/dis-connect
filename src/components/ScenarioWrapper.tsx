@@ -207,7 +207,7 @@ export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcId
           {!hintShown ? (
             <button
               onClick={() => setHintShown(true)}
-              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-[#94a3b8] hover:text-[#FF6600] hover:bg-[#1e293b] transition text-left"
+              className="w-full flex items-center gap-2 px-3 py-3 text-sm text-[#94a3b8] hover:text-[#FF6600] hover:bg-[#1e293b] transition text-left"
             >
               <span>💡</span>
               <span>Show hint <span className="text-xs opacity-70">(−30% score for this chapter)</span></span>

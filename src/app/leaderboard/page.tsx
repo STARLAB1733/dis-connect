@@ -40,9 +40,9 @@ function LeaderboardContent() {
     i === 0 ? 'text-yellow-400' : i === 1 ? 'text-slate-300' : i === 2 ? 'text-amber-600' : 'text-[#94a3b8]';
 
   return (
-    <main className="min-h-dvh max-w-lg mx-auto p-4 pb-12">
+    <main className="min-h-dvh max-w-md mx-auto p-4 pb-12">
       <div className="flex items-center justify-between mb-6 pt-4">
-        <button onClick={() => router.push('/')} className="text-[#94a3b8] hover:text-[#FF6600] text-sm tracking-wide transition">← Back</button>
+        <button onClick={() => router.push('/')} className="py-3 pr-4 text-[#94a3b8] hover:text-[#FF6600] text-sm tracking-wide transition">← Back</button>
         <h1 className="text-xl font-bold text-[#FF6600] tracking-widest uppercase">Leaderboard</h1>
         <div className="w-12" />
       </div>
@@ -51,13 +51,13 @@ function LeaderboardContent() {
       <div className="flex mb-4 bg-[#1e293b] rounded-lg p-1">
         <button
           onClick={() => setTab('team')}
-          className={`flex-1 py-2 text-sm font-semibold rounded-md transition ${tab === 'team' ? 'bg-[#FF6600] text-white' : 'text-[#94a3b8] hover:text-[#e2e8f0]'}`}
+          className={`flex-1 py-3 text-sm font-semibold rounded-md transition ${tab === 'team' ? 'bg-[#FF6600] text-white' : 'text-[#94a3b8] hover:text-[#e2e8f0]'}`}
         >
           🏆 Team Rankings
         </button>
         <button
           onClick={() => setTab('individual')}
-          className={`flex-1 py-2 text-sm font-semibold rounded-md transition ${tab === 'individual' ? 'bg-[#FF6600] text-white' : 'text-[#94a3b8] hover:text-[#e2e8f0]'}`}
+          className={`flex-1 py-3 text-sm font-semibold rounded-md transition ${tab === 'individual' ? 'bg-[#FF6600] text-white' : 'text-[#94a3b8] hover:text-[#e2e8f0]'}`}
         >
           👤 Individual
         </button>
@@ -77,7 +77,7 @@ function LeaderboardContent() {
                 <tr className="border-b border-[#334155]">
                   <th className="text-left p-3 text-[#94a3b8] w-8">#</th>
                   <th className="text-left p-3 text-[#94a3b8]">Team</th>
-                  <th className="text-center p-3 text-[#94a3b8]">Players</th>
+                  <th className="text-center p-3 text-[#94a3b8] hidden sm:table-cell">Players</th>
                   <th className="text-right p-3 text-[#94a3b8]">Total</th>
                 </tr>
               </thead>
@@ -89,7 +89,7 @@ function LeaderboardContent() {
                       <p className="text-[#e2e8f0] font-semibold">{t.teamName}</p>
                       <p className="text-[#94a3b8] text-xs">avg {t.avgScore} / player</p>
                     </td>
-                    <td className="p-3 text-center text-[#94a3b8]">{t.playerCount}</td>
+                    <td className="p-3 text-center text-[#94a3b8] hidden sm:table-cell">{t.playerCount}</td>
                     <td className="p-3 text-right text-[#FF6600] font-bold text-base">{t.totalScore}</td>
                   </tr>
                 ))}
@@ -107,7 +107,7 @@ function LeaderboardContent() {
                 <tr className="border-b border-[#334155]">
                   <th className="text-left p-3 text-[#94a3b8] w-8">#</th>
                   <th className="text-left p-3 text-[#94a3b8]">Player</th>
-                  <th className="text-right p-3 text-[#94a3b8]">Score</th>
+                  <th className="text-right p-3 text-[#94a3b8] hidden sm:table-cell">Score</th>
                 </tr>
               </thead>
               <tbody>
@@ -119,7 +119,7 @@ function LeaderboardContent() {
                       {e.teamName && <p className="text-[#94a3b8] text-xs">{e.teamName}</p>}
                       <p className="text-[#94a3b8] text-xs">{e.vocation}</p>
                     </td>
-                    <td className="p-3 text-right text-[#FF6600] font-bold">{e.score}</td>
+                    <td className="p-3 text-right text-[#FF6600] font-bold hidden sm:table-cell">{e.score}</td>
                   </tr>
                 ))}
               </tbody>
