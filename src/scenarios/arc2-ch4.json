@@ -1,0 +1,70 @@
+{
+  "id": "arc2-ch4",
+  "title": "Exercise Northstar: After Action",
+  "description": "The exercise is over. Command wants a data-driven report analysing unit readiness, decision speed, and logistics efficiency. Your analysis will shape how the SAF trains for the next 5 years.",
+  "image": "/chapters/arc2-ch4.svg",
+  "arc": 1,
+  "chapter": 3,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "binary-choice",
+      "title": "Build the Review Tool",
+      "instruction": "The generals want an interactive tool that lets them replay the entire exercise — scrolling through a timeline like a video player to see how decisions played out with data on screen. How do you build it?",
+      "hint": "Think about the trade-off between giving commanders something rich and interactive versus something simpler that can be shared widely and is ready sooner.",
+      "options": [
+        {
+          "id": "timeline-replay",
+          "label": "Build a full replay tool with the actual map, unit movements, and decision markers. Takes 2 weeks but commanders can rewatch the entire exercise with data annotations.",
+          "axisImpact": { "Performance-First": 1, "Innovation": 0.8, "Speed": -0.5 }
+        },
+        {
+          "id": "static-report",
+          "label": "Generate a report with charts, key-moment screenshots, and auto-generated insights. Done in 3 days and easy to share as a document. But no interactive replay.",
+          "axisImpact": { "Speed": 1, "Cost-Conscious": 0.5, "Innovation": -0.3 }
+        },
+        {
+          "id": "ai-highlights",
+          "label": "Use AI to automatically find the 20 most critical moments and generate a short analysis for each. Novel approach but the AI might miss events that don't look dramatic in the data.",
+          "axisImpact": { "Innovation": 1, "Speed": 0.5, "Precision": -0.3 }
+        },
+        {
+          "id": "collaborative-tool",
+          "label": "Build a shared tool where unit commanders can mark up the timeline with their own observations. Richer insights from multiple people but takes time to collect everyone's input.",
+          "axisImpact": { "Collaboration": 1, "Precision": 0.5, "Speed": -0.5 }
+        }
+      ]
+    },
+    "data-scientist": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Calculate Unit Readiness Scores",
+      "instruction": "You have mountains of exercise data: GPS tracks, supply requests, radio logs, decision timestamps. The generals want a single readiness score for each unit. Put the analysis steps in the right order to produce credible results.",
+      "hint": "Bad data makes bad scores. Agree on the definition before you calculate anything. Then verify your results against what actually happened.",
+      "items": [
+        { "id": "clean-data", "label": "Clean the raw data by removing sensor errors and duplicate entries" },
+        { "id": "define-metrics", "label": "Agree with the exercise planners on what 'readiness' actually means and how to measure it" },
+        { "id": "compute-scores", "label": "Calculate a readiness score for each unit using the agreed definition" },
+        { "id": "cross-validate", "label": "Compare the scores against what human observers reported to catch any mistakes" },
+        { "id": "present-findings", "label": "Show the results to command with charts and an honest note on how confident you are in the numbers" }
+      ],
+      "correctOrder": ["clean-data", "define-metrics", "compute-scores", "cross-validate", "present-findings"],
+      "axisImpact": {
+        "Precision": 1,
+        "Collaboration": 0.5
+      }
+    },
+    "cloud-engineer": {
+      "type": "numeric-input",
+      "title": "Work Out How Much Storage You Need",
+      "instruction": "The exercise data needs to be archived for future training analysis. Based on how much data was generated each day (in terabytes) over the last 4 days of the exercise, estimate the total storage (in terabytes) needed to archive the full 14-day exercise — including an extra 30% for file indexes and metadata.",
+      "hint": "The exercise ran for 14 days total, and you need to account for metadata and redundancy on top of the raw data.",
+      "chartData": [2, 3, 5, 8],
+      "expected": 78,
+      "tolerance": 20,
+      "axisImpact": {
+        "Cost-Conscious": 1,
+        "Precision": 0.5
+      }
+    }
+  }
+}

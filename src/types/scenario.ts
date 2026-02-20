@@ -32,6 +32,8 @@ export interface DragDropLayoutScenario {
   variant: 'layout';
   title: string;
   instruction: string;
+  hint?: string;
+  vocationType?: string;
   items: DragItem[];
   correctOrder?: string[]; // Optional, for validation
   dropZones: LayoutZone[];
@@ -46,6 +48,8 @@ export interface DragDropOrderScenario {
   variant: 'order';
   title: string;
   instruction: string;
+  hint?: string;
+  vocationType?: string;
   items: DragItem[];
   correctOrder?: string[];
   axisImpact?: AxisImpact;
@@ -58,6 +62,8 @@ export interface NumericInputScenario {
   type: 'numeric-input';
   title: string;
   instruction: string;
+  hint?: string;
+  vocationType?: string;
   chartData: number[];
   expected: number;
   tolerance: number;
@@ -80,6 +86,8 @@ export interface BinaryChoiceScenario {
   type: 'binary-choice';
   title: string;
   instruction: string;
+  hint?: string;
+  vocationType?: string;
   options: BinaryChoiceOption[];
 }
 
@@ -93,11 +101,35 @@ export type SubScenario =
   | BinaryChoiceScenario;
 
 /**
+ * Leaderboard configuration for a scenario round.
+ */
+export interface LeaderboardConfig {
+  enabled: boolean;
+  roundLabel: string;
+  rankTitle: string;
+  isFinalRound?: boolean;
+}
+
+/**
  * Top-level Scenario, mapping each role (key) to a SubScenario definition.
+ * Supports DIS/C4X mission-based progression with round ordering,
+ * story context, and leaderboard tracking.
  */
 export interface Scenario {
   id: string;
   title: string;
   description: string;
+  /** Path to chapter illustration (e.g. "/chapters/arc1-ch1.svg") */
+  image?: string;
+  /** Arc index (0, 1, or 2) */
+  arc?: number;
+  /** Chapter index within an arc (0-3) */
+  chapter?: number;
+  /** Mission round number (1-4) for progressive difficulty */
+  round?: number;
+  /** Narrative story context shown before the mission begins */
+  storyContext?: string;
+  /** Leaderboard configuration for team ranking */
+  leaderboard?: LeaderboardConfig;
   subScenarios: Record<string, SubScenario>;
 }

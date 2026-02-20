@@ -1,0 +1,83 @@
+{
+  "id": "arc1-ch3",
+  "title": "NDP 2026: Morning of the Show",
+  "description": "NDP morning. A contractor accidentally ran a script that wiped the production database. You have 3 hours before the gates open. The last backup is 6 hours old. Go.",
+  "image": "/chapters/arc1-ch3.svg",
+  "arc": 0,
+  "chapter": 2,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Rescue the Database",
+      "instruction": "The live database just got wiped. You need to restore it before 40,000 people show up expecting a working app. Put the rescue steps in the right order. One wrong move and you lose data permanently.",
+      "hint": "In a crisis: first, make sure nothing else gets destroyed. Then figure out what you've lost. Then fix it. Then double-check before you switch it live.",
+      "items": [
+        { "id": "stop-writes", "label": "Immediately stop all new data from being written so nothing else gets corrupted" },
+        { "id": "assess-damage", "label": "Compare the current state against the backup to see exactly what was lost" },
+        { "id": "restore-backup", "label": "Restore from the 6-hour-old backup into a test environment first, not live" },
+        { "id": "replay-logs", "label": "Replay the record of actions from the last 6 hours to recover the most recent changes" },
+        { "id": "verify-switch", "label": "Run checks to confirm everything looks right, then switch the live app over to the restored database" }
+      ],
+      "correctOrder": ["stop-writes", "assess-damage", "restore-backup", "replay-logs", "verify-switch"],
+      "axisImpact": {
+        "Precision": 1,
+        "Stability": 0.8
+      }
+    },
+    "data-scientist": {
+      "type": "binary-choice",
+      "title": "Recover the Lost Data",
+      "instruction": "The wiped database included 6 hours of user activity that marketing needs for their NDP social media campaign. The raw records still exist in a separate system but they're messy and unprocessed. What's your plan?",
+      "hint": "Something useful delivered in time beats something perfect delivered too late — but think about whether the data is even still relevant.",
+      "options": [
+        {
+          "id": "rebuild-full",
+          "label": "Rebuild the full dataset from raw records. Takes 2 hours but gives marketing complete and accurate data for their campaign.",
+          "axisImpact": { "Precision": 1, "Stability": 0.5, "Speed": -0.5 }
+        },
+        {
+          "id": "estimate-stats",
+          "label": "Use a sample of the records to estimate the missing numbers in 30 minutes. Accuracy drops to about 85% but marketing gets something useful in time.",
+          "axisImpact": { "Speed": 1, "Innovation": 0.5, "Precision": -0.3 }
+        },
+        {
+          "id": "focus-forward",
+          "label": "Skip recovery and instead set up better tracking for NDP day itself. The actual show data will be far more valuable than rehearsal week numbers anyway.",
+          "axisImpact": { "Speed": 0.8, "Innovation": 0.8, "Precision": -0.5 }
+        },
+        {
+          "id": "crowdsource-data",
+          "label": "Ask marketing to cross-reference their social media numbers with whatever you can pull from the content delivery logs. Not perfect, but fills the gaps by working together.",
+          "axisImpact": { "Collaboration": 1, "Innovation": 0.5, "Autonomy": -0.3 }
+        }
+      ]
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "layout",
+      "title": "Rebuild the Infrastructure",
+      "instruction": "With the database down, you need to bring the whole system back online fast. Drag each piece to the right slot in the recovery plan. Slot 1 is the very first thing to restore, Slots 2 and 3 run at the same time, and Slot 4 is the final check before going live.",
+      "hint": "The thing everything else depends on must come back first. Think about what the app absolutely cannot work without.",
+      "items": [
+        { "id": "load-balancer", "label": "Traffic Director (spreads visitors across servers)" },
+        { "id": "db-primary", "label": "Main Database (stores all app data)" },
+        { "id": "db-replica", "label": "Backup Database (handles read-only requests)" },
+        { "id": "cache-layer", "label": "Speed Cache (stores frequent answers to avoid hitting the database)" },
+        { "id": "api-servers", "label": "App Servers (handle requests from phones)" },
+        { "id": "monitoring", "label": "Health Monitor (watches everything for problems)" }
+      ],
+      "dropZones": [
+        { "id": "zone-1", "label": "Restore First" },
+        { "id": "zone-2", "label": "Parallel Track A" },
+        { "id": "zone-3", "label": "Parallel Track B" },
+        { "id": "zone-4", "label": "Final Verification" }
+      ],
+      "correctOrder": ["db-primary", "api-servers", "cache-layer", "monitoring"],
+      "axisImpact": {
+        "Stability": 1,
+        "Precision": 0.5
+      }
+    }
+  }
+}

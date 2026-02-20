@@ -1,0 +1,70 @@
+{
+  "id": "arc2-ch2",
+  "title": "Exercise Northstar: D-7",
+  "description": "One week out. Stress testing shows the command screen crashes when more than 500 users connect at once. The exercise will have 3,000. Time to fix this before the generals notice.",
+  "image": "/chapters/arc2-ch2.svg",
+  "arc": 1,
+  "chapter": 1,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "binary-choice",
+      "title": "Fix the Too-Many-Users Problem",
+      "instruction": "The command screen works fine for 500 users but crashes under 3,000. The problem is that each user gets their own private data stream. With 3,000 users that's 3,000 streams all competing for resources. What's your fix?",
+      "hint": "When too many people are sharing a limited resource, either make them share more cleverly or add more of that resource.",
+      "options": [
+        {
+          "id": "connection-pooling",
+          "label": "Group users so 50 share one data stream instead of each getting their own. Cuts server load by 95% but adds a 1-second delay to updates.",
+          "axisImpact": { "Cost-Conscious": 1, "Performance-First": 0.5, "Speed": -0.3 }
+        },
+        {
+          "id": "horizontal-scale",
+          "label": "Add more identical servers and spread users evenly across them. Each server handles 500 users comfortably. More expensive but needs zero code changes in 7 days.",
+          "axisImpact": { "Stability": 1, "Speed": 0.5, "Cost-Conscious": -0.8 }
+        },
+        {
+          "id": "rewrite-async",
+          "label": "Rewrite the connection system to handle thousands of users on a single server using a more efficient approach. One server could handle 10,000+ users, but it's a big rewrite with only 7 days left.",
+          "axisImpact": { "Innovation": 1, "Performance-First": 0.8, "Stability": -0.5 }
+        },
+        {
+          "id": "tiered-access",
+          "label": "Give generals live updates, officers get 10-second delays, everyone else gets 30-second snapshots. Cuts the number of live connections to under 200.",
+          "axisImpact": { "Precision": 0.8, "Cost-Conscious": 0.5, "Collaboration": -0.3 }
+        }
+      ]
+    },
+    "data-scientist": {
+      "type": "numeric-input",
+      "title": "Estimate Peak Active Users",
+      "instruction": "Not all 3,000 exercise participants will be online at the exact same time. Based on login patterns from previous exercises (peak simultaneous users in hundreds), predict the actual maximum number of users (in hundreds) who will be online together during the busiest phase of the exercise.",
+      "hint": "Look at how the peak usage grows from exercise to exercise. The pattern suggests where the next peak will land.",
+      "chartData": [2, 5, 9, 14],
+      "expected": 20,
+      "tolerance": 5,
+      "axisImpact": {
+        "Precision": 1,
+        "Cost-Conscious": 0.5
+      }
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Run the Stress Test",
+      "instruction": "Before fixing the 500-user crash, you need to properly test the system to understand every breaking point. Put the test steps in order.",
+      "hint": "Every good test knows what normal looks like first. Then you figure out when and why it stops working.",
+      "items": [
+        { "id": "baseline", "label": "Record normal performance with 100 simulated users as a starting reference" },
+        { "id": "ramp-up", "label": "Gradually increase to 500 users and note where things start getting slow" },
+        { "id": "break-point", "label": "Push beyond 500 users to find the exact moment the system breaks and how it fails" },
+        { "id": "profile-bottleneck", "label": "Examine server load, memory, and network at the breaking point to find the root cause" },
+        { "id": "fix-and-retest", "label": "Apply the fix and run the entire test again from scratch to confirm the new limit" }
+      ],
+      "correctOrder": ["baseline", "ramp-up", "break-point", "profile-bottleneck", "fix-and-retest"],
+      "axisImpact": {
+        "Precision": 1,
+        "Stability": 0.5
+      }
+    }
+  }
+}

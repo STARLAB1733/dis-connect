@@ -1,0 +1,70 @@
+{
+  "id": "arc1-ch1",
+  "title": "NDP 2026: T-Minus 3 Weeks",
+  "description": "The NDP committee just approved a brand new parade segment and they want a companion app feature for 40,000 attendees. You have 3 weeks to ship it.",
+  "image": "/chapters/arc1-ch1.svg",
+  "arc": 0,
+  "chapter": 0,
+  "subScenarios": {
+    "software-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Plan the Parade App Feature",
+      "instruction": "The NDP app needs a live camera overlay so spectators can point their phone at parade floats and see fun facts pop up. You need to plan how the team builds this. Put these steps in the right order so the feature ships on time without breaking the existing app.",
+      "hint": "What happens if two teams build the same feature at the same time without talking? When should you test the hardest part?",
+      "items": [
+        { "id": "api-spec", "label": "Write a shared rulebook so the frontend and backend teams can build in parallel without stepping on each other" },
+        { "id": "ar-prototype", "label": "Build a quick test to see if the phone camera can actually recognise the parade floats" },
+        { "id": "backend-endpoints", "label": "Set up the behind-the-scenes servers that send float information to people's phones" },
+        { "id": "integration-test", "label": "Test the new feature inside the existing NDP app to catch any conflicts" },
+        { "id": "load-test", "label": "Simulate 40,000 people using the app at once to make sure the servers hold up" }
+      ],
+      "correctOrder": ["api-spec", "ar-prototype", "backend-endpoints", "integration-test", "load-test"],
+      "axisImpact": {
+        "Speed": 1,
+        "Precision": 0.5
+      }
+    },
+    "data-scientist": {
+      "type": "numeric-input",
+      "title": "Forecast App Downloads",
+      "instruction": "Marketing needs to know how many people will download the app in the week before NDP so they can prepare enough server space. Downloads spike closer to the event. Based on the last 4 weeks of download data (in thousands), predict the total downloads (in thousands) for the final week before NDP.",
+      "hint": "Downloads are climbing as the event gets closer. How fast is that climb accelerating?",
+      "chartData": [8, 15, 28, 52],
+      "expected": 95,
+      "tolerance": 25,
+      "axisImpact": {
+        "Precision": 1,
+        "Cost-Conscious": 0.5
+      }
+    },
+    "cloud-engineer": {
+      "type": "binary-choice",
+      "title": "Pick a Hosting Plan",
+      "instruction": "The NDP app feature needs a cloud hosting plan that can handle massive traffic on the actual day but not waste money sitting idle the other 364 days. What's your approach?",
+      "hint": "Your budget has to cover 364 days of waiting plus 1 day of peak load. What matters most — upfront cost, ongoing costs, or reliability?",
+      "options": [
+        {
+          "id": "serverless",
+          "label": "Pay-per-use hosting costs nothing when idle and scales up automatically on NDP day, but the very first users each hour might wait an extra 2 seconds for the system to wake up.",
+          "axisImpact": { "Cost-Conscious": 1, "Innovation": 0.5, "Speed": -0.3 }
+        },
+        {
+          "id": "reserved-burst",
+          "label": "Reserve a set number of servers and add extra capacity just for NDP day. Reliable performance but you're paying for those servers even when they sit idle during the build phase.",
+          "axisImpact": { "Stability": 1, "Performance-First": 0.5, "Cost-Conscious": -0.5 }
+        },
+        {
+          "id": "cdn-edge",
+          "label": "Push everything to servers spread across Singapore so pages load instantly. Great for images and text, but real-time features like the camera overlay might not update as fast.",
+          "axisImpact": { "Speed": 1, "Performance-First": 0.5, "Innovation": -0.3 }
+        },
+        {
+          "id": "hybrid-partner",
+          "label": "Partner with a local cloud provider that already hosts government services. Guaranteed reliability and all data stays in Singapore, but you have less freedom to customise things.",
+          "axisImpact": { "Collaboration": 1, "Stability": 0.5, "Autonomy": -0.5 }
+        }
+      ]
+    }
+  }
+}

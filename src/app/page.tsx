@@ -15,9 +15,7 @@ export default function HomePage() {
   };
 
   const joinLobby = () => {
-    if (!code.trim()) {
-      return;
-    }
+    if (!code.trim()) return;
     setIsLoading(true);
     router.push(`/lobby/${code.trim()}`);
   };
@@ -25,85 +23,82 @@ export default function HomePage() {
   if (isLoading) {
     return (
       <div className="min-h-dvh flex items-center justify-center">
-        <div
-          className="
-            w-12 h-12
-            border-4 border-[#FF6600]
-            border-t-transparent
-            rounded-full
-            animate-spin
-          "
-        />
+        <div className="w-12 h-12 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
-  // Otherwise, show the normal homepage UI:
   return (
-    <main className="min-h-dvh flex flex-col max-w-md mx-auto">
-      {/* Top half */}
-      <div className="flex flex-1 items-center justify-center">
+    <main className="min-h-dvh flex flex-col page-container px-4">
+      <div className="flex-1 flex flex-col items-center justify-center gap-6 sm:gap-12">
         <h1 className="text-center">
-          <span className="text-7xl font-bold text-[#FF6600] font-sans">DIS</span>
-          <span className="text-6xl font-bold text-gray-500 font-sans">Connect</span>
+          <span className="text-5xl sm:text-7xl font-bold text-[#FF6600] font-sans">DIS</span>
+          <span className="text-4xl sm:text-6xl font-bold text-[#94a3b8] font-sans">Connect</span>
         </h1>
-      </div>
 
-      {/* Bottom half */}
-      <div className="flex flex-1 items-start justify-center">
-        <div className="flex flex-col items-center space-y-6 w-full px-4 max-w-sm">
-          <button
-            onClick={createLobby}
-            className="
-              w-full
-              px-6 py-4
-              bg-[#FF6600]
-              hover:bg-[#b34400]
-              hover:cursor-pointer
-              text-black
-              rounded-lg
-              tracking-wider
-              uppercase
-              transition duration-200
-              text-2xl
-              font-semibold
-            "
-          >
-            CREATE LOBBY
-          </button>
+        <p className="text-center text-sm text-[#94a3b8] tracking-wider italic max-w-xs">
+          What kind of Guardian are you? Find out.
+        </p>
 
-          <span className="text-gray-500 font-medium">OR</span>
-
-          <div className="flex w-full max-w-sm mx-auto">
-            <input
-              type="text"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              placeholder="Enter lobby code"
-              className="
-                flex-grow
-                px-4 py-2
-                border
-                rounded-l-lg
-                focus:outline-none
-              "
-            />
+        <div className="flex flex-col items-center space-y-6 w-full max-w-sm">
             <button
-              onClick={joinLobby}
+              onClick={createLobby}
               className="
-                px-4 py-2
-                bg-gray-600 text-white
-                rounded-r-lg
-                hover:bg-gray-800
-                transition duration-200
+                w-full px-6 py-4
+                bg-[#FF6600] hover:bg-[#e65a00]
                 hover:cursor-pointer
+                text-white font-semibold
+                rounded-lg tracking-wider uppercase
+                transition duration-200 text-lg sm:text-2xl
               "
             >
-              Join
+              CREATE LOBBY
+            </button>
+
+            <span className="text-[#94a3b8] font-medium">OR</span>
+
+            <div className="flex w-full max-w-sm mx-auto rounded-lg overflow-hidden border border-[#334155] focus-within:border-[#FF6600] transition-colors">
+              <input
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && joinLobby()}
+                placeholder="Enter lobby code"
+                className="
+                  flex-grow px-4 py-3
+                  bg-[#1e293b]
+                  text-[#e2e8f0] placeholder:text-[#94a3b8]
+                  focus:outline-none
+                "
+              />
+              <button
+                onClick={joinLobby}
+                className="
+                  px-5 py-3
+                  bg-[#334155] text-[#e2e8f0]
+                  hover:bg-[#475569]
+                  transition duration-200 hover:cursor-pointer
+                  font-medium tracking-wide
+                "
+              >
+                Join
+              </button>
+            </div>
+
+            <button
+              onClick={() => router.push('/leaderboard')}
+              className="py-3 px-2 text-[#94a3b8] hover:text-[#FF6600] text-sm uppercase tracking-wider transition"
+            >
+              View Leaderboard
             </button>
           </div>
-        </div>
       </div>
+
+      <footer className="text-center space-y-1 py-3 sm:py-5 text-[#475569] text-[0.7rem]">
+        <p className="text-[#64748b] tracking-widest uppercase font-medium">DISConnect v2.0</p>
+        <p>ME4 Anthony Tan · ME4 Wilson Gwee · ME4 Keith Chew</p>
+        <p className="text-[#3d5068]">Music by Matthew Pablo · CC BY 3.0 · opengameart.org</p>
+      </footer>
     </main>
   );
 }
