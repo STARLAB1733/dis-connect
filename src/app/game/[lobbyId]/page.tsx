@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { auth, db } from '@/lib/firebase';
+import { auth, db, initAuth } from '@/lib/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { doc, onSnapshot, updateDoc, serverTimestamp } from 'firebase/firestore';
 import ScenarioWrapper from '@/components/ScenarioWrapper';
@@ -70,6 +70,9 @@ export default function GamePage() {
   // Only the second player in line gets the promote button
   const myIsNextHost = !isHost && players.length > 1 && players[1]?.uid === user?.uid;
 
+  // Ensure anonymous auth is initialised (handles direct deep-links to /game/*)
+  useEffect(() => { initAuth(); }, []);
+
   // Switch to game BGM on mount, back to lobby on unmount
   useEffect(() => {
     switchBgm('game');
@@ -127,10 +130,20 @@ export default function GamePage() {
   const scenario = getScenario(arcIdx, chapterIdx);
   if (!scenario) return <Spinner />;
 
+  // ── Lobby code badge — shown on every screen for easy reconnection ───────
+  const LobbyCode = () => (
+    <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
+      <p className="text-[0.6rem] text-[#475569] uppercase tracking-widest text-center mb-0.5">Session code</p>
+      <p className="font-mono text-xs text-[#64748b] bg-[#1e293b] border border-[#334155] px-3 py-1 rounded-md tracking-widest">
+        {lobbyId}
+      </p>
+    </div>
+  );
+
   // ── Spectator view: user arrived after game started ───────────────────────
   if (myIdx === -1) {
     return (
-      <div className="min-h-dvh flex flex-col items-center justify-center gap-4 p-6 bg-[#0f172a]">
+      <div className="relative min-h-dvh flex flex-col items-center justify-center gap-4 p-6 bg-[#0f172a]">
         <p className="text-[#FF6600] text-xs uppercase tracking-widest font-semibold">Spectating</p>
         <h1 className="text-xl font-bold text-[#e2e8f0] text-center">{scenario.title}</h1>
         <p className="text-sm text-[#94a3b8] text-center max-w-xs">{scenario.description}</p>
@@ -144,6 +157,7 @@ export default function GamePage() {
         <p className="text-[#94a3b8] text-xs text-center mt-4 max-w-xs">
           You joined after the game started — watch only.
         </p>
+        <LobbyCode />
       </div>
     );
   }
@@ -213,7 +227,7 @@ export default function GamePage() {
     if (isHost) {
       const next = nextChapterState(arcIdx, chapterIdx, rotationIdx);
       return (
-        <div className="min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
+        <div className="relative min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
           <div className="text-[#FF6600] text-4xl">✓</div>
           <p className="text-[#e2e8f0] text-lg font-semibold tracking-wider text-center">
             All agents reporting in.
@@ -229,11 +243,12 @@ export default function GamePage() {
           >
             {next.finished ? 'VIEW RESULTS →' : 'NEXT CHAPTER →'}
           </button>
+          <LobbyCode />
         </div>
       );
     } else {
       return (
-        <div className="min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
+        <div className="relative min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
           <div className="w-12 h-12 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
           <p className="text-[#94a3b8] text-center tracking-wider text-sm uppercase">
             Standby — awaiting next briefing...
@@ -256,6 +271,7 @@ export default function GamePage() {
               </button>
             </div>
           )}
+          <LobbyCode />
         </div>
       );
     }
@@ -264,7 +280,7 @@ export default function GamePage() {
   // ── This player answered, waiting for others ─────────────────────────────
   if (iHaveAnswered) {
     return (
-      <div className="min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
+      <div className="relative min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
         <div className="w-12 h-12 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
         <p className="text-[#94a3b8] text-center tracking-wider text-sm uppercase">
           Waiting for other agents...
@@ -292,6 +308,7 @@ export default function GamePage() {
             </button>
           </div>
         )}
+        <LobbyCode />
       </div>
     );
   }
@@ -307,9 +324,12 @@ export default function GamePage() {
           <div className="w-full bg-[#334155] h-1.5 rounded-full overflow-hidden">
             <div className="h-1.5 bg-[#FF6600] transition-[width] duration-500" style={{ width: `${percent}%` }} />
           </div>
-          <div className="flex justify-between mt-1">
+          <div className="flex justify-between items-center mt-1">
             <span className="text-xs text-[#94a3b8]">{arcNames[arcIdx]} · Ch {chapterIdx + 1}/{CHAPTERS_PER_ARC}</span>
-            <span className="text-xs text-[#94a3b8]">{percent}%</span>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[0.6rem] text-[#475569] bg-[#1e293b] border border-[#334155] px-2 py-0.5 rounded tracking-widest">{lobbyId}</span>
+              <span className="text-xs text-[#94a3b8]">{percent}%</span>
+            </div>
           </div>
         </div>
 
