@@ -44,3 +44,23 @@ export function computePersona(impacts: Impact[]): Record<Axis, number> {
 
   return norm;
 }
+
+/**
+ * Given an array of log entries (each with role + axisImpact),
+ * compute a total score per C4X role. Returns e.g.:
+ * { 'software-engineer': 3.2, 'data-scientist': 2.8, 'cloud-engineer': 1.5 }
+ */
+export function computePerRoleScores(
+  logs: { role: string; axisImpact: Impact }[]
+): Record<string, number> {
+  const scores: Record<string, number> = {};
+  logs.forEach(({ role, axisImpact }) => {
+    if (!scores[role]) scores[role] = 0;
+    const total = Object.values(axisImpact).reduce(
+      (sum, v) => sum + Math.abs(v ?? 0),
+      0
+    );
+    scores[role] += total;
+  });
+  return scores;
+}

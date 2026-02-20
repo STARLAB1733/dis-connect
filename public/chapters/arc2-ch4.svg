@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300">
+<rect width="800" height="300" fill="#0f172a"/>
+<line x1="0" y1="60" x2="800" y2="60" stroke="#1e293b" stroke-width="1"/>
+<line x1="0" y1="120" x2="800" y2="120" stroke="#1e293b" stroke-width="1"/>
+<line x1="0" y1="180" x2="800" y2="180" stroke="#1e293b" stroke-width="1"/>
+<line x1="0" y1="240" x2="800" y2="240" stroke="#1e293b" stroke-width="1"/>
+<line x1="80" y1="0" x2="80" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="160" y1="0" x2="160" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="240" y1="0" x2="240" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="320" y1="0" x2="320" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="400" y1="0" x2="400" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="480" y1="0" x2="480" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="560" y1="0" x2="560" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="640" y1="0" x2="640" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="720" y1="0" x2="720" y2="300" stroke="#1e293b" stroke-width="1"/>
+<rect x="0" y="0" width="800" height="22" fill="#1e293b" opacity="0.95"/>
+<text x="10" y="15" font-family="monospace" font-size="11" fill="#e2e8f0">AFTER ACTION REPORT - EX LION HEART - D+1 TO D+5</text>
+<text x="640" y="15" font-family="monospace" font-size="10" fill="#FF6600">CLASSIF: EX ONLY</text>
+<rect x="10" y="30" width="240" height="250" fill="#1e293b" stroke="#334155" stroke-width="1" rx="2"/>
+<text x="20" y="47" font-family="monospace" font-size="11" fill="#e2e8f0">SERVICE UPTIME (%)</text>
+<line x1="20" y1="51" x2="240" y2="51" stroke="#334155" stroke-width="1.0" opacity="0.40"/>
+<text x="20" y="70" font-family="monospace" font-size="8" fill="#94a3b8">C2-SYS</text>
+<rect x="80" y="58" width="180" height="16" fill="#0f172a" rx="1"/>
+<rect x="80" y="58" width="174" height="16" fill="#22c55e" rx="1" opacity="0.75"/>
+<text x="268" y="70" font-family="monospace" font-size="8" fill="#22c55e">97%</text>
+<text x="20" y="94" font-family="monospace" font-size="8" fill="#94a3b8">COMMS</text>
+<rect x="80" y="82" width="180" height="16" fill="#0f172a" rx="1"/>
+<rect x="80" y="82" width="147" height="16" fill="#FF6600" rx="1" opacity="0.75"/>
+<text x="268" y="94" font-family="monospace" font-size="8" fill="#FF6600" font-weight="bold">82%</text>
+<text x="20" y="118" font-family="monospace" font-size="8" fill="#94a3b8">INTEL</text>
+<rect x="80" y="106" width="180" height="16" fill="#0f172a" rx="1"/>
+<rect x="80" y="106" width="163" height="16" fill="#22c55e" rx="1" opacity="0.75"/>
+<text x="268" y="118" font-family="monospace" font-size="8" fill="#22c55e">91%</text>
+<text x="20" y="142" font-family="monospace" font-size="8" fill="#94a3b8">LOG-SYS</text>
+<rect x="80" y="130" width="180" height="16" fill="#0f172a" rx="1"/>
+<rect x="80" y="130" width="140" height="16" fill="#FF6600" rx="1" opacity="0.75"/>
+<text x="268" y="142" font-family="monospace" font-size="8" fill="#FF6600" font-weight="bold">78%</text>
+<text x="20" y="166" font-family="monospace" font-size="8" fill="#94a3b8">MEDEVAC</text>
+<rect x="80" y="154" width="180" height="16" fill="#0f172a" rx="1"/>
+<rect x="80" y="154" width="178" height="16" fill="#22c55e" rx="1" opacity="0.75"/>
+<text x="268" y="166" font-family="monospace" font-size="8" fill="#22c55e">99%</text>
+<text x="20" y="190" font-family="monospace" font-size="8" fill="#94a3b8">FIRE-CTL</text>
+<rect x="80" y="178" width="180" height="16" fill="#0f172a" rx="1"/>
+<rect x="80" y="178" width="158" height="16" fill="#FF6600" rx="1" opacity="0.75"/>
+<text x="268" y="190" font-family="monospace" font-size="8" fill="#FF6600">88%</text>
+<text x="20" y="214" font-family="monospace" font-size="8" fill="#94a3b8">GPS-NAV</text>
+<rect x="80" y="202" width="180" height="16" fill="#0f172a" rx="1"/>
+<rect x="80" y="202" width="171" height="16" fill="#22c55e" rx="1" opacity="0.75"/>
+<text x="268" y="214" font-family="monospace" font-size="8" fill="#22c55e">95%</text>
+<text x="20" y="238" font-family="monospace" font-size="8" fill="#94a3b8">SATCOM</text>
+<rect x="80" y="226" width="180" height="16" fill="#0f172a" rx="1"/>
+<rect x="80" y="226" width="127" height="16" fill="#FF6600" rx="1" opacity="0.75"/>
+<text x="268" y="238" font-family="monospace" font-size="8" fill="#FF6600" font-weight="bold">71%</text>
+<rect x="260" y="30" width="285" height="250" fill="#1e293b" stroke="#334155" stroke-width="1" rx="2"/>
+<text x="270" y="47" font-family="monospace" font-size="11" fill="#e2e8f0">INCIDENTS / HOUR</text>
+<line x1="270" y1="51" x2="535" y2="51" stroke="#334155" stroke-width="1.0" opacity="0.40"/>
+<line x1="272" y1="240" x2="272" y2="60" stroke="#334155" stroke-width="1.0" opacity="0.50"/>
+<line x1="272" y1="240" x2="538" y2="240" stroke="#334155" stroke-width="1.0" opacity="0.50"/>
+<line x1="269" y1="240" x2="272" y2="240" stroke="#334155" stroke-width="1.0"/>
+<text x="250" y="244" font-family="monospace" font-size="7" fill="#94a3b8">0</text>
+<line x1="269" y1="195" x2="272" y2="195" stroke="#334155" stroke-width="1.0"/>
+<text x="250" y="199" font-family="monospace" font-size="7" fill="#94a3b8">5</text>
+<line x1="269" y1="150" x2="272" y2="150" stroke="#334155" stroke-width="1.0"/>
+<text x="250" y="154" font-family="monospace" font-size="7" fill="#94a3b8">10</text>
+<line x1="269" y1="105" x2="272" y2="105" stroke="#334155" stroke-width="1.0"/>
+<text x="250" y="109" font-family="monospace" font-size="7" fill="#94a3b8">15</text>
+<line x1="269" y1="60" x2="272" y2="60" stroke="#334155" stroke-width="1.0"/>
+<text x="250" y="64" font-family="monospace" font-size="7" fill="#94a3b8">20</text>
+<path d="M 272 240 L 272 231 L 278 213 L 285 114 L 292 78 L 299 132 L 306 168 L 312 204 L 319 222 L 326 222 L 333 195 L 340 159 L 347 96 L 353 60 L 360 105 L 367 177 L 374 213 L 381 231 L 387 222 L 394 186 L 401 141 L 408 114 L 415 150 L 422 195 L 428 222 L 435 240 L 442 231 L 449 213 L 456 177 L 462 159 L 469 186 L 476 213 L 483 231 L 490 240 L 497 231 L 503 222 L 510 204 L 517 195 L 524 213 L 531 222 L 538 231 L 538 240 Z" stroke="#FF6600" stroke-width="0.0" fill="#FF6600" opacity="0.15"/>
+<path d="M 272 231 L 278 213 L 285 114 L 292 78 L 299 132 L 306 168 L 312 204 L 319 222 L 326 222 L 333 195 L 340 159 L 347 96 L 353 60 L 360 105 L 367 177 L 374 213 L 381 231 L 387 222 L 394 186 L 401 141 L 408 114 L 415 150 L 422 195 L 428 222 L 435 240 L 442 231 L 449 213 L 456 177 L 462 159 L 469 186 L 476 213 L 483 231 L 490 240 L 497 231 L 503 222 L 510 204 L 517 195 L 524 213 L 531 222 L 538 231 " stroke="#FF6600" stroke-width="1.5" fill="none" opacity="0.90"/>
+<circle cx="353" cy="60" r="4.0" fill="#FF6600"/>
+<text x="333" y="52" font-family="monospace" font-size="8" fill="#FF6600" font-weight="bold">PEAK 20</text>
+<text x="291" y="250" font-family="monospace" font-size="7" fill="#94a3b8">D+1</text>
+<text x="345" y="250" font-family="monospace" font-size="7" fill="#94a3b8">D+2</text>
+<text x="400" y="250" font-family="monospace" font-size="7" fill="#94a3b8">D+3</text>
+<text x="454" y="250" font-family="monospace" font-size="7" fill="#94a3b8">D+4</text>
+<text x="509" y="250" font-family="monospace" font-size="7" fill="#94a3b8">D+5</text>
+<rect x="555" y="30" width="230" height="250" fill="#1e293b" stroke="#334155" stroke-width="1" rx="2"/>
+<text x="565" y="47" font-family="monospace" font-size="11" fill="#e2e8f0">EX METRICS</text>
+<line x1="565" y1="51" x2="775" y2="51" stroke="#334155" stroke-width="1.0" opacity="0.40"/>
+<text x="565" y="69" font-family="monospace" font-size="9" fill="#94a3b8">MTTR</text>
+<text x="690" y="69" font-family="monospace" font-size="10" fill="#FF6600" font-weight="bold">4h 22m</text>
+<text x="565" y="93" font-family="monospace" font-size="9" fill="#94a3b8">MTBF</text>
+<text x="690" y="93" font-family="monospace" font-size="10" fill="#22c55e" font-weight="bold">18h 44m</text>
+<text x="565" y="117" font-family="monospace" font-size="9" fill="#94a3b8">INCIDENTS</text>
+<text x="690" y="117" font-family="monospace" font-size="10" fill="#FF6600" font-weight="bold">47 total</text>
+<text x="565" y="141" font-family="monospace" font-size="9" fill="#94a3b8">RESOLVED</text>
+<text x="690" y="141" font-family="monospace" font-size="10" fill="#22c55e" font-weight="bold">43 (91%)</text>
+<text x="565" y="165" font-family="monospace" font-size="9" fill="#94a3b8">DATA LOSS</text>
+<text x="690" y="165" font-family="monospace" font-size="10" fill="#FF6600" font-weight="bold">2.1 GB</text>
+<text x="565" y="189" font-family="monospace" font-size="9" fill="#94a3b8">COVERAGE</text>
+<text x="690" y="189" font-family="monospace" font-size="10" fill="#22c55e" font-weight="bold">87%</text>
+<text x="565" y="213" font-family="monospace" font-size="9" fill="#94a3b8">SLA BREACH</text>
+<text x="690" y="213" font-family="monospace" font-size="10" fill="#ef4444" font-weight="bold">3 events</text>
+<text x="565" y="237" font-family="monospace" font-size="9" fill="#94a3b8">EXERCISES</text>
+<text x="690" y="237" font-family="monospace" font-size="10" fill="#22c55e" font-weight="bold">5 / 5</text>
+<rect x="10" y="285" width="780" height="8" fill="#1e293b" stroke="#334155" stroke-width="1" rx="2"/>
+<rect x="10" y="285" width="678" height="8" fill="#22c55e" rx="2" opacity="0.60"/>
+<text x="20" y="293" font-family="monospace" font-size="7" fill="#e2e8f0" font-weight="bold">OVERALL EX SCORE: 87%</text>
+<rect x="10" y="266" width="268" height="22" fill="#0f172a" opacity="0.85"/>
+<text x="16" y="281" font-family="monospace" font-size="12" fill="#e2e8f0">ARC 2 CH 4 - AFTER ACTION REPORT</text>
+</svg>
