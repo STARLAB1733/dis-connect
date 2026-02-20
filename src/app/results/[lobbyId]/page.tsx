@@ -303,28 +303,36 @@ export default function ResultsPage() {
   return (
     <main className="max-w-md mx-auto p-4 pb-12">
 
-      {/* 1. Score + Team banner */}
+      {/* 1. Score + Team — single unified card */}
       <section className="mb-6 pt-4">
-        <div className="bg-[#1e293b] border border-[#334155] rounded-xl p-5 text-center">
-          <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-1">Your Score</p>
-          <p className="text-5xl font-bold text-[#FF6600]">{myResult.totalScore}</p>
-          <p className="text-xs text-[#94a3b8] mt-1">Based on 12 chapters across 3 story arcs</p>
-        </div>
-        {myTeamName && myTeamEntry && (
-          <div className="mt-2 bg-[#1e293b] border border-[#FF6600]/30 rounded-xl p-4 text-center">
-            <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-1">Your Team</p>
-            <p className="text-xl font-bold text-[#FF6600]">{myTeamName}</p>
-            <p className="text-[#e2e8f0] text-sm mt-1">
-              Team Score: <span className="font-bold text-[#FF6600]">{myTeamEntry.totalScore}</span>
-              <span className="text-[#94a3b8] ml-2">· {myTeamEntry.playerCount} player{myTeamEntry.playerCount !== 1 ? 's' : ''}</span>
-            </p>
-            {myTeamRank && myTeamRank <= 3 && (
-              <p className={`text-2xl font-bold mt-1 ${medalColour(myTeamRank - 1)}`}>
-                #{myTeamRank} Team 🏆
-              </p>
-            )}
+        <div className="bg-[#1e293b] border border-[#334155] rounded-xl overflow-hidden text-center">
+          {/* Individual score */}
+          <div className="p-5">
+            <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-1">Your Score</p>
+            <p className="text-5xl font-bold text-[#FF6600]">{myResult.totalScore}</p>
+            <p className="text-xs text-[#94a3b8] mt-1">12 chapters · 3 story arcs</p>
           </div>
-        )}
+
+          {/* Team info — only rendered if in a team */}
+          {myTeamName && myTeamEntry && (
+            <>
+              <div className="border-t border-[#334155]" />
+              <div className="p-4">
+                <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-2">Your Team</p>
+                <p className="text-xl font-bold text-[#FF6600]">{myTeamName}</p>
+                <p className="text-[#e2e8f0] text-sm mt-1">
+                  Team Score: <span className="font-bold text-[#FF6600]">{myTeamEntry.totalScore}</span>
+                  <span className="text-[#94a3b8] ml-2">· {myTeamEntry.playerCount} player{myTeamEntry.playerCount !== 1 ? 's' : ''}</span>
+                </p>
+                {myTeamRank && myTeamRank <= 3 && (
+                  <p className={`text-2xl font-bold mt-1 ${medalColour(myTeamRank - 1)}`}>
+                    #{myTeamRank} Team 🏆
+                  </p>
+                )}
+              </div>
+            </>
+          )}
+        </div>
       </section>
 
       {/* 2. Leaderboard with tabs */}
