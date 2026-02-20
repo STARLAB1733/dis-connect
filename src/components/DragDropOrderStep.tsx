@@ -5,6 +5,7 @@ import {
   DndContext,
   closestCorners,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   DragEndEvent,
@@ -35,7 +36,10 @@ function shuffleArray<T>(arr: T[]): T[] {
 }
 
 export default function DragDropOrderStep({ items, onComplete }: DragDropOrderStepProps) {
-  const sensors = useSensors(useSensor(PointerSensor));
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor)
+  );
   const [activeId, setActiveId] = React.useState<string | null>(null);
   const [order, setOrder] = React.useState<string[]>(() =>
     shuffleArray(items.map((i) => i.id))
@@ -73,7 +77,7 @@ export default function DragDropOrderStep({ items, onComplete }: DragDropOrderSt
         </SortableContext>
         <DragOverlay>
           {activeId && (
-            <div className="p-2 bg-[#1e293b] border border-[#FF6600] rounded shadow cursor-move text-[#e2e8f0]">
+            <div className="p-3 bg-[#1e293b] border border-[#FF6600] rounded shadow cursor-move text-[#e2e8f0]">
               {items.find(i => i.id === activeId)!.label}
             </div>
           )}
@@ -111,7 +115,7 @@ function SortableItem({ id, label, step }: { id: string; label: string, step: nu
       style={{ transform: CSS.Transform.toString(transform), transition }}
       {...attributes}
       {...listeners}
-      className="p-2 bg-[#1e293b] border border-[#334155] rounded shadow mb-2 cursor-move flex items-center text-[#e2e8f0]"
+      className="p-3 min-h-[44px] flex items-center bg-[#1e293b] border border-[#334155] rounded shadow mb-2 cursor-move text-[#e2e8f0]"
     >
       <span className="font-semibold mr-2 text-[#FF6600]">Step {step}:</span>
       <span>{label}</span>

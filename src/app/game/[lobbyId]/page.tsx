@@ -139,7 +139,7 @@ export default function GamePage() {
   // ── Lobby code badge — shown on every screen for easy reconnection ───────
   const LobbyCode = () => (
     <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
-      <p className="text-[0.6rem] text-[#475569] uppercase tracking-widest text-center mb-0.5">Session code</p>
+      <p className="text-xs text-[#475569] uppercase tracking-widest text-center mb-0.5">Session code</p>
       <p className="font-mono text-xs text-[#64748b] bg-[#1e293b] border border-[#334155] px-3 py-1 rounded-md tracking-widest">
         {lobbyId}
       </p>
@@ -236,7 +236,7 @@ export default function GamePage() {
     if (isHost) {
       const next = nextChapterState(arcIdx, chapterIdx, rotationIdx);
       return (
-        <div className="relative min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
+        <div className="relative min-h-dvh flex flex-col items-center justify-center gap-6 p-6 pb-16 bg-[#0f172a]">
           <div className="text-[#FF6600] text-4xl">✓</div>
           <p className="text-[#e2e8f0] text-lg font-semibold tracking-wider text-center">
             All guardians reporting in.
@@ -257,7 +257,7 @@ export default function GamePage() {
       );
     } else {
       return (
-        <div className="relative min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
+        <div className="relative min-h-dvh flex flex-col items-center justify-center gap-6 p-6 pb-16 bg-[#0f172a]">
           <div className="w-12 h-12 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
           <p className="text-[#94a3b8] text-center tracking-wider text-sm uppercase">
             Standby — awaiting next briefing...
@@ -289,7 +289,7 @@ export default function GamePage() {
   // ── This player answered, waiting for others ─────────────────────────────
   if (iHaveAnswered) {
     return (
-      <div className="relative min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
+      <div className="relative min-h-dvh flex flex-col items-center justify-center gap-6 p-6 pb-16 bg-[#0f172a]">
         <div className="w-12 h-12 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
         <p className="text-[#94a3b8] text-center tracking-wider text-sm uppercase">
           Waiting for other guardians...
@@ -336,7 +336,7 @@ export default function GamePage() {
           <div className="flex justify-between items-center mt-1">
             <span className="text-xs text-[#94a3b8]">{arcNames[arcIdx]} · Ch {chapterIdx + 1}/{CHAPTERS_PER_ARC}</span>
             <div className="flex items-center gap-2">
-              <span className="font-mono text-[0.6rem] text-[#475569] bg-[#1e293b] border border-[#334155] px-2 py-0.5 rounded tracking-widest">{lobbyId}</span>
+              <span className="font-mono text-xs text-[#475569] bg-[#1e293b] border border-[#334155] px-2 py-0.5 rounded tracking-widest">{lobbyId}</span>
               <span className="text-xs text-[#94a3b8]">{percent}%</span>
             </div>
           </div>
@@ -352,7 +352,7 @@ export default function GamePage() {
             >
               {ROLE_LABELS[rk]}
               {myRole === rk && (
-                <span className="text-[0.6rem] font-normal opacity-80">{ROLE_SUBTITLES[rk]}</span>
+                <span className="text-[0.65rem] font-normal opacity-80">{ROLE_SUBTITLES[rk]}</span>
               )}
             </span>
           ))}
@@ -360,7 +360,7 @@ export default function GamePage() {
 
         {/* Chapter image */}
         {scenario.image && (
-          <div className="w-full h-40 relative mb-4 rounded-lg overflow-hidden">
+          <div className="w-full h-32 sm:h-40 relative mb-4 rounded-lg overflow-hidden">
             <Image src={scenario.image} alt={scenario.title} fill style={{ objectFit: 'cover' }} priority />
           </div>
         )}

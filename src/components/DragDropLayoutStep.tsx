@@ -105,12 +105,12 @@ export default function DragDropLayoutStep({
           `relative flex flex-col p-4 border-2 border-dashed rounded-lg ` +
           `transition-colors ease-in-out duration-200 ` +
           `${isOver ? 'bg-[#FF6600]/10 border-[#FF6600] shadow-lg' : 'bg-[#1e293b] border-[#334155] hover:border-[#FF6600]/50'} ` +
-          `min-h-[180px]`
+          `min-h-[120px] sm:min-h-[180px]`
         }
       >
         {label && <h4 className="font-semibold text-sm mb-2 text-[#94a3b8]">{label}</h4>}
         <SortableContext items={itemsList} strategy={verticalListSortingStrategy}>
-          <div className="flex flex-col space-y-2 flex-1 overflow-auto text-[#e2e8f0] font-semibold text-md">
+          <div className="flex flex-col space-y-2 flex-1 text-[#e2e8f0] font-semibold text-md">
             {itemsList.map(itemId => (
               <SortableItem key={itemId} id={itemId} label={itemLabels[itemId]} />
             ))}
@@ -249,7 +249,7 @@ function SortableItem({ id, label }: { id: string; label: string }) {
         transform: CSS.Transform.toString(transform),
         transition,
       }}
-      className="p-2 bg-[#1e293b] border border-[#334155] rounded shadow cursor-move text-[#e2e8f0]"
+      className="p-3 min-h-[44px] flex items-center bg-[#1e293b] border border-[#334155] rounded shadow cursor-move text-[#e2e8f0]"
     >
       {label}
     </div>

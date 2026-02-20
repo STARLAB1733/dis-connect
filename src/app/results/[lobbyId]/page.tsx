@@ -260,7 +260,7 @@ export default function ResultsPage() {
     indexAxis: 'y' as const,
     scales: {
       x: { beginAtZero: true, ticks: { color: '#94a3b8' }, grid: { color: '#334155' } },
-      y: { ticks: { color: '#FF6600', font: { size: 13, weight: 'bold' as const } }, grid: { display: false } },
+      y: { ticks: { color: '#FF6600', font: { size: 11, weight: 'bold' as const } }, grid: { display: false } },
     },
     plugins: { legend: { display: false } },
     maintainAspectRatio: false,
@@ -287,7 +287,7 @@ export default function ResultsPage() {
         ticks: { stepSize: 25, display: false },
         grid: { color: '#334155' },
         angleLines: { color: '#334155' },
-        pointLabels: { color: '#FF6600', font: { size: 11 } },
+        pointLabels: { color: '#FF6600', font: { size: 9 } },
       },
     },
     plugins: { legend: { display: false }, tooltip: { enabled: true } },
@@ -341,13 +341,13 @@ export default function ResultsPage() {
           <div className="flex mb-3 bg-[#1e293b] rounded-lg p-1">
             <button
               onClick={() => setTab('team')}
-              className={`flex-1 py-2 text-sm font-semibold rounded-md transition ${tab === 'team' ? 'bg-[#FF6600] text-white' : 'text-[#94a3b8] hover:text-[#e2e8f0]'}`}
+              className={`flex-1 py-3 text-sm font-semibold rounded-md transition ${tab === 'team' ? 'bg-[#FF6600] text-white' : 'text-[#94a3b8] hover:text-[#e2e8f0]'}`}
             >
               🏆 Team Rankings
             </button>
             <button
               onClick={() => setTab('individual')}
-              className={`flex-1 py-2 text-sm font-semibold rounded-md transition ${tab === 'individual' ? 'bg-[#FF6600] text-white' : 'text-[#94a3b8] hover:text-[#e2e8f0]'}`}
+              className={`flex-1 py-3 text-sm font-semibold rounded-md transition ${tab === 'individual' ? 'bg-[#FF6600] text-white' : 'text-[#94a3b8] hover:text-[#e2e8f0]'}`}
             >
               👤 Individual
             </button>
@@ -363,7 +363,7 @@ export default function ResultsPage() {
                     <tr className="border-b border-[#334155]">
                       <th className="text-left p-3 text-[#94a3b8] w-8">#</th>
                       <th className="text-left p-3 text-[#94a3b8]">Team</th>
-                      <th className="text-center p-3 text-[#94a3b8]">Players</th>
+                      <th className="text-center p-3 text-[#94a3b8] hidden sm:table-cell">Players</th>
                       <th className="text-right p-3 text-[#94a3b8]">Total Score</th>
                     </tr>
                   </thead>
@@ -372,10 +372,10 @@ export default function ResultsPage() {
                       <tr key={t.teamName} className={`border-b border-[#334155]/50 ${t.teamName === myTeamName ? 'bg-[#FF6600]/10' : ''}`}>
                         <td className={`p-3 font-bold text-base ${medalColour(i)}`}>{i + 1}</td>
                         <td className="p-3">
-                          <p className="text-[#e2e8f0] font-semibold">{t.teamName}</p>
+                          <p className="text-[#e2e8f0] font-semibold max-w-[140px] truncate">{t.teamName}</p>
                           <p className="text-[#94a3b8] text-xs">avg {t.avgScore} / player</p>
                         </td>
-                        <td className="p-3 text-center text-[#94a3b8]">{t.playerCount}</td>
+                        <td className="p-3 text-center text-[#94a3b8] hidden sm:table-cell">{t.playerCount}</td>
                         <td className="p-3 text-right text-[#FF6600] font-bold text-base">{t.totalScore}</td>
                       </tr>
                     ))}
@@ -395,7 +395,7 @@ export default function ResultsPage() {
                     <tr className="border-b border-[#334155]">
                       <th className="text-left p-3 text-[#94a3b8] w-8">#</th>
                       <th className="text-left p-3 text-[#94a3b8]">Player</th>
-                      <th className="text-right p-3 text-[#94a3b8]">Score</th>
+                      <th className="text-right p-3 text-[#94a3b8] hidden sm:table-cell">Score</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -410,7 +410,7 @@ export default function ResultsPage() {
                           {e.teamName && <p className="text-[#94a3b8] text-xs">{e.teamName}</p>}
                           <p className="text-[#94a3b8] text-xs">{e.vocation}</p>
                         </td>
-                        <td className="p-3 text-right text-[#FF6600] font-bold">{e.score}</td>
+                        <td className="p-3 text-right text-[#FF6600] font-bold hidden sm:table-cell">{e.score}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -430,7 +430,7 @@ export default function ResultsPage() {
       {/* 4. Vocation breakdown chart */}
       <section className="mb-8">
         <h2 className="text-sm uppercase tracking-wider text-[#94a3b8] mb-3">Vocation Breakdown</h2>
-        <div className="w-full h-36 bg-[#1e293b] rounded-lg p-3">
+        <div className="w-full h-44 bg-[#1e293b] rounded-lg p-3">
           <Bar data={barData} options={barOptions} />
         </div>
       </section>
@@ -439,7 +439,7 @@ export default function ResultsPage() {
       <section className="text-center mb-6">
         <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-2">Your Decision Style</p>
         {identity.svgPath && (
-          <div className="w-full h-60 relative max-w-md mb-4">
+          <div className="w-full h-48 sm:h-60 relative max-w-md mb-4">
             <Image src={identity.svgPath} alt={identity.name} fill style={{ objectFit: 'contain' }} priority />
           </div>
         )}
@@ -449,7 +449,7 @@ export default function ResultsPage() {
 
       {/* 6. Radar chart */}
       <section className="mb-8">
-        <div className="w-full h-60">
+        <div className="w-full h-72">
           <Radar data={radarData} options={radarOptions} />
         </div>
       </section>
@@ -464,7 +464,7 @@ export default function ResultsPage() {
           href="https://www.dis.gov.sg/careers/military-domain-experts-scheme/c4-expert/"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block px-6 py-2 bg-[#FF6600] hover:bg-[#e65a00] text-white font-semibold rounded-lg tracking-wider uppercase transition duration-200 text-sm"
+          className="inline-block px-6 py-3 bg-[#FF6600] hover:bg-[#e65a00] text-white font-semibold rounded-lg tracking-wider uppercase transition duration-200 text-sm"
         >
           Find Out More
         </a>

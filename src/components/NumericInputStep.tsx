@@ -54,18 +54,18 @@ const NumericInputStep: React.FC<NumericInputStepProps> = ({ chartData, onComple
   const barOptions = {
     scales: {
       x: {
-        ticks: { color: '#94a3b8', font: { size: 14 } },
+        ticks: { color: '#94a3b8', font: { size: 11 } },
         grid: { color: 'rgba(148, 163, 184, 0.15)' },
       },
       y: {
         beginAtZero: true,
-        ticks: { color: '#94a3b8', font: { size: 14 } },
+        ticks: { color: '#94a3b8', font: { size: 11 } },
         grid: { color: 'rgba(148, 163, 184, 0.15)' },
       },
     },
     plugins: {
       legend: {
-        labels: { color: '#e2e8f0', font: { size: 14 } },
+        labels: { color: '#e2e8f0', font: { size: 11 } },
       },
       title: { display: false },
       tooltip: {
@@ -74,11 +74,12 @@ const NumericInputStep: React.FC<NumericInputStepProps> = ({ chartData, onComple
         backgroundColor: '#1e293b',
       },
     },
+    maintainAspectRatio: false,
   };
 
   return (
     <div className="flex flex-col h-full">
-      <div className="max-w-2xl mx-auto bg-[#1e293b] rounded-lg p-3">
+      <div className="w-full h-44 bg-[#1e293b] rounded-lg p-3">
         <Bar data={data} options={barOptions} />
       </div>
       <input
@@ -98,7 +99,7 @@ const NumericInputStep: React.FC<NumericInputStepProps> = ({ chartData, onComple
           bg-[#1e293b]
           text-[#e2e8f0]
           placeholder:text-[#94a3b8]
-          p-2 rounded-lg
+          p-3 rounded-lg
           w-full max-w-xs my-2 mx-auto text-center
           focus:outline-none focus:ring-2 focus:ring-[#FF6600]
         "
