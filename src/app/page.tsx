@@ -29,64 +29,76 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-dvh flex flex-col items-center justify-center gap-12 max-w-md mx-auto px-4">
-      <h1 className="text-center">
-        <span className="text-7xl font-bold text-[#FF6600] font-sans">DIS</span>
-        <span className="text-6xl font-bold text-[#94a3b8] font-sans">Connect</span>
-      </h1>
+    <main className="min-h-dvh flex flex-col max-w-md mx-auto px-4">
+      <div className="flex-1 flex flex-col items-center justify-center gap-12">
+        <h1 className="text-center">
+          <span className="text-7xl font-bold text-[#FF6600] font-sans">DIS</span>
+          <span className="text-6xl font-bold text-[#94a3b8] font-sans">Connect</span>
+        </h1>
 
-      <div className="flex flex-col items-center space-y-6 w-full max-w-sm">
-          <button
-            onClick={createLobby}
-            className="
-              w-full px-6 py-4
-              bg-[#FF6600] hover:bg-[#e65a00]
-              hover:cursor-pointer
-              text-white font-semibold
-              rounded-lg tracking-wider uppercase
-              transition duration-200 text-2xl
-            "
-          >
-            CREATE LOBBY
-          </button>
-
-          <span className="text-[#94a3b8] font-medium">OR</span>
-
-          <div className="flex w-full max-w-sm mx-auto rounded-lg overflow-hidden border border-[#334155] focus-within:border-[#FF6600] transition-colors">
-            <input
-              type="text"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && joinLobby()}
-              placeholder="Enter lobby code"
-              className="
-                flex-grow px-4 py-3
-                bg-[#1e293b]
-                text-[#e2e8f0] placeholder:text-[#94a3b8]
-                focus:outline-none
-              "
-            />
+        <div className="flex flex-col items-center space-y-6 w-full max-w-sm">
             <button
-              onClick={joinLobby}
+              onClick={createLobby}
               className="
-                px-5 py-3
-                bg-[#334155] text-[#e2e8f0]
-                hover:bg-[#475569]
-                transition duration-200 hover:cursor-pointer
-                font-medium tracking-wide
+                w-full px-6 py-4
+                bg-[#FF6600] hover:bg-[#e65a00]
+                hover:cursor-pointer
+                text-white font-semibold
+                rounded-lg tracking-wider uppercase
+                transition duration-200 text-2xl
               "
             >
-              Join
+              CREATE LOBBY
+            </button>
+
+            <span className="text-[#94a3b8] font-medium">OR</span>
+
+            <div className="flex w-full max-w-sm mx-auto rounded-lg overflow-hidden border border-[#334155] focus-within:border-[#FF6600] transition-colors">
+              <input
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && joinLobby()}
+                placeholder="Enter lobby code"
+                className="
+                  flex-grow px-4 py-3
+                  bg-[#1e293b]
+                  text-[#e2e8f0] placeholder:text-[#94a3b8]
+                  focus:outline-none
+                "
+              />
+              <button
+                onClick={joinLobby}
+                className="
+                  px-5 py-3
+                  bg-[#334155] text-[#e2e8f0]
+                  hover:bg-[#475569]
+                  transition duration-200 hover:cursor-pointer
+                  font-medium tracking-wide
+                "
+              >
+                Join
+              </button>
+            </div>
+
+            <button
+              onClick={() => router.push('/leaderboard')}
+              className="text-[#94a3b8] hover:text-[#FF6600] text-sm uppercase tracking-wider transition"
+            >
+              View Leaderboard
             </button>
           </div>
+      </div>
 
-          <button
-            onClick={() => router.push('/leaderboard')}
-            className="text-[#94a3b8] hover:text-[#FF6600] text-sm uppercase tracking-wider transition"
-          >
-            View Leaderboard
-          </button>
-        </div>
+      <footer className="text-center text-xs text-[#475569] space-y-1 py-6">
+        <p className="font-semibold text-[#334155] tracking-wider uppercase">DISConnect v2.0</p>
+        <p>Developed by ME4 Anthony Tan, ME4 Wilson Gwee &amp; ME4 Keith Chew</p>
+        <p className="text-[#3d4f66]">
+          Music: &ldquo;Woodland Fantasy&rdquo; &amp; &ldquo;Evasion&rdquo; by{' '}
+          <span className="text-[#475569]">Matthew Pablo</span> · CC&nbsp;BY&nbsp;3.0 ·{' '}
+          <span className="text-[#3d4f66]">opengameart.org</span>
+        </p>
+      </footer>
     </main>
   );
 }
