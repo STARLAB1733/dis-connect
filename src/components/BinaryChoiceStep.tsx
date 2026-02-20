@@ -57,14 +57,14 @@ export default function BinaryChoiceStep({ options, onComplete }: BinaryChoiceSt
         }}
         disabled={!selected || isSubmitting}
         className="
-          mt-10 px-4 py-2
+          w-full mt-4 px-4 py-4
           bg-[#FF6600] hover:bg-[#e65a00]
           hover:cursor-pointer rounded-lg
           disabled:opacity-50 disabled:cursor-not-allowed
           border-2 border-[#FF6600]
           text-white font-semibold
           tracking-wider uppercase
-          transition duration-200 text-xl
+          transition duration-200 text-lg
         "
       >
         Submit
