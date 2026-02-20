@@ -90,14 +90,10 @@ export default function HomePage() {
           </div>
       </div>
 
-      <footer className="text-center text-xs text-[#475569] space-y-1 py-6">
-        <p className="font-semibold text-[#334155] tracking-wider uppercase">DISConnect v2.0</p>
-        <p>Developed by ME4 Anthony Tan, ME4 Wilson Gwee &amp; ME4 Keith Chew</p>
-        <p className="text-[#3d4f66]">
-          Music: &ldquo;Woodland Fantasy&rdquo; &amp; &ldquo;Evasion&rdquo; by{' '}
-          <span className="text-[#475569]">Matthew Pablo</span> · CC&nbsp;BY&nbsp;3.0 ·{' '}
-          <span className="text-[#3d4f66]">opengameart.org</span>
-        </p>
+      <footer className="text-center space-y-0.5 py-5 text-[#1e3a52]" style={{ fontSize: '0.65rem' }}>
+        <p className="tracking-wider uppercase">DISConnect v2.0</p>
+        <p>ME4 Anthony Tan · ME4 Wilson Gwee · ME4 Keith Chew</p>
+        <p>Music by Matthew Pablo · CC BY 3.0 · opengameart.org</p>
       </footer>
     </main>
   );

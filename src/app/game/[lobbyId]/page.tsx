@@ -50,6 +50,11 @@ export default function GamePage() {
   const { switchBgm, playSfx } = useAudio();
   const [skipReady, setSkipReady] = useState(false);
   const [promoteReady, setPromoteReady] = useState(false);
+  // Persists for the whole game session: once host has manually skipped once,
+  // all future dropped players in subsequent chapters are skipped automatically.
+  const hasEverSkippedRef = useRef(false);
+  // Ref to always-current skipMissingPlayers so effects can call it without stale closure
+  const doSkipRef = useRef<(() => Promise<void>) | null>(null);
 
   // ── Derive values safely (lobby may be null at hook time) ─────────────────
   const players = lobby?.players || [];
@@ -90,12 +95,22 @@ export default function GamePage() {
     setPromoteReady(false);
   }, [chapterKey]);
 
-  // Skip timer: 60s after I answered, if others still haven't
+  // Skip timer: 30s on first dropout; instant on subsequent chapters if host already skipped once
   useEffect(() => {
     if (!iHaveAnswered || allAnswered) return;
-    const t = setTimeout(() => setSkipReady(true), 60_000);
+    if (hasEverSkippedRef.current) {
+      setSkipReady(true);
+      return;
+    }
+    const t = setTimeout(() => setSkipReady(true), 30_000);
     return () => clearTimeout(t);
   }, [iHaveAnswered, allAnswered, chapterKey]);
+
+  // Auto-execute skip when ready and host has skipped before (no button needed)
+  useEffect(() => {
+    if (!skipReady || !isHost || !hasEverSkippedRef.current) return;
+    doSkipRef.current?.();
+  }, [skipReady, isHost]);
 
   // Promote timer: 30s after all answered but host hasn't advanced
   useEffect(() => {
@@ -179,7 +194,10 @@ export default function GamePage() {
     const updates: Record<string, true> = {};
     pendingUids.forEach(uid => { updates[`roundAnswers.${uid}`] = true; });
     await updateDoc(doc(db, 'lobbies', lobbyId), updates);
+    hasEverSkippedRef.current = true;
   };
+  // Keep ref current so the auto-skip effect always calls the latest version
+  doSkipRef.current = skipMissingPlayers;
 
   // Next-in-line only: reorder players so this user becomes the host
   const promoteToHost = async () => {
