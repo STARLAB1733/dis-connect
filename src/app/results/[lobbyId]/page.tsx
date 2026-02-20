@@ -446,7 +446,7 @@ export default function ResultsPage() {
         <p className="text-[#e2e8f0] text-sm leading-relaxed">
           SAF Digital and Intelligence Service is looking for people like you. Join the Mission.
         </p>
-        <p className="text-[#94a3b8] text-xs leading-relaxed">
+        <p className="text-[#94a3b8] text-sm leading-relaxed">
           Discover the different ways you can contribute to the DIS.
         </p>
         <a
