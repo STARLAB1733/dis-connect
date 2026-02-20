@@ -90,10 +90,10 @@ export default function HomePage() {
           </div>
       </div>
 
-      <footer className="text-center space-y-0.5 py-5 text-[#1e3a52]" style={{ fontSize: '0.65rem' }}>
-        <p className="tracking-wider uppercase">DISConnect v2.0</p>
+      <footer className="text-center space-y-1 py-5 text-[#475569] text-[0.7rem]">
+        <p className="text-[#64748b] tracking-widest uppercase font-medium">DISConnect v2.0</p>
         <p>ME4 Anthony Tan · ME4 Wilson Gwee · ME4 Keith Chew</p>
-        <p>Music by Matthew Pablo · CC BY 3.0 · opengameart.org</p>
+        <p className="text-[#3d5068]">Music by Matthew Pablo · CC BY 3.0 · opengameart.org</p>
       </footer>
     </main>
   );

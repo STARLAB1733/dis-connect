@@ -444,10 +444,13 @@ export default function ResultsPage() {
       <section className="mb-6 bg-[#1e293b] border border-[#334155] rounded-xl p-5 text-center space-y-3">
         <p className="text-xs text-[#94a3b8] uppercase tracking-widest">Think you have what it takes?</p>
         <p className="text-[#e2e8f0] text-sm leading-relaxed">
-          SAF Digital and Intelligence Service is looking for people like you. Explore a career in digital operations, intelligence, and technology.
+          SAF Digital and Intelligence Service is looking for people like you. Join the Mission.
+        </p>
+        <p className="text-[#94a3b8] text-xs leading-relaxed">
+          Discover the different ways you can contribute to the DIS.
         </p>
         <a
-          href="https://PLACEHOLDER_SAF_DIS_RECRUITMENT_URL"
+          href="https://www.dis.gov.sg/careers/military-domain-experts-scheme/c4-expert/"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block px-6 py-2 bg-[#FF6600] hover:bg-[#e65a00] text-white font-semibold rounded-lg tracking-wider uppercase transition duration-200 text-sm"
