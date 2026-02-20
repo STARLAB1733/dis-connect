@@ -444,10 +444,7 @@ export default function ResultsPage() {
       <section className="mb-6 bg-[#1e293b] border border-[#334155] rounded-xl p-5 text-center space-y-3">
         <p className="text-xs text-[#94a3b8] uppercase tracking-widest">Think you have what it takes?</p>
         <p className="text-[#e2e8f0] text-sm leading-relaxed">
-          SAF Digital and Intelligence Service is looking for people like you. Join the Mission.
-        </p>
-        <p className="text-[#94a3b8] text-sm leading-relaxed">
-          Discover the different ways you can contribute to the DIS.
+          SAF Digital and Intelligence Service is looking for people like you. Join the Mission. Discover the different ways you can contribute to the DIS.
         </p>
         <a
           href="https://www.dis.gov.sg/careers/military-domain-experts-scheme/c4-expert/"
