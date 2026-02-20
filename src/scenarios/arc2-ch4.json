@@ -39,7 +39,7 @@
       "variant": "order",
       "title": "Calculate Unit Readiness Scores",
       "instruction": "You have mountains of exercise data: GPS tracks, supply requests, radio logs, decision timestamps. The generals want a single readiness score for each unit. Put the analysis steps in the right order to produce credible results.",
-      "hint": "Clean your data first, then agree on what you're measuring, then compute — never jump straight to calculating scores from messy raw data.",
+      "hint": "Bad data makes bad scores. Agree on the definition before you calculate anything. Then verify your results against what actually happened.",
       "items": [
         { "id": "clean-data", "label": "Clean the raw data by removing sensor errors and duplicate entries" },
         { "id": "define-metrics", "label": "Agree with the exercise planners on what 'readiness' actually means and how to measure it" },
@@ -57,7 +57,7 @@
       "type": "numeric-input",
       "title": "Work Out How Much Storage You Need",
       "instruction": "The exercise data needs to be archived for future training analysis. Based on how much data was generated each day (in terabytes) over the last 4 days of the exercise, estimate the total storage (in terabytes) needed to archive the full 14-day exercise — including an extra 30% for file indexes and metadata.",
-      "hint": "Add up the daily data, calculate the average, multiply by 14 days, then add 30% on top for overhead.",
+      "hint": "The exercise ran for 14 days total, and you need to account for metadata and redundancy on top of the raw data.",
       "chartData": [2, 3, 5, 8],
       "expected": 78,
       "tolerance": 20,

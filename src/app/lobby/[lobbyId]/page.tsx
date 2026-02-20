@@ -28,6 +28,7 @@ export default function LobbyPage() {
   const [gameStarted, setGameStarted] = useState(false);
   const [fullLobbyURL, setFullLobbyURL] = useState<string>('');
   const [lobbyTeamName, setLobbyTeamName] = useState<string | null>(null);
+  const [showHowToPlay, setShowHowToPlay] = useState(false);
 
   useEffect(() => { initAuth(); }, []);
 
@@ -117,6 +118,19 @@ export default function LobbyPage() {
       <h1 className="text-2xl font-semibold text-center tracking-wider text-[#FF6600] mb-2">
         LOBBY : <span className="font-mono font-normal">{lobbyId}</span>
       </h1>
+
+      {/* Game Description */}
+      <div className="bg-[#1e293b]/50 border border-[#334155] rounded-lg p-4 mb-4 text-center">
+        <p className="text-sm text-[#e2e8f0] leading-relaxed">
+          Ready, Guardians? You&apos;ve got 12 chapters to solve crises, rotate roles, and figure out which tech vocation fits you best.
+        </p>
+        <button
+          onClick={() => setShowHowToPlay(true)}
+          className="mt-3 text-xs text-[#FF6600] hover:text-[#ff7a1a] uppercase tracking-widest font-semibold underline underline-offset-2"
+        >
+          How to Play →
+        </button>
+      </div>
 
       {lobbyTeamName && (
         <p className="text-center text-[#94a3b8] text-sm tracking-widest mb-4">
@@ -219,6 +233,90 @@ export default function LobbyPage() {
       {myPlayer && !isHost && !gameStarted && (
         <div className="mt-8 text-center">
           <p className="text-[#94a3b8] uppercase tracking-wider text-sm">Waiting for host to start...</p>
+        </div>
+      )}
+
+      {/* How to Play Modal */}
+      {showHowToPlay && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
+          <div className="bg-[#0f172a] border-2 border-[#FF6600] rounded-lg max-h-[90vh] overflow-y-auto w-full max-w-2xl">
+            {/* Header */}
+            <div className="sticky top-0 bg-[#0f172a] border-b border-[#334155] px-6 py-4 flex justify-between items-center">
+              <h2 className="text-xl font-semibold text-[#FF6600] tracking-wider">HOW TO PLAY</h2>
+              <button
+                onClick={() => setShowHowToPlay(false)}
+                className="text-[#94a3b8] hover:text-[#FF6600] text-2xl font-light"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="px-6 py-6 space-y-6 text-[#e2e8f0] text-sm leading-relaxed">
+              <section>
+                <h3 className="text-[#FF6600] font-semibold text-base mb-2">🎮 THE GAME</h3>
+                <p className="text-[#94a3b8]">
+                  Work together as a team of Guardians through 12 scenarios spanning 3 arcs:
+                </p>
+                <ul className="mt-2 space-y-1 text-[#94a3b8] text-xs ml-4">
+                  <li>• Arc 1: NDP 2026 (a parade app crisis)</li>
+                  <li>• Arc 2: Exercise Northstar (military command systems)</li>
+                  <li>• Arc 3: Ops Resilience (critical infrastructure under attack)</li>
+                </ul>
+                <p className="text-[#94a3b8] mt-2 text-xs">
+                  Each chapter, you answer one question based on YOUR current role.
+                </p>
+              </section>
+
+              <section>
+                <h3 className="text-[#FF6600] font-semibold text-base mb-2">👥 YOUR ROLES (rotate every 4 chapters)</h3>
+                <ul className="space-y-2 text-[#94a3b8] text-xs">
+                  <li><strong className="text-[#e2e8f0]">Software Engineer:</strong> System design, performance, architecture</li>
+                  <li><strong className="text-[#e2e8f0]">Data Scientist:</strong> Predictions, analysis, pattern recognition</li>
+                  <li><strong className="text-[#e2e8f0]">Cloud Engineer:</strong> Infrastructure, scaling, resilience</li>
+                </ul>
+                <p className="text-[#94a3b8] mt-2 text-xs">
+                  Everyone plays their role at the same time. All Guardians must answer before moving to the next chapter.
+                </p>
+              </section>
+
+              <section>
+                <h3 className="text-[#FF6600] font-semibold text-base mb-2">💡 HOW TO ANSWER</h3>
+                <p className="text-[#94a3b8] text-xs leading-relaxed">
+                  Answer the question. Better answers = stronger impact. Using a hint reduces your impact by 30%.
+                </p>
+              </section>
+
+              <section>
+                <h3 className="text-[#FF6600] font-semibold text-base mb-2">⭐ YOUR SCORE</h3>
+                <p className="text-[#94a3b8] text-xs font-semibold">PERSONA (Who you are):</p>
+                <p className="text-[#94a3b8] text-xs mt-1">
+                  Your choices build 8 axes that define your unique Guardian archetype.
+                </p>
+                <p className="text-[#94a3b8] text-xs font-semibold mt-3">VOCATION (What you do best):</p>
+                <p className="text-[#94a3b8] text-xs mt-1">
+                  Your strongest role becomes your recommended vocation.
+                </p>
+              </section>
+
+              <section>
+                <h3 className="text-[#FF6600] font-semibold text-base mb-2">🏁 AFTER THE GAME</h3>
+                <p className="text-[#94a3b8] text-xs">
+                  See your persona archetype, recommended vocation, your team&apos;s scores, and where you rank on the global leaderboard.
+                </p>
+              </section>
+            </div>
+
+            {/* Footer */}
+            <div className="border-t border-[#334155] px-6 py-4 bg-[#1e293b]/30">
+              <button
+                onClick={() => setShowHowToPlay(false)}
+                className="w-full px-4 py-2 bg-[#FF6600] hover:bg-[#e65a00] text-white rounded-lg font-semibold text-sm tracking-wider transition"
+              >
+                GOT IT
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </main>

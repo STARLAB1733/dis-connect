@@ -11,7 +11,7 @@
       "variant": "layout",
       "title": "Design the Command Screen",
       "instruction": "The commanders want a single screen that shows everything: where units are, what supplies they have, and whether comms are working. Drag each piece of information to the right spot on the screen. Slot 1 is the main display, Slots 2 and 3 are side panels, and Slot 4 is the status bar at the bottom.",
-      "hint": "The most important information — the one commanders look at every few seconds — should take up the most space.",
+      "hint": "The most important information (the one commanders look at every few seconds) should take up the most space.",
       "items": [
         { "id": "live-map", "label": "Live Map with Unit Positions" },
         { "id": "supply-chart", "label": "Supply Level Charts" },
@@ -36,7 +36,7 @@
       "type": "binary-choice",
       "title": "Choose How to Handle the Data Flow",
       "instruction": "Field units send their position every 30 seconds from tablets and GPS devices. That's thousands of location updates per minute flowing into the system. How do you process all that into useful information on the screen?",
-      "hint": "When data arrives constantly, you need to handle it as it arrives — but think about how much instant accuracy is actually necessary versus a few seconds of delay.",
+      "hint": "When data arrives constantly, handle it as it arrives, but ask yourself how much instant accuracy you really need versus a few seconds of delay.",
       "options": [
         {
           "id": "stream-processing",
@@ -50,7 +50,7 @@
         },
         {
           "id": "edge-compute",
-          "label": "Process data on the unit's own device and only send a summary. Cuts radio bandwidth by 80% — important in the field — but you lose the detailed raw readings.",
+          "label": "Process data on the unit's own device and only send a summary. Cuts radio bandwidth by 80%, which matters in the field, but you lose the detailed raw readings.",
           "axisImpact": { "Cost-Conscious": 1, "Innovation": 0.5, "Precision": -0.3 }
         },
         {
@@ -65,7 +65,7 @@
       "variant": "order",
       "title": "Set Up the Field Network",
       "instruction": "The exercise happens in a training area with patchy mobile signal. You need to set up a reliable network linking field units to the command screen. Put the setup steps in the right order.",
-      "hint": "Before building anything, understand the terrain. Then build the main network, add backup connections, test thoroughly, and only then set up failover.",
+      "hint": "You can't build a reliable network if you don't know where the problems are. Test thoroughly before the exercise starts.",
       "items": [
         { "id": "survey-terrain", "label": "Walk the training ground to find areas with no signal and note any obstacles" },
         { "id": "deploy-mesh", "label": "Set up portable network relay nodes at key positions across the area" },

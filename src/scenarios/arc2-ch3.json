@@ -11,7 +11,7 @@
       "variant": "order",
       "title": "Track Down the Stale Data",
       "instruction": "Commanders are seeing 20-minute-old positions. You need to trace where in the chain the data is getting stuck. Put these investigation steps in order.",
-      "hint": "Start from where the data is created (the field devices), then follow the trail through each stage until you find where freshness is lost.",
+      "hint": "Data staleness can happen anywhere: at the source, in transit, in storage, or when it reaches the screen. Trace the problem systematically.",
       "items": [
         { "id": "check-source", "label": "Confirm that the GPS devices in the field are actually sending fresh updates" },
         { "id": "check-pipeline", "label": "Check if updates are piling up somewhere between the field and the server" },

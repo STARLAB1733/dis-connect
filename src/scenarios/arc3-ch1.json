@@ -11,15 +11,15 @@
       "variant": "order",
       "title": "Set Up the Early Warning System",
       "instruction": "You need to deploy monitoring sensors across the power grid's control systems to catch the intrusion pattern before it escalates. Put the deployment steps in the right order.",
-      "hint": "Before you can detect anything unusual, you need to know what normal looks like. Map first, deploy, record a baseline, then set your alarms.",
+      "hint": "You can't spot anomalies without knowing what normal looks like. Set a baseline before you start looking for trouble.",
       "items": [
         { "id": "map-systems", "label": "Map all control system devices and how they're connected to each other" },
-        { "id": "deploy-agents", "label": "Install lightweight monitoring sensors on each control system device" },
+        { "id": "deploy-sensors", "label": "Install lightweight monitoring sensors on each control system device" },
         { "id": "baseline-normal", "label": "Record 2 hours of normal behaviour to understand what 'healthy' looks like" },
-        { "id": "set-thresholds", "label": "Set alert thresholds based on the baseline — anything outside normal triggers a warning" },
+        { "id": "set-thresholds", "label": "Set alert thresholds based on the baseline; anything outside normal triggers a warning" },
         { "id": "alert-pipeline", "label": "Connect the alerts to the security team so they're notified the moment something unusual appears" }
       ],
-      "correctOrder": ["map-systems", "deploy-agents", "baseline-normal", "set-thresholds", "alert-pipeline"],
+      "correctOrder": ["map-systems", "deploy-sensors", "baseline-normal", "set-thresholds", "alert-pipeline"],
       "axisImpact": { "Precision": 1, "Stability": 0.5 }
     },
     "data-scientist": {
@@ -30,7 +30,7 @@
       "options": [
         {
           "id": "ml-classify",
-          "label": "Run the data through the automated threat detection system. Answer in 5 minutes but the system was only trained on known attack patterns — this looks new.",
+          "label": "Run the data through the automated threat detection system. Get an answer in 5 minutes, but the system was only trained on known attack patterns, and this looks new.",
           "axisImpact": { "Speed": 1, "Innovation": 0.5, "Precision": -0.3 }
         },
         {

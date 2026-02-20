@@ -3,7 +3,6 @@ import {
   getPlayerRole,
   allPlayersAnswered,
   nextChapterState,
-  ROLE_KEYS,
   NUM_ARCS,
   CHAPTERS_PER_ARC,
 } from './roleRotation';

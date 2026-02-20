@@ -36,6 +36,10 @@ export default function HomePage() {
           <span className="text-6xl font-bold text-[#94a3b8] font-sans">Connect</span>
         </h1>
 
+        <p className="text-center text-sm text-[#94a3b8] tracking-wider italic max-w-xs">
+          What kind of Guardian are you? Find out.
+        </p>
+
         <div className="flex flex-col items-center space-y-6 w-full max-w-sm">
             <button
               onClick={createLobby}

@@ -1,7 +1,7 @@
 {
   "id": "arc3-ch2",
   "title": "Ops Resilience: The Lights Go Out",
-  "description": "The intrusion was real. Parts of Singapore have lost power. The attacker has taken control of 12 substations. Your team has minutes to stop the spread and protect the rest of the grid.",
+  "description": "The intrusion was real. Parts of Singapore have lost power. The attacker has taken control of 12 substations. You have minutes to isolate them and secure the rest of the grid.",
   "image": "/chapters/arc3-ch2.svg",
   "arc": 2,
   "chapter": 1,
@@ -39,7 +39,7 @@
       "variant": "order",
       "title": "Reconstruct How They Got In",
       "instruction": "Leadership needs to know how the attacker entered and what they've touched. You need to reconstruct the intrusion timeline from logs. Put these steps in order.",
-      "hint": "Gather all the evidence first before drawing any conclusions. Build a timeline before looking for the cause — the cause only makes sense once you can see the full story.",
+      "hint": "Arrange everything chronologically first. Then look backward from the attack moment to find where it started.",
       "items": [
         { "id": "collect-logs", "label": "Gather logs from every network device, login system, and power station controller" },
         { "id": "timeline-build", "label": "Arrange all events in order using timestamps to build a chronological picture" },
@@ -55,7 +55,7 @@
       "variant": "layout",
       "title": "Isolate the Network Zones",
       "instruction": "You need to split the power grid's network into isolated sections to stop the attacker jumping between them. Drag each part of the network to the right isolation level. Zone 1 is fully cut off, Zones 2 and 3 are partially restricted, Zone 4 continues normally.",
-      "hint": "The most dangerous zones — the ones already compromised or right next to them — need the most restrictions. The further from the threat, the more normal operations can continue.",
+      "hint": "The most dangerous zones (the ones already compromised or right next to them) need the most restrictions. The further from the threat, the more normal operations can continue.",
       "items": [
         { "id": "compromised-substations", "label": "The 12 Compromised Stations (attacker is in control)" },
         { "id": "adjacent-substations", "label": "Neighbouring Stations (at risk of being targeted next)" },

@@ -52,7 +52,7 @@
       "variant": "order",
       "title": "Run the Stress Test",
       "instruction": "Before fixing the 500-user crash, you need to properly test the system to understand every breaking point. Put the test steps in order.",
-      "hint": "Start gentle, increase gradually, push past the limit to find where things break, then understand why before applying a fix.",
+      "hint": "Every good test knows what normal looks like first. Then you figure out when and why it stops working.",
       "items": [
         { "id": "baseline", "label": "Record normal performance with 100 simulated users as a starting reference" },
         { "id": "ramp-up", "label": "Gradually increase to 500 users and note where things start getting slow" },
