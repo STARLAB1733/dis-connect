@@ -1,34 +1,35 @@
 {
   "id": "arc2-ch4",
   "title": "Exercise Northstar: After Action",
-  "description": "The exercise is over. Command wants a data driven after action report analyzing unit readiness, decision speed, and logistics efficiency. Your analysis will shape how the SAF trains for the next 5 years.",
+  "description": "The exercise is over. Command wants a data-driven report analysing unit readiness, decision speed, and logistics efficiency. Your analysis will shape how the SAF trains for the next 5 years.",
   "image": "/chapters/arc2-ch4.svg",
   "arc": 1,
   "chapter": 3,
   "subScenarios": {
     "software-engineer": {
       "type": "binary-choice",
-      "title": "Build the AAR Dashboard",
-      "instruction": "The generals want an interactive after action review (AAR) tool that lets them replay the entire exercise with data overlays. They want to scrub through the timeline like a video player and see how decisions played out. How do you build it?",
+      "title": "Build the Review Tool",
+      "instruction": "The generals want an interactive tool that lets them replay the entire exercise — scrolling through a timeline like a video player to see how decisions played out with data on screen. How do you build it?",
+      "hint": "Think about the trade-off between giving commanders something rich and interactive versus something simpler that can be shared widely and is ready sooner.",
       "options": [
         {
           "id": "timeline-replay",
-          "label": "Build a full timeline replay with the actual map, unit movements, and decision markers. Takes 2 weeks but commanders can literally rewatch the exercise with data annotations.",
+          "label": "Build a full replay tool with the actual map, unit movements, and decision markers. Takes 2 weeks but commanders can rewatch the entire exercise with data annotations.",
           "axisImpact": { "Performance-First": 1, "Innovation": 0.8, "Speed": -0.5 }
         },
         {
           "id": "static-report",
-          "label": "Generate a static report with key moment snapshots, charts, and automated insights. Done in 3 days and easy to share via PDF. But you lose the interactive element.",
+          "label": "Generate a report with charts, key-moment screenshots, and auto-generated insights. Done in 3 days and easy to share as a document. But no interactive replay.",
           "axisImpact": { "Speed": 1, "Cost-Conscious": 0.5, "Innovation": -0.3 }
         },
         {
           "id": "ai-highlights",
-          "label": "Use AI to automatically identify the 20 most critical decision points and generate short analysis clips for each. Novel approach but the AI might miss important moments that don't look dramatic in the data.",
+          "label": "Use AI to automatically find the 20 most critical moments and generate a short analysis for each. Novel approach but the AI might miss events that don't look dramatic in the data.",
           "axisImpact": { "Innovation": 1, "Speed": 0.5, "Precision": -0.3 }
         },
         {
           "id": "collaborative-tool",
-          "label": "Build a collaborative annotation tool where unit commanders can mark up the timeline with their own observations. Richer insights from multiple perspectives but takes time to collect everyone's input.",
+          "label": "Build a shared tool where unit commanders can mark up the timeline with their own observations. Richer insights from multiple people but takes time to collect everyone's input.",
           "axisImpact": { "Collaboration": 1, "Precision": 0.5, "Speed": -0.5 }
         }
       ]
@@ -36,14 +37,15 @@
     "data-scientist": {
       "type": "drag-drop",
       "variant": "order",
-      "title": "Crunch the Readiness Numbers",
-      "instruction": "You have mountains of exercise data: GPS tracks, supply requests, communication logs, decision timestamps. The generals want a single readiness score for each unit. Put the analysis steps in order to produce credible results.",
+      "title": "Calculate Unit Readiness Scores",
+      "instruction": "You have mountains of exercise data: GPS tracks, supply requests, radio logs, decision timestamps. The generals want a single readiness score for each unit. Put the analysis steps in the right order to produce credible results.",
+      "hint": "Clean your data first, then agree on what you're measuring, then compute — never jump straight to calculating scores from messy raw data.",
       "items": [
-        { "id": "clean-data", "label": "Clean and validate the raw data, removing sensor glitches and duplicate entries" },
-        { "id": "define-metrics", "label": "Define the readiness metrics in consultation with exercise planners" },
-        { "id": "compute-scores", "label": "Compute individual readiness scores for each unit using the agreed metrics" },
-        { "id": "cross-validate", "label": "Cross validate scores against observer reports to catch errors" },
-        { "id": "present-findings", "label": "Visualise the results and present findings to command with confidence intervals" }
+        { "id": "clean-data", "label": "Clean the raw data by removing sensor errors and duplicate entries" },
+        { "id": "define-metrics", "label": "Agree with the exercise planners on what 'readiness' actually means and how to measure it" },
+        { "id": "compute-scores", "label": "Calculate a readiness score for each unit using the agreed definition" },
+        { "id": "cross-validate", "label": "Compare the scores against what human observers reported to catch any mistakes" },
+        { "id": "present-findings", "label": "Show the results to command with charts and an honest note on how confident you are in the numbers" }
       ],
       "correctOrder": ["clean-data", "define-metrics", "compute-scores", "cross-validate", "present-findings"],
       "axisImpact": {
@@ -53,8 +55,9 @@
     },
     "cloud-engineer": {
       "type": "numeric-input",
-      "title": "Calculate Storage Requirements",
-      "instruction": "The exercise generated massive amounts of data that needs to be archived for future training analysis. Based on daily data generation over the last 4 days of the exercise (in terabytes), estimate the total storage (in terabytes) needed for the full 14 day exercise archive including a 30% overhead for metadata and indexes.",
+      "title": "Work Out How Much Storage You Need",
+      "instruction": "The exercise data needs to be archived for future training analysis. Based on how much data was generated each day (in terabytes) over the last 4 days of the exercise, estimate the total storage (in terabytes) needed to archive the full 14-day exercise — including an extra 30% for file indexes and metadata.",
+      "hint": "Add up the daily data, calculate the average, multiply by 14 days, then add 30% on top for overhead.",
       "chartData": [2, 3, 5, 8],
       "expected": 78,
       "tolerance": 20,

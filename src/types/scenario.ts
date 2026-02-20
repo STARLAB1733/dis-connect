@@ -32,6 +32,7 @@ export interface DragDropLayoutScenario {
   variant: 'layout';
   title: string;
   instruction: string;
+  hint?: string;
   vocationType?: string;
   items: DragItem[];
   correctOrder?: string[]; // Optional, for validation
@@ -47,6 +48,7 @@ export interface DragDropOrderScenario {
   variant: 'order';
   title: string;
   instruction: string;
+  hint?: string;
   vocationType?: string;
   items: DragItem[];
   correctOrder?: string[];
@@ -60,6 +62,7 @@ export interface NumericInputScenario {
   type: 'numeric-input';
   title: string;
   instruction: string;
+  hint?: string;
   vocationType?: string;
   chartData: number[];
   expected: number;
@@ -83,6 +86,7 @@ export interface BinaryChoiceScenario {
   type: 'binary-choice';
   title: string;
   instruction: string;
+  hint?: string;
   vocationType?: string;
   options: BinaryChoiceOption[];
 }

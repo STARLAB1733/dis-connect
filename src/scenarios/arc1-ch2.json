@@ -1,34 +1,35 @@
 {
   "id": "arc1-ch2",
   "title": "NDP 2026: Rehearsal Night Chaos",
-  "description": "It's the combined rehearsal and 40,000 people just opened the app at once. The servers are screaming. Your team has to keep things running while the show goes on.",
+  "description": "It's the combined rehearsal and 40,000 people just opened the app at once. The servers are struggling to keep up. Your team has to keep things running while the show goes on.",
   "image": "/chapters/arc1-ch2.svg",
   "arc": 0,
   "chapter": 1,
   "subScenarios": {
     "software-engineer": {
       "type": "binary-choice",
-      "title": "Emergency Performance Fix",
-      "instruction": "The app is crawling. Response times hit 8 seconds and people are closing the app in frustration. You've identified three bottlenecks but only have time to fix one before the fireworks segment. Which do you tackle?",
+      "title": "Emergency Speed Fix",
+      "instruction": "The app is crawling. It takes 8 seconds to load anything and people are giving up. You've found three problems but only have time to fix one before the fireworks segment. Which do you tackle?",
+      "hint": "Under pressure, the fastest fix that doesn't risk breaking other things is usually better than the perfect fix that takes too long.",
       "options": [
         {
           "id": "cache-layer",
-          "label": "Add an aggressive caching layer so repeated requests for float data don't hit the database. Fixes 60% of the load but some users might see stale fun facts for a few minutes.",
+          "label": "Remember recent answers so the app doesn't have to ask the server every time. Fixes 60% of the slowness but some users might briefly see float facts that are a few minutes out of date.",
           "axisImpact": { "Speed": 1, "Performance-First": 0.8, "Precision": -0.3 }
         },
         {
           "id": "kill-features",
-          "label": "Temporarily disable the AR overlay and serve a simplified text only version. Kills the wow factor but the app becomes instantly responsive.",
+          "label": "Turn off the camera overlay and serve a simple text-only version. The app becomes instantly fast but loses its wow factor for this rehearsal.",
           "axisImpact": { "Stability": 1, "Speed": 0.5, "Innovation": -0.8 }
         },
         {
           "id": "optimize-queries",
-          "label": "Rewrite the slowest database queries to use better indexing. Takes longer to implement but fixes the root cause permanently.",
+          "label": "Rewrite the slowest database searches to be more efficient. Takes longer to implement but permanently fixes the root cause.",
           "axisImpact": { "Precision": 1, "Stability": 0.5, "Speed": -0.5 }
         },
         {
           "id": "queue-requests",
-          "label": "Implement a request queue so users see a brief loading animation instead of timeouts. Nobody gets instant results but nobody gets errors either.",
+          "label": "Make users wait in a queue with a loading animation instead of getting error messages. Nobody gets instant results but nobody gets kicked out either.",
           "axisImpact": { "Collaboration": 0.5, "Stability": 0.8, "Performance-First": -0.3 }
         }
       ]
@@ -36,14 +37,15 @@
     "data-scientist": {
       "type": "drag-drop",
       "variant": "order",
-      "title": "Diagnose the Traffic Spike",
-      "instruction": "The monitoring dashboard is lit up like a Christmas tree. You need to run a proper incident analysis to figure out what's actually failing and why. Put these diagnostic steps in the right order.",
+      "title": "Find Out What's Breaking",
+      "instruction": "The monitoring screen is showing warnings everywhere. You need to run a proper investigation to figure out what's actually failing and why. Put these steps in the right order.",
+      "hint": "Always look at the big picture first before zooming in. Start with what's already visible before digging for hidden clues.",
       "items": [
-        { "id": "check-metrics", "label": "Pull up the real time metrics dashboard to see CPU, memory, and network usage" },
-        { "id": "identify-bottleneck", "label": "Correlate the spike timing with specific API endpoints to find the bottleneck" },
-        { "id": "sample-logs", "label": "Sample error logs from the last 10 minutes to spot patterns in failures" },
-        { "id": "trace-requests", "label": "Run distributed tracing on slow requests to see where time is being spent" },
-        { "id": "report-findings", "label": "Write up findings with data visualisations so the team can act on them" }
+        { "id": "check-metrics", "label": "Pull up the live dashboard showing server load, memory usage, and network traffic" },
+        { "id": "identify-bottleneck", "label": "Match the spike timing to specific parts of the app to pinpoint where things are breaking" },
+        { "id": "sample-logs", "label": "Look through the error logs from the last 10 minutes to spot repeating patterns" },
+        { "id": "trace-requests", "label": "Follow individual slow requests through the system to see exactly where time is being lost" },
+        { "id": "report-findings", "label": "Write up the findings with charts so the rest of the team can act on them" }
       ],
       "correctOrder": ["check-metrics", "sample-logs", "identify-bottleneck", "trace-requests", "report-findings"],
       "axisImpact": {
@@ -53,8 +55,9 @@
     },
     "cloud-engineer": {
       "type": "numeric-input",
-      "title": "Scale the Servers",
-      "instruction": "Current setup has 4 server instances handling about 10,000 users each. But 40,000 users just showed up and more are joining. Based on the user count over the last 4 time windows (in thousands), predict how many server instances you need to spin up RIGHT NOW to handle the peak.",
+      "title": "Scale Up the Servers",
+      "instruction": "The setup currently has 4 servers, each comfortably handling about 10,000 users. But 40,000 users just showed up and more are joining. Based on the user count over the last 4 time windows (in thousands), how many servers do you need to spin up RIGHT NOW to handle the peak?",
+      "hint": "Each server handles 10,000 users. Divide the peak user count by 10,000 and round up.",
       "chartData": [4, 12, 28, 40],
       "expected": 8,
       "tolerance": 3,

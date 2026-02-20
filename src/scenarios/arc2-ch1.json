@@ -1,7 +1,7 @@
 {
   "id": "arc2-ch1",
   "title": "Exercise Northstar: D-30",
-  "description": "A major military exercise kicks off in 30 days. Command wants a live dashboard showing unit positions, supply levels, and readiness status in real time. Your team gets to build it from scratch.",
+  "description": "A major military exercise kicks off in 30 days. Command wants a live screen showing where every unit is, how many supplies they have, and whether their radios are working. Your team builds it from scratch.",
   "image": "/chapters/arc2-ch1.svg",
   "arc": 1,
   "chapter": 0,
@@ -9,14 +9,15 @@
     "software-engineer": {
       "type": "drag-drop",
       "variant": "layout",
-      "title": "Design the Dashboard Architecture",
-      "instruction": "The commanders want a single screen that shows everything: where units are, what supplies they have, and whether comms are working. Drag each component into the right area of the dashboard layout. Area 1 is the main display, Areas 2 and 3 are side panels, and Area 4 is the status bar.",
+      "title": "Design the Command Screen",
+      "instruction": "The commanders want a single screen that shows everything: where units are, what supplies they have, and whether comms are working. Drag each piece of information to the right spot on the screen. Slot 1 is the main display, Slots 2 and 3 are side panels, and Slot 4 is the status bar at the bottom.",
+      "hint": "The most important information — the one commanders look at every few seconds — should take up the most space.",
       "items": [
-        { "id": "live-map", "label": "Live Map with Unit Markers" },
+        { "id": "live-map", "label": "Live Map with Unit Positions" },
         { "id": "supply-chart", "label": "Supply Level Charts" },
-        { "id": "comms-status", "label": "Comms Network Status" },
-        { "id": "alert-feed", "label": "Real Time Alert Feed" },
-        { "id": "unit-roster", "label": "Unit Roster & Readiness" },
+        { "id": "comms-status", "label": "Radio Network Status" },
+        { "id": "alert-feed", "label": "Live Alert Feed" },
+        { "id": "unit-roster", "label": "Unit List and Readiness" },
         { "id": "weather-overlay", "label": "Weather Conditions" }
       ],
       "dropZones": [
@@ -33,27 +34,28 @@
     },
     "data-scientist": {
       "type": "binary-choice",
-      "title": "Choose the Data Pipeline",
-      "instruction": "Field units will send position updates every 30 seconds from tablets and GPS trackers. That's potentially thousands of data points per minute. How do you build the pipeline that turns raw GPS pings into useful dashboard data?",
+      "title": "Choose How to Handle the Data Flow",
+      "instruction": "Field units send their position every 30 seconds from tablets and GPS devices. That's thousands of location updates per minute flowing into the system. How do you process all that into useful information on the screen?",
+      "hint": "When data arrives constantly, you need to handle it as it arrives — but think about how much instant accuracy is actually necessary versus a few seconds of delay.",
       "options": [
         {
           "id": "stream-processing",
-          "label": "Real time stream processing. Every GPS ping is processed the moment it arrives. The map updates instantly but you need serious compute power and one bad data point could glitch the whole display.",
+          "label": "Process every location update the instant it arrives. The screen updates in real time but needs heavy computing power, and one bad reading could glitch the whole display.",
           "axisImpact": { "Speed": 1, "Performance-First": 0.8, "Stability": -0.3 }
         },
         {
           "id": "micro-batch",
-          "label": "Micro batch processing every 5 seconds. Slightly delayed but you can clean and validate the data before it hits the dashboard. Commanders see positions that are at most 5 seconds old.",
+          "label": "Group updates every 5 seconds and clean the data before showing it. Commanders see positions that are at most 5 seconds old and the screen never shows bad data.",
           "axisImpact": { "Precision": 1, "Stability": 0.5, "Speed": -0.3 }
         },
         {
           "id": "edge-compute",
-          "label": "Process data at the edge on each unit's device before sending summaries. Reduces bandwidth by 80% which matters in the field, but you lose the raw granular data.",
+          "label": "Process data on the unit's own device and only send a summary. Cuts radio bandwidth by 80% — important in the field — but you lose the detailed raw readings.",
           "axisImpact": { "Cost-Conscious": 1, "Innovation": 0.5, "Precision": -0.3 }
         },
         {
           "id": "hybrid-approach",
-          "label": "Hybrid: stream critical alerts in real time but batch everything else every 10 seconds. Balanced but more complex to build and maintain.",
+          "label": "Send critical alerts in real time but batch everything else every 10 seconds. Balanced, but more complex to build and maintain.",
           "axisImpact": { "Stability": 0.8, "Innovation": 0.5, "Speed": 0.3 }
         }
       ]
@@ -62,13 +64,14 @@
       "type": "drag-drop",
       "variant": "order",
       "title": "Set Up the Field Network",
-      "instruction": "The exercise happens in a training area with patchy cellular coverage. You need to set up a reliable network that connects field units to the central dashboard. Put the setup steps in the right order.",
+      "instruction": "The exercise happens in a training area with patchy mobile signal. You need to set up a reliable network linking field units to the command screen. Put the setup steps in the right order.",
+      "hint": "Before building anything, understand the terrain. Then build the main network, add backup connections, test thoroughly, and only then set up failover.",
       "items": [
-        { "id": "survey-terrain", "label": "Survey the training ground to map dead zones and terrain obstacles" },
-        { "id": "deploy-mesh", "label": "Deploy portable mesh network nodes at key positions" },
-        { "id": "satellite-backup", "label": "Configure satellite uplink as backup for when cellular drops" },
-        { "id": "test-throughput", "label": "Test data throughput from the furthest unit position to command post" },
-        { "id": "failover-config", "label": "Set up automatic failover so devices switch networks seamlessly" }
+        { "id": "survey-terrain", "label": "Walk the training ground to find areas with no signal and note any obstacles" },
+        { "id": "deploy-mesh", "label": "Set up portable network relay nodes at key positions across the area" },
+        { "id": "satellite-backup", "label": "Configure a satellite uplink as a backup for when mobile signal drops completely" },
+        { "id": "test-throughput", "label": "Test data speeds from the furthest unit position back to the command post" },
+        { "id": "failover-config", "label": "Set up automatic switching so devices seamlessly jump to the best available network" }
       ],
       "correctOrder": ["survey-terrain", "deploy-mesh", "satellite-backup", "test-throughput", "failover-config"],
       "axisImpact": {

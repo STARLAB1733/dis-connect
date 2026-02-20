@@ -40,6 +40,7 @@ export default function DragDropOrderStep({ items, onComplete }: DragDropOrderSt
   const [order, setOrder] = React.useState<string[]>(() =>
     shuffleArray(items.map((i) => i.id))
   );
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const handleDragStart = (e: DragStartEvent) => {
     setActiveId(e.active.id as string);
@@ -79,7 +80,12 @@ export default function DragDropOrderStep({ items, onComplete }: DragDropOrderSt
         </DragOverlay>
       </DndContext>
       <button
-        onClick={() => onComplete(order)}
+        onClick={() => {
+          if (isSubmitting) return;
+          setIsSubmitting(true);
+          onComplete(order);
+        }}
+        disabled={isSubmitting}
         className="
           mt-10 px-4 py-2
           bg-[#FF6600] hover:bg-[#e65a00]

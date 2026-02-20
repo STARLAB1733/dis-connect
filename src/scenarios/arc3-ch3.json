@@ -9,22 +9,24 @@
     "software-engineer": {
       "type": "drag-drop",
       "variant": "order",
-      "title": "Deploy the Recovery Scripts",
-      "instruction": "You've written automated scripts to restore each substation safely. But they must run in a specific sequence or you risk overloading the still-healthy sections of the grid. Put the restoration sequence in order.",
+      "title": "Run the Power Restoration Sequence",
+      "instruction": "Automated scripts will bring each station back online safely — but they must run in the right sequence or you risk overloading the healthy parts of the grid. Put the restoration steps in order.",
+      "hint": "Before restoring power, make absolutely sure the stations are clean. Then restore the main backbone before the branches — and always restore hospitals and critical services before homes.",
       "items": [
-        { "id": "verify-clean", "label": "Verify all compromised substations have been wiped and reimaged" },
-        { "id": "restore-backbone", "label": "Restore the backbone transmission substations that feed multiple zones" },
-        { "id": "test-load", "label": "Bring up a test load to verify the backbone can handle demand" },
-        { "id": "restore-district", "label": "Sequentially restore district-level substations in order of hospital and critical service priority" },
-        { "id": "residential-last", "label": "Restore residential areas last in order of grid zone capacity" }
+        { "id": "verify-clean", "label": "Confirm every compromised station has been wiped and is definitely clean" },
+        { "id": "restore-backbone", "label": "Bring back the main transmission stations that supply power to multiple zones" },
+        { "id": "test-load", "label": "Run a test load to verify the backbone can handle the demand before connecting more" },
+        { "id": "restore-district", "label": "Restore district stations in priority order — hospitals and critical services first" },
+        { "id": "residential-last", "label": "Restore residential areas last, zone by zone based on grid capacity" }
       ],
       "correctOrder": ["verify-clean", "restore-backbone", "test-load", "restore-district", "residential-last"],
       "axisImpact": { "Stability": 1, "Precision": 0.8 }
     },
     "data-scientist": {
       "type": "numeric-input",
-      "title": "Predict Safe Restoration Rate",
-      "instruction": "Restoring power too fast can overload transformer lines. Based on the load increase capacity tests over the last 4 hours (percentage of normal load the grid accepted safely), predict the maximum safe restoration percentage per hour to avoid a cascade failure.",
+      "title": "Find the Safe Restoration Speed",
+      "instruction": "Restoring power too fast can overload the lines and cause another blackout. Based on safety tests over the last 4 hours (percentage of normal load the grid safely handled), predict the maximum safe percentage of power you can restore per hour without risking a cascade failure.",
+      "hint": "The safe load percentage is growing each hour by a similar amount. Extend the trend one more step forward.",
       "chartData": [10, 22, 38, 51],
       "expected": 65,
       "tolerance": 12,
@@ -32,27 +34,28 @@
     },
     "cloud-engineer": {
       "type": "binary-choice",
-      "title": "Rebuild or Patch the SCADA Systems",
-      "instruction": "The compromised SCADA systems need to be secured before they go back online. You have two options and time is critical because people are still without power.",
+      "title": "Secure the Stations Before Restoring Power",
+      "instruction": "The compromised control systems need to be fully secured before going back online. People are still without power, so time matters. What do you do?",
+      "hint": "Remember that 200,000 people are without power — but restoring a system that still has the attacker inside just hands them back control.",
       "options": [
         {
           "id": "full-rebuild",
-          "label": "Full rebuild from a known clean image. Every compromised node gets a fresh OS install and config. Takes 6 hours but you're 100% sure the attacker left no traces.",
+          "label": "Complete rebuild from scratch — every compromised device gets a fresh install of everything. Takes 6 hours but you're 100% certain the attacker left no traces.",
           "axisImpact": { "Stability": 1, "Precision": 0.8, "Speed": -0.8 }
         },
         {
           "id": "forensic-patch",
-          "label": "Forensic patching: surgically remove only the identified malware and close the specific vulnerabilities exploited. Faster (2 hours) but there's a 15% chance of missing something.",
+          "label": "Surgically remove only the identified malicious code and close the specific holes used in the attack. Done in 2 hours but there's a 15% chance of missing something hidden.",
           "axisImpact": { "Speed": 1, "Cost-Conscious": 0.5, "Stability": -0.5 }
         },
         {
           "id": "shadow-monitor",
-          "label": "Bring systems back online under intense monitoring. If the attacker is still hiding, they'll reveal themselves when they try to move. Very risky but gives the best intelligence.",
+          "label": "Bring systems back online under intense observation. If the attacker is still hiding, they'll reveal themselves when they try to move again. Risky but gives the best intelligence on what they left behind.",
           "axisImpact": { "Innovation": 1, "Precision": 0.5, "Stability": -0.8 }
         },
         {
           "id": "hardware-swap",
-          "label": "Replace the physical hardware entirely. Most expensive and takes 12 hours but removes any possibility of firmware-level persistence.",
+          "label": "Replace the physical hardware entirely. The most expensive option and takes 12 hours, but eliminates any possibility of hidden software surviving at a deep level.",
           "axisImpact": { "Stability": 0.8, "Precision": 1, "Cost-Conscious": -1 }
         }
       ]

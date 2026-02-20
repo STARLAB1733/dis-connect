@@ -1,7 +1,7 @@
 {
   "id": "arc1-ch1",
   "title": "NDP 2026: T-Minus 3 Weeks",
-  "description": "The NDP committee just greenlit a brand new parade segment and they want a companion app feature for 40,000 attendees. Your team has 3 weeks to ship it. No pressure.",
+  "description": "The NDP committee just approved a brand new parade segment and they want a companion app feature for 40,000 attendees. Your team has 3 weeks to ship it. No pressure.",
   "image": "/chapters/arc1-ch1.svg",
   "arc": 0,
   "chapter": 0,
@@ -9,14 +9,15 @@
     "software-engineer": {
       "type": "drag-drop",
       "variant": "order",
-      "title": "Build the Parade Companion Feature",
-      "instruction": "The NDP app needs a live AR overlay that lets spectators point their phone at parade floats and see fun facts pop up. You need to plan the development pipeline. Put these steps in the right order so the feature ships on time without breaking the existing app.",
+      "title": "Plan the Parade App Feature",
+      "instruction": "The NDP app needs a live camera overlay so spectators can point their phone at parade floats and see fun facts pop up. You need to plan how the team builds this. Put these steps in the right order so the feature ships on time without breaking the existing app.",
+      "hint": "In any project, agree on the shared plan before building, and always test the trickiest part early before committing to the full build.",
       "items": [
-        { "id": "api-spec", "label": "Write the API specification so frontend and backend teams can work in parallel" },
-        { "id": "ar-prototype", "label": "Build a quick AR prototype to test float recognition accuracy" },
-        { "id": "backend-endpoints", "label": "Set up the backend endpoints that serve float data and fun facts" },
-        { "id": "integration-test", "label": "Run integration tests with the existing NDP app to catch conflicts" },
-        { "id": "load-test", "label": "Simulate 40,000 concurrent users to make sure servers hold up" }
+        { "id": "api-spec", "label": "Write a shared rulebook so the frontend and backend teams can build in parallel without stepping on each other" },
+        { "id": "ar-prototype", "label": "Build a quick test to see if the phone camera can actually recognise the parade floats" },
+        { "id": "backend-endpoints", "label": "Set up the behind-the-scenes servers that send float information to people's phones" },
+        { "id": "integration-test", "label": "Test the new feature inside the existing NDP app to catch any conflicts" },
+        { "id": "load-test", "label": "Simulate 40,000 people using the app at once to make sure the servers hold up" }
       ],
       "correctOrder": ["api-spec", "ar-prototype", "backend-endpoints", "integration-test", "load-test"],
       "axisImpact": {
@@ -27,7 +28,8 @@
     "data-scientist": {
       "type": "numeric-input",
       "title": "Forecast App Downloads",
-      "instruction": "Marketing wants to know how many app downloads to expect in the week before NDP so they can plan server capacity. Past years show downloads spike closer to the event. Looking at the last 4 weeks of download data (in thousands), predict the total downloads (in thousands) for the final week before NDP.",
+      "instruction": "Marketing needs to know how many people will download the app in the week before NDP so they can prepare enough server space. Downloads spike closer to the event. Based on the last 4 weeks of download data (in thousands), predict the total downloads (in thousands) for the final week before NDP.",
+      "hint": "Look at how much the number grows each week. The jump keeps getting bigger — extend that pattern one more step.",
       "chartData": [8, 15, 28, 52],
       "expected": 95,
       "tolerance": 25,
@@ -38,27 +40,28 @@
     },
     "cloud-engineer": {
       "type": "binary-choice",
-      "title": "Choose Your Hosting Strategy",
-      "instruction": "The NDP app feature needs cloud hosting that can handle massive traffic on the actual day but not waste money sitting idle the other 364 days. What's your approach?",
+      "title": "Pick a Hosting Plan",
+      "instruction": "The NDP app feature needs a cloud hosting plan that can handle massive traffic on the actual day but not waste money sitting idle the other 364 days. What's your approach?",
+      "hint": "For something that's only busy one day a year, the smartest choice is usually the one that costs the least when nobody's using it.",
       "options": [
         {
           "id": "serverless",
-          "label": "Go fully serverless with auto scaling. Zero cost when idle, scales infinitely on NDP day. But cold starts might cause a 2 second delay for the first users each hour.",
+          "label": "Pay-per-use hosting — costs nothing when idle, scales up automatically on NDP day. The trade-off: the very first users each hour might wait an extra 2 seconds for the system to wake up.",
           "axisImpact": { "Cost-Conscious": 1, "Innovation": 0.5, "Speed": -0.3 }
         },
         {
           "id": "reserved-burst",
-          "label": "Reserve a baseline of servers and add burst capacity for NDP day. Predictable performance but you're paying for idle servers during the build phase.",
+          "label": "Reserve a set number of servers and add extra capacity just for NDP day. Reliable performance but you're paying for those servers even when they sit idle during the build phase.",
           "axisImpact": { "Stability": 1, "Performance-First": 0.5, "Cost-Conscious": -0.5 }
         },
         {
           "id": "cdn-edge",
-          "label": "Push everything to CDN edge nodes across Singapore. Lightning fast for static content but real time features like the AR overlay might lag behind.",
+          "label": "Push everything to servers spread across Singapore so pages load instantly. Great for images and text, but real-time features like the camera overlay might not update as fast.",
           "axisImpact": { "Speed": 1, "Performance-First": 0.5, "Innovation": -0.3 }
         },
         {
           "id": "hybrid-partner",
-          "label": "Partner with a local cloud provider who already hosts government services. Guaranteed SLA and data stays in Singapore, but limited customisation options.",
+          "label": "Partner with a local cloud provider that already hosts government services. Guaranteed reliability and all data stays in Singapore, but you have less freedom to customise things.",
           "axisImpact": { "Collaboration": 1, "Stability": 0.5, "Autonomy": -0.5 }
         }
       ]

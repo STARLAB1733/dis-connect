@@ -9,6 +9,7 @@ import ScenarioWrapper from '@/components/ScenarioWrapper';
 import { getScenario } from '@/lib/scenarioLoader';
 import {
   ROLE_LABELS,
+  ROLE_SUBTITLES,
   ROLE_KEYS,
   NUM_ARCS,
   CHAPTERS_PER_ARC,
@@ -47,6 +48,22 @@ export default function GamePage() {
   // Track the chapter key we last submitted an answer for, to detect genuine new chapters
   const submittedForRef = useRef<string | null>(null);
   const { switchBgm, playSfx } = useAudio();
+  const [skipReady, setSkipReady] = useState(false);
+  const [promoteReady, setPromoteReady] = useState(false);
+
+  // ── Derive values safely (lobby may be null at hook time) ─────────────────
+  const players = lobby?.players || [];
+  const arcIdx = lobby?.arcIdx ?? 0;
+  const chapterIdx = lobby?.chapterIdx ?? 0;
+  const rotationIdx = lobby?.rotationIdx ?? 0;
+  const chapterKey = `${arcIdx}-${chapterIdx}`;
+  const myIdx = user ? players.findIndex(p => p.uid === user.uid) : -1;
+  const roundAnswers = lobby?.roundAnswers || {};
+  const iHaveAnswered = !!(user && (submittedForRef.current === chapterKey || roundAnswers[user.uid]));
+  const isHost = players.length > 0 && players[0]?.uid === user?.uid;
+  const allAnswered = players.length > 0 && allPlayersAnswered(roundAnswers, players.map(p => p.uid));
+  // Only the second player in line gets the promote button
+  const myIsNextHost = !isHost && players.length > 1 && players[1]?.uid === user?.uid;
 
   // Switch to game BGM on mount, back to lobby on unmount
   useEffect(() => {
@@ -67,30 +84,58 @@ export default function GamePage() {
     });
   }, [lobbyId, router]);
 
+  // Reset dropout timers whenever the chapter advances
+  useEffect(() => {
+    setSkipReady(false);
+    setPromoteReady(false);
+  }, [chapterKey]);
+
+  // Skip timer: 60s after I answered, if others still haven't
+  useEffect(() => {
+    if (!iHaveAnswered || allAnswered) return;
+    const t = setTimeout(() => setSkipReady(true), 60_000);
+    return () => clearTimeout(t);
+  }, [iHaveAnswered, allAnswered, chapterKey]);
+
+  // Promote timer: 30s after all answered but host hasn't advanced
+  useEffect(() => {
+    if (!allAnswered || isHost) return;
+    const t = setTimeout(() => setPromoteReady(true), 30_000);
+    return () => clearTimeout(t);
+  }, [allAnswered, isHost, chapterKey]);
+
   if (!lobby || !user) return <Spinner />;
 
   // Redirect guard in render path (belt-and-suspenders alongside onSnapshot)
   if (lobby.finished) return <Spinner />;
 
-  const players = lobby.players || [];
-  const myIdx = players.findIndex(p => p.uid === user.uid);
-  const arcIdx = lobby.arcIdx ?? 0;
-  const chapterIdx = lobby.chapterIdx ?? 0;
-  const rotationIdx = lobby.rotationIdx ?? 0;
-
-  const myRole: RoleKey = lobby.currentRoles?.[user.uid]
-    ?? (myIdx >= 0 ? getPlayerRole(myIdx, rotationIdx) : 'software-engineer');
-
   const scenario = getScenario(arcIdx, chapterIdx);
-  const roundAnswers = lobby.roundAnswers || {};
+  if (!scenario) return <Spinner />;
 
-  // A unique key for this chapter — used to detect when Firestore advances to a new chapter
-  const chapterKey = `${arcIdx}-${chapterIdx}`;
-  // I have answered this chapter if I submitted for this exact chapterKey OR if Firestore shows my answer
-  const iHaveAnswered = submittedForRef.current === chapterKey || !!roundAnswers[user.uid];
+  // ── Spectator view: user arrived after game started ───────────────────────
+  if (myIdx === -1) {
+    return (
+      <div className="min-h-dvh flex flex-col items-center justify-center gap-4 p-6 bg-[#0f172a]">
+        <p className="text-[#FF6600] text-xs uppercase tracking-widest font-semibold">Spectating</p>
+        <h1 className="text-xl font-bold text-[#e2e8f0] text-center">{scenario.title}</h1>
+        <p className="text-sm text-[#94a3b8] text-center max-w-xs">{scenario.description}</p>
+        <div className="flex gap-2 flex-wrap justify-center mt-2">
+          {players.map(p => (
+            <span key={p.uid} className="text-xs px-3 py-1 rounded-full bg-[#1e293b] text-[#94a3b8]">
+              {p.name}
+            </span>
+          ))}
+        </div>
+        <p className="text-[#94a3b8] text-xs text-center mt-4 max-w-xs">
+          You joined after the game started — watch only.
+        </p>
+      </div>
+    );
+  }
 
-  const isHost = players.length > 0 && players[0].uid === user.uid;
-  const allAnswered = players.length > 0 && allPlayersAnswered(roundAnswers, players.map(p => p.uid));
+  // myIdx >= 0 is guaranteed past this point
+  const myRole: RoleKey = lobby.currentRoles?.[user.uid]
+    ?? getPlayerRole(myIdx, rotationIdx);
 
   const totalChapters = NUM_ARCS * CHAPTERS_PER_ARC;
   const completedChapters = arcIdx * CHAPTERS_PER_ARC + chapterIdx;
@@ -114,7 +159,6 @@ export default function GamePage() {
         roundAnswers: {},
         currentRoles: newRoles,
       });
-      // Clear our local submission record so next chapter renders the scenario
       submittedForRef.current = null;
     }
   };
@@ -128,7 +172,23 @@ export default function GamePage() {
     });
   };
 
-  if (!scenario) return <Spinner />;
+  // Host-only: mark pending players as answered to unblock the chapter
+  const skipMissingPlayers = async () => {
+    const pendingUids = players.map(p => p.uid).filter(uid => !roundAnswers[uid]);
+    if (pendingUids.length === 0) return;
+    const updates: Record<string, true> = {};
+    pendingUids.forEach(uid => { updates[`roundAnswers.${uid}`] = true; });
+    await updateDoc(doc(db, 'lobbies', lobbyId), updates);
+  };
+
+  // Next-in-line only: reorder players so this user becomes the host
+  const promoteToHost = async () => {
+    const reordered = [
+      players.find(p => p.uid === user.uid)!,
+      ...players.filter(p => p.uid !== user.uid),
+    ];
+    await updateDoc(doc(db, 'lobbies', lobbyId), { players: reordered });
+  };
 
   // ── All players answered → show advance screen ──────────────────────────
   if (allAnswered) {
@@ -167,6 +227,17 @@ export default function GamePage() {
               </span>
             ))}
           </div>
+          {promoteReady && myIsNextHost && (
+            <div className="mt-4 flex flex-col items-center gap-2">
+              <p className="text-[#94a3b8] text-xs text-center">Host appears to be offline.</p>
+              <button
+                onClick={promoteToHost}
+                className="px-6 py-3 bg-[#1e293b] border border-[#FF6600] text-[#FF6600] rounded-lg text-sm font-semibold tracking-wider uppercase transition hover:bg-[#FF6600] hover:text-white"
+              >
+                Assume Command
+              </button>
+            </div>
+          )}
         </div>
       );
     }
@@ -192,6 +263,17 @@ export default function GamePage() {
             </span>
           ))}
         </div>
+        {skipReady && isHost && (
+          <div className="mt-4 flex flex-col items-center gap-2">
+            <p className="text-[#94a3b8] text-xs text-center">Some agents appear to be offline.</p>
+            <button
+              onClick={skipMissingPlayers}
+              className="px-6 py-3 bg-[#1e293b] border border-[#334155] text-[#94a3b8] rounded-lg text-sm font-semibold tracking-wider uppercase transition hover:border-[#FF6600] hover:text-[#FF6600]"
+            >
+              Skip Offline Agents
+            </button>
+          </div>
+        )}
       </div>
     );
   }
@@ -218,10 +300,13 @@ export default function GamePage() {
           {ROLE_KEYS.map(rk => (
             <span
               key={rk}
-              className={`text-xs px-2.5 py-1 rounded-full font-semibold transition
-                ${myRole === rk ? 'bg-[#FF6600] text-white' : 'bg-[#1e293b] text-[#94a3b8]'}`}
+              className={`px-2.5 py-1 rounded-full font-semibold transition flex flex-col items-center leading-tight
+                ${myRole === rk ? 'bg-[#FF6600] text-white text-xs' : 'bg-[#1e293b] text-[#94a3b8] text-xs'}`}
             >
               {ROLE_LABELS[rk]}
+              {myRole === rk && (
+                <span className="text-[0.6rem] font-normal opacity-80">{ROLE_SUBTITLES[rk]}</span>
+              )}
             </span>
           ))}
         </div>
