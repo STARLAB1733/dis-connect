@@ -5,18 +5,19 @@
   "image": "/chapters/arc3-ch3.svg",
   "arc": 2,
   "chapter": 2,
+  "storyContext": "The grid is secured, but 200,000 homes and businesses are still dark. Hospitals are running on backup generators with maybe four hours of fuel left. MRT stations are using emergency lighting. The Minister just went on national TV promising power by morning. One wrong move in the restoration sequence and you could overload the healthy grid, turning a partial blackout into a total one.",
   "subScenarios": {
     "software-engineer": {
       "type": "drag-drop",
       "variant": "order",
-      "title": "Run the Power Restoration Sequence",
-      "instruction": "Automated scripts will bring each station back online safely — but they must run in the right sequence or you risk overloading the healthy parts of the grid. Put the restoration steps in order.",
+      "title": "Program the Restoration Automation Sequence",
+      "instruction": "You are configuring the automation scripts that will bring each station back online. The scripts must run in the right sequence or you risk overloading the healthy parts of the grid. Arrange the restoration steps in the correct order so the automation runs safely.",
       "hint": "The whole grid depends on the main transmission lines. Hospitals and emergency services come before residential areas. Test before you go full-scale.",
       "items": [
         { "id": "verify-clean", "label": "Confirm every compromised station has been wiped and is definitely clean" },
         { "id": "restore-backbone", "label": "Bring back the main transmission stations that supply power to multiple zones" },
         { "id": "test-load", "label": "Run a test load to verify the backbone can handle the demand before connecting more" },
-        { "id": "restore-district", "label": "Restore district stations in priority order — hospitals and critical services first" },
+        { "id": "restore-district", "label": "Restore district stations in priority order: hospitals and critical services first" },
         { "id": "residential-last", "label": "Restore residential areas last, zone by zone based on grid capacity" }
       ],
       "correctOrder": ["verify-clean", "restore-backbone", "test-load", "restore-district", "residential-last"],
@@ -36,11 +37,11 @@
       "type": "binary-choice",
       "title": "Secure the Stations Before Restoring Power",
       "instruction": "The compromised control systems need to be fully secured before going back online. People are still without power, so time matters. What do you do?",
-      "hint": "Remember that 200,000 people are without power — but restoring a system that still has the attacker inside just hands them back control.",
+      "hint": "Remember that 200,000 people are without power, but restoring a system that still has the attacker inside just hands them back control.",
       "options": [
         {
           "id": "full-rebuild",
-          "label": "Complete rebuild from scratch — every compromised device gets a fresh install of everything. Takes 6 hours but you're 100% certain the attacker left no traces.",
+          "label": "Complete rebuild from scratch: every compromised device gets a fresh install of everything. Takes 6 hours but you're 100% certain the attacker left no traces.",
           "axisImpact": { "Stability": 1, "Precision": 0.8, "Speed": -0.8 }
         },
         {
@@ -56,7 +57,7 @@
         {
           "id": "hardware-swap",
           "label": "Replace the physical hardware entirely. The most expensive option and takes 12 hours, but eliminates any possibility of hidden software surviving at a deep level.",
-          "axisImpact": { "Stability": 0.8, "Precision": 1, "Cost-Conscious": -1 }
+          "axisImpact": { "Stability": 0.8, "Precision": 1, "Cost-Conscious": -0.8 }
         }
       ]
     }

@@ -358,8 +358,14 @@ export default function GamePage() {
 
         {/* Chapter image */}
         {scenario.image && (
-          <div className="w-full h-32 sm:h-40 relative mb-4 rounded-lg overflow-hidden bg-[#1e293b] game-chapter-image flex items-center justify-center">
-            <Image src={scenario.image} alt={scenario.title} fill sizes="(max-width: 768px) 100vw, 56rem" style={{ objectFit: 'contain' }} priority />
+          <div className="w-full h-32 sm:h-40 relative mb-4 rounded-lg overflow-hidden game-chapter-image">
+            <Image src={scenario.image} alt={scenario.title} fill sizes="(max-width: 768px) 100vw, 56rem" style={{ objectFit: 'cover' }} priority />
+          </div>
+        )}
+
+        {scenario.storyContext && (
+          <div className="bg-[#0f172a] border border-[#1e293b] rounded-lg p-4 mb-4 text-center">
+            <p className="text-sm text-[#cbd5e1] italic leading-relaxed">{scenario.storyContext}</p>
           </div>
         )}
 

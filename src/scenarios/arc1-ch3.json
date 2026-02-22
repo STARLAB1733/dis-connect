@@ -5,6 +5,7 @@
   "image": "/chapters/arc1-ch3.svg",
   "arc": 0,
   "chapter": 2,
+  "storyContext": "It's 5:47am on NDP morning. You're half asleep at your desk when the Slack channel explodes. A contractor ran a cleanup script against the wrong database, and the production data is gone. The last backup is 6 hours old. Gates open at 9am. Three hours to bring it all back, with 40,000 people expecting a working app when they walk in.",
   "subScenarios": {
     "software-engineer": {
       "type": "drag-drop",
@@ -29,7 +30,7 @@
       "type": "binary-choice",
       "title": "Recover the Lost Data",
       "instruction": "The wiped database included 6 hours of user activity that marketing needs for their NDP social media campaign. The raw records still exist in a separate system but they're messy and unprocessed. What's your plan?",
-      "hint": "Something useful delivered in time beats something perfect delivered too late — but think about whether the data is even still relevant.",
+      "hint": "Something useful delivered in time beats something perfect delivered too late. But think about whether the data is even still relevant.",
       "options": [
         {
           "id": "rebuild-full",

@@ -5,6 +5,7 @@
   "image": "/chapters/arc2-ch2.svg",
   "arc": 1,
   "chapter": 1,
+  "storyContext": "One week to go and the stress test results just came in. The command screen crashes the moment 500 users connect. The exercise will have 3,000. Your team lead slides the test report across the table and says, \"The generals demo this on Thursday. Fix it or we explain to a two-star why his screen went blank.\" Seven days. No extensions.",
   "subScenarios": {
     "software-engineer": {
       "type": "binary-choice",

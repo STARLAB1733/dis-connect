@@ -358,29 +358,31 @@ export default function ResultsPage() {
               <p className="text-center text-[#94a3b8] text-sm py-4">No team scores yet — play with a team name to appear here.</p>
             ) : (
               <div className="bg-[#1e293b] rounded-xl overflow-hidden">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-[#334155]">
-                      <th className="text-left p-3 text-[#94a3b8] w-8">#</th>
-                      <th className="text-left p-3 text-[#94a3b8]">Team</th>
-                      <th className="text-center p-3 text-[#94a3b8] hidden sm:table-cell">Players</th>
-                      <th className="text-right p-3 text-[#94a3b8]">Total Score</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {teamLeaderboard.map((t, i) => (
-                      <tr key={t.teamName} className={`border-b border-[#334155]/50 ${t.teamName === myTeamName ? 'bg-[#FF6600]/10' : ''}`}>
-                        <td className={`p-3 font-bold text-base ${medalColour(i)}`}>{i + 1}</td>
-                        <td className="p-3">
-                          <p className="text-[#e2e8f0] font-semibold max-w-[140px] truncate">{t.teamName}</p>
-                          <p className="text-[#94a3b8] text-xs">avg {t.avgScore} / player</p>
-                        </td>
-                        <td className="p-3 text-center text-[#94a3b8] hidden sm:table-cell">{t.playerCount}</td>
-                        <td className="p-3 text-right text-[#FF6600] font-bold text-base">{t.totalScore}</td>
+                <div className="overflow-y-auto max-h-96 themed-scroll">
+                  <table className="w-full text-sm">
+                    <thead className="sticky top-0 bg-[#1e293b] z-10">
+                      <tr className="border-b border-[#334155]">
+                        <th className="text-left p-3 text-[#94a3b8] w-8">#</th>
+                        <th className="text-left p-3 text-[#94a3b8]">Team</th>
+                        <th className="text-center p-3 text-[#94a3b8] hidden sm:table-cell">Players</th>
+                        <th className="text-right p-3 text-[#94a3b8]">Total Score</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {teamLeaderboard.map((t, i) => (
+                        <tr key={t.teamName} className={`border-b border-[#334155]/50 ${t.teamName === myTeamName ? 'bg-[#FF6600]/10' : ''}`}>
+                          <td className={`p-3 font-bold text-base ${medalColour(i)}`}>{i + 1}</td>
+                          <td className="p-3">
+                            <p className="text-[#e2e8f0] font-semibold max-w-[140px] truncate">{t.teamName}</p>
+                            <p className="text-[#94a3b8] text-xs">avg {t.avgScore} / player</p>
+                          </td>
+                          <td className="p-3 text-center text-[#94a3b8] hidden sm:table-cell">{t.playerCount}</td>
+                          <td className="p-3 text-right text-[#FF6600] font-bold text-base">{t.totalScore}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )
           )}
@@ -390,31 +392,33 @@ export default function ResultsPage() {
               <p className="text-center text-[#94a3b8] text-sm py-4">No individual scores yet.</p>
             ) : (
               <div className="bg-[#1e293b] rounded-xl overflow-hidden">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-[#334155]">
-                      <th className="text-left p-3 text-[#94a3b8] w-8">#</th>
-                      <th className="text-left p-3 text-[#94a3b8]">Player</th>
-                      <th className="text-right p-3 text-[#94a3b8] hidden sm:table-cell">Score</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {individualLeaderboard.map((e, i) => (
-                      <tr key={e.uid} className={`border-b border-[#334155]/50 ${e.uid === user.uid ? 'bg-[#FF6600]/10' : ''}`}>
-                        <td className={`p-3 font-bold text-base ${medalColour(i)}`}>{i + 1}</td>
-                        <td className="p-3">
-                          <p className="text-[#e2e8f0] font-medium">
-                            {e.name}
-                            {e.uid === user.uid && <span className="text-[#FF6600] text-xs ml-1">(you)</span>}
-                          </p>
-                          {e.teamName && <p className="text-[#94a3b8] text-xs">{e.teamName}</p>}
-                          <p className="text-[#94a3b8] text-xs">{e.vocation}</p>
-                        </td>
-                        <td className="p-3 text-right text-[#FF6600] font-bold hidden sm:table-cell">{e.score}</td>
+                <div className="overflow-y-auto max-h-96 themed-scroll">
+                  <table className="w-full text-sm">
+                    <thead className="sticky top-0 bg-[#1e293b] z-10">
+                      <tr className="border-b border-[#334155]">
+                        <th className="text-left p-3 text-[#94a3b8] w-8">#</th>
+                        <th className="text-left p-3 text-[#94a3b8]">Player</th>
+                        <th className="text-right p-3 text-[#94a3b8] hidden sm:table-cell">Score</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {individualLeaderboard.map((e, i) => (
+                        <tr key={e.uid} className={`border-b border-[#334155]/50 ${e.uid === user.uid ? 'bg-[#FF6600]/10' : ''}`}>
+                          <td className={`p-3 font-bold text-base ${medalColour(i)}`}>{i + 1}</td>
+                          <td className="p-3">
+                            <p className="text-[#e2e8f0] font-medium">
+                              {e.name}
+                              {e.uid === user.uid && <span className="text-[#FF6600] text-xs ml-1">(you)</span>}
+                            </p>
+                            {e.teamName && <p className="text-[#94a3b8] text-xs">{e.teamName}</p>}
+                            <p className="text-[#94a3b8] text-xs">{e.vocation}</p>
+                          </td>
+                          <td className="p-3 text-right text-[#FF6600] font-bold hidden sm:table-cell">{e.score}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )
           )}
