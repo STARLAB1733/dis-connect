@@ -5,6 +5,7 @@
   "image": "/chapters/arc1-ch2.svg",
   "arc": 0,
   "chapter": 1,
+  "storyContext": "The combined rehearsal is in full swing. Forty thousand people in the stands just opened the NDP app at the same time, and your monitoring dashboard has turned completely red. The production manager is on the radio asking why the float overlay keeps crashing. You have until the fireworks segment to fix this, or the committee pulls the feature for the actual show.",
   "subScenarios": {
     "software-engineer": {
       "type": "binary-choice",
@@ -20,7 +21,7 @@
         {
           "id": "kill-features",
           "label": "Turn off the camera overlay and serve a simple text-only version. The app becomes instantly fast but loses its wow factor for this rehearsal.",
-          "axisImpact": { "Stability": 1, "Speed": 0.5, "Innovation": -0.8 }
+          "axisImpact": { "Stability": 1, "Speed": 0.5, "Innovation": -0.5 }
         },
         {
           "id": "optimize-queries",
@@ -35,11 +36,24 @@
       ]
     },
     "data-scientist": {
+      "type": "numeric-input",
+      "title": "Estimate the Server Shortfall",
+      "instruction": "The app is getting hit harder every few minutes. Each server can handle about 5,000 users at once. Based on the user count over the last 4 time windows (in thousands), estimate the total number of servers you need to handle the peak.",
+      "hint": "Look at how fast the user count is climbing. Project where it peaks, then divide by server capacity.",
+      "chartData": [4, 12, 28, 40],
+      "expected": 11,
+      "tolerance": 3,
+      "axisImpact": {
+        "Performance-First": 1,
+        "Cost-Conscious": 0.5
+      }
+    },
+    "cloud-engineer": {
       "type": "drag-drop",
       "variant": "order",
-      "title": "Find Out What's Breaking",
-      "instruction": "The monitoring screen is showing warnings everywhere. You need to run a proper investigation to figure out what's actually failing and why. Put these steps in the right order.",
-      "hint": "Always look at the big picture first before zooming in. Start with what's already visible before digging for hidden clues.",
+      "title": "Investigate the Infrastructure Failure",
+      "instruction": "The monitoring screen is lit up with warnings. As the infrastructure lead, you need to run a systematic investigation to figure out which part of the stack is actually failing and why. Put these diagnostic steps in the right order.",
+      "hint": "Always look at the big picture first before zooming in. Start with what is already visible before digging for hidden clues.",
       "items": [
         { "id": "check-metrics", "label": "Pull up the live dashboard showing server load, memory usage, and network traffic" },
         { "id": "identify-bottleneck", "label": "Match the spike timing to specific parts of the app to pinpoint where things are breaking" },
@@ -51,19 +65,6 @@
       "axisImpact": {
         "Precision": 1,
         "Speed": 0.5
-      }
-    },
-    "cloud-engineer": {
-      "type": "numeric-input",
-      "title": "Scale Up the Servers",
-      "instruction": "The setup currently has 4 servers, each comfortably handling about 10,000 users. But 40,000 users just showed up and more are joining. Based on the user count over the last 4 time windows (in thousands), how many servers do you need to spin up RIGHT NOW to handle the peak?",
-      "hint": "You know how many users each server can handle. What's the peak load from the chart?",
-      "chartData": [4, 12, 28, 40],
-      "expected": 8,
-      "tolerance": 3,
-      "axisImpact": {
-        "Performance-First": 1,
-        "Cost-Conscious": 0.5
       }
     }
   }

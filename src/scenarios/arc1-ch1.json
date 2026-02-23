@@ -5,6 +5,7 @@
   "image": "/chapters/arc1-ch1.svg",
   "arc": 0,
   "chapter": 0,
+  "storyContext": "Three weeks before NDP and your phone buzzes at 2am. The committee just approved a last-minute parade segment, and they want a companion app feature ready for 40,000 attendees. Your team lead forwards the message with one line: \"We ship this or we don't ship at all.\" The office lights are still on at DSTA. Nobody's going home tonight.",
   "subScenarios": {
     "software-engineer": {
       "type": "drag-drop",
@@ -42,7 +43,7 @@
       "type": "binary-choice",
       "title": "Pick a Hosting Plan",
       "instruction": "The NDP app feature needs a cloud hosting plan that can handle massive traffic on the actual day but not waste money sitting idle the other 364 days. What's your approach?",
-      "hint": "Your budget has to cover 364 days of waiting plus 1 day of peak load. What matters most — upfront cost, ongoing costs, or reliability?",
+      "hint": "Your budget has to cover 364 days of waiting plus 1 day of peak load. What matters most: upfront cost, ongoing costs, or reliability?",
       "options": [
         {
           "id": "serverless",

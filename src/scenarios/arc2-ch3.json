@@ -5,6 +5,7 @@
   "image": "/chapters/arc2-ch3.svg",
   "arc": 1,
   "chapter": 2,
+  "storyContext": "The exercise is live and 3,000 personnel are in the field. Then the radio crackles: \"Command, why does my screen show Alpha Company at grid reference from twenty minutes ago? They moved to the ridge line ages ago.\" Field commanders are making decisions based on stale positions. In a real operation, that kind of lag gets people hurt.",
   "subScenarios": {
     "software-engineer": {
       "type": "drag-drop",
