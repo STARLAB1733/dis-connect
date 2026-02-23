@@ -5,12 +5,13 @@
   "image": "/chapters/arc3-ch4.svg",
   "arc": 2,
   "chapter": 3,
+  "storyContext": "Power is back. Singapore woke up, went to work, and most people will never know how close it got. But the PM knows, and Parliament wants answers. Your team has one week to produce a brief that explains who did this, how they got in, and what stops it from ever happening again. The evidence you present will shape national cybersecurity policy for the next decade. Get it right.",
   "subScenarios": {
     "software-engineer": {
       "type": "binary-choice",
       "title": "Design the Permanent Defence",
       "instruction": "The attack exploited a gap between the power station control systems and the office IT network. Leadership wants a permanent technical solution. What do you propose?",
-      "hint": "The best long-term defence closes the gap without creating new operational problems — like making it impossible to manage systems remotely.",
+      "hint": "The best long-term defence closes the gap without creating new operational problems, including making it impossible to manage systems remotely.",
       "options": [
         {
           "id": "zero-trust-ot",
@@ -24,7 +25,7 @@
         },
         {
           "id": "air-gap",
-          "label": "Physically cut all internet connections to the critical power control systems forever. The ultimate defence but makes remote management impossible — every software update needs an engineer on-site.",
+          "label": "Physically cut all internet connections to the critical power control systems forever. The ultimate defence but makes remote management impossible: every software update needs an engineer on-site.",
           "axisImpact": { "Stability": 1, "Autonomy": 0.5, "Innovation": -0.8 }
         },
         {
@@ -37,15 +38,15 @@
     "data-scientist": {
       "type": "drag-drop",
       "variant": "order",
-      "title": "Build the Attribution Case",
+      "title": "Build the Data-Driven Attribution Case",
       "instruction": "Intelligence suggests a state-backed attacker, but the PM needs solid evidence before Parliament. Put these steps in the right order to build a credible case.",
       "hint": "In intelligence work, gather all the evidence before drawing conclusions. Build from the most concrete facts toward the broader picture, and always be honest about certainty.",
       "items": [
-        { "id": "ttps-match", "label": "Match the attacker's tools and methods against known threat actor profiles" },
-        { "id": "infrastructure-trace", "label": "Trace the attacker's control servers back through layers of disguise" },
-        { "id": "code-analysis", "label": "Analyse the malicious code for clues about who wrote it — language, style, timestamps" },
-        { "id": "timing-analysis", "label": "Check the timing of the attack against known working hours of suspected groups" },
-        { "id": "confidence-statement", "label": "Write a carefully worded conclusion that is honest about how certain the evidence actually is" }
+        { "id": "ttps-match", "label": "Apply pattern matching algorithms to map the attacker's tools and techniques against known threat group profiles" },
+        { "id": "infrastructure-trace", "label": "Conduct network flow analysis to trace the attacker's command servers through layers of obfuscation" },
+        { "id": "code-analysis", "label": "Run code similarity analysis on the malicious code to identify authorship by language patterns, style, and build timestamps" },
+        { "id": "timing-analysis", "label": "Apply statistical timing correlation to match the attack schedule against known working hour patterns of suspected groups" },
+        { "id": "confidence-statement", "label": "Synthesise all findings into a confidence-weighted attribution statement for Parliament" }
       ],
       "correctOrder": ["ttps-match", "infrastructure-trace", "code-analysis", "timing-analysis", "confidence-statement"],
       "axisImpact": { "Precision": 1, "Collaboration": 0.5 }

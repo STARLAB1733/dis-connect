@@ -5,6 +5,7 @@
   "image": "/chapters/arc3-ch2.svg",
   "arc": 2,
   "chapter": 1,
+  "storyContext": "The lights went out across Jurong and Tuas at 3:14am. Within minutes, Tampines and Bedok followed. The attacker now controls 12 substations and your grid operations centre is in full crisis mode. Red phones are ringing. The Minister wants a situation report in 30 minutes. Every second the attacker stays connected, they can reach more of the grid.",
   "subScenarios": {
     "software-engineer": {
       "type": "binary-choice",
@@ -24,7 +25,7 @@
         },
         {
           "id": "credential-rotation",
-          "label": "Emergency change of all system passwords across every device. If they're using stolen credentials, this locks them out — but changing passwords on live critical infrastructure mid-incident is risky.",
+          "label": "Emergency change of all system passwords across every device. If they're using stolen credentials, this locks them out, but changing passwords on live critical infrastructure mid-incident is risky.",
           "axisImpact": { "Precision": 1, "Stability": 0.3, "Speed": -0.3 }
         },
         {
@@ -70,7 +71,7 @@
         { "id": "zone-3", "label": "Monitored Access" },
         { "id": "zone-4", "label": "Normal Operations" }
       ],
-      "correctOrder": ["compromised-substations", "adjacent-substations", "control-centre", "clean-substations"],
+      "correctOrder": ["compromised-substations", "external-vendors", "adjacent-substations", "control-centre"],
       "axisImpact": { "Stability": 1, "Precision": 0.5 }
     }
   }

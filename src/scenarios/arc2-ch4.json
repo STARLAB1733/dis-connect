@@ -5,11 +5,12 @@
   "image": "/chapters/arc2-ch4.svg",
   "arc": 1,
   "chapter": 3,
+  "storyContext": "Exercise Northstar is over. Vehicles are rolling back to camp and everyone is exhausted, but the work is not done. The Chief of Army wants a data-driven report on unit readiness, decision speed, and logistics efficiency within two weeks. The findings will shape how the SAF trains for the next five years. Your team has mountains of GPS tracks, supply logs, radio transcripts, and decision timestamps. Time to turn raw data into answers that matter.",
   "subScenarios": {
     "software-engineer": {
       "type": "binary-choice",
       "title": "Build the Review Tool",
-      "instruction": "The generals want an interactive tool that lets them replay the entire exercise — scrolling through a timeline like a video player to see how decisions played out with data on screen. How do you build it?",
+      "instruction": "The generals want an interactive tool that lets them replay the entire exercise, scrolling through a timeline like a video player to see how decisions played out with data on screen. How do you build it?",
       "hint": "Think about the trade-off between giving commanders something rich and interactive versus something simpler that can be shared widely and is ready sooner.",
       "options": [
         {
@@ -56,10 +57,10 @@
     "cloud-engineer": {
       "type": "numeric-input",
       "title": "Work Out How Much Storage You Need",
-      "instruction": "The exercise data needs to be archived for future training analysis. Based on how much data was generated each day (in terabytes) over the last 4 days of the exercise, estimate the total storage (in terabytes) needed to archive the full 14-day exercise — including an extra 30% for file indexes and metadata.",
+      "instruction": "The exercise data needs to be archived for future training analysis. Based on how much data was generated each day (in terabytes) over the last 4 days of the exercise, estimate the total storage (in terabytes) needed to archive the full 14-day exercise, including an extra 30% for file indexes and metadata.",
       "hint": "The exercise ran for 14 days total, and you need to account for metadata and redundancy on top of the raw data.",
       "chartData": [2, 3, 5, 8],
-      "expected": 78,
+      "expected": 82,
       "tolerance": 20,
       "axisImpact": {
         "Cost-Conscious": 1,

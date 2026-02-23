@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useEffect, useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { collection, getDocs, orderBy, query, limit } from 'firebase/firestore';
@@ -19,8 +21,8 @@ function LeaderboardContent() {
     async function load() {
       try {
         const [tSnap, iSnap] = await Promise.all([
-          getDocs(query(collection(db, 'teams'), orderBy('totalScore', 'desc'), limit(50))),
-          getDocs(query(collection(db, 'events', 'global', 'scores'), orderBy('score', 'desc'), limit(50))),
+          getDocs(query(collection(db, 'teams'), orderBy('totalScore', 'desc'), limit(20))),
+          getDocs(query(collection(db, 'events', 'global', 'scores'), orderBy('score', 'desc'), limit(20))),
         ]);
         setTeams(tSnap.docs.map(d => {
           const dd = d.data();
@@ -72,29 +74,31 @@ function LeaderboardContent() {
           <p className="text-center text-[#94a3b8] mt-16">No team scores yet.<br />Play with a team name to appear here.</p>
         ) : (
           <div className="bg-[#1e293b] rounded-xl overflow-hidden">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-[#334155]">
-                  <th className="text-left p-3 text-[#94a3b8] w-8">#</th>
-                  <th className="text-left p-3 text-[#94a3b8]">Team</th>
-                  <th className="text-center p-3 text-[#94a3b8] hidden sm:table-cell">Players</th>
-                  <th className="text-right p-3 text-[#94a3b8]">Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                {teams.map((t, i) => (
-                  <tr key={t.teamName} className="border-b border-[#334155]/50 hover:bg-[#334155]/30 transition">
-                    <td className={`p-3 font-bold text-base ${medalColour(i)}`}>{i + 1}</td>
-                    <td className="p-3">
-                      <p className="text-[#e2e8f0] font-semibold">{t.teamName}</p>
-                      <p className="text-[#94a3b8] text-xs">avg {t.avgScore} / player</p>
-                    </td>
-                    <td className="p-3 text-center text-[#94a3b8] hidden sm:table-cell">{t.playerCount}</td>
-                    <td className="p-3 text-right text-[#FF6600] font-bold text-base">{t.totalScore}</td>
+            <div className="overflow-y-auto max-h-96 themed-scroll">
+              <table className="w-full text-sm">
+                <thead className="sticky top-0 bg-[#1e293b] z-10">
+                  <tr className="border-b border-[#334155]">
+                    <th className="text-left p-3 text-[#94a3b8] w-8">#</th>
+                    <th className="text-left p-3 text-[#94a3b8]">Team</th>
+                    <th className="text-center p-3 text-[#94a3b8] hidden sm:table-cell">Players</th>
+                    <th className="text-right p-3 text-[#94a3b8]">Total</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {teams.map((t, i) => (
+                    <tr key={t.teamName} className="border-b border-[#334155]/50 hover:bg-[#334155]/30 transition">
+                      <td className={`p-3 font-bold text-base ${medalColour(i)}`}>{i + 1}</td>
+                      <td className="p-3">
+                        <p className="text-[#e2e8f0] font-semibold">{t.teamName}</p>
+                        <p className="text-[#94a3b8] text-xs">avg {t.avgScore} / player</p>
+                      </td>
+                      <td className="p-3 text-center text-[#94a3b8] hidden sm:table-cell">{t.playerCount}</td>
+                      <td className="p-3 text-right text-[#FF6600] font-bold text-base">{t.totalScore}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )
       ) : (
@@ -102,28 +106,30 @@ function LeaderboardContent() {
           <p className="text-center text-[#94a3b8] mt-16">No individual scores yet.</p>
         ) : (
           <div className="bg-[#1e293b] rounded-xl overflow-hidden">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-[#334155]">
-                  <th className="text-left p-3 text-[#94a3b8] w-8">#</th>
-                  <th className="text-left p-3 text-[#94a3b8]">Player</th>
-                  <th className="text-right p-3 text-[#94a3b8] hidden sm:table-cell">Score</th>
-                </tr>
-              </thead>
-              <tbody>
-                {individuals.map((e, i) => (
-                  <tr key={e.uid} className="border-b border-[#334155]/50 hover:bg-[#334155]/30 transition">
-                    <td className={`p-3 font-bold text-base ${medalColour(i)}`}>{i + 1}</td>
-                    <td className="p-3">
-                      <p className="text-[#e2e8f0] font-medium">{e.name}</p>
-                      {e.teamName && <p className="text-[#94a3b8] text-xs">{e.teamName}</p>}
-                      <p className="text-[#94a3b8] text-xs">{e.vocation}</p>
-                    </td>
-                    <td className="p-3 text-right text-[#FF6600] font-bold hidden sm:table-cell">{e.score}</td>
+            <div className="overflow-y-auto max-h-96 themed-scroll">
+              <table className="w-full text-sm">
+                <thead className="sticky top-0 bg-[#1e293b] z-10">
+                  <tr className="border-b border-[#334155]">
+                    <th className="text-left p-3 text-[#94a3b8] w-8">#</th>
+                    <th className="text-left p-3 text-[#94a3b8]">Player</th>
+                    <th className="text-right p-3 text-[#94a3b8] hidden sm:table-cell">Score</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {individuals.map((e, i) => (
+                    <tr key={e.uid} className="border-b border-[#334155]/50 hover:bg-[#334155]/30 transition">
+                      <td className={`p-3 font-bold text-base ${medalColour(i)}`}>{i + 1}</td>
+                      <td className="p-3">
+                        <p className="text-[#e2e8f0] font-medium">{e.name}</p>
+                        {e.teamName && <p className="text-[#94a3b8] text-xs">{e.teamName}</p>}
+                        <p className="text-[#94a3b8] text-xs">{e.vocation}</p>
+                      </td>
+                      <td className="p-3 text-right text-[#FF6600] font-bold hidden sm:table-cell">{e.score}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )
       )}

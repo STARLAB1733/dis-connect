@@ -5,6 +5,7 @@
   "image": "/chapters/arc1-ch4.svg",
   "arc": 0,
   "chapter": 3,
+  "storyContext": "The national anthem just finished and the stands are packed. Millions more are watching the livestream from home. Then your phone vibrates: the video pipeline is choking. Frames are dropping, the buffer wheel is spinning, and social media is already full of complaints. The fireworks finale is in 20 minutes. The whole nation is counting on your team.",
   "subScenarios": {
     "software-engineer": {
       "type": "binary-choice",
@@ -37,11 +38,11 @@
     "data-scientist": {
       "type": "numeric-input",
       "title": "Predict Viewer Drop-off",
-      "instruction": "Viewers are leaving the livestream because of the buffering. Based on the viewer count trend over the last 4 minutes (in thousands), predict how many viewers (in thousands) will still be watching in 5 minutes if nothing is done. This tells the team how urgently they need to act.",
-      "hint": "Viewers are leaving because the stream keeps freezing. How many leave every minute? If that continues, what's the damage in 5 minutes?",
+      "instruction": "Viewers are abandoning the livestream because of the buffering. Based on the viewer count over the last 4 minutes (in thousands), predict the viewer count (in thousands) at the next minute mark if nothing is done. This tells the team how urgently they need to act.",
+      "hint": "Viewers are leaving because the stream keeps freezing. How much is the count dropping each minute? Apply that trend to get the next value.",
       "chartData": [850, 780, 690, 610],
-      "expected": 480,
-      "tolerance": 80,
+      "expected": 530,
+      "tolerance": 60,
       "axisImpact": {
         "Precision": 1,
         "Speed": 0.5

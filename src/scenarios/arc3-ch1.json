@@ -5,6 +5,7 @@
   "image": "/chapters/arc3-ch1.svg",
   "arc": 2,
   "chapter": 0,
+  "storyContext": "It starts with a flicker. Power readings from substations across Singapore spike and dip in a pattern that does not match any known equipment fault. Your team at DIS pulls up the grid monitoring feed and the room goes quiet. The fluctuations are too coordinated to be coincidence. Someone is inside the control systems. You have maybe hours before they escalate. The question is: how far have they already gone?",
   "subScenarios": {
     "software-engineer": {
       "type": "drag-drop",
@@ -23,9 +24,19 @@
       "axisImpact": { "Precision": 1, "Stability": 0.5 }
     },
     "data-scientist": {
+      "type": "numeric-input",
+      "title": "Estimate How Far It Has Spread",
+      "instruction": "The intrusion may have been active for days. Based on the percentage of devices showing anomalous network traffic over the last 4 monitoring windows, estimate how many of the 200 control system devices may already be compromised.",
+      "hint": "The percentage of affected devices is climbing. Project the next value in the trend, then apply that percentage to the total 200 devices.",
+      "chartData": [2, 5, 12, 22],
+      "expected": 70,
+      "tolerance": 20,
+      "axisImpact": { "Precision": 1, "Cost-Conscious": 0.5 }
+    },
+    "cloud-engineer": {
       "type": "binary-choice",
-      "title": "Identify the Threat",
-      "instruction": "The sensor readings show a pattern unlike anything in the history books. You have 30 minutes to classify the threat before leadership decides how to respond. What approach do you take?",
+      "title": "Deploy the Detection Toolkit",
+      "instruction": "The sensor readings show a pattern unlike anything in the history books. Your team needs to deploy the right detection tools to classify this threat before leadership decides how to respond. What approach do you deploy?",
       "hint": "Novel threats are tricky for automated tools trained only on known patterns. More methods combined tend to give more reliable answers than one fast method alone.",
       "options": [
         {
@@ -45,20 +56,10 @@
         },
         {
           "id": "ally-intel",
-          "label": "Share the anomaly signature with partner cybersecurity teams and ask if they've seen it. Could get an answer in 10 minutes but you'd be showing your hand to external parties.",
+          "label": "Share the anomaly signature with partner cybersecurity teams and ask if they have seen it. Could get an answer in 10 minutes but you would be showing your hand to external parties.",
           "axisImpact": { "Collaboration": 1, "Speed": 0.5, "Autonomy": -0.8 }
         }
       ]
-    },
-    "cloud-engineer": {
-      "type": "numeric-input",
-      "title": "Estimate How Far It Has Spread",
-      "instruction": "The intrusion may have been active for a while. Based on the suspicion scores for network traffic over the last 4 days (higher = more suspicious activity), estimate how many of the 200 control system devices may already be compromised.",
-      "hint": "The scores are rising fast. Look at where the trend is heading by the 4th day — that percentage of 200 gives you your estimate.",
-      "chartData": [3, 12, 35, 68],
-      "expected": 45,
-      "tolerance": 15,
-      "axisImpact": { "Precision": 1, "Cost-Conscious": 0.5 }
     }
   }
 }
