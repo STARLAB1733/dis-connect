@@ -113,7 +113,7 @@ export default function GroupQuestionPhase({
             </p>
           </div>
 
-          {/* Facilitator prompt (all see) */}
+          {/* Discussion guide (all see) */}
           <div className={`border rounded-lg p-4 ${isFacilitator ? 'bg-[#1e293b] border-[#FF6600]/50' : 'bg-[#1e293b] border-[#334155]'}`}>
             <p className={`text-sm font-semibold mb-2 ${isFacilitator ? 'text-[#FF6600]' : 'text-[#94a3b8]'}`}>
               {isFacilitator ? 'Facilitator Prompt' : 'Discussion Guide'}
@@ -123,18 +123,35 @@ export default function GroupQuestionPhase({
             </p>
           </div>
 
-          {/* Instruction */}
-          {groupQuestion.instruction && (
-            <div className="bg-[#1e293b] border border-[#334155] rounded-lg p-4">
-              <p className="text-sm text-[#94a3b8]">{groupQuestion.instruction}</p>
-            </div>
-          )}
-
-          {/* Wager selection - only facilitator can interact */}
+          {/* Answer options - all can see (read-only for non-facilitators) */}
           <div>
             <p className="text-sm text-[#94a3b8] uppercase tracking-widest mb-3">
-              {isFacilitator ? 'Choose Your Wager' : 'Waiting for Wager...'}
+              Options to Discuss
             </p>
+            <div className="grid grid-cols-1 gap-3">
+              {groupQuestion.options.map(option => (
+                <div
+                  key={option.id}
+                  className="p-4 rounded-lg text-left border bg-[#1e293b] border-[#334155]"
+                >
+                  <p className="font-semibold text-sm text-[#cbd5e1]">{option.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Wager section - only facilitator can interact */}
+          <div>
+            <div className="mb-3">
+              <p className="text-sm text-[#94a3b8] uppercase tracking-widest mb-2">
+                {isFacilitator ? 'Set the Wager Multiplier' : 'Waiting for Wager...'}
+              </p>
+              {isFacilitator && (
+                <p className="text-xs text-[#cbd5e1] mb-2">
+                  Higher wager amplifies the team score impact (positive or negative) based on choice quality.
+                </p>
+              )}
+            </div>
             <div className="grid grid-cols-1 gap-3">
               {groupQuestion.wagerOptions.map(wager => (
                 <button
@@ -155,11 +172,11 @@ export default function GroupQuestionPhase({
             </div>
           </div>
 
-          {/* Status message for non-facilitators */}
+          {/* Status for non-facilitators */}
           {!isFacilitator && (
-            <div className="text-center">
+            <div className="text-center p-3 bg-[#1e293b] border border-[#334155] rounded-lg">
               <p className="text-[#94a3b8] text-sm">
-                {facilitatorName} is setting the stakes. Discuss your team's strategy.
+                {facilitatorName} is setting the wager. Discuss the options.
               </p>
             </div>
           )}
@@ -184,10 +201,10 @@ export default function GroupQuestionPhase({
             </div>
           </div>
 
-          {/* Options - everyone sees, only facilitator can click */}
+          {/* Options - everyone sees, only facilitator can select */}
           <div>
             <p className="text-sm text-[#94a3b8] uppercase tracking-widest mb-3">
-              {isFacilitator ? 'Choose the Team Answer' : 'Waiting for Answer...'}
+              {isFacilitator ? 'Choose the Team Answer' : 'Team is Deciding...'}
             </p>
             <div className="grid grid-cols-1 gap-3">
               {groupQuestion.options.map(option => (
@@ -220,9 +237,9 @@ export default function GroupQuestionPhase({
             </button>
           )}
 
-          {/* Status message for non-facilitators */}
+          {/* Status for non-facilitators */}
           {!isFacilitator && (
-            <div className="text-center">
+            <div className="text-center p-3 bg-[#1e293b] border border-[#334155] rounded-lg">
               <p className="text-[#94a3b8] text-sm">
                 {facilitatorName} will submit the team's answer when ready.
               </p>

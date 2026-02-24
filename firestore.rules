@@ -12,9 +12,10 @@ service cloud.firestore {
           // Individual player logs: must match current user
           (request.resource.data.playerId != '__team__'
            && request.auth.uid == request.resource.data.playerId)
-          // Group question logs: any authenticated user can write (team facilitator)
+          // Group question logs: must be written by the facilitator
           || (request.resource.data.playerId == '__team__'
-              && request.resource.data.isGroupQuestion == true)
+              && request.resource.data.isGroupQuestion == true
+              && request.auth.uid == request.resource.data.facilitatorUid)
         );
         allow read: if request.auth != null;
       }
