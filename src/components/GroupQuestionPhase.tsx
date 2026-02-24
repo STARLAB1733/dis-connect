@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '@/lib/firebase';
-import { doc, updateDoc, addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { doc, updateDoc, addDoc, collection, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { GroupWagerChoiceScenario } from '@/types/scenario';
 
 type Props = {
@@ -33,8 +33,23 @@ export default function GroupQuestionPhase({
   const [selectedWager, setSelectedWager] = useState<number | null>(null);
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [lobbyPhase, setLobbyPhase] = useState<'wager' | 'answer' | null>(null);
+  const [firebaseWager, setFirebaseWager] = useState<number | null>(null);
 
   const isFacilitator = user?.uid === facilitatorUid;
+
+  // Listen to lobby changes to sync wager and phase across all players
+  useEffect(() => {
+    if (!lobbyId) return;
+    const unsubscribe = onSnapshot(doc(db, 'lobbies', lobbyId), (snap) => {
+      const data = snap.data();
+      if (data?.groupWagerLocked && data.groupWager) {
+        setFirebaseWager(data.groupWager);
+        setPhase('answer');
+      }
+    });
+    return unsubscribe;
+  }, [lobbyId]);
 
   const handleWagerSelect = async (wager: number) => {
     if (!isFacilitator || isSubmitting) return;
@@ -253,10 +268,11 @@ export default function GroupQuestionPhase({
   // ────── REVEAL PHASE ──────────────────────────────────────────
   if (phase === 'reveal' && selectedOption) {
     const wageredImpact = selectedOption.axisImpact || {};
+    const wagerToUse = firebaseWager || selectedWager || 1;
     const impactEntries = Object.entries(wageredImpact).map(([axis, value]) => ({
       axis,
       baseValue: value,
-      wageredValue: (value ?? 0) * (selectedWager ?? 1),
+      wageredValue: (value ?? 0) * wagerToUse,
     }));
 
     return (
@@ -272,7 +288,7 @@ export default function GroupQuestionPhase({
             <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-2">Team Answer</p>
             <p className="text-[#e2e8f0] font-semibold text-sm mb-3">{selectedOption.label}</p>
             <div className="inline-block bg-[#FF6600] text-white px-3 py-1 rounded-full text-sm font-bold">
-              {selectedWager}× Wager
+              {firebaseWager || selectedWager}× Wager
             </div>
           </div>
 

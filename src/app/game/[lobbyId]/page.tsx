@@ -335,6 +335,9 @@ export default function GamePage() {
   if (allAnswered) {
     if (isHost) {
       const next = nextChapterState(arcIdx, chapterIdx, rotationIdx);
+      const isArcEnd = chapterIdx === CHAPTERS_PER_ARC - 1;
+      const willEnterGroupPhase = isArcEnd && isGroupPhaseRequired(players.length);
+
       return (
         <div className="relative min-h-dvh flex flex-col items-center justify-center gap-6 p-6 pb-16 bg-[#0f172a]">
           <div className="text-[#FF6600] text-4xl">✓</div>
@@ -346,6 +349,17 @@ export default function GamePage() {
               ? 'All 12 chapters complete. Prepare final debrief.'
               : `Arc ${arcIdx + 1} · Chapter ${chapterIdx + 1} complete.`}
           </p>
+
+          {/* Group phase preparation message */}
+          {willEnterGroupPhase && (
+            <div className="bg-[#1e293b] border border-[#FF6600]/50 rounded-lg p-4 w-full max-w-md">
+              <p className="text-[#FF6600] text-sm font-semibold mb-1">Next: Group Question Phase</p>
+              <p className="text-[#cbd5e1] text-xs leading-relaxed">
+                Prepare to discuss as a team. {players.find(p => p.uid === players[getFacilitatorIdx(arcIdx + 1, players.length)]?.uid)?.name || 'A facilitator'} will lead the discussion and make strategic decisions.
+              </p>
+            </div>
+          )}
+
           <button
             onClick={advanceChapter}
             className="px-8 py-4 bg-[#FF6600] hover:bg-[#e65a00] text-white rounded-lg tracking-wider uppercase font-semibold text-lg transition"
