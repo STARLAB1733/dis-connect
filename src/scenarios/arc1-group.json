@@ -7,6 +7,7 @@
       "title": "The Debrief",
       "storyContext": "The last firework fades and the crowd starts pouring out of the stands. Your team is still in the ops room. The dashboards are green for the first time all day. Nobody says anything for a while. You fixed the livestream. Before that, you brought the database back from the dead at 5:47am. Before that, you kept the servers alive through a rehearsal that almost killed them. Before that, you built the whole thing in three weeks because somebody said yes at 2am. The NDP committee chair walks in. She sits down and says, \"I want to know what really happened.\"",
       "facilitatorPrompt": "Before I say anything, I want to hear from everyone. She's asking us directly. Do we tell her about every fire we put out, or do we keep it clean? Think about what happens if she finds out later from someone else.",
+      "image": "/chapters/arc1-group-q1.svg",
       "wagerOptions": [1, 2, 3],
       "options": [
         {
@@ -36,6 +37,7 @@
       "title": "One Shot",
       "storyContext": "A week after NDP, the Minister of Digital Development calls your team in. She says she's read the debrief. She says three crises in three weeks for a national event is not something she wants to explain twice. Then she leans forward: \"I can get you one investment. One thing, funded properly, built over five years. Something that makes sure this never happens again. What do you want?\" She's serious. But she's also clear that the government will only back one bet.",
       "facilitatorPrompt": "She's giving us one shot. I need everyone thinking about this. What was the actual root cause across all four chapters? Was it the infrastructure? The process? The fact that there weren't enough people who knew what to do? If we could only fix one thing, what prevents the most damage?",
+      "image": "/chapters/arc1-group-q2.svg",
       "wagerOptions": [1, 2, 4],
       "options": [
         {

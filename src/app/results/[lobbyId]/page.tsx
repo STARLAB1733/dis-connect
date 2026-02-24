@@ -171,24 +171,19 @@ export default function ResultsPage() {
               { merge: true }
             );
 
-            // Write / update team aggregate with GROUP SCORE (sum of group question impacts)
+            // Write team aggregate with GROUP SCORE.
+            // Group score is a single shared value — all players compute the same number
+            // from the same logs, so we just overwrite with the latest computed value.
             const teamRef = doc(db, 'teams', teamName);
-            const teamSnap = await getDoc(teamRef);
-            const existing = teamSnap.data() || {};
-
-            // Scale group impact to be on same scale as individual scores
-            const groupScore = Object.values(groupQuestionImpact).reduce((a, b) => a + b, 0) * 10;
-
-            const existingGroupScores: Record<string, number> = existing.groupPlayerScores || {};
-            existingGroupScores[currentUser.uid] = groupScore;
-            const playerCount = Object.keys(existingGroupScores).length;
-            const totalGroupScore = Object.values(existingGroupScores).reduce((a, b) => a + b, 0);
+            const groupScore = Math.round(
+              Object.values(groupQuestionImpact).reduce((a, b) => a + b, 0) * 10 * 100
+            ) / 100;
+            const playerCount = (lobbyData.players || []).length;
 
             await setDoc(teamRef, {
               teamName,
-              groupPlayerScores: existingGroupScores,
+              groupScore,
               playerCount,
-              groupScore: Math.round(totalGroupScore * 100) / 100,
               updatedAt: new Date(),
             }, { merge: true });
           }

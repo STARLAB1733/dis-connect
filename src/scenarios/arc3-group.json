@@ -7,6 +7,7 @@
       "title": "What Does the PM Say?",
       "storyContext": "The brief is done. Your team has spent a week piecing together how the attacker got in, how they moved through the grid, and what stopped them from going further. The attribution case is solid. The resilience architecture is drawn up. Then the PM's office calls. Before Parliament sees the brief, the PM wants your advice. He's addressing the nation at 8am tomorrow. Six million people remember the night the lights went out across Jurong, Tuas, Tampines, and Bedok. They remember hospitals switching to generators and MRT stations going dark. They want to know if it will happen again. The PM asks your team directly: \"What should I tell them?\"",
       "facilitatorPrompt": "Whatever the PM says, six million people hear it. And whatever he says now, the full truth will eventually come out. So think about this: if we tell people to stay calm and it leaks that 12 substations were under enemy control for hours, how does that look? But if we scare people with the full picture, what does that do to confidence? What's the right call here?",
+      "image": "/chapters/arc3-group-q1.svg",
       "wagerOptions": [1, 2, 3],
       "options": [
         {
@@ -36,6 +37,7 @@
       "title": "What Do We Build?",
       "storyContext": "The PM's address is done. Parliament has approved $500M in emergency cybersecurity funding. Your team has been asked to present the strategic direction for how Singapore spends it. This is not a technical decision. This is about what kind of digital nation Singapore becomes. You watched the anomalous readings climb on the first night. You fought to contain an attacker inside the power grid while millions slept. You raced to bring 200,000 homes back without triggering a second cascade. You built the case that went to Parliament. Now you get to decide what Singapore builds so that nobody ever has to do what your team just did.",
       "facilitatorPrompt": "Five hundred million dollars and ten years of national strategy. What was the real lesson of the blackout? Was it that our infrastructure was too fragile? That we were too slow to respond? That we were fighting alone when we shouldn't have been? What kind of Singapore do we want to defend?",
+      "image": "/chapters/arc3-group-q2.svg",
       "wagerOptions": [1, 2, 5],
       "options": [
         {

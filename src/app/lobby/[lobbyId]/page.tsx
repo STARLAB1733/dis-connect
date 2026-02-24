@@ -61,6 +61,8 @@ export default function LobbyPage() {
           groupQuestionIdx: 0,
           groupWager: null,
           groupWagerLocked: false,
+          groupAnswerSubmitted: false,
+          groupAnswerOptionId: null,
           created: serverTimestamp()
         }, { merge: true });
       }
@@ -103,6 +105,8 @@ export default function LobbyPage() {
       groupQuestionIdx: 0,
       groupWager: null,
       groupWagerLocked: false,
+      groupAnswerSubmitted: false,
+      groupAnswerOptionId: null,
       currentRoles: Object.fromEntries(players.map((p, i) => [p.uid, ROLES[i % 3]])),
       startTime: serverTimestamp()
     };

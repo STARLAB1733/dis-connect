@@ -128,6 +128,8 @@ export interface GroupWagerChoiceScenario {
   storyContext: string;
   facilitatorPrompt: string;
   instruction?: string;
+  /** Path to group question illustration (e.g. "/chapters/arc1-group-q1.svg") */
+  image?: string;
   wagerOptions: number[];
   options: GroupChoiceOption[];
 }

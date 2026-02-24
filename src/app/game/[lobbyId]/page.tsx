@@ -39,6 +39,8 @@ type LobbyData = {
   groupQuestionIdx?: number;
   groupWager?: number | null;
   groupWagerLocked?: boolean;
+  groupAnswerSubmitted?: boolean;
+  groupAnswerOptionId?: string | null;
 };
 
 function Spinner() {
@@ -197,7 +199,26 @@ export default function GamePage() {
     const next = nextChapterState(arcIdx, chapterIdx, rotationIdx);
     const ref = doc(db, 'lobbies', lobbyId);
 
-    if (next.finished) {
+    // Group phase check must run BEFORE the finished check so Arc 3 group questions
+    // fire before the game ends. arcIdx/chapterIdx stay at the completed arc's values —
+    // group questions close THIS arc's story, and handleAdvanceGroupQuestion advances after.
+    const enterGroupPhase =
+      chapterIdx === CHAPTERS_PER_ARC - 1 &&
+      isGroupPhaseRequired(players.length);
+
+    if (enterGroupPhase) {
+      playSfx('advance');
+      await updateDoc(ref, {
+        roundAnswers: {},
+        phase: 'group',
+        groupQuestionIdx: 0,
+        groupWager: null,
+        groupWagerLocked: false,
+        groupAnswerSubmitted: false,
+        groupAnswerOptionId: null,
+      });
+      submittedForRef.current = null;
+    } else if (next.finished) {
       playSfx('complete');
       await updateDoc(ref, { finished: true, finishedAt: serverTimestamp(), roundAnswers: {} });
     } else {
@@ -205,34 +226,14 @@ export default function GamePage() {
       const newRoles = Object.fromEntries(
         players.map((p, i) => [p.uid, ROLE_KEYS[(i + next.rotationIdx) % 3]])
       );
-
-      // Check if we need to enter group phase (end of arc, 2+ players)
-      const enterGroupPhase =
-        chapterIdx === CHAPTERS_PER_ARC - 1 &&
-        isGroupPhaseRequired(players.length);
-
-      if (enterGroupPhase) {
-        await updateDoc(ref, {
-          arcIdx: next.arcIdx,
-          chapterIdx: next.chapterIdx,
-          rotationIdx: next.rotationIdx,
-          roundAnswers: {},
-          currentRoles: newRoles,
-          phase: 'group',
-          groupQuestionIdx: 0,
-          groupWager: null,
-          groupWagerLocked: false,
-        });
-      } else {
-        await updateDoc(ref, {
-          arcIdx: next.arcIdx,
-          chapterIdx: next.chapterIdx,
-          rotationIdx: next.rotationIdx,
-          roundAnswers: {},
-          currentRoles: newRoles,
-          phase: 'individual',
-        });
-      }
+      await updateDoc(ref, {
+        arcIdx: next.arcIdx,
+        chapterIdx: next.chapterIdx,
+        rotationIdx: next.rotationIdx,
+        roundAnswers: {},
+        currentRoles: newRoles,
+        phase: 'individual',
+      });
       submittedForRef.current = null;
     }
   };
@@ -275,7 +276,8 @@ export default function GamePage() {
     const currentGroupQuestion = groupScenario.questions[groupQuestionIdx];
 
     const handleAdvanceGroupQuestion = async () => {
-      if (!isHost) return;
+      // Only the facilitator for this arc can advance (not necessarily the host)
+      if (!user || user.uid !== facilitatorUid) return;
       const nextGroupQuestionIdx = groupQuestionIdx + 1;
       const ref = doc(db, 'lobbies', lobbyId);
 
@@ -285,9 +287,12 @@ export default function GamePage() {
           groupQuestionIdx: nextGroupQuestionIdx,
           groupWager: null,
           groupWagerLocked: false,
+          groupAnswerSubmitted: false,
+          groupAnswerOptionId: null,
         });
       } else {
-        // Done with group questions, advance to next arc or finish
+        // Done with all group questions — now advance to the next arc (or finish).
+        // arcIdx/chapterIdx are still at the completed arc's values, so nextChapterState works correctly.
         const next = nextChapterState(arcIdx, chapterIdx, rotationIdx);
         const newRoles = Object.fromEntries(
           players.map((p, i) => [p.uid, ROLE_KEYS[(i + next.rotationIdx) % 3]])
@@ -312,6 +317,8 @@ export default function GamePage() {
             groupQuestionIdx: 0,
             groupWager: null,
             groupWagerLocked: false,
+            groupAnswerSubmitted: false,
+            groupAnswerOptionId: null,
           });
         }
       }
@@ -319,6 +326,7 @@ export default function GamePage() {
 
     return (
       <GroupQuestionPhase
+        key={`group-${arcIdx}-${groupQuestionIdx}`}
         lobbyId={lobbyId}
         groupQuestion={currentGroupQuestion}
         arcIdx={arcIdx}
@@ -333,11 +341,15 @@ export default function GamePage() {
 
   // ── All players answered → show advance screen ──────────────────────────
   if (allAnswered) {
-    if (isHost) {
-      const next = nextChapterState(arcIdx, chapterIdx, rotationIdx);
-      const isArcEnd = chapterIdx === CHAPTERS_PER_ARC - 1;
-      const willEnterGroupPhase = isArcEnd && isGroupPhaseRequired(players.length);
+    const next = nextChapterState(arcIdx, chapterIdx, rotationIdx);
+    const isArcEnd = chapterIdx === CHAPTERS_PER_ARC - 1;
+    const willEnterGroupPhase = isArcEnd && isGroupPhaseRequired(players.length);
+    // Facilitator for this arc's group phase (arcIdx stays unchanged on group entry)
+    const facilitatorForGroup = willEnterGroupPhase
+      ? players[getFacilitatorIdx(arcIdx, players.length)]
+      : null;
 
+    if (isHost) {
       return (
         <div className="relative min-h-dvh flex flex-col items-center justify-center gap-6 p-6 pb-16 bg-[#0f172a]">
           <div className="text-[#FF6600] text-4xl">✓</div>
@@ -345,7 +357,9 @@ export default function GamePage() {
             All guardians reporting in.
           </p>
           <p className="text-[#94a3b8] text-sm text-center">
-            {next.finished
+            {willEnterGroupPhase
+              ? `Arc ${arcIdx + 1} · Chapter ${chapterIdx + 1} complete. Group debrief incoming.`
+              : next.finished
               ? 'All 12 chapters complete. Prepare final debrief.'
               : `Arc ${arcIdx + 1} · Chapter ${chapterIdx + 1} complete.`}
           </p>
@@ -353,9 +367,11 @@ export default function GamePage() {
           {/* Group phase preparation message */}
           {willEnterGroupPhase && (
             <div className="bg-[#1e293b] border border-[#FF6600]/50 rounded-lg p-4 w-full max-w-md">
-              <p className="text-[#FF6600] text-sm font-semibold mb-1">Next: Group Question Phase</p>
+              <p className="text-[#FF6600] text-sm font-semibold mb-1">Next: Group Debrief</p>
               <p className="text-[#cbd5e1] text-xs leading-relaxed">
-                Prepare to discuss as a team. {players.find(p => p.uid === players[getFacilitatorIdx(arcIdx + 1, players.length)]?.uid)?.name || 'A facilitator'} will lead the discussion and make strategic decisions.
+                Your team faces a strategic decision together.{' '}
+                <strong className="text-[#e2e8f0]">{facilitatorForGroup?.name || 'A guardian'}</strong>
+                {' '}will lead discussion, set the wager, and submit the team&apos;s answer.
               </p>
             </div>
           )}
@@ -364,7 +380,7 @@ export default function GamePage() {
             onClick={advanceChapter}
             className="px-8 py-4 bg-[#FF6600] hover:bg-[#e65a00] text-white rounded-lg tracking-wider uppercase font-semibold text-lg transition"
           >
-            {next.finished ? 'VIEW RESULTS →' : 'NEXT CHAPTER →'}
+            {willEnterGroupPhase ? 'ENTER DEBRIEF →' : next.finished ? 'VIEW RESULTS →' : 'NEXT CHAPTER →'}
           </button>
           <LobbyCode />
         </div>
@@ -383,6 +399,19 @@ export default function GamePage() {
               </span>
             ))}
           </div>
+
+          {/* Group phase preparation message — same info as host sees */}
+          {willEnterGroupPhase && (
+            <div className="bg-[#1e293b] border border-[#FF6600]/50 rounded-lg p-4 w-full max-w-md">
+              <p className="text-[#FF6600] text-sm font-semibold mb-1">Next: Group Debrief</p>
+              <p className="text-[#cbd5e1] text-xs leading-relaxed">
+                Your team faces a strategic decision together.{' '}
+                <strong className="text-[#e2e8f0]">{facilitatorForGroup?.name || 'A guardian'}</strong>
+                {' '}will lead discussion, set the wager, and submit the team&apos;s answer.
+              </p>
+            </div>
+          )}
+
           {promoteReady && myIsNextHost && (
             <div className="mt-4 flex flex-col items-center gap-2">
               <p className="text-[#94a3b8] text-xs text-center">Host appears to be offline.</p>
