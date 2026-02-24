@@ -1,0 +1,64 @@
+{
+  "arcIdx": 0,
+  "arcName": "NDP 2026: The Show Must Go On",
+  "questions": [
+    {
+      "type": "group-wager-choice",
+      "title": "The Debrief",
+      "storyContext": "The last firework fades and the crowd starts pouring out of the stands. Your team is still in the ops room. The dashboards are green for the first time all day. Nobody says anything for a while. You fixed the livestream. Before that, you brought the database back from the dead at 5:47am. Before that, you kept the servers alive through a rehearsal that almost killed them. Before that, you built the whole thing in three weeks because somebody said yes at 2am. The NDP committee chair walks in. She sits down and says, \"I want to know what really happened.\"",
+      "facilitatorPrompt": "Before I say anything, I want to hear from everyone. She's asking us directly. Do we tell her about every fire we put out, or do we keep it clean? Think about what happens if she finds out later from someone else.",
+      "wagerOptions": [1, 2, 3],
+      "options": [
+        {
+          "id": "full-transparency",
+          "label": "Tell her everything. The 2am call, the servers going red during rehearsal, the contractor who wiped the database three hours before gates opened, the livestream choking with millions watching. All of it. She deserves to know, and if it comes out later from someone else, we look worse.",
+          "axisImpact": { "Collaboration": 1.5, "Stability": 0.8, "Autonomy": -0.5 }
+        },
+        {
+          "id": "professional-frame",
+          "label": "Keep it professional. The report says the app ran successfully with minor technical adjustments during the event. She doesn't need to know about the 5:47am panic or how close the livestream came to dying. The show worked. That's what matters.",
+          "axisImpact": { "Autonomy": 1.2, "Speed": 0.8, "Collaboration": -1.0, "Stability": -0.5 }
+        },
+        {
+          "id": "resilience-frame",
+          "label": "Walk her through the problems, but frame them around what we learned and what we've already started fixing. Not a damage report. A resilience report. She sees the team that got hit four times and kept standing.",
+          "axisImpact": { "Precision": 1.5, "Collaboration": 0.8, "Innovation": 0.5, "Speed": -0.3 }
+        },
+        {
+          "id": "data-driven",
+          "label": "Show her the numbers. 99.2% uptime across three hours. 40,000 concurrent users served. Positive social media sentiment after the fireworks. The data tells the story without us having to explain things that might make her nervous.",
+          "axisImpact": { "Precision": 1.2, "Stability": 0.5, "Collaboration": -0.3, "Innovation": -0.3 }
+        }
+      ]
+    },
+    {
+      "type": "group-wager-choice",
+      "title": "One Shot",
+      "storyContext": "A week after NDP, the Minister of Digital Development calls your team in. She says she's read the debrief. She says three crises in three weeks for a national event is not something she wants to explain twice. Then she leans forward: \"I can get you one investment. One thing, funded properly, built over five years. Something that makes sure this never happens again. What do you want?\" She's serious. But she's also clear that the government will only back one bet.",
+      "facilitatorPrompt": "She's giving us one shot. I need everyone thinking about this. What was the actual root cause across all four chapters? Was it the infrastructure? The process? The fact that there weren't enough people who knew what to do? If we could only fix one thing, what prevents the most damage?",
+      "wagerOptions": [1, 2, 4],
+      "options": [
+        {
+          "id": "command-centre",
+          "label": "A permanent digital command centre for national events. Dedicated servers, dedicated monitoring, a trained team on standby year round. We were scrambling because none of this existed. It should exist.",
+          "axisImpact": { "Stability": 2.0, "Collaboration": 0.5, "Cost-Conscious": -1.0, "Innovation": -0.3 }
+        },
+        {
+          "id": "predictive-ai",
+          "label": "An AI system that predicts failures before they happen. It watches traffic patterns, auto-scales infrastructure, and generates recovery playbooks. That contractor wiping the database at 5:47am? The system catches the anomalous query and rolls it back before any damage is done.",
+          "axisImpact": { "Innovation": 2.0, "Speed": 0.8, "Stability": -0.3, "Cost-Conscious": -0.8 }
+        },
+        {
+          "id": "distributed-platform",
+          "label": "A distributed platform where nothing is a single point of failure. Instead of one app that crashes, fifty small services that fail on their own without taking everything down. The livestream buffering contained to one CDN region instead of bringing down the whole show.",
+          "axisImpact": { "Innovation": 1.5, "Stability": 1.0, "Cost-Conscious": -0.5 }
+        },
+        {
+          "id": "trained-people",
+          "label": "Train 200 digital officers across every government agency and write runbooks for every failure mode we encountered. Technology breaks. What saved us every time was that someone on this team knew what to do. Scale that.",
+          "axisImpact": { "Collaboration": 2.0, "Precision": 0.5, "Innovation": -0.5 }
+        }
+      ]
+    }
+  ]
+}

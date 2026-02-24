@@ -107,16 +107,27 @@ export default function ResultsPage() {
 
         const impactsByPlayer: Record<string, Impact[]> = {};
         const logsByPlayer: Record<string, { role: string; axisImpact: Impact }[]> = {};
+        const groupQuestionImpact: Impact = {};
 
         logsSnap.docs.forEach((docSnap) => {
-          const data = docSnap.data() as { playerId: string; role?: string; axisImpact?: Impact };
+          const data = docSnap.data() as { playerId: string; role?: string; axisImpact?: Impact; isGroupQuestion?: boolean };
           if (!data.playerId || !data.axisImpact) return;
-          if (!impactsByPlayer[data.playerId]) {
-            impactsByPlayer[data.playerId] = [];
-            logsByPlayer[data.playerId] = [];
+
+          // Separate group question impacts from individual impacts
+          if (data.isGroupQuestion && data.playerId === '__team__') {
+            // Sum up all group question impacts
+            Object.entries(data.axisImpact).forEach(([axis, value]) => {
+              groupQuestionImpact[axis as keyof typeof groupQuestionImpact] = (groupQuestionImpact[axis as keyof typeof groupQuestionImpact] ?? 0) + (value ?? 0);
+            });
+          } else if (data.playerId !== '__team__') {
+            // Individual player impact (exclude team-wide logs)
+            if (!impactsByPlayer[data.playerId]) {
+              impactsByPlayer[data.playerId] = [];
+              logsByPlayer[data.playerId] = [];
+            }
+            impactsByPlayer[data.playerId].push(data.axisImpact);
+            logsByPlayer[data.playerId].push({ role: data.role || '', axisImpact: data.axisImpact });
           }
-          impactsByPlayer[data.playerId].push(data.axisImpact);
-          logsByPlayer[data.playerId].push({ role: data.role || '', axisImpact: data.axisImpact });
         });
 
         const finalResults: PersonaResult[] = Object.entries(impactsByPlayer).map(
@@ -160,20 +171,24 @@ export default function ResultsPage() {
               { merge: true }
             );
 
-            // Write / update team aggregate
+            // Write / update team aggregate with GROUP SCORE (sum of group question impacts)
             const teamRef = doc(db, 'teams', teamName);
             const teamSnap = await getDoc(teamRef);
             const existing = teamSnap.data() || {};
-            const existingScores: Record<string, number> = existing.playerScores || {};
-            existingScores[currentUser.uid] = myResult.totalScore;
-            const playerCount = Object.keys(existingScores).length;
-            const totalScore = Object.values(existingScores).reduce((a, b) => a + b, 0);
+
+            // Scale group impact to be on same scale as individual scores
+            const groupScore = Object.values(groupQuestionImpact).reduce((a, b) => a + b, 0) * 10;
+
+            const existingGroupScores: Record<string, number> = existing.groupPlayerScores || {};
+            existingGroupScores[currentUser.uid] = groupScore;
+            const playerCount = Object.keys(existingGroupScores).length;
+            const totalGroupScore = Object.values(existingGroupScores).reduce((a, b) => a + b, 0);
+
             await setDoc(teamRef, {
               teamName,
-              playerScores: existingScores,
+              groupPlayerScores: existingGroupScores,
               playerCount,
-              totalScore: Math.round(totalScore * 100) / 100,
-              avgScore: Math.round((totalScore / playerCount) * 100) / 100,
+              groupScore: Math.round(totalGroupScore * 100) / 100,
               updatedAt: new Date(),
             }, { merge: true });
           }
@@ -191,15 +206,15 @@ export default function ResultsPage() {
           return { uid: dd.uid, name: dd.name, teamName: dd.teamName, score: dd.score, vocation: dd.vocation };
         }));
 
-        // Team: top 20 teams
+        // Team: top 20 teams (ranked by group score)
         const teamSnap = await getDocs(query(
           collection(db, 'teams'),
-          orderBy('totalScore', 'desc'),
+          orderBy('groupScore', 'desc'),
           limit(20)
         ));
         setTeamLeaderboard(teamSnap.docs.map(d => {
           const dd = d.data();
-          return { teamName: dd.teamName, totalScore: dd.totalScore, playerCount: dd.playerCount, avgScore: dd.avgScore };
+          return { teamName: dd.teamName, totalScore: dd.groupScore || 0, playerCount: dd.playerCount || 0, avgScore: (dd.groupScore || 0) / (dd.playerCount || 1) };
         }));
 
         setLoading(false);
@@ -313,15 +328,15 @@ export default function ResultsPage() {
             <p className="text-xs text-[#94a3b8] mt-1">12 chapters · 3 story arcs</p>
           </div>
 
-          {/* Team info — only rendered if in a team */}
-          {myTeamName && myTeamEntry && (
+          {/* Team info — only rendered if in a team and have group questions */}
+          {myTeamName && myTeamEntry && myTeamEntry.totalScore > 0 && (
             <>
               <div className="border-t border-[#334155]" />
               <div className="p-4">
-                <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-2">Your Team</p>
+                <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-2">Team Group Score</p>
                 <p className="text-xl font-bold text-[#FF6600]">{myTeamName}</p>
                 <p className="text-[#e2e8f0] text-sm mt-1">
-                  Team Score: <span className="font-bold text-[#FF6600]">{myTeamEntry.totalScore}</span>
+                  Group Score: <span className="font-bold text-[#FF6600]">{myTeamEntry.totalScore}</span>
                   <span className="text-[#94a3b8] ml-2">· {myTeamEntry.playerCount} player{myTeamEntry.playerCount !== 1 ? 's' : ''}</span>
                 </p>
                 {myTeamRank && myTeamRank <= 3 && (

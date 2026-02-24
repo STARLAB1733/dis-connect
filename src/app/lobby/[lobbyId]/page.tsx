@@ -54,8 +54,13 @@ export default function LobbyPage() {
           players: [],
           rotationIdx: 0,
           chapterIdx: 0,
+          arcIdx: 0,
           roundAnswers: {},
           finished: false,
+          phase: 'individual',
+          groupQuestionIdx: 0,
+          groupWager: null,
+          groupWagerLocked: false,
           created: serverTimestamp()
         }, { merge: true });
       }
@@ -92,7 +97,12 @@ export default function LobbyPage() {
       started: true,
       rotationIdx: 0,
       chapterIdx: 0,
+      arcIdx: 0,
       roundAnswers: {},
+      phase: 'individual',
+      groupQuestionIdx: 0,
+      groupWager: null,
+      groupWagerLocked: false,
       currentRoles: Object.fromEntries(players.map((p, i) => [p.uid, ROLES[i % 3]])),
       startTime: serverTimestamp()
     };

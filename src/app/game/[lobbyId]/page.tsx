@@ -6,7 +6,8 @@ import { auth, db, initAuth } from '@/lib/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { doc, onSnapshot, updateDoc, serverTimestamp } from 'firebase/firestore';
 import ScenarioWrapper from '@/components/ScenarioWrapper';
-import { getScenario } from '@/lib/scenarioLoader';
+import GroupQuestionPhase from '@/components/GroupQuestionPhase';
+import { getScenario, getGroupScenario } from '@/lib/scenarioLoader';
 import {
   ROLE_LABELS,
   ROLE_SUBTITLES,
@@ -16,6 +17,8 @@ import {
   getPlayerRole,
   allPlayersAnswered,
   nextChapterState,
+  isGroupPhaseRequired,
+  getFacilitatorIdx,
   type RoleKey,
 } from '@/lib/roleRotation';
 import Image from 'next/image';
@@ -32,6 +35,10 @@ type LobbyData = {
   roundAnswers?: Record<string, boolean>;
   finished?: boolean;
   teamName?: string;
+  phase?: 'individual' | 'group';
+  groupQuestionIdx?: number;
+  groupWager?: number | null;
+  groupWagerLocked?: boolean;
 };
 
 function Spinner() {
@@ -71,6 +78,14 @@ export default function GamePage() {
   const allAnswered = players.length > 0 && allPlayersAnswered(roundAnswers, players.map(p => p.uid));
   // Only the second player in line gets the promote button
   const myIsNextHost = !isHost && players.length > 1 && players[1]?.uid === user?.uid;
+
+  // Group phase helpers
+  const phase = lobby?.phase ?? 'individual';
+  const groupQuestionIdx = lobby?.groupQuestionIdx ?? 0;
+  const groupScenario = phase === 'group' ? getGroupScenario(arcIdx) : null;
+  const facilitatorIdx = players.length > 0 ? getFacilitatorIdx(arcIdx, players.length) : -1;
+  const facilitatorUid = facilitatorIdx >= 0 ? players[facilitatorIdx]?.uid : '';
+  const facilitatorName = facilitatorIdx >= 0 ? players[facilitatorIdx]?.name : '';
 
   // Ensure anonymous auth is initialised (handles direct deep-links to /game/*)
   useEffect(() => { initAuth(); }, []);
@@ -181,6 +196,7 @@ export default function GamePage() {
   const advanceChapter = async () => {
     const next = nextChapterState(arcIdx, chapterIdx, rotationIdx);
     const ref = doc(db, 'lobbies', lobbyId);
+
     if (next.finished) {
       playSfx('complete');
       await updateDoc(ref, { finished: true, finishedAt: serverTimestamp(), roundAnswers: {} });
@@ -189,13 +205,34 @@ export default function GamePage() {
       const newRoles = Object.fromEntries(
         players.map((p, i) => [p.uid, ROLE_KEYS[(i + next.rotationIdx) % 3]])
       );
-      await updateDoc(ref, {
-        arcIdx: next.arcIdx,
-        chapterIdx: next.chapterIdx,
-        rotationIdx: next.rotationIdx,
-        roundAnswers: {},
-        currentRoles: newRoles,
-      });
+
+      // Check if we need to enter group phase (end of arc, 2+ players)
+      const enterGroupPhase =
+        chapterIdx === CHAPTERS_PER_ARC - 1 &&
+        isGroupPhaseRequired(players.length);
+
+      if (enterGroupPhase) {
+        await updateDoc(ref, {
+          arcIdx: next.arcIdx,
+          chapterIdx: next.chapterIdx,
+          rotationIdx: next.rotationIdx,
+          roundAnswers: {},
+          currentRoles: newRoles,
+          phase: 'group',
+          groupQuestionIdx: 0,
+          groupWager: null,
+          groupWagerLocked: false,
+        });
+      } else {
+        await updateDoc(ref, {
+          arcIdx: next.arcIdx,
+          chapterIdx: next.chapterIdx,
+          rotationIdx: next.rotationIdx,
+          roundAnswers: {},
+          currentRoles: newRoles,
+          phase: 'individual',
+        });
+      }
       submittedForRef.current = null;
     }
   };
@@ -232,6 +269,67 @@ export default function GamePage() {
     ];
     await updateDoc(doc(db, 'lobbies', lobbyId), { players: reordered });
   };
+
+  // ── Group question phase ──────────────────────────────────────────────────
+  if (phase === 'group' && groupScenario && groupQuestionIdx < groupScenario.questions.length) {
+    const currentGroupQuestion = groupScenario.questions[groupQuestionIdx];
+
+    const handleAdvanceGroupQuestion = async () => {
+      if (!isHost) return;
+      const nextGroupQuestionIdx = groupQuestionIdx + 1;
+      const ref = doc(db, 'lobbies', lobbyId);
+
+      if (nextGroupQuestionIdx < groupScenario.questions.length) {
+        // More group questions in this arc
+        await updateDoc(ref, {
+          groupQuestionIdx: nextGroupQuestionIdx,
+          groupWager: null,
+          groupWagerLocked: false,
+        });
+      } else {
+        // Done with group questions, advance to next arc or finish
+        const next = nextChapterState(arcIdx, chapterIdx, rotationIdx);
+        const newRoles = Object.fromEntries(
+          players.map((p, i) => [p.uid, ROLE_KEYS[(i + next.rotationIdx) % 3]])
+        );
+
+        if (next.finished) {
+          playSfx('complete');
+          await updateDoc(ref, {
+            finished: true,
+            finishedAt: serverTimestamp(),
+            roundAnswers: {},
+          });
+        } else {
+          playSfx('advance');
+          await updateDoc(ref, {
+            arcIdx: next.arcIdx,
+            chapterIdx: next.chapterIdx,
+            rotationIdx: next.rotationIdx,
+            roundAnswers: {},
+            currentRoles: newRoles,
+            phase: 'individual',
+            groupQuestionIdx: 0,
+            groupWager: null,
+            groupWagerLocked: false,
+          });
+        }
+      }
+    };
+
+    return (
+      <GroupQuestionPhase
+        lobbyId={lobbyId}
+        groupQuestion={currentGroupQuestion}
+        arcIdx={arcIdx}
+        groupQuestionIdx={groupQuestionIdx}
+        facilitatorUid={facilitatorUid}
+        facilitatorName={facilitatorName}
+        players={players}
+        onNext={handleAdvanceGroupQuestion}
+      />
+    );
+  }
 
   // ── All players answered → show advance screen ──────────────────────────
   if (allAnswered) {
