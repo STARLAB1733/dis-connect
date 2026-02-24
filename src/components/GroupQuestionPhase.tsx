@@ -102,146 +102,135 @@ export default function GroupQuestionPhase({
 
   // ────── WAGER PHASE ──────────────────────────────────────────
   if (phase === 'wager') {
-    if (isFacilitator) {
-      return (
-        <div className="min-h-dvh flex flex-col bg-[#0f172a] p-6">
-          <div className="max-w-2xl mx-auto w-full flex flex-col gap-6">
-            {/* Story context */}
-            <div className="bg-[#1e293b] border border-[#334155] rounded-lg p-5">
-              <h1 className="text-2xl font-bold text-[#e2e8f0] mb-4">{groupQuestion.title}</h1>
-              <p className="text-sm text-[#cbd5e1] leading-relaxed whitespace-pre-line">
-                {groupQuestion.storyContext}
-              </p>
-            </div>
-
-            {/* Facilitator prompt */}
-            <div className="bg-[#1e293b] border border-[#FF6600]/50 rounded-lg p-4">
-              <p className="text-sm text-[#FF6600] font-semibold mb-2">Facilitator Prompt</p>
-              <p className="text-sm text-[#cbd5e1] leading-relaxed whitespace-pre-line">
-                {groupQuestion.facilitatorPrompt}
-              </p>
-            </div>
-
-            {/* Instruction */}
-            {groupQuestion.instruction && (
-              <div className="bg-[#1e293b] border border-[#334155] rounded-lg p-4">
-                <p className="text-sm text-[#94a3b8]">{groupQuestion.instruction}</p>
-              </div>
-            )}
-
-            {/* Wager selection */}
-            <div>
-              <p className="text-sm text-[#94a3b8] uppercase tracking-widest mb-3">
-                Choose Your Wager
-              </p>
-              <div className="grid grid-cols-1 gap-3">
-                {groupQuestion.wagerOptions.map(wager => (
-                  <button
-                    key={wager}
-                    onClick={() => handleWagerSelect(wager)}
-                    disabled={isSubmitting}
-                    className={`p-4 rounded-lg font-bold text-lg transition ${
-                      selectedWager === wager
-                        ? 'bg-[#FF6600] text-white border border-[#FF6600]'
-                        : 'bg-[#1e293b] text-[#94a3b8] border border-[#334155] hover:border-[#FF6600] hover:text-[#FF6600]'
-                    }`}
-                  >
-                    {wager}× Multiplier
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Wait message for others */}
+    return (
+      <div className="min-h-dvh flex flex-col bg-[#0f172a] p-6">
+        <div className="max-w-2xl mx-auto w-full flex flex-col gap-6">
+          {/* Story context */}
+          <div className="bg-[#1e293b] border border-[#334155] rounded-lg p-5">
+            <h1 className="text-2xl font-bold text-[#e2e8f0] mb-4">{groupQuestion.title}</h1>
+            <p className="text-sm text-[#cbd5e1] leading-relaxed whitespace-pre-line">
+              {groupQuestion.storyContext}
+            </p>
           </div>
+
+          {/* Facilitator prompt (all see) */}
+          <div className={`border rounded-lg p-4 ${isFacilitator ? 'bg-[#1e293b] border-[#FF6600]/50' : 'bg-[#1e293b] border-[#334155]'}`}>
+            <p className={`text-sm font-semibold mb-2 ${isFacilitator ? 'text-[#FF6600]' : 'text-[#94a3b8]'}`}>
+              {isFacilitator ? 'Facilitator Prompt' : 'Discussion Guide'}
+            </p>
+            <p className="text-sm text-[#cbd5e1] leading-relaxed whitespace-pre-line">
+              {groupQuestion.facilitatorPrompt}
+            </p>
+          </div>
+
+          {/* Instruction */}
+          {groupQuestion.instruction && (
+            <div className="bg-[#1e293b] border border-[#334155] rounded-lg p-4">
+              <p className="text-sm text-[#94a3b8]">{groupQuestion.instruction}</p>
+            </div>
+          )}
+
+          {/* Wager selection - only facilitator can interact */}
+          <div>
+            <p className="text-sm text-[#94a3b8] uppercase tracking-widest mb-3">
+              {isFacilitator ? 'Choose Your Wager' : 'Waiting for Wager...'}
+            </p>
+            <div className="grid grid-cols-1 gap-3">
+              {groupQuestion.wagerOptions.map(wager => (
+                <button
+                  key={wager}
+                  onClick={() => handleWagerSelect(wager)}
+                  disabled={isSubmitting || !isFacilitator}
+                  className={`p-4 rounded-lg font-bold text-lg transition ${
+                    !isFacilitator
+                      ? 'bg-[#1e293b] text-[#475569] border border-[#334155] cursor-not-allowed'
+                      : selectedWager === wager
+                      ? 'bg-[#FF6600] text-white border border-[#FF6600]'
+                      : 'bg-[#1e293b] text-[#94a3b8] border border-[#334155] hover:border-[#FF6600] hover:text-[#FF6600]'
+                  }`}
+                >
+                  {wager}× Multiplier
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Status message for non-facilitators */}
+          {!isFacilitator && (
+            <div className="text-center">
+              <p className="text-[#94a3b8] text-sm">
+                {facilitatorName} is setting the stakes. Discuss your team's strategy.
+              </p>
+            </div>
+          )}
         </div>
-      );
-    } else {
-      // Non-facilitator waiting view
-      return (
-        <div className="min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
-          <div className="text-[#FF6600] text-4xl">⏳</div>
-          <p className="text-[#94a3b8] text-center text-sm uppercase tracking-widest">
-            {facilitatorName} is setting the stakes...
-          </p>
-          <div className="w-12 h-12 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
-          <p className="text-[#cbd5e1] text-sm text-center max-w-xs">
-            Take a moment to discuss as a team.
-          </p>
-        </div>
-      );
-    }
+      </div>
+    );
   }
 
   // ────── ANSWER PHASE ──────────────────────────────────────────
   if (phase === 'answer') {
-    if (isFacilitator) {
-      return (
-        <div className="min-h-dvh flex flex-col bg-[#0f172a] p-6">
-          <div className="max-w-2xl mx-auto w-full flex flex-col gap-6">
-            {/* Story context */}
-            <div className="bg-[#1e293b] border border-[#334155] rounded-lg p-5">
-              <h1 className="text-2xl font-bold text-[#e2e8f0] mb-4">{groupQuestion.title}</h1>
-              <p className="text-sm text-[#cbd5e1] leading-relaxed mb-4 whitespace-pre-line">
-                {groupQuestion.storyContext}
-              </p>
-              {/* Wager badge */}
-              <div className="inline-block bg-[#FF6600] text-white px-3 py-1 rounded-full text-sm font-bold">
-                Wager Locked: {selectedWager}×
-              </div>
+    return (
+      <div className="min-h-dvh flex flex-col bg-[#0f172a] p-6">
+        <div className="max-w-2xl mx-auto w-full flex flex-col gap-6">
+          {/* Story context with wager badge */}
+          <div className="bg-[#1e293b] border border-[#334155] rounded-lg p-5">
+            <h1 className="text-2xl font-bold text-[#e2e8f0] mb-4">{groupQuestion.title}</h1>
+            <p className="text-sm text-[#cbd5e1] leading-relaxed mb-4 whitespace-pre-line">
+              {groupQuestion.storyContext}
+            </p>
+            <div className="inline-block bg-[#FF6600] text-white px-3 py-1 rounded-full text-sm font-bold">
+              Wager Locked: {selectedWager}×
             </div>
-
-            {/* Options */}
-            <div>
-              <p className="text-sm text-[#94a3b8] uppercase tracking-widest mb-3">
-                Choose the Team Answer
-              </p>
-              <div className="grid grid-cols-1 gap-3">
-                {groupQuestion.options.map(option => (
-                  <button
-                    key={option.id}
-                    onClick={() => handleOptionSelect(option.id)}
-                    disabled={isSubmitting}
-                    className={`p-4 rounded-lg text-left transition border ${
-                      selectedOptionId === option.id
-                        ? 'bg-[#FF6600]/20 text-[#FF6600] border-[#FF6600]'
-                        : 'bg-[#1e293b] text-[#cbd5e1] border-[#334155] hover:border-[#FF6600]'
-                    }`}
-                  >
-                    <p className="font-semibold text-sm mb-1">{option.label}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Submit button */}
-            {selectedOptionId && (
-              <button
-                onClick={handleSubmitAnswer}
-                disabled={isSubmitting}
-                className="px-6 py-3 bg-[#FF6600] hover:bg-[#e65a00] text-white rounded-lg font-semibold uppercase tracking-wider transition disabled:opacity-50"
-              >
-                {isSubmitting ? 'Submitting...' : 'Submit Team Answer'}
-              </button>
-            )}
           </div>
+
+          {/* Options - everyone sees, only facilitator can click */}
+          <div>
+            <p className="text-sm text-[#94a3b8] uppercase tracking-widest mb-3">
+              {isFacilitator ? 'Choose the Team Answer' : 'Waiting for Answer...'}
+            </p>
+            <div className="grid grid-cols-1 gap-3">
+              {groupQuestion.options.map(option => (
+                <button
+                  key={option.id}
+                  onClick={() => isFacilitator && handleOptionSelect(option.id)}
+                  disabled={!isFacilitator}
+                  className={`p-4 rounded-lg text-left transition border ${
+                    !isFacilitator
+                      ? 'bg-[#1e293b] text-[#475569] border-[#334155] cursor-not-allowed'
+                      : selectedOptionId === option.id
+                      ? 'bg-[#FF6600]/20 text-[#FF6600] border-[#FF6600] cursor-pointer hover:bg-[#FF6600]/30'
+                      : 'bg-[#1e293b] text-[#cbd5e1] border-[#334155] cursor-pointer hover:border-[#FF6600]'
+                  }`}
+                >
+                  <p className="font-semibold text-sm mb-1">{option.label}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Submit button - only facilitator */}
+          {isFacilitator && selectedOptionId && (
+            <button
+              onClick={handleSubmitAnswer}
+              disabled={isSubmitting}
+              className="px-6 py-3 bg-[#FF6600] hover:bg-[#e65a00] text-white rounded-lg font-semibold uppercase tracking-wider transition disabled:opacity-50"
+            >
+              {isSubmitting ? 'Submitting...' : 'Submit Team Answer'}
+            </button>
+          )}
+
+          {/* Status message for non-facilitators */}
+          {!isFacilitator && (
+            <div className="text-center">
+              <p className="text-[#94a3b8] text-sm">
+                {facilitatorName} will submit the team's answer when ready.
+              </p>
+            </div>
+          )}
         </div>
-      );
-    } else {
-      // Non-facilitator answer view (read-only)
-      return (
-        <div className="min-h-dvh flex flex-col items-center justify-center gap-6 p-6 bg-[#0f172a]">
-          <div className="text-[#FF6600] text-4xl">💭</div>
-          <p className="text-[#94a3b8] text-center text-sm uppercase tracking-widest">
-            Team is discussing...
-          </p>
-          <div className="w-12 h-12 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
-          <p className="text-[#cbd5e1] text-sm text-center max-w-xs">
-            {facilitatorName} will make the call when ready.
-          </p>
-        </div>
-      );
-    }
+      </div>
+    );
   }
 
   // ────── REVEAL PHASE ──────────────────────────────────────────
