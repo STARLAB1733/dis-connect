@@ -111,6 +111,39 @@ export interface LeaderboardConfig {
 }
 
 /**
+ * A choice option for group wager questions, with its own axisImpact.
+ */
+export interface GroupChoiceOption {
+  id: string;
+  label: string;
+  axisImpact?: AxisImpact;
+}
+
+/**
+ * Group wager choice scenario (team discusses and facilitator wagers + picks).
+ */
+export interface GroupWagerChoiceScenario {
+  type: 'group-wager-choice';
+  title: string;
+  storyContext: string;
+  facilitatorPrompt: string;
+  instruction?: string;
+  /** Path to group question illustration (e.g. "/chapters/arc1-group-q1.svg") */
+  image?: string;
+  wagerOptions: number[];
+  options: GroupChoiceOption[];
+}
+
+/**
+ * Top-level GroupScenario containing questions for end of arc.
+ */
+export interface GroupScenario {
+  arcIdx: number;
+  arcName: string;
+  questions: GroupWagerChoiceScenario[];
+}
+
+/**
  * Top-level Scenario, mapping each role (key) to a SubScenario definition.
  * Supports DIS/C4X mission-based progression with round ordering,
  * story context, and leaderboard tracking.

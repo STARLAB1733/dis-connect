@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(while read hash msg)",
+      "Bash(do git show -s --format=\"%b\" $hash)",
+      "Bash(echo:*)",
+      "Bash(done)",
+      "Bash(for hash in 166832e 3bf8eb0 e1ab156 1291ad6 3089c6f 8ec16cb)",
+      "Bash(do echo \"=== $hash ===\")",
+      "Bash(git filter-branch:*)",
+      "Bash(ls:*)",
+      "Bash(node -e:*)",
+      "Bash(npm test:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm run lint:*)",
+      "Bash(git restore:*)",
+      "Bash(npm audit:*)",
+      "Bash(grep:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh project item-add:*)",
+      "Bash(gh project list:*)",
+      "Bash(gh api:*)",
+      "WebFetch(domain:dis-connect.vercel.app)",
+      "Bash(python3:*)",
+      "WebFetch(domain:dis-connect-fgsn9hlmj-waahhaas-projects.vercel.app)",
+      "Bash(git pull:*)",
+      "Bash(cd /c/Users/tan_5/Documents/GitHub/dis-connect && gh pr create --base develop --head ui/ux --reviewer wilsongwee --title \"feat: scenario enhancements - story, math, role fit, and accuracy\" --body \"$\\(cat <<'EOF'\n## Summary\n\nThis PR delivers a comprehensive content and correctness pass across all 12 scenario JSON files, plus a UI enhancement to surface narrative story context during gameplay.\n\n### Phase 1 — storyContext \\(all 12 chapters\\)\n- Added an immersive, present-tense narrative intro to every chapter\n- Rendered in the game page \\(`src/app/game/[lobbyId]/page.tsx`\\) between the chapter image and scenario header as a dark card with italic text\n\n### Phase 2 — Em-dash removal\n- Replaced all `—` characters with natural alternatives \\(commas, colons, periods\\) across `arc3-ch2`, `arc3-ch3`, and `arc3-ch4`\n\n### Phase 3 — Role swaps\n- **arc1-ch2**: Swapped DS and CE sub-scenarios so the DS does data estimation and the CE does infrastructure investigation \\(was reversed\\)\n- **arc3-ch1**: Swapped DS and CE sub-scenarios so the DS estimates spread from trend data and the CE deploys the detection toolkit\n\n### Phase 4 — Numeric-input math fixes\n- **arc1-ch4 DS** \"Predict Viewer Drop-off\": expected `480` → `530`, tolerance `80` → `60`; instruction reworded to ask for next-minute projection\n- **arc2-ch4 CE** \"Work Out How Much Storage You Need\": expected `78` → `82`\n\n### Phase 5 — Role reframes \\(title + instruction only\\)\n- **arc2-ch1 SE**: \"Design the Command Screen\" → \"Architect the Dashboard Components\" \\(system architecture framing\\)\n- **arc3-ch3 SE**: \"Run the Power Restoration Sequence\" → \"Program the Restoration Automation Sequence\" \\(automation scripting framing\\)\n- **arc3-ch4 DS**: \"Build the Attribution Case\" → \"Build the Data-Driven Attribution Case\"; item labels rewritten to emphasise data methodology \\(pattern matching, network flow analysis, code similarity, statistical timing correlation\\)\n\n### Phase 6 — Correctness and axis fixes\n- **arc3-ch2 CE** correctOrder: contractor remote access \\(`external-vendors`\\) now isolates before adjacent substations — correct incident response priority\n- **arc1-ch2 SE** `kill-features` Innovation penalty: `-0.8` → `-0.5`\n- **arc3-ch3 CE** `hardware-swap` Cost-Conscious penalty: `-1` → `-0.8`\n\n## Test plan\n- [ ] Start a lobby and play through at least one chapter per arc — verify storyContext renders correctly between chapter image and header\n- [ ] Play arc1-ch4 as data-scientist — enter 530 and confirm it scores at or near 100%\n- [ ] Play arc2-ch4 as cloud-engineer — enter 82 and confirm it scores correctly\n- [ ] Play arc3-ch1 — confirm data-scientist sees the numeric spread estimate and cloud-engineer sees the binary detection toolkit choice\n- [ ] Play arc1-ch2 — confirm data-scientist sees the numeric server shortfall estimate and cloud-engineer sees the drag-drop investigation\n- [ ] Play arc3-ch2 as cloud-engineer — confirm correct order places `external-vendors` second\n- [ ] Check no em-dashes appear in any scenario text\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\nEOF\n\\)\" 2>&1)"
+    ]
+  }
+}

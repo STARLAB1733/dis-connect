@@ -1,0 +1,66 @@
+{
+  "arcIdx": 2,
+  "arcName": "Ops Resilience: Singapore Goes Dark",
+  "questions": [
+    {
+      "type": "group-wager-choice",
+      "title": "What Does the PM Say?",
+      "storyContext": "The brief is done. Your team has spent a week piecing together how the attacker got in, how they moved through the grid, and what stopped them from going further. The attribution case is solid. The resilience architecture is drawn up. Then the PM's office calls. Before Parliament sees the brief, the PM wants your advice. He's addressing the nation at 8am tomorrow. Six million people remember the night the lights went out across Jurong, Tuas, Tampines, and Bedok. They remember hospitals switching to generators and MRT stations going dark. They want to know if it will happen again. The PM asks your team directly: \"What should I tell them?\"",
+      "facilitatorPrompt": "Whatever the PM says, six million people hear it. And whatever he says now, the full truth will eventually come out. So think about this: if we tell people to stay calm and it leaks that 12 substations were under enemy control for hours, how does that look? But if we scare people with the full picture, what does that do to confidence? What's the right call here?",
+      "image": "/chapters/arc3-group-q1.svg",
+      "wagerOptions": [1, 2, 3],
+      "options": [
+        {
+          "id": "reassurance-first",
+          "label": "Tell them the threat was dealt with quickly and the systems performed as designed. Keep it reassuring, keep it confident. People need to feel safe. Going into detail about 12 substations being compromised for hours risks panic and market instability for something that's already been resolved.",
+          "axisImpact": { "Stability": 1.0, "Speed": 1.0, "Collaboration": -1.5, "Precision": -0.5 }
+        },
+        {
+          "id": "radical-truth",
+          "label": "Tell them the truth. Singapore was attacked by a sophisticated adversary who took control of 12 power substations. It was serious. It lasted hours. Then explain exactly how the team contained it and brought the grid back. People can handle the truth, and they'll trust the government more for saying it straight.",
+          "axisImpact": { "Collaboration": 2.0, "Precision": 1.0, "Stability": -0.5, "Cost-Conscious": -0.5 }
+        },
+        {
+          "id": "measured-honesty",
+          "label": "Acknowledge the incident without dramatising it. Say there was a significant cyber incident, that it was detected early, that the response teams contained it, and that a full review is underway. Be honest about the severity without giving the kind of detail that helps the next attacker or causes unnecessary fear.",
+          "axisImpact": { "Stability": 1.5, "Collaboration": 1.0, "Precision": 0.5, "Speed": -0.3 }
+        },
+        {
+          "id": "redirect-forward",
+          "label": "Skip the details of the attack entirely. Announce the $500M cybersecurity investment. Talk about what comes next. People care less about what happened and more about whether it will happen again. Give them a plan, not a post-mortem.",
+          "axisImpact": { "Innovation": 1.0, "Speed": 0.8, "Precision": -1.0, "Collaboration": -0.5 }
+        }
+      ]
+    },
+    {
+      "type": "group-wager-choice",
+      "title": "What Do We Build?",
+      "storyContext": "The PM's address is done. Parliament has approved $500M in emergency cybersecurity funding. Your team has been asked to present the strategic direction for how Singapore spends it. This is not a technical decision. This is about what kind of digital nation Singapore becomes. You watched the anomalous readings climb on the first night. You fought to contain an attacker inside the power grid while millions slept. You raced to bring 200,000 homes back without triggering a second cascade. You built the case that went to Parliament. Now you get to decide what Singapore builds so that nobody ever has to do what your team just did.",
+      "facilitatorPrompt": "Five hundred million dollars and ten years of national strategy. What was the real lesson of the blackout? Was it that our infrastructure was too fragile? That we were too slow to respond? That we were fighting alone when we shouldn't have been? What kind of Singapore do we want to defend?",
+      "image": "/chapters/arc3-group-q2.svg",
+      "wagerOptions": [1, 2, 5],
+      "options": [
+        {
+          "id": "fortress-sg",
+          "label": "Harden everything. Zero-trust architecture across all critical infrastructure. Air-gap the most sensitive systems so they can never be reached from the internet. Make Singapore the most digitally fortified nation in the world. The attacker got in because there were gaps. Close every single one.",
+          "axisImpact": { "Stability": 2.5, "Precision": 0.8, "Innovation": -1.0, "Collaboration": -0.5, "Speed": -0.5 }
+        },
+        {
+          "id": "adaptive-resilience",
+          "label": "Build systems that expect to be attacked. Distributed architecture, self-healing networks, AI-driven threat response. The blackout lasted hours because recovery was manual. If the systems can detect, isolate, and recover on their own, the next attack lasts minutes.",
+          "axisImpact": { "Innovation": 2.0, "Stability": 1.0, "Speed": 0.5, "Cost-Conscious": -1.5 }
+        },
+        {
+          "id": "regional-alliance",
+          "label": "Singapore cannot defend alone. Create a Southeast Asian cyber defence alliance. Shared threat intelligence, joint response teams, collective defence agreements. One country detecting an attack means every country in the region is warned. Turn Singapore from a single target into the anchor of a regional shield.",
+          "axisImpact": { "Collaboration": 2.5, "Innovation": 0.5, "Autonomy": -2.0 }
+        },
+        {
+          "id": "citizen-resilience",
+          "label": "Invest in the people. Every citizen learns basic cyber hygiene. Every business gets a security audit. Stand up a national cyber reserve corps of trained volunteers who can be activated in a crisis. The best firewall is six million people who know what a phishing email looks like.",
+          "axisImpact": { "Collaboration": 1.5, "Precision": 1.0, "Cost-Conscious": 0.5, "Performance-First": -0.5 }
+        }
+      ]
+    }
+  ]
+}

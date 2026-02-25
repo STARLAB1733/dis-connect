@@ -58,3 +58,19 @@ export function nextChapterState(
   }
   return { arcIdx, chapterIdx, rotationIdx, finished: true };
 }
+
+/**
+ * Check if group question phase should run.
+ * Runs if there are 2+ players AND after each arc completes.
+ */
+export function isGroupPhaseRequired(playerCount: number): boolean {
+  return playerCount >= 2;
+}
+
+/**
+ * Get the facilitator index for a given arc (rotates among players).
+ * At arc 0, player 0 facilitates. At arc 1, player 1. At arc 2, player 2. Then wraps.
+ */
+export function getFacilitatorIdx(arcIdx: number, playerCount: number): number {
+  return arcIdx % playerCount;
+}
