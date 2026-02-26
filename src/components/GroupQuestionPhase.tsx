@@ -6,6 +6,7 @@ import { auth, db } from '@/lib/firebase';
 import { doc, updateDoc, addDoc, collection, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import { GroupWagerChoiceScenario } from '@/types/scenario';
 import Image from 'next/image';
+import { useAudio } from '@/components/AudioProvider';
 
 type Props = {
   lobbyId: string;
@@ -47,6 +48,7 @@ export default function GroupQuestionPhase({
   onNext,
 }: Props) {
   const [user] = useAuthState(auth);
+  const { playSfx } = useAudio();
   const [phase, setPhase] = useState<Phase>('wager');
   const [selectedWager, setSelectedWager] = useState<number | null>(null);
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
@@ -102,6 +104,7 @@ export default function GroupQuestionPhase({
     if (!wagerToUse) return;
 
     setIsSubmitting(true);
+    playSfx('success');
     try {
       const chosenOption = groupQuestion.options.find(o => o.id === selectedOptionId);
       if (!chosenOption) return;
@@ -166,7 +169,7 @@ export default function GroupQuestionPhase({
                 alt={groupQuestion.title}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 56rem"
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: 'contain' }}
                 priority
               />
             </div>
@@ -368,7 +371,10 @@ export default function GroupQuestionPhase({
           {/* Next button — facilitator only */}
           {isFacilitator && (
             <button
-              onClick={onNext}
+              onClick={() => {
+                playSfx('advance');
+                onNext();
+              }}
               className="w-full px-4 sm:px-6 py-3 sm:py-4 bg-[#FF6600] hover:bg-[#e65a00] text-white rounded-lg font-semibold uppercase tracking-wider text-xs sm:text-sm transition"
             >
               Next →

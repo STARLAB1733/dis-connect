@@ -1,11 +1,11 @@
 {
   "id": "arc1-ch3",
-  "title": "NDP 2026: Morning of the Show",
-  "description": "NDP morning. A contractor accidentally ran a script that wiped the production database. You have 3 hours before the gates open. The last backup is 6 hours old. Go.",
+  "title": "NDP 2026: Getting into the Show",
+  "description": "NDP's Good Afternoon. A contractor accidentally ran a script that wiped the production database. You have 3 hours before the gates open. The last backup is 6 hours old. Go.",
   "image": "/chapters/arc1-ch3.svg",
   "arc": 0,
   "chapter": 2,
-  "storyContext": "It's 5:47am on NDP morning. You're half asleep at your desk when the Slack channel explodes. A contractor ran a cleanup script against the wrong database, and the production data is gone. The last backup is 6 hours old. Gates open at 9am. Three hours to bring it all back, with 40,000 people expecting a working app when they walk in.",
+  "storyContext": "It's 1:30pm on NDP afternoon. You're half awake at your desk when the Slack channel explodes. A contractor ran a cleanup script against the wrong database, and the production data is gone. The last backup is 6 hours old. Gates open at 4:30pm. Three hours to bring it all back, with 40,000 people expecting a working app when they walk in.",
   "subScenarios": {
     "software-engineer": {
       "type": "drag-drop",
