@@ -1,0 +1,66 @@
+{
+  "arcIdx": 1,
+  "arcName": "Exercise Northstar: Digitise the Fight",
+  "questions": [
+    {
+      "type": "group-wager-choice",
+      "title": "The General's Question",
+      "storyContext": "Your team has spent two weeks turning mountains of GPS tracks, supply logs, radio transcripts, and decision timestamps into a report for the Chief of Army. The analysis is done. You're sitting in the briefing room at SAFTI Military Institute. The Chief picks up your executive summary, reads it, then puts it down. \"During the exercise, my commanders were making decisions on positions that were twenty minutes old. Before that, the whole screen crashed when 500 people logged in. Before that, we couldn't get a signal in half the training area.\" He looks at each of you. \"Was this a technology problem, a design problem, or a people problem?\"",
+      "facilitatorPrompt": "He's looking at all of us. Let's get this right. What actually caused the stale data during the live exercise? Was it the jungle network dropping packets? Was it the system not built to handle degradation? Or was it that commanders were never trained to question what the screen was showing them?",
+      "image": "/chapters/arc2-group-q1.svg",
+      "wagerOptions": [1, 2, 3],
+      "options": [
+        {
+          "id": "network-problem",
+          "label": "It was a network problem, sir. The training ground had dead zones we identified on Day 1 but couldn't fully solve. Data was getting stuck in transit. If we invest in deployable mesh networks and satellite backup for every exercise, the data arrives on time.",
+          "axisImpact": { "Stability": 1.5, "Performance-First": 0.8, "Innovation": -0.5, "Cost-Conscious": -0.5 }
+        },
+        {
+          "id": "design-problem",
+          "label": "It was a design problem, sir. When data was stale, the system displayed it as if it were fresh. There was no timestamp, no confidence indicator, nothing telling the commander that what he was looking at was twenty minutes old. The system should have flagged it instead of pretending everything was fine.",
+          "axisImpact": { "Innovation": 1.5, "Precision": 1.0, "Stability": -0.3 }
+        },
+        {
+          "id": "doctrine-problem",
+          "label": "It was a doctrine problem, sir. Commanders were trained to trust the screen the same way they trust a map. But screens can be wrong. If we train every officer to cross-reference digital intelligence with radio reports and their own observation, the stale data becomes one input, not the only one.",
+          "axisImpact": { "Collaboration": 1.8, "Precision": 0.5, "Performance-First": -0.5 }
+        },
+        {
+          "id": "all-three",
+          "label": "Honestly sir, it was all three. The network was unreliable, the software didn't handle it gracefully, and the commanders weren't trained to question it. We've written a phased plan: network hardening this quarter, system redesign over the next year, doctrine update for the following training cycle. But it takes three years and significant budget.",
+          "axisImpact": { "Precision": 1.5, "Stability": 0.8, "Speed": -1.0, "Cost-Conscious": -0.5 }
+        }
+      ]
+    },
+    {
+      "type": "group-wager-choice",
+      "title": "The Next Generation",
+      "storyContext": "The Chief nods slowly. Then he says, \"Alright. I hear you. Now tell me something bigger. The exercise exposed gaps that go beyond one system or one network. We're building a new generation of soldiers who will fight in a world where the battlefield is as much digital as physical. I can fast-track one capability into the SAF's training roadmap for the next five years. Every recruit and officer who comes through will be shaped by what you recommend. What should it be?\"",
+      "facilitatorPrompt": "This shapes the next generation of the SAF. Everyone think carefully. What was the hardest thing we faced during Northstar? Not just the technical problems. What capability, if our people had it, would have changed the outcome? What does Singapore actually need?",
+      "image": "/chapters/arc2-group-q2.svg",
+      "wagerOptions": [1, 3, 5],
+      "options": [
+        {
+          "id": "autonomous-ai",
+          "label": "Autonomous battlefield AI, sir. Specialists who deploy decision-support systems in the field. Machines that learn from live data and surface tactical options for commanders in real time. It's where warfare is heading and we should be there first.",
+          "axisImpact": { "Innovation": 2.5, "Speed": 0.8, "Collaboration": -1.0, "Stability": -0.5 }
+        },
+        {
+          "id": "cyber-physical",
+          "label": "People who understand both the digital and the physical, sir. Right now, the tech team doesn't think about terrain and the field commanders don't think about data pipelines. Train specialists who live in both worlds. Northstar showed that splitting digital and kinetic thinking is how mistakes happen.",
+          "axisImpact": { "Collaboration": 1.5, "Precision": 1.0, "Innovation": 0.5 }
+        },
+        {
+          "id": "resilient-comms",
+          "label": "Resilient communications, sir. Everything fell apart the moment the network dropped. Mesh networking, satellite fallback, even analog procedures when all else fails. Northstar proved that without comms, nothing else we build matters.",
+          "axisImpact": { "Stability": 2.0, "Performance-First": 0.8, "Innovation": -0.5 }
+        },
+        {
+          "id": "data-literacy",
+          "label": "Data literacy across every rank, sir. From private to general, everyone learns to read, question, and act on digital information. The stale-data crisis happened because commanders trusted a screen they didn't understand. Fix the human layer and the technology becomes far more effective.",
+          "axisImpact": { "Collaboration": 2.0, "Precision": 0.8, "Speed": -0.3, "Autonomy": -0.5 }
+        }
+      ]
+    }
+  ]
+}

@@ -22,7 +22,7 @@ const noto = Noto_Sans({
 
 export const metadata: Metadata = {
   title: "DISConnect",
-  description: "SAF Digital Intelligence Service — C4X Vocation Game",
+  description: "SAF Digital Intelligence Service — C4X(Digital) Vocation Game",
 };
 
 export default function RootLayout({
