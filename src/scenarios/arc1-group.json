@@ -5,7 +5,7 @@
     {
       "type": "group-wager-choice",
       "title": "The Debrief",
-      "storyContext": "The last firework fades and the crowd starts pouring out of the stands. Your team is still in the ops room. The dashboards are green for the first time all day. Nobody says anything for a while. You fixed the livestream. Before that, you brought the database back from the dead at 5:47am. Before that, you kept the servers alive through a rehearsal that almost killed them. Before that, you built the whole thing in three weeks because somebody said yes at 2am. The NDP committee chair walks in. She sits down and says, \"I want to know what really happened.\"",
+      "storyContext": "The last firework fades at 8:15pm and the crowd starts pouring out of the stands. Your team is still in the ops room. The dashboards are green for the first time all day. Nobody says anything for a while. You fixed the livestream that was choking at 7:45pm. Before that, you brought the database back from the dead at 4:00pm, just minutes before the gates opened at 4:30pm. Before that, you kept the servers alive through a rehearsal that almost killed them. Before that, you built the whole thing in three weeks. The NDP committee chair walks in. She sits down and says, \"I want to know what really happened.\"",
       "facilitatorPrompt": "Before I say anything, I want to hear from everyone. She's asking us directly. Do we tell her about every fire we put out, or do we keep it clean? Think about what happens if she finds out later from someone else.",
       "image": "/chapters/arc1-group-q1.svg",
       "wagerOptions": [1, 2, 3],
@@ -17,7 +17,7 @@
         },
         {
           "id": "professional-frame",
-          "label": "Keep it professional. The report says the app ran successfully with minor technical adjustments during the event. She doesn't need to know about the 5:47am panic or how close the livestream came to dying. The show worked. That's what matters.",
+          "label": "Keep it professional. The report says the app ran successfully with minor technical adjustments during the event. She doesn't need to know about the 4:00pm panic or how close the livestream came to dying. The show worked. That's what matters.",
           "axisImpact": { "Autonomy": 1.2, "Speed": 0.8, "Collaboration": -1.0, "Stability": -0.5 }
         },
         {
@@ -47,7 +47,7 @@
         },
         {
           "id": "predictive-ai",
-          "label": "An AI system that predicts failures before they happen. It watches traffic patterns, auto-scales infrastructure, and generates recovery playbooks. That contractor wiping the database at 5:47am? The system catches the anomalous query and rolls it back before any damage is done.",
+          "label": "An AI system that predicts failures before they happen. It watches traffic patterns, auto-scales infrastructure, and generates recovery playbooks. That contractor wiping the database at 1:30pm? The system catches the anomalous query and rolls it back before any damage is done.",
           "axisImpact": { "Innovation": 2.0, "Speed": 0.8, "Stability": -0.3, "Cost-Conscious": -0.8 }
         },
         {

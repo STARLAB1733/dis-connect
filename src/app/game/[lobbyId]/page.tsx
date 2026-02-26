@@ -500,7 +500,7 @@ export default function GamePage() {
         {/* Chapter image */}
         {scenario.image && (
           <div className="w-full h-32 sm:h-40 relative mb-4 rounded-lg overflow-hidden game-chapter-image">
-            <Image src={scenario.image} alt={scenario.title} fill sizes="(max-width: 768px) 100vw, 56rem" style={{ objectFit: 'cover' }} priority />
+            <Image src={scenario.image} alt={scenario.title} fill sizes="(max-width: 768px) 100vw, 56rem" style={{ objectFit: 'contain' }} priority />
           </div>
         )}
 

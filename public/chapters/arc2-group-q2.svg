@@ -1,5 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300">
+<!-- Background -->
 <rect width="800" height="300" fill="#0f172a"/>
+<!-- Grid -->
 <line x1="80" y1="0" x2="80" y2="300" stroke="#1e293b" stroke-width="1"/>
 <line x1="160" y1="0" x2="160" y2="300" stroke="#1e293b" stroke-width="1"/>
 <line x1="240" y1="0" x2="240" y2="300" stroke="#1e293b" stroke-width="1"/>
@@ -13,97 +15,169 @@
 <line x1="0" y1="120" x2="800" y2="120" stroke="#1e293b" stroke-width="1"/>
 <line x1="0" y1="180" x2="800" y2="180" stroke="#1e293b" stroke-width="1"/>
 <line x1="0" y1="240" x2="800" y2="240" stroke="#1e293b" stroke-width="1"/>
+
+<!-- Training academy room -->
+<rect x="0" y="12" width="800" height="228" fill="#111827" opacity="0.4"/>
+
+<!-- Holographic display arch (futuristic framing) -->
+<path d="M100,20 Q400,-10 700,20" fill="none" stroke="#0ea5e9" stroke-width="1" opacity="0.3"/>
+<path d="M120,25 Q400,-5 680,25" fill="none" stroke="#a855f7" stroke-width="0.5" opacity="0.2"/>
+
+<!-- "NEXT GEN" header display -->
+<rect x="280" y="15" width="240" height="20" rx="3" fill="#0c1322" stroke="#a855f7" stroke-width="1" opacity="0.6"/>
+<text x="310" y="29" font-family="monospace" font-size="9" fill="#a855f7" opacity="0.9">SAF TRAINING ROADMAP 2030</text>
+
+<!-- 4 Capability holographic panels -->
+
+<!-- Panel 1: Autonomous Battlefield AI (top-left) -->
+<rect x="50" y="45" width="155" height="100" rx="4" fill="#0c1322" stroke="#0ea5e9" stroke-width="1" opacity="0.5"/>
+<rect x="50" y="45" width="155" height="100" rx="4" fill="#0ea5e9" opacity="0.02"/>
+<text x="65" y="60" font-family="monospace" font-size="7" fill="#0ea5e9">AUTONOMOUS AI</text>
+<!-- Drone/robot icon -->
+<rect x="95" y="72" width="40" height="15" rx="3" fill="#1e293b" stroke="#0ea5e9" stroke-width="1"/>
+<!-- Propellers -->
+<line x1="88" y1="72" x2="78" y2="68" stroke="#0ea5e9" stroke-width="1.5" opacity="0.6"/>
+<line x1="88" y1="72" x2="78" y2="76" stroke="#0ea5e9" stroke-width="1.5" opacity="0.6"/>
+<line x1="142" y1="72" x2="152" y2="68" stroke="#0ea5e9" stroke-width="1.5" opacity="0.6"/>
+<line x1="142" y1="72" x2="152" y2="76" stroke="#0ea5e9" stroke-width="1.5" opacity="0.6"/>
+<!-- Eye/sensor -->
+<circle cx="115" cy="80" r="3" fill="#0ea5e9" opacity="0.7"/>
+<circle cx="115" cy="80" r="1.5" fill="#0ea5e9"/>
+<!-- Scanning lines -->
+<line x1="100" y1="95" x2="85" y2="120" stroke="#0ea5e9" stroke-width="0.5" opacity="0.3" stroke-dasharray="2,2"/>
+<line x1="115" y1="95" x2="115" y2="125" stroke="#0ea5e9" stroke-width="0.5" opacity="0.3" stroke-dasharray="2,2"/>
+<line x1="130" y1="95" x2="145" y2="120" stroke="#0ea5e9" stroke-width="0.5" opacity="0.3" stroke-dasharray="2,2"/>
+<!-- Target points -->
+<circle cx="85" cy="122" r="2" fill="#0ea5e9" opacity="0.4"/>
+<circle cx="115" cy="127" r="2" fill="#0ea5e9" opacity="0.4"/>
+<circle cx="145" cy="122" r="2" fill="#0ea5e9" opacity="0.4"/>
+
+<!-- Panel 2: Cyber-Physical Specialists (top-right) -->
+<rect x="220" y="45" width="155" height="100" rx="4" fill="#0c1322" stroke="#a855f7" stroke-width="1" opacity="0.5"/>
+<rect x="220" y="45" width="155" height="100" rx="4" fill="#a855f7" opacity="0.02"/>
+<text x="232" y="60" font-family="monospace" font-size="7" fill="#a855f7">CYBER-PHYSICAL</text>
+<!-- Soldier with visor -->
+<circle cx="297" cy="80" r="10" fill="#475569"/>
+<!-- Visor/HUD -->
+<rect x="287" y="76" width="20" height="6" rx="2" fill="#a855f7" opacity="0.6"/>
+<line x1="290" y1="79" x2="304" y2="79" stroke="#a855f7" stroke-width="0.5" opacity="0.8"/>
+<!-- Body with tech suit -->
+<rect x="288" y="91" width="18" height="22" rx="2" fill="#475569"/>
+<!-- Circuit lines on suit -->
+<line x1="292" y1="95" x2="292" y2="108" stroke="#a855f7" stroke-width="0.5" opacity="0.5"/>
+<line x1="302" y1="95" x2="302" y2="108" stroke="#a855f7" stroke-width="0.5" opacity="0.5"/>
+<line x1="292" y1="100" x2="302" y2="100" stroke="#a855f7" stroke-width="0.5" opacity="0.5"/>
+<!-- Digital aura -->
+<circle cx="297" cy="90" r="20" fill="none" stroke="#a855f7" stroke-width="0.5" opacity="0.2" stroke-dasharray="3,3"/>
+<!-- Binary code floating -->
+<text x="245" y="95" font-family="monospace" font-size="5" fill="#a855f7" opacity="0.3">01101</text>
+<text x="325" y="88" font-family="monospace" font-size="5" fill="#a855f7" opacity="0.3">10010</text>
+<text x="240" y="130" font-family="monospace" font-size="5" fill="#a855f7" opacity="0.3">11001</text>
+
+<!-- Panel 3: Resilient Communications (bottom-left) -->
+<rect x="410" y="45" width="155" height="100" rx="4" fill="#0c1322" stroke="#22c55e" stroke-width="1" opacity="0.5"/>
+<rect x="410" y="45" width="155" height="100" rx="4" fill="#22c55e" opacity="0.02"/>
+<text x="422" y="60" font-family="monospace" font-size="7" fill="#22c55e">RESILIENT COMMS</text>
+<!-- Radio tower -->
+<rect x="482" y="68" width="6" height="45" fill="#334155"/>
+<polygon points="485,68 475,78 495,78" fill="#334155"/>
+<!-- Signal waves -->
+<path d="M470,75 Q465,70 470,65" fill="none" stroke="#22c55e" stroke-width="1" opacity="0.6"/>
+<path d="M462,78 Q455,70 462,60" fill="none" stroke="#22c55e" stroke-width="1" opacity="0.4"/>
+<path d="M500,75 Q505,70 500,65" fill="none" stroke="#22c55e" stroke-width="1" opacity="0.6"/>
+<path d="M508,78 Q515,70 508,60" fill="none" stroke="#22c55e" stroke-width="1" opacity="0.4"/>
+<!-- Satellite -->
+<ellipse cx="450" cy="85" rx="10" ry="5" fill="none" stroke="#22c55e" stroke-width="0.8" opacity="0.5" transform="rotate(-30 450 85)"/>
+<circle cx="450" cy="85" r="3" fill="#22c55e" opacity="0.5"/>
+<!-- Ground stations -->
+<rect x="430" y="118" width="12" height="8" rx="1" fill="#1e293b" stroke="#22c55e" stroke-width="0.5"/>
+<rect x="520" y="118" width="12" height="8" rx="1" fill="#1e293b" stroke="#22c55e" stroke-width="0.5"/>
+<!-- Connection lines -->
+<line x1="436" y1="118" x2="450" y2="90" stroke="#22c55e" stroke-width="0.5" opacity="0.3"/>
+<line x1="526" y1="118" x2="500" y2="80" stroke="#22c55e" stroke-width="0.5" opacity="0.3"/>
+<line x1="436" y1="118" x2="485" y2="113" stroke="#22c55e" stroke-width="0.5" opacity="0.3"/>
+<line x1="526" y1="118" x2="485" y2="113" stroke="#22c55e" stroke-width="0.5" opacity="0.3"/>
+
+<!-- Panel 4: Data Literacy (bottom-right) -->
+<rect x="580" y="45" width="170" height="100" rx="4" fill="#0c1322" stroke="#FF6600" stroke-width="1" opacity="0.5"/>
+<rect x="580" y="45" width="170" height="100" rx="4" fill="#FF6600" opacity="0.02"/>
+<text x="600" y="60" font-family="monospace" font-size="7" fill="#FF6600">DATA LITERACY</text>
+<!-- Dashboard icon -->
+<rect x="610" y="70" width="110" height="55" rx="2" fill="#1e293b" stroke="#334155" stroke-width="0.5"/>
+<!-- Mini charts -->
+<rect x="618" y="80" width="8" height="18" fill="#FF6600" opacity="0.3"/>
+<rect x="630" y="75" width="8" height="23" fill="#FF6600" opacity="0.5"/>
+<rect x="642" y="82" width="8" height="16" fill="#FF6600" opacity="0.4"/>
+<rect x="654" y="70" width="8" height="28" fill="#FF6600" opacity="0.6"/>
+<!-- Pie chart -->
+<circle cx="695" cy="90" r="14" fill="#1e293b" stroke="#334155" stroke-width="0.5"/>
+<path d="M695,76 L695,90 L707,84" fill="#FF6600" opacity="0.5"/>
+<path d="M695,90 L707,84 L707,96" fill="#0ea5e9" opacity="0.3"/>
+<path d="M695,90 L707,96 L695,104" fill="#22c55e" opacity="0.3"/>
+<!-- People with data icons -->
+<g fill="#FF6600" opacity="0.4">
+  <circle cx="625" cy="115" r="3"/>
+  <circle cx="645" cy="115" r="3"/>
+  <circle cx="665" cy="115" r="3"/>
+  <circle cx="685" cy="115" r="3"/>
+  <circle cx="705" cy="115" r="3"/>
+</g>
+<text x="610" y="135" font-family="monospace" font-size="5" fill="#FF6600" opacity="0.4">EVERY RANK</text>
+
+<!-- Instructor figure at left -->
+<circle cx="40" cy="100" r="10" fill="#94a3b8"/>
+<!-- Officer cap -->
+<rect x="30" y="91" width="20" height="4" rx="1" fill="#64748b"/>
+<circle cx="40" cy="93" r="1.5" fill="#FF6600" opacity="0.7"/>
+<rect x="31" y="110" width="18" height="28" rx="2" fill="#94a3b8"/>
+<!-- Pointing gesture -->
+<line x1="49" y1="115" x2="70" y2="95" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+
+<!-- Rows of cadets/trainees -->
+<g opacity="0.45">
+  <!-- Row 1 -->
+  <circle cx="120" cy="185" r="6" fill="#475569"/>
+  <rect x="115" y="191" width="10" height="14" rx="2" fill="#475569"/>
+  <circle cx="180" cy="185" r="6" fill="#475569"/>
+  <rect x="175" y="191" width="10" height="14" rx="2" fill="#475569"/>
+  <circle cx="240" cy="185" r="6" fill="#475569"/>
+  <rect x="235" y="191" width="10" height="14" rx="2" fill="#475569"/>
+  <circle cx="300" cy="185" r="6" fill="#475569"/>
+  <rect x="295" y="191" width="10" height="14" rx="2" fill="#475569"/>
+  <circle cx="360" cy="185" r="6" fill="#475569"/>
+  <rect x="355" y="191" width="10" height="14" rx="2" fill="#475569"/>
+  <circle cx="420" cy="185" r="6" fill="#475569"/>
+  <rect x="415" y="191" width="10" height="14" rx="2" fill="#475569"/>
+  <circle cx="480" cy="185" r="6" fill="#475569"/>
+  <rect x="475" y="191" width="10" height="14" rx="2" fill="#475569"/>
+  <circle cx="540" cy="185" r="6" fill="#475569"/>
+  <rect x="535" y="191" width="10" height="14" rx="2" fill="#475569"/>
+  <circle cx="600" cy="185" r="6" fill="#475569"/>
+  <rect x="595" y="191" width="10" height="14" rx="2" fill="#475569"/>
+  <circle cx="660" cy="185" r="6" fill="#475569"/>
+  <rect x="655" y="191" width="10" height="14" rx="2" fill="#475569"/>
+</g>
+<g opacity="0.3">
+  <!-- Row 2 (further back) -->
+  <circle cx="150" cy="165" r="5" fill="#475569"/>
+  <circle cx="210" cy="165" r="5" fill="#475569"/>
+  <circle cx="270" cy="165" r="5" fill="#475569"/>
+  <circle cx="330" cy="165" r="5" fill="#475569"/>
+  <circle cx="390" cy="165" r="5" fill="#475569"/>
+  <circle cx="450" cy="165" r="5" fill="#475569"/>
+  <circle cx="510" cy="165" r="5" fill="#475569"/>
+  <circle cx="570" cy="165" r="5" fill="#475569"/>
+  <circle cx="630" cy="165" r="5" fill="#475569"/>
+</g>
+
+<!-- Forward arrows (futuristic) -->
+<polygon points="760,100 780,120 760,140" fill="none" stroke="#a855f7" stroke-width="1" opacity="0.3"/>
+<polygon points="770,105 785,120 770,135" fill="none" stroke="#a855f7" stroke-width="0.5" opacity="0.2"/>
+
+<!-- Bottom bar -->
 <rect x="0" y="240" width="800" height="60" fill="#0f172a"/>
-<line x1="0" y1="240" x2="800" y2="240" stroke="#334155" stroke-width="2.0"/>
-<rect x="0" y="233" width="800" height="7" fill="#FF6600" opacity="0.1"/>
-<circle cx="120" cy="75" r="5" fill="#FF6600"/>
-<line x1="120" y1="75" x2="120" y2="25" stroke="#FF6600" stroke-width="2" opacity="0.9"/>
-<circle cx="120" cy="25" r="2" fill="#FF6600" opacity="0.9"/>
-<line x1="120" y1="75" x2="155" y2="45" stroke="#FF6600" stroke-width="2" opacity="0.8"/>
-<circle cx="155" cy="45" r="2" fill="#FF6600" opacity="0.8"/>
-<line x1="120" y1="75" x2="85" y2="45" stroke="#FF6600" stroke-width="2" opacity="0.8"/>
-<circle cx="85" cy="45" r="2" fill="#FF6600" opacity="0.8"/>
-<rect x="100" y="130" width="40" height="90" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-<rect x="108" y="142" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="120" y="142" width="6" height="6" fill="#FF6600" opacity="0.6"/>
-<rect x="108" y="160" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="120" y="160" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="108" y="178" width="6" height="6" fill="#FF6600" opacity="0.5"/>
-<rect x="120" y="178" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="108" y="196" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="120" y="196" width="6" height="6" fill="#FF6600" opacity="0.6"/>
-<rect x="108" y="214" width="6" height="6" fill="#FF6600" opacity="0.6"/>
-<rect x="120" y="214" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="200" y="50" width="45" height="100" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-<rect x="207" y="62" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="219" y="62" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="231" y="62" width="6" height="6" fill="#FF6600" opacity="0.5"/>
-<rect x="207" y="80" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="219" y="80" width="6" height="6" fill="#FF6600" opacity="0.6"/>
-<rect x="231" y="80" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="207" y="98" width="6" height="6" fill="#FF6600" opacity="0.6"/>
-<rect x="219" y="98" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="231" y="98" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="207" y="116" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="219" y="116" width="6" height="6" fill="#FF6600" opacity="0.5"/>
-<rect x="231" y="116" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<polygon points="380,50 410,120 350,120" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-<circle cx="380" cy="70" r="3" fill="#FF6600" opacity="0.8"/>
-<circle cx="360" cy="100" r="3" fill="#FF6600" opacity="0.7"/>
-<circle cx="400" cy="100" r="3" fill="#FF6600" opacity="0.8"/>
-<circle cx="380" cy="40" r="5" fill="#FF6600"/>
-<line x1="380" y1="40" x2="380" y2="15" stroke="#FF6600" stroke-width="2" opacity="0.9"/>
-<circle cx="380" cy="15" r="2" fill="#FF6600" opacity="0.9"/>
-<line x1="380" y1="40" x2="420" y2="25" stroke="#FF6600" stroke-width="1.5" opacity="0.7"/>
-<circle cx="420" cy="25" r="2" fill="#FF6600" opacity="0.7"/>
-<line x1="380" y1="40" x2="340" y2="25" stroke="#FF6600" stroke-width="1.5" opacity="0.7"/>
-<circle cx="340" cy="25" r="2" fill="#FF6600" opacity="0.7"/>
-<rect x="480" y="100" width="50" height="60" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-<rect x="488" y="112" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="502" y="112" width="6" height="6" fill="#FF6600" opacity="0.6"/>
-<rect x="516" y="112" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="488" y="128" width="6" height="6" fill="#FF6600" opacity="0.5"/>
-<rect x="502" y="128" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="516" y="128" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="488" y="144" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="502" y="144" width="6" height="6" fill="#FF6600" opacity="0.5"/>
-<rect x="516" y="144" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="460" y="50" width="35" height="80" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-<rect x="467" y="62" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="479" y="62" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="467" y="78" width="6" height="6" fill="#FF6600" opacity="0.6"/>
-<rect x="479" y="78" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="467" y="94" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="479" y="94" width="6" height="6" fill="#FF6600" opacity="0.5"/>
-<rect x="560" y="130" width="70" height="85" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-<rect x="568" y="142" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="582" y="142" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="596" y="142" width="6" height="6" fill="#FF6600" opacity="0.5"/>
-<rect x="610" y="142" width="6" height="6" fill="#FF6600" opacity="0.6"/>
-<rect x="624" y="142" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="568" y="162" width="6" height="6" fill="#FF6600" opacity="0.6"/>
-<rect x="582" y="162" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="596" y="162" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="610" y="162" width="6" height="6" fill="#FF6600" opacity="0.5"/>
-<rect x="624" y="162" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="568" y="182" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="582" y="182" width="6" height="6" fill="#FF6600" opacity="0.5"/>
-<rect x="596" y="182" width="6" height="6" fill="#FF6600" opacity="0.6"/>
-<rect x="610" y="182" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="624" y="182" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="700" y="60" width="50" height="85" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-<rect x="708" y="72" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="722" y="72" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="736" y="72" width="6" height="6" fill="#FF6600" opacity="0.5"/>
-<rect x="708" y="90" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="722" y="90" width="6" height="6" fill="#FF6600" opacity="0.6"/>
-<rect x="736" y="90" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="708" y="108" width="6" height="6" fill="#FF6600" opacity="0.6"/>
-<rect x="722" y="108" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="736" y="108" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="708" y="126" width="6" height="6" fill="#FF6600" opacity="0.7"/>
-<rect x="722" y="126" width="6" height="6" fill="#FF6600" opacity="0.5"/>
-<rect x="736" y="126" width="6" height="6" fill="#FF6600" opacity="0.8"/>
-<rect x="10" y="266" width="276" height="22" fill="#0f172a" opacity="0.85"/>
+<line x1="0" y1="240" x2="800" y2="240" stroke="#334155" stroke-width="2"/>
+<rect x="0" y="233" width="800" height="7" fill="#FF6600" opacity="0.08"/>
+<rect x="10" y="266" width="280" height="22" fill="#0f172a" opacity="0.85"/>
 <text x="16" y="281" font-family="monospace" font-size="12" fill="#e2e8f0">ARC 2 GROUP - THE NEXT GENERATION</text>
 </svg>
