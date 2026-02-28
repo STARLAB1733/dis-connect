@@ -11,8 +11,8 @@
       "type": "drag-drop",
       "variant": "order",
       "title": "Rescue the Database",
-      "instruction": "The live database just got wiped. You need to restore it before 40,000 people show up expecting a working app. Put the rescue steps in the right order. One wrong move and you lose data permanently.",
-      "hint": "In a crisis: first, make sure nothing else gets destroyed. Then figure out what you've lost. Then fix it. Then double-check before you switch it live.",
+      "instruction": "The live database was just wiped. Restore it before 40,000 people walk through the gates. One wrong step and data is gone for good. Put the rescue steps in the right order.",
+      "hint": "First, stop anything else from being destroyed. Then work out what was lost. Then fix it. Only switch things back live once you are sure.",
       "items": [
         { "id": "stop-writes", "label": "Immediately stop all new data from being written so nothing else gets corrupted" },
         { "id": "assess-damage", "label": "Compare the current state against the backup to see exactly what was lost" },
@@ -29,12 +29,12 @@
     "data-scientist": {
       "type": "binary-choice",
       "title": "Recover the Lost Data",
-      "instruction": "The wiped database included 6 hours of user activity that marketing needs for their NDP social media campaign. The raw records still exist in a separate system but they're messy and unprocessed. What's your plan?",
+      "instruction": "The wiped database included 6 hours of user activity that marketing needs for their NDP social media campaign. The raw records still exist in a separate system but they are messy and unprocessed. What is your plan?",
       "hint": "Something useful delivered in time beats something perfect delivered too late. But think about whether the data is even still relevant.",
       "options": [
         {
           "id": "rebuild-full",
-          "label": "Rebuild the full dataset from raw records. Takes 2 hours but gives marketing complete and accurate data for their campaign.",
+          "label": "Reconstruct all the missing data from raw records. Takes 2 hours but marketing gets complete and accurate numbers for their campaign.",
           "axisImpact": { "Precision": 1, "Stability": 0.5, "Speed": -0.5 }
         },
         {
@@ -44,12 +44,12 @@
         },
         {
           "id": "focus-forward",
-          "label": "Skip recovery and instead set up better tracking for NDP day itself. The actual show data will be far more valuable than rehearsal week numbers anyway.",
+          "label": "Skip recovery and set up better tracking for NDP day itself. The actual show data will be far more valuable than rehearsal week numbers anyway.",
           "axisImpact": { "Speed": 0.8, "Innovation": 0.8, "Precision": -0.5 }
         },
         {
           "id": "crowdsource-data",
-          "label": "Ask marketing to cross-reference their social media numbers with whatever you can pull from the content delivery logs. Not perfect, but fills the gaps by working together.",
+          "label": "Ask marketing to match their social media numbers against whatever data you can salvage. Not perfect, but fills the gaps by working together.",
           "axisImpact": { "Collaboration": 1, "Innovation": 0.5, "Autonomy": -0.3 }
         }
       ]
@@ -58,13 +58,13 @@
       "type": "drag-drop",
       "variant": "layout",
       "title": "Rebuild the Infrastructure",
-      "instruction": "With the database down, you need to bring the whole system back online fast. Drag each piece to the right slot in the recovery plan. Slot 1 is the very first thing to restore, Slots 2 and 3 run at the same time, and Slot 4 is the final check before going live.",
+      "instruction": "The whole system needs to come back online. Drag each part to the right slot. Slot 1 is the first thing to restore. Slots 2 and 3 can run at the same time. Slot 4 is your final check before going live.",
       "hint": "The thing everything else depends on must come back first. Think about what the app absolutely cannot work without.",
       "items": [
         { "id": "load-balancer", "label": "Traffic Director (spreads visitors across servers)" },
         { "id": "db-primary", "label": "Main Database (stores all app data)" },
-        { "id": "db-replica", "label": "Backup Database (handles read-only requests)" },
-        { "id": "cache-layer", "label": "Speed Cache (stores frequent answers to avoid hitting the database)" },
+        { "id": "db-replica", "label": "Backup Database (handles lookups when the main database is busy)" },
+        { "id": "cache-layer", "label": "Speed Cache (remembers common answers so the main database is not swamped)" },
         { "id": "api-servers", "label": "App Servers (handle requests from phones)" },
         { "id": "monitoring", "label": "Health Monitor (watches everything for problems)" }
       ],

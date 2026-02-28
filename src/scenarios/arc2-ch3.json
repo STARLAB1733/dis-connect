@@ -12,11 +12,11 @@
       "variant": "order",
       "title": "Track Down the Stale Data",
       "instruction": "Commanders are seeing 20-minute-old positions. You need to trace where in the chain the data is getting stuck. Put these investigation steps in order.",
-      "hint": "Data staleness can happen anywhere: at the source, in transit, in storage, or when it reaches the screen. Trace the problem systematically.",
+      "hint": "Staleness can happen anywhere: at the source, in transit, in storage, or when it reaches the screen. Trace the problem step by step.",
       "items": [
         { "id": "check-source", "label": "Confirm that the GPS devices in the field are actually sending fresh updates" },
         { "id": "check-pipeline", "label": "Check if updates are piling up somewhere between the field and the server" },
-        { "id": "check-cache", "label": "Check if the system is serving old saved answers instead of fetching fresh ones" },
+        { "id": "check-cache", "label": "Check if the system is showing old saved answers instead of fetching fresh ones" },
         { "id": "check-websocket", "label": "Verify that the live connection between servers and commander screens is actually pushing updates" },
         { "id": "deploy-fix", "label": "Deploy the fix and confirm fresh data starts flowing to commander screens" }
       ],
@@ -29,7 +29,7 @@
     "data-scientist": {
       "type": "binary-choice",
       "title": "Help Commanders Decide Now",
-      "instruction": "While engineers fix the data problem, commanders still need to make decisions NOW using 20-minute-old positions. The exercise is moving fast. How do you help them get a usable picture?",
+      "instruction": "While engineers fix the data problem, commanders still need to make decisions using 20-minute-old positions. The exercise is moving fast. How do you help them get a usable picture?",
       "hint": "Think about what commanders need most right now: a confident educated guess, trusted manual reports, honest uncertainty, or a completely different source of truth.",
       "options": [
         {
@@ -44,7 +44,7 @@
         },
         {
           "id": "confidence-overlay",
-          "label": "Show the old positions but add a growing circle of uncertainty so commanders know which dots to trust. Honest, but might cause decision paralysis.",
+          "label": "Show the old positions but add a growing ring around each dot so commanders can see how outdated the information is. Honest, but might cause decision paralysis.",
           "axisImpact": { "Precision": 1, "Collaboration": 0.5, "Speed": -0.3 }
         },
         {
@@ -58,7 +58,7 @@
       "type": "drag-drop",
       "variant": "layout",
       "title": "Rebuild the Data Pipeline",
-      "instruction": "The stale data is caused by a bottleneck in how updates flow from the field to the screen. You need to rebuild the pipeline. Drag each component to the right stage. Stage 1 is where data arrives from the field, Stages 2 and 3 process it, and Stage 4 delivers it to screens.",
+      "instruction": "Updates are getting stuck somewhere between the field and the screen. You need to redesign the route they travel. Drag each component to the right stage. Stage 1 is where data arrives from the field. Stages 2 and 3 process it. Stage 4 delivers it to screens.",
       "hint": "Think about the natural order: data arrives first, then gets sorted and cleaned, then gets pushed out to whoever needs it.",
       "items": [
         { "id": "mqtt-broker", "label": "Field Device Radio Hub (receives all incoming data from field devices)" },

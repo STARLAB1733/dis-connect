@@ -15,12 +15,12 @@
       "options": [
         {
           "id": "zero-trust-ot",
-          "label": "Implement a 'never trust, always verify' model for all interactions between the power control systems and office networks. Every request is verified before being granted access. Gold standard security but requires 18 months to fully implement.",
+          "label": "Build a system where every connection between power stations and office networks must prove it is legitimate before being allowed through. Nothing is trusted by default, even from inside the building. The gold standard for security but takes 18 months to fully roll out.",
           "axisImpact": { "Stability": 1, "Precision": 0.8, "Speed": -0.5 }
         },
         {
           "id": "ai-soc",
-          "label": "Deploy an AI-powered security monitoring centre that watches both the power control systems and office networks 24/7. Detects anomalies and auto-responds to known threats. Can be operational in 3 months.",
+          "label": "Set up an AI-powered security centre that watches the power stations and office networks around the clock. It flags suspicious activity and automatically responds to known threats. Operational in 3 months.",
           "axisImpact": { "Innovation": 1, "Speed": 0.5, "Cost-Conscious": -0.5 }
         },
         {
@@ -30,7 +30,7 @@
         },
         {
           "id": "threat-sharing",
-          "label": "Create a regional threat-sharing programme with neighbouring countries' utilities. Share attack signatures in real time so everyone benefits from each other's incidents.",
+          "label": "Create a regional programme where neighbouring countries' power utilities share attack details in real time. One country detecting an attack means everyone else is warned immediately.",
           "axisImpact": { "Collaboration": 1, "Innovation": 0.5, "Autonomy": -0.5 }
         }
       ]
@@ -38,15 +38,15 @@
     "data-scientist": {
       "type": "drag-drop",
       "variant": "order",
-      "title": "Build the Data-Driven Attribution Case",
-      "instruction": "Intelligence suggests a state-backed attacker, but the PM needs solid evidence before Parliament. Put these steps in the right order to build a credible case.",
-      "hint": "In intelligence work, gather all the evidence before drawing conclusions. Build from the most concrete facts toward the broader picture, and always be honest about certainty.",
+      "title": "Build the Evidence Case",
+      "instruction": "Intelligence suggests a state-backed attacker but the PM needs solid evidence before Parliament. Put these steps in the right order to build a credible case.",
+      "hint": "Gather all the evidence before drawing conclusions. Build from the most concrete facts toward the broader picture, and always be honest about how certain you are.",
       "items": [
-        { "id": "ttps-match", "label": "Apply pattern matching algorithms to map the attacker's tools and techniques against known threat group profiles" },
-        { "id": "infrastructure-trace", "label": "Conduct network flow analysis to trace the attacker's command servers through layers of obfuscation" },
-        { "id": "code-analysis", "label": "Run code similarity analysis on the malicious code to identify authorship by language patterns, style, and build timestamps" },
-        { "id": "timing-analysis", "label": "Apply statistical timing correlation to match the attack schedule against known working hour patterns of suspected groups" },
-        { "id": "confidence-statement", "label": "Synthesise all findings into a confidence-weighted attribution statement for Parliament" }
+        { "id": "ttps-match", "label": "Compare the attacker's methods and tools against a database of known criminal groups to find a match" },
+        { "id": "infrastructure-trace", "label": "Trace the network traffic backwards through disguised relay points to find where the attack was actually controlled from" },
+        { "id": "code-analysis", "label": "Study the malicious code for stylistic clues, the same way you might analyse handwriting, to work out who wrote it" },
+        { "id": "timing-analysis", "label": "Check when the attacks happened against the working hours and time zones of suspected groups" },
+        { "id": "confidence-statement", "label": "Combine all the evidence into a clear statement for Parliament, with an honest note on how certain you are" }
       ],
       "correctOrder": ["ttps-match", "infrastructure-trace", "code-analysis", "timing-analysis", "confidence-statement"],
       "axisImpact": { "Precision": 1, "Collaboration": 0.5 }
@@ -55,7 +55,7 @@
       "type": "drag-drop",
       "variant": "layout",
       "title": "Design the Resilience Architecture",
-      "instruction": "Design an infrastructure that survives future attacks. Drag each component to the right layer of the defence. Layer 1 stops attacks before they start, Layers 2 and 3 detect and respond, Layer 4 recovers when things do go wrong.",
+      "instruction": "Design an infrastructure that survives future attacks. Drag each component to the right layer of the defence. Layer 1 stops attacks before they start. Layers 2 and 3 detect and respond. Layer 4 recovers when things do go wrong.",
       "hint": "Think about each tool's purpose: stopping, spotting, reacting, or recovering. Assign each to the layer that matches its job.",
       "items": [
         { "id": "waf", "label": "Traffic Filter (blocks suspicious incoming traffic at the gate)" },
@@ -69,7 +69,7 @@
         { "id": "zone-1", "label": "Stop Attacks (Prevention)" },
         { "id": "zone-2", "label": "Spot Attacks (Detection)" },
         { "id": "zone-3", "label": "React to Attacks (Response)" },
-        { "id": "zone-4", "label": "Recover & Restore" }
+        { "id": "zone-4", "label": "Recover and Restore" }
       ],
       "correctOrder": ["waf", "siem", "soar", "dr-site"],
       "axisImpact": { "Stability": 1, "Innovation": 0.5 }

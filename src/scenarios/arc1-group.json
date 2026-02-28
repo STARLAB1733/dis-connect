@@ -27,7 +27,7 @@
         },
         {
           "id": "data-driven",
-          "label": "Show her the numbers. 99.2% uptime across three hours. 40,000 concurrent users served. Positive social media sentiment after the fireworks. The data tells the story without us having to explain things that might make her nervous.",
+          "label": "Show her the numbers. 99.2% uptime across three hours. 40,000 people served without a crash. The crowd was positive on social media after the fireworks. The data speaks for itself.",
           "axisImpact": { "Precision": 1.2, "Stability": 0.5, "Collaboration": -0.3, "Innovation": -0.3 }
         }
       ]
@@ -47,17 +47,17 @@
         },
         {
           "id": "predictive-ai",
-          "label": "An AI system that predicts failures before they happen. It watches traffic patterns, auto-scales infrastructure, and generates recovery playbooks. That contractor wiping the database at 1:30pm? The system catches the anomalous query and rolls it back before any damage is done.",
+          "label": "An AI system that predicts failures before they happen. It watches traffic patterns, scales up automatically when needed, and prepares recovery guides in advance. That contractor wiping the database at 1:30pm? The system flags the suspicious action and reverses it before any damage is done.",
           "axisImpact": { "Innovation": 2.0, "Speed": 0.8, "Stability": -0.3, "Cost-Conscious": -0.8 }
         },
         {
           "id": "distributed-platform",
-          "label": "A distributed platform where nothing is a single point of failure. Instead of one app that crashes, fifty small services that fail on their own without taking everything down. The livestream buffering contained to one CDN region instead of bringing down the whole show.",
+          "label": "A system where no single part can take everything down. Instead of one app that crashes and kills the whole show, fifty smaller pieces that can fail on their own. The livestream problem stays contained instead of spreading.",
           "axisImpact": { "Innovation": 1.5, "Stability": 1.0, "Cost-Conscious": -0.5 }
         },
         {
           "id": "trained-people",
-          "label": "Train 200 digital officers across every government agency and write runbooks for every failure mode we encountered. Technology breaks. What saved us every time was that someone on this team knew what to do. Scale that.",
+          "label": "Train 200 digital officers across every government agency and write step-by-step guides for every type of crisis we faced. Technology breaks. What saved us every time was that someone on this team knew what to do. Scale that.",
           "axisImpact": { "Collaboration": 2.0, "Precision": 0.5, "Innovation": -0.5 }
         }
       ]

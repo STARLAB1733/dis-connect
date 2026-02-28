@@ -15,17 +15,17 @@
       "options": [
         {
           "id": "cache-layer",
-          "label": "Remember recent answers so the app doesn't have to ask the server every time. Fixes 60% of the slowness but some users might briefly see float facts that are a few minutes out of date.",
+          "label": "Remember recent answers so the app doesn't have to ask the server every time. Fixes about 60% of the slowness but some users might briefly see float facts that are a few minutes out of date.",
           "axisImpact": { "Speed": 1, "Performance-First": 0.8, "Precision": -0.3 }
         },
         {
           "id": "kill-features",
-          "label": "Turn off the camera overlay and serve a simple text-only version. The app becomes instantly fast but loses its wow factor for this rehearsal.",
+          "label": "Turn off the float scanner and show text only. The app speeds up immediately but loses its main feature for this rehearsal.",
           "axisImpact": { "Stability": 1, "Speed": 0.5, "Innovation": -0.5 }
         },
         {
           "id": "optimize-queries",
-          "label": "Rewrite the slowest database searches to be more efficient. Takes longer to implement but permanently fixes the root cause.",
+          "label": "Rewrite the slowest database searches to be more efficient. Takes longer to fix but permanently solves the root cause.",
           "axisImpact": { "Precision": 1, "Stability": 0.5, "Speed": -0.5 }
         },
         {
@@ -37,9 +37,9 @@
     },
     "data-scientist": {
       "type": "numeric-input",
-      "title": "Estimate the Server Shortfall",
-      "instruction": "The app is getting hit harder every few minutes. Each server can handle about 5,000 users at once. Based on the user count over the last 4 time windows (in thousands), estimate the total number of servers you need to handle the peak.",
-      "hint": "Look at how fast the user count is climbing. Project where it peaks, then divide by server capacity.",
+      "title": "Work Out How Many Servers You Need",
+      "instruction": "More people are opening the app every few minutes. Each server handles about 5,000 people at once. The graph shows how many thousands are online across four check-ins. Estimate how many servers you need at the peak.",
+      "hint": "Look at how fast the numbers are climbing. Estimate where it tops out, then work out how many servers you need to cover that peak.",
       "chartData": [4, 12, 28, 40],
       "expected": 11,
       "tolerance": 3,
@@ -52,10 +52,10 @@
       "type": "drag-drop",
       "variant": "order",
       "title": "Investigate the Infrastructure Failure",
-      "instruction": "The monitoring screen is lit up with warnings. As the infrastructure lead, you need to run a systematic investigation to figure out which part of the stack is actually failing and why. Put these diagnostic steps in the right order.",
+      "instruction": "The monitoring screen is lit up with warnings. Work out what is actually broken and why. Put these investigation steps in the right order.",
       "hint": "Always look at the big picture first before zooming in. Start with what is already visible before digging for hidden clues.",
       "items": [
-        { "id": "check-metrics", "label": "Pull up the live dashboard showing server load, memory usage, and network traffic" },
+        { "id": "check-metrics", "label": "Pull up the live dashboard to see which parts of the system are under pressure" },
         { "id": "identify-bottleneck", "label": "Match the spike timing to specific parts of the app to pinpoint where things are breaking" },
         { "id": "sample-logs", "label": "Look through the error logs from the last 10 minutes to spot repeating patterns" },
         { "id": "trace-requests", "label": "Follow individual slow requests through the system to see exactly where time is being lost" },
