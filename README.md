@@ -42,7 +42,7 @@ Other commands:
 ```bash
 npm run build   # Production build
 npm run lint    # ESLint
-npm test        # Run 65 automated tests
+npm test        # Run 143 automated tests
 ```
 
 ---
@@ -79,6 +79,13 @@ Roles **rotate between arcs** so every player experiences all three roles across
 - After the first skip, all subsequent drops are skipped instantly
 - A disconnected player can **rejoin** by re-entering the lobby URL — they'll be redirected straight back into the active game
 
+### Group Question Phase
+After each arc, the team faces **2 group questions** together (requires 2+ players):
+- A **rotating facilitator** (different player each arc) leads the discussion
+- The team chooses a **wager multiplier** (1×–5×) before picking an answer
+- The wagered impact is added to the **team's group score** on the leaderboard
+- Non-facilitator players discuss but cannot submit — only the facilitator locks in the answer
+
 ### Results
 After all 12 chapters, each player sees their personal **Persona Report**:
 - **Score** and team ranking on the leaderboard
@@ -86,6 +93,12 @@ After all 12 chapters, each player sees their personal **Persona Report**:
 - **Vocation breakdown** — score contribution per arc
 - **Persona archetype** — named persona derived from 8 decision axes (e.g. *The Visionary Architect*)
 - **Radar chart** of axis scores
+
+---
+
+## Live Demo
+
+[https://dis-connect-game.vercel.app](https://dis-connect-game.vercel.app)
 
 ---
 
