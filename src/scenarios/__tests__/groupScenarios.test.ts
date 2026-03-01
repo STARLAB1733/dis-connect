@@ -164,7 +164,7 @@ describe('wager multiplication math', () => {
         q.wagerOptions.forEach(wager => {
           q.options.forEach(opt => {
             const base = opt.axisImpact || {};
-            Object.entries(base).forEach(([axis, value]) => {
+            Object.values(base).forEach((value) => {
               const wagered = (value ?? 0) * wager;
               expect(wagered).toBeCloseTo((value ?? 0) * wager);
             });
