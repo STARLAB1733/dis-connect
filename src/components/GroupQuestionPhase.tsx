@@ -163,13 +163,14 @@ export default function GroupQuestionPhase({
 
           {/* Illustration */}
           {groupQuestion.image && (
-            <div className="relative w-full rounded-lg overflow-hidden bg-[#1e293b]" style={{ aspectRatio: '16 / 9' }}>
+            <div className="w-full rounded-lg overflow-hidden">
               <Image
                 src={groupQuestion.image}
                 alt={groupQuestion.title}
-                fill
+                width={0}
+                height={0}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 56rem"
-                style={{ objectFit: 'contain' }}
+                style={{ width: '100%', height: 'auto', display: 'block' }}
                 priority
               />
             </div>

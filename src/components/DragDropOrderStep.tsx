@@ -37,12 +37,15 @@ function shuffleArray<T>(arr: T[]): T[] {
 
 export default function DragDropOrderStep({ items, onComplete }: DragDropOrderStepProps) {
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 8 },
+    }),
     useSensor(TouchSensor, {
-      activationConstraint: { delay: 200, tolerance: 8 },
+      activationConstraint: { delay: 250, tolerance: 8 },
     })
   );
   const [activeId, setActiveId] = React.useState<string | null>(null);
+  const [selectedId, setSelectedId] = React.useState<string | null>(null);
   const [order, setOrder] = React.useState<string[]>(() =>
     shuffleArray(items.map((i) => i.id))
   );
@@ -50,7 +53,9 @@ export default function DragDropOrderStep({ items, onComplete }: DragDropOrderSt
 
   const handleDragStart = (e: DragStartEvent) => {
     setActiveId(e.active.id as string);
+    setSelectedId(null); // clear tap-selection when drag starts
   };
+
   const handleDragEnd = (e: DragEndEvent) => {
     const { active, over } = e;
     if (over && active.id !== over.id) {
@@ -66,8 +71,36 @@ export default function DragDropOrderStep({ items, onComplete }: DragDropOrderSt
     setActiveId(null);
   };
 
+  const handleItemTap = (id: string) => {
+    // Ignore taps that fire at the end of a drag
+    if (activeId !== null) return;
+
+    if (selectedId === null) {
+      setSelectedId(id);
+    } else if (selectedId === id) {
+      setSelectedId(null);
+    } else {
+      // Swap the two items
+      const next = [...order];
+      const fromIdx = next.indexOf(selectedId);
+      const toIdx = next.indexOf(id);
+      if (fromIdx !== -1 && toIdx !== -1) {
+        [next[fromIdx], next[toIdx]] = [next[toIdx], next[fromIdx]];
+        setOrder(next);
+      }
+      setSelectedId(null);
+    }
+  };
+
   return (
     <div className="flex flex-col h-full">
+      {/* Tap hint */}
+      <p className="text-[10px] sm:text-xs text-[#64748b] mb-2 text-center">
+        {selectedId
+          ? 'Now tap another item to swap positions'
+          : 'Tap an item to select it, then tap another to swap · or drag to reorder'}
+      </p>
+
       <DndContext
         sensors={sensors}
         collisionDetection={closestCorners}
@@ -76,7 +109,14 @@ export default function DragDropOrderStep({ items, onComplete }: DragDropOrderSt
       >
         <SortableContext items={order} strategy={verticalListSortingStrategy}>
           {order.map((id, idx) => (
-            <SortableItem key={id} id={id} step={idx + 1} label={items.find(i => i.id === id)!.label} />
+            <SortableItem
+              key={id}
+              id={id}
+              step={idx + 1}
+              label={items.find(i => i.id === id)!.label}
+              isSelected={selectedId === id}
+              onTap={handleItemTap}
+            />
           ))}
         </SortableContext>
         <DragOverlay>
@@ -87,6 +127,7 @@ export default function DragDropOrderStep({ items, onComplete }: DragDropOrderSt
           )}
         </DragOverlay>
       </DndContext>
+
       <button
         onClick={() => {
           if (isSubmitting) return;
@@ -111,7 +152,15 @@ export default function DragDropOrderStep({ items, onComplete }: DragDropOrderSt
   );
 }
 
-function SortableItem({ id, label, step }: { id: string; label: string, step: number }) {
+function SortableItem({
+  id, label, step, isSelected, onTap,
+}: {
+  id: string;
+  label: string;
+  step: number;
+  isSelected: boolean;
+  onTap: (id: string) => void;
+}) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
   return (
     <div
@@ -119,10 +168,17 @@ function SortableItem({ id, label, step }: { id: string; label: string, step: nu
       style={{ transform: CSS.Transform.toString(transform), transition }}
       {...attributes}
       {...listeners}
-      className="p-3 min-h-[44px] flex items-center bg-[#1e293b] border border-[#334155] rounded shadow mb-2 cursor-move text-[#e2e8f0]"
+      onClick={() => onTap(id)}
+      className={`p-3 min-h-[52px] flex items-center bg-[#1e293b] border rounded shadow mb-2 cursor-pointer text-[#e2e8f0] transition-all ${
+        isSelected
+          ? 'border-[#FF6600] ring-2 ring-[#FF6600] bg-[#FF6600]/10'
+          : 'border-[#334155] hover:border-[#FF6600]/50'
+      }`}
     >
-      <span className="font-semibold mr-2 text-[#FF6600]">Step {step}:</span>
-      <span>{label}</span>
+      <span className={`font-semibold mr-2 text-sm shrink-0 ${isSelected ? 'text-[#FF6600]' : 'text-[#FF6600]'}`}>
+        Step {step}:
+      </span>
+      <span className="text-sm leading-snug">{label}</span>
     </div>
   );
 }

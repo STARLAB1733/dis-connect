@@ -323,8 +323,8 @@ export default function ResultsPage() {
             <p className="text-xs text-[#94a3b8] mt-1">12 chapters · 3 story arcs</p>
           </div>
 
-          {/* Team info — only rendered if in a team and have group questions */}
-          {myTeamName && myTeamEntry && myTeamEntry.totalScore > 0 && (
+          {/* Team info — only rendered if in a team */}
+          {myTeamName && myTeamEntry && (
             <>
               <div className="border-t border-[#334155]" />
               <div className="p-4">
