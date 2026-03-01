@@ -1,0 +1,15 @@
+# CODEOWNERS
+# These owners are automatically requested for review on PRs that touch their areas.
+
+# Global fallback
+* @waahhaa @wilsongwee
+
+# Scenario content
+src/scenarios/ @waahhaa @wilsongwee
+
+# Core game logic
+src/lib/ @waahhaa @wilsongwee
+src/components/ @waahhaa @wilsongwee
+
+# Infrastructure scripts
+scripts/ @waahhaa
