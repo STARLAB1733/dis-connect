@@ -11,7 +11,7 @@
       "type": "binary-choice",
       "title": "Build the Review Tool",
       "instruction": "The generals want an interactive tool that lets them replay the entire exercise, scrolling through a timeline like a video player to see how decisions played out with data on screen. How do you build it?",
-      "hint": "Think about the trade-off between giving commanders something rich and interactive versus something simpler that can be shared widely and is ready sooner.",
+      "hint": "Think about the trade-off between giving commanders something rich and interactive versus something simpler that is ready sooner and easy to share.",
       "options": [
         {
           "id": "timeline-replay",
@@ -20,7 +20,7 @@
         },
         {
           "id": "static-report",
-          "label": "Generate a report with charts, key-moment screenshots, and auto-generated insights. Done in 3 days and easy to share as a document. But no interactive replay.",
+          "label": "Generate a report with charts, key-moment screenshots, and auto-generated insights. Done in 3 days and easy to share as a document. No interactive replay though.",
           "axisImpact": { "Speed": 1, "Cost-Conscious": 0.5, "Innovation": -0.3 }
         },
         {
@@ -39,11 +39,11 @@
       "type": "drag-drop",
       "variant": "order",
       "title": "Calculate Unit Readiness Scores",
-      "instruction": "You have mountains of exercise data: GPS tracks, supply requests, radio logs, decision timestamps. The generals want a single readiness score for each unit. Put the analysis steps in the right order to produce credible results.",
+      "instruction": "The generals want a single readiness score for each unit. You have GPS tracks, supply requests, radio logs, and decision timestamps to work with. Put the analysis steps in the right order to produce credible results.",
       "hint": "Bad data makes bad scores. Agree on the definition before you calculate anything. Then verify your results against what actually happened.",
       "items": [
         { "id": "clean-data", "label": "Clean the raw data by removing sensor errors and duplicate entries" },
-        { "id": "define-metrics", "label": "Agree with the exercise planners on what 'readiness' actually means and how to measure it" },
+        { "id": "define-metrics", "label": "Agree with the exercise planners on what readiness actually means and how to measure it" },
         { "id": "compute-scores", "label": "Calculate a readiness score for each unit using the agreed definition" },
         { "id": "cross-validate", "label": "Compare the scores against what human observers reported to catch any mistakes" },
         { "id": "present-findings", "label": "Show the results to command with charts and an honest note on how confident you are in the numbers" }
@@ -57,8 +57,8 @@
     "cloud-engineer": {
       "type": "numeric-input",
       "title": "Work Out How Much Storage You Need",
-      "instruction": "The exercise data needs to be archived for future training analysis. Based on how much data was generated each day (in terabytes) over the last 4 days of the exercise, estimate the total storage (in terabytes) needed to archive the full 14-day exercise, including an extra 30% for file indexes and metadata.",
-      "hint": "The exercise ran for 14 days total, and you need to account for metadata and redundancy on top of the raw data.",
+      "instruction": "The exercise ran for 14 days and all the data needs to be saved for future training analysis. The graph shows how many terabytes were produced each day over the last 4 days. Estimate the total storage needed for all 14 days, then add 30% on top for the file organisation system.",
+      "hint": "Estimate the total data for 14 days first, then add 30% on top for the overhead.",
       "chartData": [2, 3, 5, 8],
       "expected": 82,
       "tolerance": 20,

@@ -12,7 +12,7 @@
       "options": [
         {
           "id": "reassurance-first",
-          "label": "Tell them the threat was dealt with quickly and the systems performed as designed. Keep it reassuring, keep it confident. People need to feel safe. Going into detail about 12 substations being compromised for hours risks panic and market instability for something that's already been resolved.",
+          "label": "Tell them the threat was dealt with quickly and the systems performed as designed. Keep it reassuring and confident. People need to feel safe. Going into detail about 12 substations being compromised for hours risks panic and market instability for something that's already been resolved.",
           "axisImpact": { "Stability": 1.0, "Speed": 1.0, "Collaboration": -1.5, "Precision": -0.5 }
         },
         {
@@ -22,7 +22,7 @@
         },
         {
           "id": "measured-honesty",
-          "label": "Acknowledge the incident without dramatising it. Say there was a significant cyber incident, that it was detected early, that the response teams contained it, and that a full review is underway. Be honest about the severity without giving the kind of detail that helps the next attacker or causes unnecessary fear.",
+          "label": "Acknowledge the incident without dramatising it. Say there was a significant cyber incident, that it was detected early, that the response teams contained it, and that a full review is underway. Be honest about the severity without giving detail that helps the next attacker or causes unnecessary fear.",
           "axisImpact": { "Stability": 1.5, "Collaboration": 1.0, "Precision": 0.5, "Speed": -0.3 }
         },
         {
@@ -42,12 +42,12 @@
       "options": [
         {
           "id": "fortress-sg",
-          "label": "Harden everything. Zero-trust architecture across all critical infrastructure. Air-gap the most sensitive systems so they can never be reached from the internet. Make Singapore the most digitally fortified nation in the world. The attacker got in because there were gaps. Close every single one.",
+          "label": "Lock everything down. Build a system where nothing is trusted by default, not even connections from inside government buildings. Physically disconnect the most sensitive systems from the internet forever. Make Singapore the most digitally fortified nation in the world. The attacker got in because there were gaps. Close every single one.",
           "axisImpact": { "Stability": 2.5, "Precision": 0.8, "Innovation": -1.0, "Collaboration": -0.5, "Speed": -0.5 }
         },
         {
           "id": "adaptive-resilience",
-          "label": "Build systems that expect to be attacked. Distributed architecture, self-healing networks, AI-driven threat response. The blackout lasted hours because recovery was manual. If the systems can detect, isolate, and recover on their own, the next attack lasts minutes.",
+          "label": "Build systems that expect to be attacked. Spread critical functions across many independent parts, add networks that repair themselves, and let AI handle the first wave of response. The blackout lasted hours because recovery was manual. If the systems can detect, isolate, and recover on their own, the next attack lasts minutes.",
           "axisImpact": { "Innovation": 2.0, "Stability": 1.0, "Speed": 0.5, "Cost-Conscious": -1.5 }
         },
         {

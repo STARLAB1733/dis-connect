@@ -16,8 +16,8 @@
       "items": [
         { "id": "map-systems", "label": "Map all control system devices and how they're connected to each other" },
         { "id": "deploy-sensors", "label": "Install lightweight monitoring sensors on each control system device" },
-        { "id": "baseline-normal", "label": "Record 2 hours of normal behaviour to understand what 'healthy' looks like" },
-        { "id": "set-thresholds", "label": "Set alert thresholds based on the baseline; anything outside normal triggers a warning" },
+        { "id": "baseline-normal", "label": "Record 2 hours of normal behaviour to understand what a healthy system looks like" },
+        { "id": "set-thresholds", "label": "Set alert thresholds based on the baseline so anything unusual triggers a warning" },
         { "id": "alert-pipeline", "label": "Connect the alerts to the security team so they're notified the moment something unusual appears" }
       ],
       "correctOrder": ["map-systems", "deploy-sensors", "baseline-normal", "set-thresholds", "alert-pipeline"],
@@ -26,8 +26,8 @@
     "data-scientist": {
       "type": "numeric-input",
       "title": "Estimate How Far It Has Spread",
-      "instruction": "The intrusion may have been active for days. Based on the percentage of devices showing anomalous network traffic over the last 4 monitoring windows, estimate how many of the 200 control system devices may already be compromised.",
-      "hint": "The percentage of affected devices is climbing. Project the next value in the trend, then apply that percentage to the total 200 devices.",
+      "instruction": "The intrusion may have been active for days. The graph shows what percentage of devices were flagging unusual activity across four monitoring windows. If the trend continues, how many of the 200 control system devices may already be compromised?",
+      "hint": "The percentage of affected devices is climbing. Project the next value in the trend, then apply that percentage to the 200 total devices.",
       "chartData": [2, 5, 12, 22],
       "expected": 70,
       "tolerance": 20,
@@ -36,12 +36,12 @@
     "cloud-engineer": {
       "type": "binary-choice",
       "title": "Deploy the Detection Toolkit",
-      "instruction": "The sensor readings show a pattern unlike anything in the history books. Your team needs to deploy the right detection tools to classify this threat before leadership decides how to respond. What approach do you deploy?",
+      "instruction": "The sensor readings show a pattern unlike anything in the records. Your team needs to deploy the right detection tools to classify this threat before leadership decides how to respond. What approach do you deploy?",
       "hint": "Novel threats are tricky for automated tools trained only on known patterns. More methods combined tend to give more reliable answers than one fast method alone.",
       "options": [
         {
           "id": "ml-classify",
-          "label": "Run the data through the automated threat detection system. Get an answer in 5 minutes, but the system was only trained on known attack patterns, and this looks new.",
+          "label": "Run the data through the automated threat detection system. Get an answer in 5 minutes but the system was only trained on known attack patterns, and this one looks new.",
           "axisImpact": { "Speed": 1, "Innovation": 0.5, "Precision": -0.3 }
         },
         {
@@ -56,7 +56,7 @@
         },
         {
           "id": "ally-intel",
-          "label": "Share the anomaly signature with partner cybersecurity teams and ask if they have seen it. Could get an answer in 10 minutes but you would be showing your hand to external parties.",
+          "label": "Share the unusual pattern with partner cybersecurity teams and ask if they have seen it before. Could get an answer in 10 minutes but you would be showing your hand to external parties.",
           "axisImpact": { "Collaboration": 1, "Speed": 0.5, "Autonomy": -0.8 }
         }
       ]

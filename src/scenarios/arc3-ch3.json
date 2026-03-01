@@ -26,8 +26,8 @@
     "data-scientist": {
       "type": "numeric-input",
       "title": "Find the Safe Restoration Speed",
-      "instruction": "Restoring power too fast can overload the lines and cause another blackout. Based on safety tests over the last 4 hours (percentage of normal load the grid safely handled), predict the maximum safe percentage of power you can restore per hour without risking a cascade failure.",
-      "hint": "The grid can safely handle more power each hour. How much did the capacity grow between hours 1 and 2? Between 2 and 3? 3 and 4?",
+      "instruction": "Restoring power too fast can overload the lines and trigger another blackout. The graph shows the percentage of normal power load the grid safely handled each hour during testing. How much can you safely restore in the next hour without risking a cascade failure?",
+      "hint": "The grid is handling more each hour. Look at how much the safe limit grew between each hour and carry that pattern forward.",
       "chartData": [10, 22, 38, 51],
       "expected": 65,
       "tolerance": 12,
@@ -36,22 +36,22 @@
     "cloud-engineer": {
       "type": "binary-choice",
       "title": "Secure the Stations Before Restoring Power",
-      "instruction": "The compromised control systems need to be fully secured before going back online. People are still without power, so time matters. What do you do?",
+      "instruction": "The compromised control systems need to be fully secured before going back online. People are still without power so time matters. What do you do?",
       "hint": "Remember that 200,000 people are without power, but restoring a system that still has the attacker inside just hands them back control.",
       "options": [
         {
           "id": "full-rebuild",
-          "label": "Complete rebuild from scratch: every compromised device gets a fresh install of everything. Takes 6 hours but you're 100% certain the attacker left no traces.",
+          "label": "Complete rebuild from scratch: every compromised device gets a fresh install of everything. Takes 6 hours but you are 100% certain the attacker left no traces.",
           "axisImpact": { "Stability": 1, "Precision": 0.8, "Speed": -0.8 }
         },
         {
           "id": "forensic-patch",
-          "label": "Surgically remove only the identified malicious code and close the specific holes used in the attack. Done in 2 hours but there's a 15% chance of missing something hidden.",
+          "label": "Surgically remove only the malicious code that was found and close the specific gaps the attacker used. Done in 2 hours but there's a 15% chance of missing something hidden.",
           "axisImpact": { "Speed": 1, "Cost-Conscious": 0.5, "Stability": -0.5 }
         },
         {
           "id": "shadow-monitor",
-          "label": "Bring systems back online under intense observation. If the attacker is still hiding, they'll reveal themselves when they try to move again. Risky but gives the best intelligence on what they left behind.",
+          "label": "Bring systems back online under intense observation. If the attacker left anything behind, they'll reveal themselves when they try to act again. Risky but gives the best picture of what they left behind.",
           "axisImpact": { "Innovation": 1, "Precision": 0.5, "Stability": -0.8 }
         },
         {

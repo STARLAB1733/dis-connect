@@ -11,14 +11,14 @@
       "type": "drag-drop",
       "variant": "order",
       "title": "Plan the Parade App Feature",
-      "instruction": "The NDP app needs a live camera overlay so spectators can point their phone at parade floats and see fun facts pop up. You need to plan how the team builds this. Put these steps in the right order so the feature ships on time without breaking the existing app.",
+      "instruction": "The NDP app needs a feature where spectators can point their phone at parade floats and see fun facts pop up on screen. Put these steps in the right order so the team can build it without breaking the existing app.",
       "hint": "What happens if two teams build the same feature at the same time without talking? When should you test the hardest part?",
       "items": [
-        { "id": "api-spec", "label": "Write a shared rulebook so the frontend and backend teams can build in parallel without stepping on each other" },
+        { "id": "api-spec", "label": "Write a shared rulebook so different parts of the team can build at the same time without conflicting with each other" },
         { "id": "ar-prototype", "label": "Build a quick test to see if the phone camera can actually recognise the parade floats" },
-        { "id": "backend-endpoints", "label": "Set up the behind-the-scenes servers that send float information to people's phones" },
-        { "id": "integration-test", "label": "Test the new feature inside the existing NDP app to catch any conflicts" },
-        { "id": "load-test", "label": "Simulate 40,000 people using the app at once to make sure the servers hold up" }
+        { "id": "backend-endpoints", "label": "Set up the servers that send float information to people's phones" },
+        { "id": "integration-test", "label": "Test the new feature inside the existing NDP app to make sure nothing breaks" },
+        { "id": "load-test", "label": "Simulate 40,000 people using the app at once to see if the servers can handle it" }
       ],
       "correctOrder": ["api-spec", "ar-prototype", "backend-endpoints", "integration-test", "load-test"],
       "axisImpact": {
@@ -29,7 +29,7 @@
     "data-scientist": {
       "type": "numeric-input",
       "title": "Forecast App Downloads",
-      "instruction": "Marketing needs to know how many people will download the app in the week before NDP so they can prepare enough server space. Downloads spike closer to the event. Based on the last 4 weeks of download data (in thousands), predict the total downloads (in thousands) for the final week before NDP.",
+      "instruction": "Marketing needs to know how many people will download the app in the final week before NDP to book enough server space. The graph shows weekly downloads over the past four weeks. Look at how fast the numbers are climbing and estimate where they land next.",
       "hint": "Downloads are climbing as the event gets closer. How fast is that climb accelerating?",
       "chartData": [8, 15, 28, 52],
       "expected": 95,
@@ -42,27 +42,27 @@
     "cloud-engineer": {
       "type": "binary-choice",
       "title": "Pick a Hosting Plan",
-      "instruction": "The NDP app feature needs a cloud hosting plan that can handle massive traffic on the actual day but not waste money sitting idle the other 364 days. What's your approach?",
-      "hint": "Your budget has to cover 364 days of waiting plus 1 day of peak load. What matters most: upfront cost, ongoing costs, or reliability?",
+      "instruction": "The NDP app needs servers that can handle 40,000 people on the day but won't cost a fortune to run the other 364 days when nobody is using it. Which approach do you go with?",
+      "hint": "Your budget has to cover 364 quiet days and one very loud one. What matters most: how much it costs to run, upfront reliability, or flexibility?",
       "options": [
         {
           "id": "serverless",
-          "label": "Pay-per-use hosting costs nothing when idle and scales up automatically on NDP day, but the very first users each hour might wait an extra 2 seconds for the system to wake up.",
+          "label": "These servers cost nothing when idle and scale up automatically on NDP day. The catch is the very first users each hour may wait an extra 2 seconds while the system wakes up.",
           "axisImpact": { "Cost-Conscious": 1, "Innovation": 0.5, "Speed": -0.3 }
         },
         {
           "id": "reserved-burst",
-          "label": "Reserve a set number of servers and add extra capacity just for NDP day. Reliable performance but you're paying for those servers even when they sit idle during the build phase.",
+          "label": "Book a fixed number of servers and add extra capacity just for NDP day. Performance is reliable but you pay for those servers even when nobody is using them.",
           "axisImpact": { "Stability": 1, "Performance-First": 0.5, "Cost-Conscious": -0.5 }
         },
         {
           "id": "cdn-edge",
-          "label": "Push everything to servers spread across Singapore so pages load instantly. Great for images and text, but real-time features like the camera overlay might not update as fast.",
+          "label": "Spread the app across servers all over Singapore so it loads instantly for everyone. Works well for images and text. The float scanner feature may not update as quickly though.",
           "axisImpact": { "Speed": 1, "Performance-First": 0.5, "Innovation": -0.3 }
         },
         {
           "id": "hybrid-partner",
-          "label": "Partner with a local cloud provider that already hosts government services. Guaranteed reliability and all data stays in Singapore, but you have less freedom to customise things.",
+          "label": "Partner with a local provider that already hosts government services. Data stays in Singapore and reliability is guaranteed. You have less freedom to customise things though.",
           "axisImpact": { "Collaboration": 1, "Stability": 0.5, "Autonomy": -0.5 }
         }
       ]

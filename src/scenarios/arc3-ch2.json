@@ -20,12 +20,12 @@
         },
         {
           "id": "honeypot-divert",
-          "label": "Set up fake systems on the attacker's likely next targets. Let them think they've succeeded while you watch their moves. Risky if they don't take the bait.",
+          "label": "Set up decoy systems on the attacker's likely next targets. Let them think they've succeeded while you watch their moves. Risky if they don't take the bait.",
           "axisImpact": { "Innovation": 1, "Precision": 0.5, "Stability": -0.5 }
         },
         {
           "id": "credential-rotation",
-          "label": "Emergency change of all system passwords across every device. If they're using stolen credentials, this locks them out, but changing passwords on live critical infrastructure mid-incident is risky.",
+          "label": "Emergency reset of every password across every device in the grid. If they're using stolen login details, this locks them out. Changing passwords on live critical infrastructure mid-incident is risky though.",
           "axisImpact": { "Precision": 1, "Stability": 0.3, "Speed": -0.3 }
         },
         {
@@ -55,8 +55,8 @@
       "type": "drag-drop",
       "variant": "layout",
       "title": "Isolate the Network Zones",
-      "instruction": "You need to split the power grid's network into isolated sections to stop the attacker jumping between them. Drag each part of the network to the right isolation level. Zone 1 is fully cut off, Zones 2 and 3 are partially restricted, Zone 4 continues normally.",
-      "hint": "The most dangerous zones (the ones already compromised or right next to them) need the most restrictions. The further from the threat, the more normal operations can continue.",
+      "instruction": "You need to split the power grid's network into isolated sections to stop the attacker jumping between them. Drag each part of the network to the right isolation level. Zone 1 is fully cut off. Zones 2 and 3 are partially restricted. Zone 4 continues normally.",
+      "hint": "The most dangerous zones need the most restrictions. The further from the threat, the more normal operations can continue.",
       "items": [
         { "id": "compromised-substations", "label": "The 12 Compromised Stations (attacker is in control)" },
         { "id": "adjacent-substations", "label": "Neighbouring Stations (at risk of being targeted next)" },

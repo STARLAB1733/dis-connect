@@ -10,9 +10,9 @@
     "software-engineer": {
       "type": "drag-drop",
       "variant": "layout",
-      "title": "Architect the Dashboard Components",
-      "instruction": "The commanders need a single-screen dashboard. You are designing which data component feeds into which rendering slot based on resource intensity and real-time data dependencies. The main display needs the most resource-intensive component. Side panels handle supporting feeds. The status bar shows lightweight system health. Drag each component to the right slot.",
-      "hint": "The most important information (the one commanders look at every few seconds) should take up the most space.",
+      "title": "Design the Command Screen Layout",
+      "instruction": "The commanders need a single screen that shows everything at once. Decide which information goes in which slot. The most critical thing commanders check every few seconds takes the main display. Supporting information goes in the side panels. Lightweight status info goes in the bar at the bottom.",
+      "hint": "The most important information commanders look at every few seconds should take up the most space.",
       "items": [
         { "id": "live-map", "label": "Live Map with Unit Positions" },
         { "id": "supply-chart", "label": "Supply Level Charts" },
@@ -36,27 +36,27 @@
     "data-scientist": {
       "type": "binary-choice",
       "title": "Choose How to Handle the Data Flow",
-      "instruction": "Field units send their position every 30 seconds from tablets and GPS devices. That's thousands of location updates per minute flowing into the system. How do you process all that into useful information on the screen?",
-      "hint": "When data arrives constantly, handle it as it arrives, but ask yourself how much instant accuracy you really need versus a few seconds of delay.",
+      "instruction": "Field units send their position every 30 seconds from tablets and GPS devices. That is thousands of location updates per minute coming in. How do you turn all that into useful information on the screen?",
+      "hint": "When data arrives constantly, you can handle it the moment it lands or collect it in short batches. Think about how much instant accuracy you really need versus a few seconds of delay.",
       "options": [
         {
           "id": "stream-processing",
-          "label": "Process every location update the instant it arrives. The screen updates in real time but needs heavy computing power, and one bad reading could glitch the whole display.",
+          "label": "Process every location update the moment it arrives. The screen updates in real time but needs heavy computing power, and one bad reading could glitch the whole display.",
           "axisImpact": { "Speed": 1, "Performance-First": 0.8, "Stability": -0.3 }
         },
         {
           "id": "micro-batch",
-          "label": "Group updates every 5 seconds and clean the data before showing it. Commanders see positions that are at most 5 seconds old and the screen never shows bad data.",
+          "label": "Collect updates every 5 seconds, clean them, then show the result. Commanders see positions that are at most 5 seconds old and the screen never shows bad data.",
           "axisImpact": { "Precision": 1, "Stability": 0.5, "Speed": -0.3 }
         },
         {
           "id": "edge-compute",
-          "label": "Process data on the unit's own device and only send a summary. Cuts radio bandwidth by 80%, which matters in the field, but you lose the detailed raw readings.",
+          "label": "Process the data on the unit's own device and only send a summary. Cuts radio usage by 80%, which matters in the field, but you lose the detailed raw readings.",
           "axisImpact": { "Cost-Conscious": 1, "Innovation": 0.5, "Precision": -0.3 }
         },
         {
           "id": "hybrid-approach",
-          "label": "Send critical alerts in real time but batch everything else every 10 seconds. Balanced, but more complex to build and maintain.",
+          "label": "Send critical alerts in real time but bundle everything else in 10-second updates. Balanced approach but more complex to build and maintain.",
           "axisImpact": { "Stability": 0.8, "Innovation": 0.5, "Speed": 0.3 }
         }
       ]

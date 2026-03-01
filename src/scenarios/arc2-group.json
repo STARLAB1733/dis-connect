@@ -12,12 +12,12 @@
       "options": [
         {
           "id": "network-problem",
-          "label": "It was a network problem, sir. The training ground had dead zones we identified on Day 1 but couldn't fully solve. Data was getting stuck in transit. If we invest in deployable mesh networks and satellite backup for every exercise, the data arrives on time.",
+          "label": "It was a network problem, sir. The training ground had dead zones we identified on Day 1 but couldn't fully solve. Data was getting stuck in transit. If we invest in portable relay equipment and satellite backup for every exercise, the data arrives on time.",
           "axisImpact": { "Stability": 1.5, "Performance-First": 0.8, "Innovation": -0.5, "Cost-Conscious": -0.5 }
         },
         {
           "id": "design-problem",
-          "label": "It was a design problem, sir. When data was stale, the system displayed it as if it were fresh. There was no timestamp, no confidence indicator, nothing telling the commander that what he was looking at was twenty minutes old. The system should have flagged it instead of pretending everything was fine.",
+          "label": "It was a design problem, sir. When data was stale, the system displayed it as if it were fresh. There was no timestamp, no warning indicator, nothing telling the commander that what he was looking at was twenty minutes old. The system should have flagged it instead of pretending everything was fine.",
           "axisImpact": { "Innovation": 1.5, "Precision": 1.0, "Stability": -0.3 }
         },
         {
@@ -27,7 +27,7 @@
         },
         {
           "id": "all-three",
-          "label": "Honestly sir, it was all three. The network was unreliable, the software didn't handle it gracefully, and the commanders weren't trained to question it. We've written a phased plan: network hardening this quarter, system redesign over the next year, doctrine update for the following training cycle. But it takes three years and significant budget.",
+          "label": "Honestly sir, it was all three. The network was unreliable, the software didn't handle it gracefully, and the commanders weren't trained to question it. We've written a phased plan: strengthen the network this quarter, redesign the system over the next year, update training for the following cycle. But it takes three years and significant budget.",
           "axisImpact": { "Precision": 1.5, "Stability": 0.8, "Speed": -1.0, "Cost-Conscious": -0.5 }
         }
       ]
@@ -42,17 +42,17 @@
       "options": [
         {
           "id": "autonomous-ai",
-          "label": "Autonomous battlefield AI, sir. Specialists who deploy decision-support systems in the field. Machines that learn from live data and surface tactical options for commanders in real time. It's where warfare is heading and we should be there first.",
+          "label": "Autonomous battlefield AI, sir. Specialists who deploy AI systems in the field. Machines that learn from live data and suggest tactical options for commanders in real time. It's where warfare is heading and we should be there first.",
           "axisImpact": { "Innovation": 2.5, "Speed": 0.8, "Collaboration": -1.0, "Stability": -0.5 }
         },
         {
           "id": "cyber-physical",
-          "label": "People who understand both the digital and the physical, sir. Right now, the tech team doesn't think about terrain and the field commanders don't think about data pipelines. Train specialists who live in both worlds. Northstar showed that splitting digital and kinetic thinking is how mistakes happen.",
+          "label": "People who understand both the digital and the physical, sir. Right now, the tech team doesn't think about terrain and the field commanders don't think about data pipelines. Train specialists who live in both worlds. Northstar showed that splitting digital and operational thinking is how mistakes happen.",
           "axisImpact": { "Collaboration": 1.5, "Precision": 1.0, "Innovation": 0.5 }
         },
         {
           "id": "resilient-comms",
-          "label": "Resilient communications, sir. Everything fell apart the moment the network dropped. Mesh networking, satellite fallback, even analog procedures when all else fails. Northstar proved that without comms, nothing else we build matters.",
+          "label": "Resilient communications, sir. Everything fell apart the moment the network dropped. Portable mesh relays, satellite fallback, even manual radio procedures when all else fails. Northstar proved that without comms, nothing else we build matters.",
           "axisImpact": { "Stability": 2.0, "Performance-First": 0.8, "Innovation": -0.5 }
         },
         {
