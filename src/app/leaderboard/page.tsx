@@ -21,12 +21,12 @@ function LeaderboardContent() {
     async function load() {
       try {
         const [tSnap, iSnap] = await Promise.all([
-          getDocs(query(collection(db, 'teams'), orderBy('totalScore', 'desc'), limit(20))),
+          getDocs(query(collection(db, 'teams'), orderBy('groupScore', 'desc'), limit(20))),
           getDocs(query(collection(db, 'events', 'global', 'scores'), orderBy('score', 'desc'), limit(20))),
         ]);
         setTeams(tSnap.docs.map(d => {
           const dd = d.data();
-          return { teamName: dd.teamName, totalScore: dd.totalScore, playerCount: dd.playerCount, avgScore: dd.avgScore };
+          return { teamName: dd.teamName, totalScore: dd.groupScore || 0, playerCount: dd.playerCount || 0, avgScore: (dd.groupScore || 0) / (dd.playerCount || 1) };
         }));
         setIndividuals(iSnap.docs.map(d => {
           const dd = d.data();
