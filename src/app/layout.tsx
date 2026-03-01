@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Noto_Sans } from "next/font/google";
 import "./globals.css";
 import { AudioProvider } from "@/components/AudioProvider";
 import { DeviceToggle } from "@/components/DeviceToggle";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
           {children}
         </AudioProvider>
         <DeviceToggle />
+        <Analytics />
       </body>
     </html>
   );
