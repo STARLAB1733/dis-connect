@@ -72,6 +72,14 @@ Each chapter presents a mission scenario. Every player answers **simultaneously*
 
 Roles **rotate between arcs** so every player experiences all three roles across the game. Once all players submit, the chapter advances automatically.
 
+### Group Question Phase (2+ players only)
+After each arc, teams with 2+ players face a **Group Question Phase**:
+- The **host/facilitator** leads team discussion and controls final answer submission
+- All players see the question and discuss as a group
+- The facilitator selects a **wager** (1–10) to amplify team score impact
+- Higher wagers = bigger rewards for correct answers, bigger penalties for wrong ones
+- Solo players skip this phase and move directly to the next arc
+
 ### Disconnection
 - If a player drops out, the host sees a **Skip** button after 30 seconds
 - After the first skip, all subsequent drops are skipped instantly
