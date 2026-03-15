@@ -232,8 +232,13 @@ export default function LobbyPage() {
             type="text"
             value={teamName}
             onChange={e => setTeamName(e.target.value)}
-            placeholder="Team name (optional)"
-            className="w-full border-2 border-[#334155] text-[#e2e8f0] placeholder:text-[#94a3b8]/60 bg-transparent py-3 px-4 rounded-lg text-center tracking-widest text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6600]"
+            disabled={players.length < 2}
+            placeholder="Team name (requires 2+ players)"
+            className={`w-full border-2 text-[#e2e8f0] placeholder:text-[#94a3b8]/60 bg-transparent py-3 px-4 rounded-lg text-center tracking-widest text-sm focus:outline-none ${
+              players.length < 2
+                ? 'border-[#334155]/50 text-[#94a3b8]/50 cursor-not-allowed'
+                : 'border-[#334155] focus:ring-2 focus:ring-[#FF6600]'
+            }`}
           />
           <button
             onClick={startGame}
