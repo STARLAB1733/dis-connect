@@ -47,7 +47,7 @@ DISConnect is a multiplayer technology decision-making simulation for student au
 1. **Facilitator opens** `http://localhost:3000` (or production URL) and clicks **Create Lobby**
 2. The lobby generates a 6-character code — share this with players
 3. Players open the URL and enter the lobby code to join
-4. Facilitator (or any player) enters a **Team Name** — this is used for leaderboard tracking
+4. **Team Name** (2+ players only): The host can enter a team name for leaderboard tracking. This field is disabled for solo players and only counts if 2+ players are in the lobby. Solo players will not appear on the team leaderboard.
 5. Facilitator clicks **Start Game** when all players have joined
 
 ### Role Assignment at Start
@@ -944,8 +944,8 @@ Output confirms each deletion. Documents are deleted in batches of 400.
 
 | Symptom | Likely Cause | Fix |
 |---------|-------------|-----|
-| Team score not appearing on leaderboard | Team played with no team name set | Ensure team name is entered in lobby before starting |
+| Team score not appearing on leaderboard | Team played with no team name set, or solo player game | Ensure team name is entered in lobby before starting (requires 2+ players). Solo players only appear on individual leaderboard. |
 | Game stuck waiting for all players | One player's submission didn't register | Ask that player to re-submit; check Firestore `roundAnswers` field in the lobby doc |
-| Group question phase not appearing | Only 1 player in the lobby | Group phase requires 2+ players |
+| Group question phase not appearing | Only 1 player in the lobby | Group phase requires 2+ players; solo players skip this phase |
 | Results page shows no persona | Player's logs subcollection is empty | Check Firestore logs; ScenarioWrapper may have failed to write |
 | Leaderboard shows 0 for team total | Old data from before `groupScore` field fix | Clear and replay; old sessions wrote to a different field name |

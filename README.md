@@ -49,16 +49,14 @@ npm test        # Run 65 automated tests
 
 ## How to Play
 
-DISConnect is designed for **3 players** playing together on their own devices (phones or laptops).
+DISConnect is designed for **1–3 players** playing on their own devices (phones or laptops).
 
 ### Setup (1 minute)
 1. One player opens the game and clicks **Create Lobby**
-2. The others scan the QR code or enter the lobby code to join
-3. Each player enters their name and selects a role:
-   - **Software Engineer**
-   - **Data Engineer**
-   - **Cloud Engineer**
-4. Once all 3 roles are filled, the game starts automatically
+2. Others scan the QR code or enter the lobby code to join
+3. Each player enters their name
+4. Host enters an optional **Team Name** (only meaningful for 2+ players; automatically disabled for solo play)
+5. Host clicks **Start Game** when ready (can start with 1, 2, or 3 players)
 
 ### Game (15–20 minutes)
 The game consists of **12 chapters** across 3 mission arcs:
