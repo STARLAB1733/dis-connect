@@ -1,148 +1,150 @@
-// src/app/leaderboard/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+export const dynamic = 'force-dynamic';
+
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
-import { collection, getDocs, orderBy, query, limit, where } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query, limit } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
-type TeamEntry = {
-  lobbyId: string;
-  teamName?: string;
-  teamScore: number;
-  players: { name: string; role?: string }[];
-  rank: number;
-};
+type IndividualEntry = { uid: string; name: string; teamName?: string; score: number; vocation: string };
+type TeamEntry = { teamName: string; totalScore: number; playerCount: number; avgScore: number };
 
-const MEDALS = ['🥇', '🥈', '🥉'];
-
-export default function LeaderboardPage() {
-  const [entries, setEntries] = useState<TeamEntry[]>([]);
-  const [loading, setLoading] = useState(true);
+function LeaderboardContent() {
   const router = useRouter();
+  const [tab, setTab] = useState<'team' | 'individual'>('team');
+  const [teams, setTeams] = useState<TeamEntry[]>([]);
+  const [individuals, setIndividuals] = useState<IndividualEntry[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
       try {
-        // Fetch finished lobbies sorted by teamScore descending
-        const lobbiesRef = collection(db, 'lobbies');
-        const q = query(
-          lobbiesRef,
-          where('started', '==', true),
-          orderBy('teamScore', 'desc'),
-          limit(20)
-        );
-        const snap = await getDocs(q);
-
-        const results: TeamEntry[] = snap.docs
-          .map((d) => {
-            const data = d.data();
-            return {
-              lobbyId: d.id,
-              teamScore: data.teamScore ?? 0,
-              players: (data.players ?? []).map((p: { name: string; role?: string }) => ({
-                name: p.name,
-                role: p.role,
-              })),
-            };
-          })
-          // Only show lobbies where score > 0 (i.e. teams that actually played)
-          .filter((e) => e.teamScore > 0)
-          .map((e, i) => ({ ...e, rank: i + 1 }));
-
-        setEntries(results);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setLoading(false);
-      }
+        const [tSnap, iSnap] = await Promise.all([
+          getDocs(query(collection(db, 'teams'), orderBy('groupScore', 'desc'), limit(20))),
+          getDocs(query(collection(db, 'events', 'global', 'scores'), orderBy('score', 'desc'), limit(20))),
+        ]);
+        setTeams(tSnap.docs.map(d => {
+          const dd = d.data();
+          return { teamName: dd.teamName, totalScore: dd.groupScore || 0, playerCount: dd.playerCount || 0, avgScore: (dd.groupScore || 0) / (dd.playerCount || 1) };
+        }));
+        setIndividuals(iSnap.docs.map(d => {
+          const dd = d.data();
+          return { uid: dd.uid, name: dd.name, teamName: dd.teamName, score: dd.score, vocation: dd.vocation };
+        }));
+      } catch (e) { console.error(e); }
+      finally { setLoading(false); }
     }
     load();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="min-h-dvh flex items-center justify-center bg-black">
-        <div className="w-12 h-12 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
+  const medalColour = (i: number) =>
+    i === 0 ? 'text-yellow-400' : i === 1 ? 'text-slate-300' : i === 2 ? 'text-amber-600' : 'text-[#94a3b8]';
 
   return (
-    <main className="min-h-dvh bg-black text-white">
-      {/* Header */}
-      <div className="bg-[#FF6600] py-8 px-4 text-center">
-        <p className="text-xs uppercase tracking-widest text-white/70 mb-1 font-medium">Event Leaderboard</p>
-        <h1 className="text-4xl font-black tracking-tight">TOP TEAMS</h1>
-        <p className="mt-2 text-white/80 text-sm">Who rose to the top today?</p>
+    <main className="min-h-dvh page-container p-4 pb-12">
+      <div className="flex items-center justify-between mb-6 pt-4">
+        <button onClick={() => router.push('/')} className="py-3 pr-4 text-[#94a3b8] hover:text-[#FF6600] text-sm tracking-wide transition">← Back</button>
+        <h1 className="text-xl font-bold text-[#FF6600] tracking-widest uppercase">Leaderboard</h1>
+        <div className="w-12" />
       </div>
 
-      <div className="max-w-md mx-auto px-4 py-8 space-y-4">
-        {entries.length === 0 && (
-          <p className="text-center text-white/50 py-8">No completed games yet. Play first!</p>
-        )}
+      {/* Tabs */}
+      <div className="flex mb-4 bg-[#1e293b] rounded-lg p-1">
+        <button
+          onClick={() => setTab('team')}
+          className={`flex-1 py-3 text-sm font-semibold rounded-md transition ${tab === 'team' ? 'bg-[#FF6600] text-white' : 'text-[#94a3b8] hover:text-[#e2e8f0]'}`}
+        >
+          🏆 Team Rankings
+        </button>
+        <button
+          onClick={() => setTab('individual')}
+          className={`flex-1 py-3 text-sm font-semibold rounded-md transition ${tab === 'individual' ? 'bg-[#FF6600] text-white' : 'text-[#94a3b8] hover:text-[#e2e8f0]'}`}
+        >
+          👤 Individual
+        </button>
+      </div>
 
-        {entries.map((entry) => (
-          <div
-            key={entry.lobbyId}
-            className={`rounded-2xl p-5 border ${
-              entry.rank === 1
-                ? 'bg-[#FF6600]/20 border-[#FF6600]'
-                : entry.rank === 2
-                ? 'bg-white/10 border-white/30'
-                : entry.rank === 3
-                ? 'bg-white/5 border-white/20'
-                : 'bg-white/5 border-white/10'
-            }`}
-          >
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-3">
-                <span className="text-3xl">
-                  {entry.rank <= 3 ? MEDALS[entry.rank - 1] : `#${entry.rank}`}
-                </span>
-                <div>
-                  <p className="font-bold text-lg">
-                    {entry.players.map((p) => p.name).join(', ') || 'Team'}
-                  </p>
-                  <p className="text-xs text-white/50">Lobby {entry.lobbyId}</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className="text-3xl font-black text-[#FF6600]">{entry.teamScore}</p>
-                <p className="text-xs text-white/50">pts</p>
-              </div>
-            </div>
-
-            {/* Player roles */}
-            <div className="flex flex-wrap gap-2">
-              {entry.players.map((p, i) => (
-                <span
-                  key={i}
-                  className="text-xs px-2 py-1 rounded-full bg-white/10 text-white/70"
-                >
-                  {p.name} · {p.role ? p.role.replace('-', ' ') : 'Unknown'}
-                </span>
-              ))}
+      {loading ? (
+        <div className="flex justify-center mt-16">
+          <div className="w-10 h-10 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : tab === 'team' ? (
+        teams.length === 0 ? (
+          <p className="text-center text-[#94a3b8] mt-16">No team scores yet.<br />Play with a team name to appear here.</p>
+        ) : (
+          <div className="bg-[#1e293b] rounded-xl overflow-hidden">
+            <div className="overflow-y-auto max-h-96 themed-scroll">
+              <table className="w-full text-sm">
+                <thead className="sticky top-0 bg-[#1e293b] z-10">
+                  <tr className="border-b border-[#334155]">
+                    <th className="text-left p-3 text-[#94a3b8] w-8">#</th>
+                    <th className="text-left p-3 text-[#94a3b8]">Team</th>
+                    <th className="text-center p-3 text-[#94a3b8] hidden sm:table-cell">Players</th>
+                    <th className="text-right p-3 text-[#94a3b8]">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {teams.map((t, i) => (
+                    <tr key={t.teamName} className="border-b border-[#334155]/50 hover:bg-[#334155]/30 transition">
+                      <td className={`p-3 font-bold text-base ${medalColour(i)}`}>{i + 1}</td>
+                      <td className="p-3">
+                        <p className="text-[#e2e8f0] font-semibold">{t.teamName}</p>
+                        <p className="text-[#94a3b8] text-xs">avg {t.avgScore} / player</p>
+                      </td>
+                      <td className="p-3 text-center text-[#94a3b8] hidden sm:table-cell">{t.playerCount}</td>
+                      <td className="p-3 text-right text-[#FF6600] font-bold text-base">{t.totalScore}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
-        ))}
-
-        {/* Back / Play buttons */}
-        <div className="pt-4 space-y-3">
-          <button
-            onClick={() => router.push('/')}
-            className="w-full py-4 bg-[#FF6600] text-white font-bold rounded-xl text-lg tracking-wide uppercase hover:bg-[#e65a00] transition duration-200"
-          >
-            Play Now
-          </button>
-          <button
-            onClick={() => window.location.reload()}
-            className="w-full py-3 border border-white/20 text-white/70 rounded-xl text-sm tracking-wide uppercase hover:border-white/40 transition duration-200"
-          >
-            Refresh
-          </button>
-        </div>
-      </div>
+        )
+      ) : (
+        individuals.length === 0 ? (
+          <p className="text-center text-[#94a3b8] mt-16">No individual scores yet.</p>
+        ) : (
+          <div className="bg-[#1e293b] rounded-xl overflow-hidden">
+            <div className="overflow-y-auto max-h-96 themed-scroll">
+              <table className="w-full text-sm">
+                <thead className="sticky top-0 bg-[#1e293b] z-10">
+                  <tr className="border-b border-[#334155]">
+                    <th className="text-left p-3 text-[#94a3b8] w-8">#</th>
+                    <th className="text-left p-3 text-[#94a3b8]">Player</th>
+                    <th className="text-right p-3 text-[#94a3b8] hidden sm:table-cell">Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {individuals.map((e, i) => (
+                    <tr key={e.uid} className="border-b border-[#334155]/50 hover:bg-[#334155]/30 transition">
+                      <td className={`p-3 font-bold text-base ${medalColour(i)}`}>{i + 1}</td>
+                      <td className="p-3">
+                        <p className="text-[#e2e8f0] font-medium">{e.name}</p>
+                        {e.teamName && <p className="text-[#94a3b8] text-xs">{e.teamName}</p>}
+                        <p className="text-[#94a3b8] text-xs">{e.vocation}</p>
+                      </td>
+                      <td className="p-3 text-right text-[#FF6600] font-bold hidden sm:table-cell">{e.score}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )
+      )}
     </main>
+  );
+}
+
+export default function LeaderboardPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-dvh flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <LeaderboardContent />
+    </Suspense>
   );
 }

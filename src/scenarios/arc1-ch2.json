@@ -1,0 +1,71 @@
+{
+  "id": "arc1-ch2",
+  "title": "NDP 2026: Rehearsal Night Chaos",
+  "description": "It's the combined rehearsal and 40,000 people just opened the app at once. The servers are struggling to keep up. You must stabilize things before the show ends.",
+  "image": "/chapters/arc1-ch2.svg",
+  "arc": 0,
+  "chapter": 1,
+  "storyContext": "The combined rehearsal is in full swing. Forty thousand people in the stands just opened the NDP app at the same time, and your monitoring dashboard has turned completely red. The production manager is on the radio asking why the float overlay keeps crashing. You have until the fireworks segment to fix this, or the committee pulls the feature for the actual show.",
+  "subScenarios": {
+    "software-engineer": {
+      "type": "binary-choice",
+      "title": "Emergency Speed Fix",
+      "instruction": "The app is crawling. It takes 8 seconds to load anything and people are giving up. You've found three problems but only have time to fix one before the fireworks segment. Which do you tackle?",
+      "hint": "Under pressure, the fastest fix that doesn't risk breaking other things is usually better than the perfect fix that takes too long.",
+      "options": [
+        {
+          "id": "cache-layer",
+          "label": "Remember recent answers so the app doesn't have to ask the server every time. Fixes about 60% of the slowness but some users might briefly see float facts that are a few minutes out of date.",
+          "axisImpact": { "Speed": 1, "Performance-First": 0.8, "Precision": -0.3 }
+        },
+        {
+          "id": "kill-features",
+          "label": "Turn off the float scanner and show text only. The app speeds up immediately but loses its main feature for this rehearsal.",
+          "axisImpact": { "Stability": 1, "Speed": 0.5, "Innovation": -0.5 }
+        },
+        {
+          "id": "optimize-queries",
+          "label": "Rewrite the slowest database searches to be more efficient. Takes longer to fix but permanently solves the root cause.",
+          "axisImpact": { "Precision": 1, "Stability": 0.5, "Speed": -0.5 }
+        },
+        {
+          "id": "queue-requests",
+          "label": "Make users wait in a queue with a loading animation instead of getting error messages. Nobody gets instant results but nobody gets kicked out either.",
+          "axisImpact": { "Collaboration": 0.5, "Stability": 0.8, "Performance-First": -0.3 }
+        }
+      ]
+    },
+    "data-scientist": {
+      "type": "numeric-input",
+      "title": "Work Out How Many Servers You Need",
+      "instruction": "More people are opening the app every few minutes. Each server handles about 5,000 people at once. The graph shows how many thousands are online across four check-ins. Estimate how many servers you need at the peak.",
+      "hint": "Look at how fast the numbers are climbing. Estimate where it tops out, then work out how many servers you need to cover that peak.",
+      "chartData": [4, 12, 28, 40],
+      "expected": 11,
+      "tolerance": 3,
+      "axisImpact": {
+        "Performance-First": 1,
+        "Cost-Conscious": 0.5
+      }
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Investigate the Infrastructure Failure",
+      "instruction": "The monitoring screen is lit up with warnings. Work out what is actually broken and why. Put these investigation steps in the right order.",
+      "hint": "Always look at the big picture first before zooming in. Start with what is already visible before digging for hidden clues.",
+      "items": [
+        { "id": "check-metrics", "label": "Pull up the live dashboard to see which parts of the system are under pressure" },
+        { "id": "identify-bottleneck", "label": "Match the spike timing to specific parts of the app to pinpoint where things are breaking" },
+        { "id": "sample-logs", "label": "Look through the error logs from the last 10 minutes to spot repeating patterns" },
+        { "id": "trace-requests", "label": "Follow individual slow requests through the system to see exactly where time is being lost" },
+        { "id": "report-findings", "label": "Write up the findings with charts so the rest of the team can act on them" }
+      ],
+      "correctOrder": ["check-metrics", "sample-logs", "identify-bottleneck", "trace-requests", "report-findings"],
+      "axisImpact": {
+        "Precision": 1,
+        "Speed": 0.5
+      }
+    }
+  }
+}

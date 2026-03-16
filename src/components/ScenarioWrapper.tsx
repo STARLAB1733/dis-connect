@@ -1,7 +1,7 @@
 // src/components/ScenarioWrapper.tsx
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
@@ -9,7 +9,7 @@ import DragDropLayoutStep from './DragDropLayoutStep';
 import DragDropOrderStep from './DragDropOrderStep';
 import NumericInputStep from './NumericInputStep';
 import BinaryChoiceStep from './BinaryChoiceStep';
-import { Scenario, SubScenario } from '@/types/scenario';
+import { Scenario, SubScenario, AxisImpact } from '@/types/scenario';
 import type {
   DragDropLayoutScenario,
   DragDropOrderScenario,
@@ -17,153 +17,209 @@ import type {
   BinaryChoiceScenario,
   BinaryChoiceOption,
 } from '@/types/scenario';
-import type { RoleFitImpact } from '@/lib/roleFit';
 
 type Props = {
   lobbyId: string;
   scenario: Scenario;
   role: string;
-  onNext: (pointsEarned: number) => void;
+  onNext: () => void;
+  arcIdx?: number;
+  chapterIdx?: number;
 };
 
-export default function ScenarioWrapper({ lobbyId, scenario, role, onNext }: Props) {
+export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcIdx, chapterIdx }: Props) {
   const [user] = useAuthState(auth);
-  const sub: SubScenario = scenario.subScenarios[role];
+  const [hintShown, setHintShown] = useState(false);
+  const sub: SubScenario | undefined = scenario.subScenarios[role];
 
-  const handleComplete = async (result: unknown) => {
+   /**
+   * handleComplete is called with different `result` shapes:
+   *  - For order‐drag: result is `string[]` (array of item IDs in user order)
+   *  - For layout‐drag: result is `Record<string, string[]>` where each key is a zone ID and the value is an array of item IDs dropped there.
+   *  - For numeric‐input: result is `{ userValue: number }`
+   *  - For binary‐choice: result is the chosen `optionId: string`
+   */
+  if (!sub) {
+    return (
+      <div className="rounded-lg border border-[#334155] p-4 text-center">
+        <p className="text-[#94a3b8] text-sm">No task assigned for your role in this chapter.</p>
+      </div>
+    );
+  }
+
+   const handleComplete = async (result: unknown) => {
     if (!user) return;
 
-    // roleFitImpact uses keys: se | cloud | data
-    let roleFitImpact: RoleFitImpact = {};
-    let pointsEarned = 0;
+    let weightedImpact: AxisImpact = {};
 
-    // 1) DRAG-DROP scenarios
+    // 1) DRAG‐DROP scenarios
     if (sub.type === 'drag-drop') {
-      // CASE A: "order" variant
+      // CASE A: “order” variant (user reorders a flat list)
       if ((sub as DragDropOrderScenario).variant === 'order') {
         const orderSub = sub as DragDropOrderScenario;
-        const userOrder: string[] = result as string[];
+        const userOrder: string[] = result as string[]; 
         const correctOrder: string[] = orderSub.correctOrder || [];
 
+        // Count how many IDs are in the exactly correct position
         let correctCount = 0;
         correctOrder.forEach((correctId, idx) => {
           if (userOrder[idx] === correctId) correctCount++;
         });
 
-        const ratio = correctOrder.length > 0 ? correctCount / correctOrder.length : 0;
-        pointsEarned = Math.round(ratio * 100);
+        // Score ratio between 0…1
+        const ratio = correctOrder.length > 0
+          ? correctCount / correctOrder.length
+          : 0;
 
-        const baseImpact = (orderSub.axisImpact || {}) as RoleFitImpact;
-        roleFitImpact = {};
-        (Object.keys(baseImpact) as Array<keyof RoleFitImpact>).forEach((key) => {
-          roleFitImpact[key] = (baseImpact[key] ?? 0) * ratio;
+        // Multiply each axisImpact by that ratio
+        const baseImpact = orderSub.axisImpact || {};
+        weightedImpact = {};
+        Object.entries(baseImpact).forEach(([axis, value]) => {
+          weightedImpact[axis] = (value ?? 0) * ratio;
         });
       }
 
-      // CASE B: "layout" variant
+      // CASE B: “layout” variant (user assigns items into zones with continuous-distance scoring)
       else {
-        const layoutSub = sub as DragDropLayoutScenario;
-        const userMapping = result as Record<string, string[]>;
+        const layoutSub    = sub as DragDropLayoutScenario;
+        const userMapping  = result as Record<string,string[]>;
 
+        // ––– Build userZoneIndex: itemId → zone index where user dropped it
         const zoneIds = layoutSub.dropZones.map(z => z.id);
         const userZoneIndex: Record<string, number> = {};
         for (let zi = 0; zi < zoneIds.length; zi++) {
-          for (const itemId of userMapping[zoneIds[zi]] || []) {
+          const zid = zoneIds[zi];
+          for (const itemId of userMapping[zid] || []) {
             userZoneIndex[itemId] = zi;
           }
         }
 
+        // ––– Build correctZoneIndex: itemId → correct zone index
         const correctOrder = layoutSub.correctOrder || [];
         const correctZoneIndex: Record<string, number> = {};
         for (let i = 0; i < correctOrder.length; i++) {
-          correctZoneIndex[correctOrder[i]] = i;
+          correctZoneIndex[ correctOrder[i] ] = i;
         }
 
+        // ––– Compute totalDistance = Σ |userZoneIndex – correctZoneIndex|
         let totalDistance = 0;
         correctOrder.forEach((itemId) => {
           const czi = correctZoneIndex[itemId];
           const uzi = userZoneIndex[itemId];
-          totalDistance += uzi === undefined
-            ? Math.abs((layoutSub.dropZones.length - 1) - czi)
-            : Math.abs(uzi - czi);
+          if (uzi === undefined) {
+            // If missing entirely (left in palette), treat as “worst‐case”: distance = |(N–1) – czi|
+            totalDistance += Math.abs((layoutSub.dropZones.length - 1) - czi);
+          } else {
+            totalDistance += Math.abs(uzi - czi);
+          }
         });
 
+        // ––– Compute maxDistance = Σ max(|i–0|, |i–(N–1)|) for i=0…N–1
         const N = layoutSub.dropZones.length;
         let maxDistance = 0;
         for (let i = 0; i < N; i++) {
-          maxDistance += Math.max(Math.abs(i), Math.abs(i - (N - 1)));
+          maxDistance += Math.max(Math.abs(i - 0), Math.abs(i - (N - 1)));
         }
 
-        let ratio = maxDistance > 0 ? 1 - totalDistance / maxDistance : 1;
+        // ––– ratio ∈ [0..1], clamp at 0
+        let ratio = 1 - totalDistance / maxDistance;
         if (ratio < 0) ratio = 0;
-        pointsEarned = Math.round(ratio * 100);
 
-        const baseImpact = (layoutSub.axisImpact || {}) as RoleFitImpact;
-        roleFitImpact = {};
-        (Object.keys(baseImpact) as Array<keyof RoleFitImpact>).forEach((key) => {
-          roleFitImpact[key] = (baseImpact[key] ?? 0) * ratio;
+        // ––– Multiply each base axisImpact by ratio
+        const baseImpact = layoutSub.axisImpact || {};
+        weightedImpact = {};
+        Object.entries(baseImpact).forEach(([axis, value]) => {
+          weightedImpact[axis] = (value ?? 0) * ratio;
         });
       }
     }
 
-    // 2) NUMERIC-INPUT scenario
+    // 2) NUMERIC‐INPUT scenario
     else if (sub.type === 'numeric-input') {
       const numSub = sub as NumericInputScenario;
+      // result is expected to be { userValue: number }
       const userValue: number = (result as { userValue: number }).userValue;
       const diff = Math.abs(userValue - numSub.expected);
 
-      let ratio = numSub.tolerance > 0 ? (numSub.tolerance - diff) / numSub.tolerance : 0;
+      // Compute a continuous ratio: 1 when diff=0, down to 0 when diff=tolerance,
+      // and clamp at 0 if diff > tolerance.
+      let ratio = (numSub.tolerance - diff) / numSub.tolerance;
       if (ratio < 0) ratio = 0;
-      pointsEarned = Math.round(ratio * 100);
 
-      const baseImpact = (numSub.axisImpact || {}) as RoleFitImpact;
-      roleFitImpact = {};
-      (Object.keys(baseImpact) as Array<keyof RoleFitImpact>).forEach((key) => {
-        roleFitImpact[key] = (baseImpact[key] ?? 0) * ratio;
+      const baseImpact = numSub.axisImpact || {};
+      weightedImpact = {};
+      Object.entries(baseImpact).forEach(([axis, value]) => {
+        weightedImpact[axis] = (value ?? 0) * ratio;
       });
     }
 
-    // 3) BINARY-CHOICE scenario
+    // 3) BINARY‐CHOICE scenario
     else if (sub.type === 'binary-choice') {
       const bcSub = sub as BinaryChoiceScenario;
+      // result is the chosen option id
       const chosenId: string = result as string;
       const chosenOption: BinaryChoiceOption | undefined =
         bcSub.options.find((o) => o.id === chosenId);
 
-      if (chosenOption?.axisImpact) {
-        const optImpact = chosenOption.axisImpact as RoleFitImpact;
-        roleFitImpact = { ...optImpact };
-        const positiveSum = (Object.values(roleFitImpact) as number[])
-          .filter(v => v > 0)
-          .reduce((a, b) => a + b, 0);
-        pointsEarned = Math.min(100, Math.round(positiveSum * 33));
+      // If found, copy that option’s axisImpact; else empty
+      if (chosenOption && chosenOption.axisImpact) {
+        weightedImpact = { ...chosenOption.axisImpact };
+      } else {
+        weightedImpact = {};
       }
     }
 
-    // Write to Firestore logs
+    // 4) Apply hint penalty if the hint was revealed (–30%)
+    if (hintShown) {
+      Object.keys(weightedImpact).forEach(axis => {
+        weightedImpact[axis] = (weightedImpact[axis] ?? 0) * 0.7;
+      });
+    }
+
+    // 5) Finally, write to Firestore using weightedImpact
     await addDoc(collection(db, 'lobbies', lobbyId, 'logs'), {
       playerId: user.uid,
       role,
       scenarioId: scenario.id,
+      arcIdx: arcIdx ?? 0,
+      chapterIdx: chapterIdx ?? 0,
       result,
-      axisImpact: roleFitImpact,
-      pointsEarned,
+      axisImpact: weightedImpact,
+      hintUsed: hintShown,
       timestamp: serverTimestamp(),
     });
 
-    onNext(pointsEarned);
+    // Move on to the next turn
+    onNext();
   };
 
   return (
     <div className="space-y-4">
-      {/* Role + task header */}
-      <section className="bg-white/10 rounded-xl p-4 text-white space-y-1">
-        <div className="text-xs uppercase tracking-widest text-white/60 font-medium">
-          Your role: {sub.vocationType || role}
-        </div>
-        <h2 className="text-lg font-bold">{sub.title}</h2>
-        <p className="text-sm text-white/90 italic whitespace-pre-line leading-relaxed">{sub.instruction}</p>
+      {/* Role header (always rendered) */}
+      <section className="space-y-1">
+        <h2 className="text-xl font-semibold text-[#e2e8f0]">{sub.title}</h2>
+        <p className="text-sm text-[#94a3b8] italic whitespace-pre-line">{sub.instruction}</p>
       </section>
+
+      {/* Hint system */}
+      {sub.hint && (
+        <div className="rounded-lg border border-[#334155] overflow-hidden">
+          {!hintShown ? (
+            <button
+              onClick={() => setHintShown(true)}
+              className="w-full flex items-center gap-2 px-3 py-3 text-sm text-[#94a3b8] hover:text-[#FF6600] hover:bg-[#1e293b] transition text-left"
+            >
+              <span>💡</span>
+              <span>Show hint <span className="text-xs opacity-70">(−30% score for this chapter)</span></span>
+            </button>
+          ) : (
+            <div className="px-3 py-2 bg-[#1e293b]">
+              <p className="text-xs text-[#FF6600] font-semibold mb-1">💡 Hint <span className="text-[#94a3b8] font-normal">(−30% applied)</span></p>
+              <p className="text-sm text-[#cbd5e1]">{sub.hint}</p>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Scenario body */}
       {sub.type === 'drag-drop' && (
@@ -182,8 +238,8 @@ export default function ScenarioWrapper({ lobbyId, scenario, role, onNext }: Pro
       )}
 
       {sub.type === 'binary-choice' && (
-        <BinaryChoiceStep options={sub.options} onComplete={handleComplete} />
-      )}
+          <BinaryChoiceStep options={sub.options} onComplete={handleComplete} />
+        )}
     </div>
   );
 }

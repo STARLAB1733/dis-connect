@@ -146,3 +146,32 @@ export function getPersonaIdentity(
     svgPath: DEFAULT_ARCHETYPE.svgPath,
   };
 }
+
+const VOCATION_LABELS: Record<string, string> = {
+  'software-engineer': 'Software Engineer',
+  'data-scientist': 'Data Science & AI',
+  'cloud-engineer': 'Cloud Engineer',
+};
+
+/**
+ * Given per-role scores, return the recommended C4X vocation.
+ */
+export function getVocationRecommendation(
+  roleScores: Record<string, number>
+): { roleKey: string; label: string; scores: { key: string; label: string; score: number }[] } {
+  const entries = Object.entries(roleScores).map(([key, score]) => ({
+    key,
+    label: VOCATION_LABELS[key] || key,
+    score: Math.round(score * 100) / 100,
+  }));
+
+  entries.sort((a, b) => b.score - a.score);
+
+  const top = entries[0] || { key: 'software-engineer', label: 'Software Engineer', score: 0 };
+
+  return {
+    roleKey: top.key,
+    label: top.label,
+    scores: entries,
+  };
+}

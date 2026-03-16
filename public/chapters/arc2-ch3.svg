@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300">
+<rect width="800" height="300" fill="#0f172a"/>
+<line x1="0" y1="60" x2="800" y2="60" stroke="#1e293b" stroke-width="1"/>
+<line x1="0" y1="120" x2="800" y2="120" stroke="#1e293b" stroke-width="1"/>
+<line x1="0" y1="180" x2="800" y2="180" stroke="#1e293b" stroke-width="1"/>
+<line x1="0" y1="240" x2="800" y2="240" stroke="#1e293b" stroke-width="1"/>
+<line x1="80" y1="0" x2="80" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="160" y1="0" x2="160" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="240" y1="0" x2="240" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="320" y1="0" x2="320" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="400" y1="0" x2="400" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="480" y1="0" x2="480" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="560" y1="0" x2="560" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="640" y1="0" x2="640" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="720" y1="0" x2="720" y2="300" stroke="#1e293b" stroke-width="1"/>
+<rect x="0" y="0" width="800" height="26" fill="#2d1a0a" opacity="0.95"/>
+<text x="10" y="18" font-family="monospace" font-size="10" fill="#FF6600" font-weight="bold">!! STALE DATA WARNING - COMMS LINK DEGRADED - LAST SYNC: 14m 32s AGO</text>
+<circle cx="780" cy="13" r="5.0" fill="#FF6600"/>
+<circle cx="765" cy="13" r="5.0" fill="#FF6600" opacity="0.50"/>
+<rect x="10" y="32" width="235" height="255" fill="#1e293b" stroke="#334155" stroke-width="1" rx="2"/>
+<text x="20" y="48" font-family="monospace" font-size="11" fill="#e2e8f0">UNIT STATUS BOARD</text>
+<line x1="20" y1="52" x2="235" y2="52" stroke="#334155" stroke-width="1.0" opacity="0.40"/>
+<rect x="18" y="58" width="221" height="24" fill="#0f172a" stroke="#334155" stroke-width="1" rx="1"/>
+<text x="24" y="73" font-family="monospace" font-size="9" fill="#22c55e">INF-1</text>
+<text x="78" y="73" font-family="monospace" font-size="8" fill="#94a3b8">SECTOR-A</text>
+<text x="155" y="73" font-family="monospace" font-size="9" fill="#22c55e">NOMINAL</text>
+<rect x="18" y="86" width="221" height="24" fill="#2d1a0a" stroke="#FF6600" stroke-width="1" rx="1"/>
+<text x="24" y="101" font-family="monospace" font-size="9" fill="#FF6600" font-weight="bold">INF-2</text>
+<text x="78" y="101" font-family="monospace" font-size="8" fill="#94a3b8">SECTOR-B</text>
+<text x="155" y="101" font-family="monospace" font-size="9" fill="#FF6600" font-weight="bold">NO COMMS</text>
+<circle cx="228" cy="98" r="4.0" fill="#FF6600"/>
+<rect x="18" y="114" width="221" height="24" fill="#2d1a0a" stroke="#FF6600" stroke-width="1" rx="1"/>
+<text x="24" y="129" font-family="monospace" font-size="9" fill="#FF6600" font-weight="bold">ARM-1</text>
+<text x="78" y="129" font-family="monospace" font-size="8" fill="#94a3b8">SECTOR-C</text>
+<text x="155" y="129" font-family="monospace" font-size="9" fill="#FF6600" font-weight="bold">STALE 8m</text>
+<circle cx="228" cy="126" r="4.0" fill="#FF6600"/>
+<rect x="18" y="142" width="221" height="24" fill="#0f172a" stroke="#334155" stroke-width="1" rx="1"/>
+<text x="24" y="157" font-family="monospace" font-size="9" fill="#22c55e">ARM-2</text>
+<text x="78" y="157" font-family="monospace" font-size="8" fill="#94a3b8">SECTOR-D</text>
+<text x="155" y="157" font-family="monospace" font-size="9" fill="#22c55e">NOMINAL</text>
+<rect x="18" y="170" width="221" height="24" fill="#2d1a0a" stroke="#FF6600" stroke-width="1" rx="1"/>
+<text x="24" y="185" font-family="monospace" font-size="9" fill="#FF6600" font-weight="bold">ARTY-1</text>
+<text x="78" y="185" font-family="monospace" font-size="8" fill="#94a3b8">FB-NORTH</text>
+<text x="155" y="185" font-family="monospace" font-size="9" fill="#FF6600" font-weight="bold">NO COMMS</text>
+<circle cx="228" cy="182" r="4.0" fill="#FF6600"/>
+<rect x="18" y="198" width="221" height="24" fill="#2d1a0a" stroke="#FF6600" stroke-width="1" rx="1"/>
+<text x="24" y="213" font-family="monospace" font-size="9" fill="#FF6600" font-weight="bold">ENG-1</text>
+<text x="78" y="213" font-family="monospace" font-size="8" fill="#94a3b8">BRIDGE-3</text>
+<text x="155" y="213" font-family="monospace" font-size="9" fill="#FF6600" font-weight="bold">STALE 14m</text>
+<circle cx="228" cy="210" r="4.0" fill="#FF6600"/>
+<rect x="18" y="226" width="221" height="24" fill="#0f172a" stroke="#334155" stroke-width="1" rx="1"/>
+<text x="24" y="241" font-family="monospace" font-size="9" fill="#22c55e">LOG-1</text>
+<text x="78" y="241" font-family="monospace" font-size="8" fill="#94a3b8">BSB</text>
+<text x="155" y="241" font-family="monospace" font-size="9" fill="#22c55e">NOMINAL</text>
+<rect x="18" y="254" width="221" height="24" fill="#0f172a" stroke="#334155" stroke-width="1" rx="1"/>
+<text x="24" y="269" font-family="monospace" font-size="9" fill="#e2e8f0">CMD-HQ</text>
+<text x="78" y="269" font-family="monospace" font-size="8" fill="#94a3b8">CP-MAIN</text>
+<text x="155" y="269" font-family="monospace" font-size="9" fill="#e2e8f0">LIVE</text>
+<rect x="255" y="32" width="280" height="255" fill="#1e293b" stroke="#334155" stroke-width="1" rx="2"/>
+<text x="265" y="48" font-family="monospace" font-size="11" fill="#e2e8f0">SYNC TIMELINE</text>
+<line x1="265" y1="52" x2="525" y2="52" stroke="#334155" stroke-width="1.0" opacity="0.40"/>
+<line x1="275" y1="240" x2="515" y2="240" stroke="#334155" stroke-width="1.0"/>
+<text x="265" y="253" font-family="monospace" font-size="8" fill="#94a3b8">T-20m</text>
+<text x="360" y="253" font-family="monospace" font-size="8" fill="#94a3b8">T-10m</text>
+<text x="450" y="253" font-family="monospace" font-size="8" fill="#94a3b8">NOW</text>
+<circle cx="280" cy="240" r="4.0" fill="#22c55e"/>
+<line x1="280" y1="60" x2="280" y2="240" stroke="#22c55e" stroke-width="1.0" opacity="0.20"/>
+<text x="268" y="57" font-family="monospace" font-size="7" fill="#22c55e">INF-1</text>
+<circle cx="295" cy="240" r="4.0" fill="#22c55e"/>
+<line x1="295" y1="60" x2="295" y2="240" stroke="#22c55e" stroke-width="1.0" opacity="0.20"/>
+<text x="283" y="57" font-family="monospace" font-size="7" fill="#22c55e">ARM-2</text>
+<circle cx="310" cy="240" r="4.0" fill="#e2e8f0"/>
+<line x1="310" y1="60" x2="310" y2="240" stroke="#e2e8f0" stroke-width="1.0" opacity="0.20"/>
+<text x="298" y="57" font-family="monospace" font-size="7" fill="#e2e8f0">CMD-HQ</text>
+<circle cx="330" cy="240" r="4.0" fill="#22c55e"/>
+<line x1="330" y1="60" x2="330" y2="240" stroke="#22c55e" stroke-width="1.0" opacity="0.20"/>
+<text x="318" y="57" font-family="monospace" font-size="7" fill="#22c55e">INF-1</text>
+<circle cx="345" cy="240" r="4.0" fill="#22c55e"/>
+<line x1="345" y1="60" x2="345" y2="240" stroke="#22c55e" stroke-width="1.0" opacity="0.20"/>
+<text x="333" y="57" font-family="monospace" font-size="7" fill="#22c55e">LOG-1</text>
+<circle cx="360" cy="240" r="4.0" fill="#22c55e"/>
+<line x1="360" y1="60" x2="360" y2="240" stroke="#22c55e" stroke-width="1.0" opacity="0.20"/>
+<text x="348" y="57" font-family="monospace" font-size="7" fill="#22c55e">ARM-2</text>
+<circle cx="375" cy="240" r="4.0" fill="#e2e8f0"/>
+<line x1="375" y1="60" x2="375" y2="240" stroke="#e2e8f0" stroke-width="1.0" opacity="0.20"/>
+<text x="363" y="57" font-family="monospace" font-size="7" fill="#e2e8f0">CMD-HQ</text>
+<circle cx="390" cy="240" r="4.0" fill="#22c55e"/>
+<line x1="390" y1="60" x2="390" y2="240" stroke="#22c55e" stroke-width="1.0" opacity="0.20"/>
+<text x="378" y="57" font-family="monospace" font-size="7" fill="#22c55e">INF-1</text>
+<circle cx="400" cy="240" r="4.0" fill="#22c55e"/>
+<line x1="400" y1="60" x2="400" y2="240" stroke="#22c55e" stroke-width="1.0" opacity="0.20"/>
+<text x="388" y="57" font-family="monospace" font-size="7" fill="#22c55e">ARM-2</text>
+<line x1="360" y1="240" x2="510" y2="128" stroke="#FF6600" stroke-width="1.5" opacity="0.50"/>
+<circle cx="510" cy="128" r="3.0" fill="#FF6600" opacity="0.60"/>
+<text x="505" y="122" font-family="monospace" font-size="7" fill="#FF6600">INF-2</text>
+<line x1="380" y1="240" x2="510" y2="176" stroke="#FF6600" stroke-width="1.5" opacity="0.50"/>
+<circle cx="510" cy="176" r="3.0" fill="#FF6600" opacity="0.60"/>
+<text x="505" y="170" font-family="monospace" font-size="7" fill="#FF6600">ARM-1</text>
+<line x1="340" y1="240" x2="510" y2="112" stroke="#FF6600" stroke-width="1.5" opacity="0.50"/>
+<circle cx="510" cy="112" r="3.0" fill="#FF6600" opacity="0.60"/>
+<text x="505" y="106" font-family="monospace" font-size="7" fill="#FF6600">ARTY-1</text>
+<line x1="350" y1="240" x2="510" y2="128" stroke="#FF6600" stroke-width="1.5" opacity="0.50"/>
+<circle cx="510" cy="128" r="3.0" fill="#FF6600" opacity="0.60"/>
+<text x="505" y="122" font-family="monospace" font-size="7" fill="#FF6600">ENG-1</text>
+<line x1="510" y1="60" x2="510" y2="240" stroke="#FF6600" stroke-width="1.5" opacity="0.70"/>
+<text x="504" y="57" font-family="monospace" font-size="8" fill="#FF6600" font-weight="bold">NOW</text>
+<rect x="545" y="32" width="240" height="255" fill="#1e293b" stroke="#334155" stroke-width="1" rx="2"/>
+<text x="555" y="48" font-family="monospace" font-size="11" fill="#e2e8f0">LINK QUALITY</text>
+<line x1="555" y1="52" x2="775" y2="52" stroke="#334155" stroke-width="1.0" opacity="0.40"/>
+<text x="555" y="71" font-family="monospace" font-size="8" fill="#94a3b8">CP-MAIN > FWD-CP</text>
+<rect x="555" y="74" width="180" height="10" fill="#0f172a" rx="1"/>
+<rect x="555" y="74" width="171" height="10" fill="#22c55e" rx="1" opacity="0.85"/>
+<text x="742" y="83" font-family="monospace" font-size="8" fill="#22c55e">95%</text>
+<text x="555" y="98" font-family="monospace" font-size="8" fill="#94a3b8">FWD-CP > INF-1</text>
+<rect x="555" y="101" width="180" height="10" fill="#0f172a" rx="1"/>
+<rect x="555" y="101" width="158" height="10" fill="#22c55e" rx="1" opacity="0.85"/>
+<text x="742" y="110" font-family="monospace" font-size="8" fill="#22c55e">88%</text>
+<text x="555" y="125" font-family="monospace" font-size="8" fill="#94a3b8">FWD-CP > INF-2</text>
+<rect x="555" y="128" width="180" height="10" fill="#0f172a" rx="1"/>
+<text x="742" y="137" font-family="monospace" font-size="8" fill="#ef4444" font-weight="bold">0%</text>
+<text x="555" y="152" font-family="monospace" font-size="8" fill="#94a3b8">FWD-CP > ARM-1</text>
+<rect x="555" y="155" width="180" height="10" fill="#0f172a" rx="1"/>
+<rect x="555" y="155" width="21" height="10" fill="#FF6600" rx="1" opacity="0.85"/>
+<text x="742" y="164" font-family="monospace" font-size="8" fill="#FF6600" font-weight="bold">12%</text>
+<text x="555" y="179" font-family="monospace" font-size="8" fill="#94a3b8">FWD-CP > ARM-2</text>
+<rect x="555" y="182" width="180" height="10" fill="#0f172a" rx="1"/>
+<rect x="555" y="182" width="163" height="10" fill="#22c55e" rx="1" opacity="0.85"/>
+<text x="742" y="191" font-family="monospace" font-size="8" fill="#22c55e">91%</text>
+<text x="555" y="206" font-family="monospace" font-size="8" fill="#94a3b8">FWD-CP > ARTY-1</text>
+<rect x="555" y="209" width="180" height="10" fill="#0f172a" rx="1"/>
+<text x="742" y="218" font-family="monospace" font-size="8" fill="#ef4444" font-weight="bold">0%</text>
+<text x="555" y="233" font-family="monospace" font-size="8" fill="#94a3b8">FWD-CP > ENG-1</text>
+<rect x="555" y="236" width="180" height="10" fill="#0f172a" rx="1"/>
+<rect x="555" y="236" width="14" height="10" fill="#FF6600" rx="1" opacity="0.85"/>
+<text x="742" y="245" font-family="monospace" font-size="8" fill="#FF6600" font-weight="bold">8%</text>
+<text x="555" y="260" font-family="monospace" font-size="8" fill="#94a3b8">SATCOM BACKUP</text>
+<rect x="555" y="263" width="180" height="10" fill="#0f172a" rx="1"/>
+<rect x="555" y="263" width="61" height="10" fill="#FF6600" rx="1" opacity="0.85"/>
+<text x="742" y="272" font-family="monospace" font-size="8" fill="#FF6600">34%</text>
+<rect x="10" y="266" width="260" height="22" fill="#0f172a" opacity="0.85"/>
+<text x="16" y="281" font-family="monospace" font-size="12" fill="#e2e8f0">ARC 2 CH 3 - STALE DATA WARNING</text>
+</svg>

@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300">
+<!-- Background -->
+<rect width="800" height="300" fill="#0f172a"/>
+<!-- Grid -->
+<line x1="80" y1="0" x2="80" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="160" y1="0" x2="160" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="240" y1="0" x2="240" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="320" y1="0" x2="320" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="400" y1="0" x2="400" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="480" y1="0" x2="480" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="560" y1="0" x2="560" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="640" y1="0" x2="640" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="720" y1="0" x2="720" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="0" y1="60" x2="800" y2="60" stroke="#1e293b" stroke-width="1"/>
+<line x1="0" y1="120" x2="800" y2="120" stroke="#1e293b" stroke-width="1"/>
+<line x1="0" y1="180" x2="800" y2="180" stroke="#1e293b" stroke-width="1"/>
+<line x1="0" y1="240" x2="800" y2="240" stroke="#1e293b" stroke-width="1"/>
+
+<!-- Dark city skyline (blacked out) in background -->
+<!-- Building silhouettes - dark, no lights -->
+<rect x="0" y="50" width="45" height="190" fill="#111827"/>
+<rect x="50" y="80" width="35" height="160" fill="#0f1520"/>
+<rect x="90" y="40" width="50" height="200" fill="#111827"/>
+<rect x="145" y="95" width="30" height="145" fill="#0f1520"/>
+<!-- Marina Bay Sands suggestion -->
+<rect x="560" y="60" width="20" height="180" fill="#111827"/>
+<rect x="600" y="60" width="20" height="180" fill="#111827"/>
+<rect x="640" y="60" width="20" height="180" fill="#111827"/>
+<rect x="550" y="55" width="120" height="8" rx="4" fill="#131b2a"/>
+<!-- More dark buildings -->
+<rect x="690" y="90" width="40" height="150" fill="#111827"/>
+<rect x="735" y="70" width="30" height="170" fill="#0f1520"/>
+<rect x="770" y="100" width="30" height="140" fill="#111827"/>
+
+<!-- Few emergency lights on buildings (sparse) -->
+<rect x="95" y="55" width="3" height="3" fill="#ef4444" opacity="0.4"/>
+<rect x="110" y="75" width="3" height="3" fill="#ef4444" opacity="0.3"/>
+<rect x="565" y="80" width="3" height="3" fill="#ef4444" opacity="0.3"/>
+<rect x="645" y="90" width="3" height="3" fill="#ef4444" opacity="0.4"/>
+<rect x="700" y="110" width="3" height="3" fill="#FF6600" opacity="0.3"/>
+<!-- Blinking warning light on rooftop -->
+<circle cx="115" cy="38" r="3" fill="#ef4444" opacity="0.6"/>
+<circle cx="115" cy="38" r="6" fill="#ef4444" opacity="0.1"/>
+
+<!-- Press conference stage area (center) -->
+<rect x="220" y="100" width="360" height="140" rx="3" fill="#131b2a" stroke="#1e293b" stroke-width="1"/>
+
+<!-- Podium -->
+<rect x="370" y="125" width="60" height="70" rx="3" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+<!-- Singapore crest on podium -->
+<circle cx="400" cy="150" r="8" fill="none" stroke="#FF6600" stroke-width="1" opacity="0.5"/>
+<polygon points="400,144 402,148 407,148 403,151 405,155 400,153 395,155 397,151 393,148 398,148" fill="#FF6600" opacity="0.4"/>
+<!-- Microphones on podium -->
+<line x1="385" y1="124" x2="385" y2="112" stroke="#94a3b8" stroke-width="1.5"/>
+<circle cx="385" cy="110" r="3" fill="#94a3b8"/>
+<line x1="400" y1="124" x2="400" y2="108" stroke="#94a3b8" stroke-width="1.5"/>
+<circle cx="400" cy="106" r="3" fill="#94a3b8"/>
+<line x1="415" y1="124" x2="415" y2="112" stroke="#94a3b8" stroke-width="1.5"/>
+<circle cx="415" cy="110" r="3" fill="#94a3b8"/>
+
+<!-- PM figure at podium -->
+<circle cx="400" cy="88" r="11" fill="#e2e8f0" opacity="0.8"/>
+<rect x="390" y="99" width="20" height="26" rx="3" fill="#e2e8f0" opacity="0.7"/>
+<!-- Suit detail -->
+<line x1="400" y1="100" x2="400" y2="122" stroke="#94a3b8" stroke-width="0.5"/>
+<!-- Gesturing arms -->
+<line x1="410" y1="105" x2="430" y2="95" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+<line x1="390" y1="105" x2="370" y2="95" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
+
+<!-- TV cameras (left) -->
+<g transform="translate(230, 130)">
+  <!-- Camera body -->
+  <rect x="0" y="0" width="22" height="15" rx="2" fill="#334155" stroke="#475569" stroke-width="0.5"/>
+  <!-- Lens -->
+  <circle cx="22" cy="7" r="5" fill="#1e293b" stroke="#475569" stroke-width="0.5"/>
+  <circle cx="22" cy="7" r="3" fill="#0ea5e9" opacity="0.3"/>
+  <!-- Red recording light -->
+  <circle cx="5" cy="4" r="2" fill="#ef4444" opacity="0.8"/>
+  <!-- Tripod -->
+  <line x1="11" y1="15" x2="5" y2="35" stroke="#334155" stroke-width="1.5"/>
+  <line x1="11" y1="15" x2="17" y2="35" stroke="#334155" stroke-width="1.5"/>
+</g>
+
+<!-- TV cameras (right) -->
+<g transform="translate(530, 125)">
+  <rect x="0" y="0" width="22" height="15" rx="2" fill="#334155" stroke="#475569" stroke-width="0.5"/>
+  <circle cx="0" cy="7" r="5" fill="#1e293b" stroke="#475569" stroke-width="0.5"/>
+  <circle cx="0" cy="7" r="3" fill="#0ea5e9" opacity="0.3"/>
+  <circle cx="17" cy="4" r="2" fill="#ef4444" opacity="0.8"/>
+  <line x1="11" y1="15" x2="5" y2="35" stroke="#334155" stroke-width="1.5"/>
+  <line x1="11" y1="15" x2="17" y2="35" stroke="#334155" stroke-width="1.5"/>
+</g>
+
+<!-- Broadcast screens showing PM (left side) -->
+<rect x="180" y="30" width="55" height="38" rx="2" fill="#0c1322" stroke="#0ea5e9" stroke-width="1" opacity="0.6"/>
+<!-- PM silhouette on screen -->
+<circle cx="207" cy="42" r="5" fill="#0ea5e9" opacity="0.3"/>
+<rect x="203" y="48" width="8" height="10" rx="1" fill="#0ea5e9" opacity="0.2"/>
+<!-- LIVE badge -->
+<rect x="184" y="34" width="16" height="7" rx="1" fill="#ef4444" opacity="0.7"/>
+<text x="186" y="40" font-family="monospace" font-size="5" fill="#e2e8f0">LIVE</text>
+
+<!-- Broadcast screen (right side) -->
+<rect x="660" y="30" width="55" height="38" rx="2" fill="#0c1322" stroke="#0ea5e9" stroke-width="1" opacity="0.6"/>
+<circle cx="687" cy="42" r="5" fill="#0ea5e9" opacity="0.3"/>
+<rect x="683" y="48" width="8" height="10" rx="1" fill="#0ea5e9" opacity="0.2"/>
+<rect x="664" y="34" width="16" height="7" rx="1" fill="#ef4444" opacity="0.7"/>
+<text x="666" y="40" font-family="monospace" font-size="5" fill="#e2e8f0">LIVE</text>
+
+<!-- Breaking news crawl -->
+<rect x="180" y="68" width="55" height="6" fill="#0c1322"/>
+<rect x="182" y="69" width="50" height="4" fill="#ef4444" opacity="0.15"/>
+<rect x="660" y="68" width="55" height="6" fill="#0c1322"/>
+<rect x="662" y="69" width="50" height="4" fill="#ef4444" opacity="0.15"/>
+
+<!-- Citizens/crowd silhouettes (foreground) -->
+<g opacity="0.35">
+  <!-- Row of citizen heads -->
+  <circle cx="240" cy="215" r="6" fill="#475569"/>
+  <circle cx="265" cy="218" r="6" fill="#475569"/>
+  <circle cx="290" cy="213" r="6" fill="#475569"/>
+  <circle cx="315" cy="220" r="6" fill="#475569"/>
+  <circle cx="340" cy="215" r="6" fill="#475569"/>
+  <circle cx="365" cy="218" r="6" fill="#475569"/>
+  <circle cx="435" cy="218" r="6" fill="#475569"/>
+  <circle cx="460" cy="215" r="6" fill="#475569"/>
+  <circle cx="485" cy="220" r="6" fill="#475569"/>
+  <circle cx="510" cy="213" r="6" fill="#475569"/>
+  <circle cx="535" cy="218" r="6" fill="#475569"/>
+  <circle cx="560" cy="215" r="6" fill="#475569"/>
+</g>
+<!-- Closer crowd silhouettes -->
+<g opacity="0.25">
+  <circle cx="250" cy="232" r="7" fill="#475569"/>
+  <circle cx="280" cy="230" r="7" fill="#475569"/>
+  <circle cx="310" cy="234" r="7" fill="#475569"/>
+  <circle cx="340" cy="230" r="7" fill="#475569"/>
+  <circle cx="370" cy="232" r="7" fill="#475569"/>
+  <circle cx="430" cy="232" r="7" fill="#475569"/>
+  <circle cx="460" cy="230" r="7" fill="#475569"/>
+  <circle cx="490" cy="234" r="7" fill="#475569"/>
+  <circle cx="520" cy="230" r="7" fill="#475569"/>
+  <circle cx="550" cy="232" r="7" fill="#475569"/>
+</g>
+
+<!-- Stage spotlights -->
+<polygon points="350,100 390,80 410,80 370,100" fill="#e2e8f0" opacity="0.03"/>
+<polygon points="430,100 410,80 390,80 450,100" fill="#e2e8f0" opacity="0.03"/>
+
+<!-- "SINGAPORE GOES DARK" text in sky -->
+<text x="320" y="18" font-family="monospace" font-size="8" fill="#ef4444" opacity="0.3">SINGAPORE GOES DARK</text>
+
+<!-- Bottom bar -->
+<rect x="0" y="240" width="800" height="60" fill="#0f172a"/>
+<line x1="0" y1="240" x2="800" y2="240" stroke="#334155" stroke-width="2"/>
+<rect x="0" y="233" width="800" height="7" fill="#ef4444" opacity="0.08"/>
+<rect x="10" y="266" width="270" height="22" fill="#0f172a" opacity="0.85"/>
+<text x="16" y="281" font-family="monospace" font-size="12" fill="#e2e8f0">ARC 3 GROUP - WHAT DOES THE PM SAY</text>
+</svg>

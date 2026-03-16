@@ -1,0 +1,71 @@
+{
+  "id": "arc1-ch4",
+  "title": "NDP 2026: Showtime",
+  "description": "The show is live. 40,000 in the stands, millions watching from home. Then the livestream starts buffering. You have 20 minutes before the fireworks finale. The whole nation is watching.",
+  "image": "/chapters/arc1-ch4.svg",
+  "arc": 0,
+  "chapter": 3,
+  "storyContext": "The national anthem just finished and the stands are packed. Millions more are watching the livestream from home. Then your phone vibrates: the video pipeline is choking. Frames are dropping, the buffer wheel is spinning, and social media is already full of complaints. The fireworks finale is in 20 minutes. The whole nation is counting on your team.",
+  "subScenarios": {
+    "software-engineer": {
+      "type": "binary-choice",
+      "title": "Fix the Livestream",
+      "instruction": "The video is freezing every few seconds and millions of viewers are complaining. The system that processes the video feed is struggling. You have 20 minutes before the fireworks. What do you do?",
+      "hint": "When millions are watching and time is short, a solution that works for everyone beats a perfect fix that might fail while you are putting it in place.",
+      "options": [
+        {
+          "id": "reduce-quality",
+          "label": "Drop stream quality from 4K to 1080p. Everyone gets a smooth experience instantly, but the committee specifically wanted 4K for the drone formation coming up.",
+          "axisImpact": { "Speed": 1, "Stability": 0.8, "Performance-First": -0.5 }
+        },
+        {
+          "id": "parallel-encode",
+          "label": "Start extra processing machines to share the workload. It takes 10 of your 20 minutes to set up and test, but if it works, quality stays perfect.",
+          "axisImpact": { "Innovation": 1, "Performance-First": 0.8, "Stability": -0.3 }
+        },
+        {
+          "id": "cdn-switch",
+          "label": "Switch to a backup streaming network with better capacity in the region. Quick to switch over but you lose some viewer statistics in the process.",
+          "axisImpact": { "Speed": 0.8, "Collaboration": 0.5, "Autonomy": -0.5 }
+        },
+        {
+          "id": "adaptive-bitrate",
+          "label": "Turn on smart streaming that gives each viewer the best quality their internet can handle. Some see 4K, some see lower quality, but nobody's video freezes.",
+          "axisImpact": { "Innovation": 0.8, "Collaboration": 0.3, "Performance-First": 0.5 }
+        }
+      ]
+    },
+    "data-scientist": {
+      "type": "numeric-input",
+      "title": "Predict Viewer Drop-off",
+      "instruction": "Viewers are abandoning the stream because it keeps freezing. The graph shows how many thousands are still watching each minute. If nothing changes, how many will be left at the next minute mark?",
+      "hint": "Count how much the number drops each minute and apply that pattern forward.",
+      "chartData": [850, 780, 690, 610],
+      "expected": 530,
+      "tolerance": 60,
+      "axisImpact": {
+        "Precision": 1,
+        "Speed": 0.5
+      }
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Reroute the Traffic",
+      "instruction": "The main servers are overwhelmed. You need to spread the traffic across backup servers in other regions. Put these steps in the right order. One mistake and the whole stream goes dark.",
+      "hint": "Backup servers need to be checked and prepared before traffic reaches them. Test the shift before going all-in.",
+      "items": [
+        { "id": "health-check", "label": "Check that all backup servers in other regions are healthy and ready to receive traffic" },
+        { "id": "dns-update", "label": "Update the internet's address book to point traffic to multiple regions" },
+        { "id": "warm-cache", "label": "Load the backup servers with the latest video so viewers don't get a blank screen when they connect" },
+        { "id": "gradual-shift", "label": "Move 30% of traffic to backup servers first as a test run" },
+        { "id": "full-balance", "label": "Once confirmed stable, spread traffic evenly across all healthy servers" }
+      ],
+      "correctOrder": ["health-check", "warm-cache", "dns-update", "gradual-shift", "full-balance"],
+      "axisImpact": {
+        "Stability": 1,
+        "Speed": 0.5
+      }
+    }
+  }
+}

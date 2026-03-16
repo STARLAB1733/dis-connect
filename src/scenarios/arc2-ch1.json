@@ -1,0 +1,84 @@
+{
+  "id": "arc2-ch1",
+  "title": "Exercise Northstar: D-30",
+  "description": "A major military exercise kicks off in 30 days. Command wants a live screen showing where every unit is, how many supplies they have, and whether their radios are working. Your team builds it from scratch.",
+  "image": "/chapters/arc2-ch1.svg",
+  "arc": 1,
+  "chapter": 0,
+  "storyContext": "Your team just got seconded to a classified project. In 30 days, the SAF kicks off Exercise Northstar, the biggest multi-domain exercise this decade. Command wants a single screen that shows every unit's position, supply levels, and comms status in real time. The catch: it has to work in a jungle training area with barely any mobile signal. You have one month to build something that generals will trust with live operational decisions.",
+  "subScenarios": {
+    "software-engineer": {
+      "type": "drag-drop",
+      "variant": "layout",
+      "title": "Design the Command Screen Layout",
+      "instruction": "The commanders need a single screen that shows everything at once. Decide which information goes in which slot. The most critical thing commanders check every few seconds takes the main display. Supporting information goes in the side panels. Lightweight status info goes in the bar at the bottom.",
+      "hint": "The most important information commanders look at every few seconds should take up the most space.",
+      "items": [
+        { "id": "live-map", "label": "Live Map with Unit Positions" },
+        { "id": "supply-chart", "label": "Supply Level Charts" },
+        { "id": "comms-status", "label": "Radio Network Status" },
+        { "id": "alert-feed", "label": "Live Alert Feed" },
+        { "id": "unit-roster", "label": "Unit List and Readiness" },
+        { "id": "weather-overlay", "label": "Weather Conditions" }
+      ],
+      "dropZones": [
+        { "id": "zone-1", "label": "Main Display" },
+        { "id": "zone-2", "label": "Left Panel" },
+        { "id": "zone-3", "label": "Right Panel" },
+        { "id": "zone-4", "label": "Status Bar" }
+      ],
+      "correctOrder": ["live-map", "supply-chart", "unit-roster", "comms-status"],
+      "axisImpact": {
+        "Innovation": 1,
+        "Precision": 0.5
+      }
+    },
+    "data-scientist": {
+      "type": "binary-choice",
+      "title": "Choose How to Handle the Data Flow",
+      "instruction": "Field units send their position every 30 seconds from tablets and GPS devices. That is thousands of location updates per minute coming in. How do you turn all that into useful information on the screen?",
+      "hint": "When data arrives constantly, you can handle it the moment it lands or collect it in short batches. Think about how much instant accuracy you really need versus a few seconds of delay.",
+      "options": [
+        {
+          "id": "stream-processing",
+          "label": "Process every location update the moment it arrives. The screen updates in real time but needs heavy computing power, and one bad reading could glitch the whole display.",
+          "axisImpact": { "Speed": 1, "Performance-First": 0.8, "Stability": -0.3 }
+        },
+        {
+          "id": "micro-batch",
+          "label": "Collect updates every 5 seconds, clean them, then show the result. Commanders see positions that are at most 5 seconds old and the screen never shows bad data.",
+          "axisImpact": { "Precision": 1, "Stability": 0.5, "Speed": -0.3 }
+        },
+        {
+          "id": "edge-compute",
+          "label": "Process the data on the unit's own device and only send a summary. Cuts radio usage by 80%, which matters in the field, but you lose the detailed raw readings.",
+          "axisImpact": { "Cost-Conscious": 1, "Innovation": 0.5, "Precision": -0.3 }
+        },
+        {
+          "id": "hybrid-approach",
+          "label": "Send critical alerts in real time but bundle everything else in 10-second updates. Balanced approach but more complex to build and maintain.",
+          "axisImpact": { "Stability": 0.8, "Innovation": 0.5, "Speed": 0.3 }
+        }
+      ]
+    },
+    "cloud-engineer": {
+      "type": "drag-drop",
+      "variant": "order",
+      "title": "Set Up the Field Network",
+      "instruction": "The exercise happens in a training area with patchy mobile signal. You need to set up a reliable network linking field units to the command screen. Put the setup steps in the right order.",
+      "hint": "You can't build a reliable network if you don't know where the problems are. Test thoroughly before the exercise starts.",
+      "items": [
+        { "id": "survey-terrain", "label": "Walk the training ground to find areas with no signal and note any obstacles" },
+        { "id": "deploy-mesh", "label": "Set up portable network relay nodes at key positions across the area" },
+        { "id": "satellite-backup", "label": "Configure a satellite uplink as a backup for when mobile signal drops completely" },
+        { "id": "test-throughput", "label": "Test data speeds from the furthest unit position back to the command post" },
+        { "id": "failover-config", "label": "Set up automatic switching so devices seamlessly jump to the best available network" }
+      ],
+      "correctOrder": ["survey-terrain", "deploy-mesh", "satellite-backup", "test-throughput", "failover-config"],
+      "axisImpact": {
+        "Stability": 1,
+        "Precision": 0.5
+      }
+    }
+  }
+}

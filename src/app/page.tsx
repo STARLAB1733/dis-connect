@@ -22,67 +22,83 @@ export default function HomePage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-dvh flex items-center justify-center bg-black">
+      <div className="min-h-dvh flex items-center justify-center">
         <div className="w-12 h-12 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <main className="min-h-dvh flex flex-col bg-black text-white max-w-md mx-auto">
-      {/* Title */}
-      <div className="flex flex-1 flex-col items-center justify-center px-6 text-center space-y-2">
-        <p className="text-xs uppercase tracking-widest text-white/40 font-medium">SAF Digital Intelligence Service</p>
-        <h1>
-          <span className="text-7xl font-black text-[#FF6600]">DIS</span>
-          <span className="text-6xl font-black text-white/60">Connect</span>
+    <main className="min-h-dvh flex flex-col page-container px-4">
+      <div className="flex-1 flex flex-col items-center justify-center gap-6 sm:gap-12">
+        <h1 className="text-center">
+          <span className="text-5xl sm:text-7xl font-bold text-[#FF6600] font-sans">DIS</span>
+          <span className="text-4xl sm:text-6xl font-bold text-[#94a3b8] font-sans">Connect</span>
         </h1>
-        <p className="text-white/50 text-sm max-w-xs leading-relaxed pt-2">
-          A team cyber challenge for 3 players. Tackle 4 chapters together and find out which digital role suits you best.
+
+        <p className="text-center text-sm text-[#94a3b8] tracking-wider italic max-w-xs">
+          What kind of Guardian are you? Find out.
         </p>
-      </div>
 
-      {/* Actions */}
-      <div className="flex flex-1 items-start justify-center px-6">
-        <div className="flex flex-col items-center space-y-4 w-full max-w-sm">
-          <button
-            onClick={createLobby}
-            className="w-full px-6 py-4 bg-[#FF6600] hover:bg-[#e65a00] text-white rounded-xl tracking-wider uppercase transition duration-200 text-xl font-bold"
-          >
-            Create Lobby
-          </button>
-
-          <div className="w-full flex items-center gap-3">
-            <div className="flex-1 h-px bg-white/10" />
-            <span className="text-white/30 text-sm">or join</span>
-            <div className="flex-1 h-px bg-white/10" />
-          </div>
-
-          <div className="flex w-full">
-            <input
-              type="text"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && joinLobby()}
-              placeholder="Enter lobby code"
-              className="flex-grow px-4 py-3 bg-white/5 border border-white/20 rounded-l-xl focus:outline-none focus:border-[#FF6600] text-white placeholder:text-white/30 transition"
-            />
+        <div className="flex flex-col items-center space-y-6 w-full max-w-sm">
             <button
-              onClick={joinLobby}
-              className="px-5 py-3 bg-white/10 text-white rounded-r-xl hover:bg-white/20 transition duration-200 font-medium border border-white/20 border-l-0"
+              onClick={createLobby}
+              className="
+                w-full px-6 py-4
+                bg-[#FF6600] hover:bg-[#e65a00]
+                hover:cursor-pointer
+                text-white font-semibold
+                rounded-lg tracking-wider uppercase
+                transition duration-200 text-lg sm:text-2xl
+              "
             >
-              Join
+              CREATE LOBBY
+            </button>
+
+            <span className="text-[#94a3b8] font-medium">OR</span>
+
+            <div className="flex w-full max-w-sm mx-auto rounded-lg overflow-hidden border border-[#334155] focus-within:border-[#FF6600] transition-colors">
+              <input
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && joinLobby()}
+                placeholder="Enter lobby code"
+                className="
+                  flex-grow px-4 py-3
+                  bg-[#1e293b]
+                  text-[#e2e8f0] placeholder:text-[#94a3b8]
+                  focus:outline-none
+                "
+              />
+              <button
+                onClick={joinLobby}
+                className="
+                  px-5 py-3
+                  bg-[#334155] text-[#e2e8f0]
+                  hover:bg-[#475569]
+                  transition duration-200 hover:cursor-pointer
+                  font-medium tracking-wide
+                "
+              >
+                Join
+              </button>
+            </div>
+
+            <button
+              onClick={() => router.push('/leaderboard')}
+              className="py-3 px-2 text-[#94a3b8] hover:text-[#FF6600] text-sm uppercase tracking-wider transition"
+            >
+              View Leaderboard
             </button>
           </div>
-
-          <button
-            onClick={() => router.push('/leaderboard')}
-            className="text-white/30 text-xs uppercase tracking-widest hover:text-white/60 transition duration-200 pt-2"
-          >
-            View Leaderboard →
-          </button>
-        </div>
       </div>
+
+      <footer className="text-center space-y-1 py-3 sm:py-5 text-[#475569] text-[0.7rem]">
+        <p className="text-[#64748b] tracking-widest uppercase font-medium">DISConnect v2.0</p>
+        <p>ME4 Anthony Tan · ME4 Wilson Gwee · ME4 Keith Chew</p>
+        <p className="text-[#3d5068]">Music by Matthew Pablo · CC BY 3.0 · opengameart.org</p>
+      </footer>
     </main>
   );
 }

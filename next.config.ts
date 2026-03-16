@@ -1,3 +1,9 @@
-const nextConfig = {};
+import type { NextConfig } from 'next';
 
-module.exports = nextConfig;
+const nextConfig: NextConfig = {
+  images: {
+    unoptimized: true, // Disable Next.js image optimization for better SVG support
+  },
+};
+
+export default nextConfig;

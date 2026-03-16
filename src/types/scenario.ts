@@ -32,6 +32,7 @@ export interface DragDropLayoutScenario {
   variant: 'layout';
   title: string;
   instruction: string;
+  hint?: string;
   vocationType?: string;
   items: DragItem[];
   correctOrder?: string[]; // Optional, for validation
@@ -47,6 +48,7 @@ export interface DragDropOrderScenario {
   variant: 'order';
   title: string;
   instruction: string;
+  hint?: string;
   vocationType?: string;
   items: DragItem[];
   correctOrder?: string[];
@@ -60,6 +62,7 @@ export interface NumericInputScenario {
   type: 'numeric-input';
   title: string;
   instruction: string;
+  hint?: string;
   vocationType?: string;
   chartData: number[];
   expected: number;
@@ -83,6 +86,7 @@ export interface BinaryChoiceScenario {
   type: 'binary-choice';
   title: string;
   instruction: string;
+  hint?: string;
   vocationType?: string;
   options: BinaryChoiceOption[];
 }
@@ -107,6 +111,39 @@ export interface LeaderboardConfig {
 }
 
 /**
+ * A choice option for group wager questions, with its own axisImpact.
+ */
+export interface GroupChoiceOption {
+  id: string;
+  label: string;
+  axisImpact?: AxisImpact;
+}
+
+/**
+ * Group wager choice scenario (team discusses and facilitator wagers + picks).
+ */
+export interface GroupWagerChoiceScenario {
+  type: 'group-wager-choice';
+  title: string;
+  storyContext: string;
+  facilitatorPrompt: string;
+  instruction?: string;
+  /** Path to group question illustration (e.g. "/chapters/arc1-group-q1.svg") */
+  image?: string;
+  wagerOptions: number[];
+  options: GroupChoiceOption[];
+}
+
+/**
+ * Top-level GroupScenario containing questions for end of arc.
+ */
+export interface GroupScenario {
+  arcIdx: number;
+  arcName: string;
+  questions: GroupWagerChoiceScenario[];
+}
+
+/**
  * Top-level Scenario, mapping each role (key) to a SubScenario definition.
  * Supports DIS/C4X mission-based progression with round ordering,
  * story context, and leaderboard tracking.
@@ -115,6 +152,12 @@ export interface Scenario {
   id: string;
   title: string;
   description: string;
+  /** Path to chapter illustration (e.g. "/chapters/arc1-ch1.svg") */
+  image?: string;
+  /** Arc index (0, 1, or 2) */
+  arc?: number;
+  /** Chapter index within an arc (0-3) */
+  chapter?: number;
   /** Mission round number (1-4) for progressive difficulty */
   round?: number;
   /** Narrative story context shown before the mission begins */

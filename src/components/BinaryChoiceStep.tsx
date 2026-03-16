@@ -11,6 +11,7 @@ type BinaryChoiceStepProps = {
 
 export default function BinaryChoiceStep({ options, onComplete }: BinaryChoiceStepProps) {
   const [selected, setSelected] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
     <div className="flex flex-col h-full space-y-4">
@@ -21,11 +22,11 @@ export default function BinaryChoiceStep({ options, onComplete }: BinaryChoiceSt
             <label
               key={opt.id}
               className={`
-                flex items-start gap-3 cursor-pointer p-4 rounded-xl border-2
+                flex items-start cursor-pointer p-4 rounded-lg border-2
                 transition-all duration-200 ease-in-out
                 ${isSelected
-                  ? 'border-[#FF6600] bg-white/10'
-                  : 'border-white/20 bg-white/5 hover:border-white/40'}
+                  ? 'border-[#FF6600] bg-[#FF6600]/10 shadow-inner'
+                  : 'border-[#334155] bg-[#1e293b] hover:border-[#FF6600]/50 hover:shadow-sm'}
               `}
               onClick={() => setSelected(opt.id)}
             >
@@ -37,11 +38,10 @@ export default function BinaryChoiceStep({ options, onComplete }: BinaryChoiceSt
                 onChange={() => setSelected(opt.id)}
                 className="sr-only"
               />
-              <span className={`w-4 h-4 mt-0.5 flex-shrink-0 rounded-full border-2 flex items-center justify-center
-                ${isSelected ? 'border-[#FF6600] bg-[#FF6600]' : 'border-white/40'}`}>
-                {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
-              </span>
-              <span className={`text-sm leading-relaxed ${isSelected ? 'text-white font-medium' : 'text-white/70'}`}>
+              <span className={`
+                text-sm leading-relaxed
+                ${isSelected ? 'text-[#FF6600] font-medium' : 'text-[#e2e8f0]'}
+              `}>
                 {opt.label}
               </span>
             </label>
@@ -50,28 +50,22 @@ export default function BinaryChoiceStep({ options, onComplete }: BinaryChoiceSt
       </div>
 
       <button
-        onClick={() => selected && onComplete(selected)}
-        disabled={!selected}
+        onClick={() => {
+          if (!selected || isSubmitting) return;
+          setIsSubmitting(true);
+          onComplete(selected);
+        }}
+        disabled={!selected || isSubmitting}
         className="
-          mt-10
-          px-4
-          py-2
-          bg-[#FF6600]
-          hover:bg-[#b34400]
-          hover:cursor-pointer
-          rounded
-          disabled:opacity-50
-          disabled:cursor-not-allowed
-          border
-          border-black
-          border-2
-          text-black
-          rounded-lg
-          tracking-wider
-          uppercase
-          transition duration-200
-          text-xl
-          "
+          w-full mt-4 px-4 py-4
+          bg-[#FF6600] hover:bg-[#e65a00]
+          hover:cursor-pointer rounded-lg
+          disabled:opacity-50 disabled:cursor-not-allowed
+          border-2 border-[#FF6600]
+          text-white font-semibold
+          tracking-wider uppercase
+          transition duration-200 text-lg
+        "
       >
         Submit
       </button>

@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" width="800" height="300">
+<rect width="800" height="300" fill="#0f172a"/>
+<line x1="0" y1="60" x2="800" y2="60" stroke="#1e293b" stroke-width="1"/>
+<line x1="0" y1="120" x2="800" y2="120" stroke="#1e293b" stroke-width="1"/>
+<line x1="0" y1="180" x2="800" y2="180" stroke="#1e293b" stroke-width="1"/>
+<line x1="0" y1="240" x2="800" y2="240" stroke="#1e293b" stroke-width="1"/>
+<line x1="80" y1="0" x2="80" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="160" y1="0" x2="160" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="240" y1="0" x2="240" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="320" y1="0" x2="320" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="400" y1="0" x2="400" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="480" y1="0" x2="480" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="560" y1="0" x2="560" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="640" y1="0" x2="640" y2="300" stroke="#1e293b" stroke-width="1"/>
+<line x1="720" y1="0" x2="720" y2="300" stroke="#1e293b" stroke-width="1"/>
+<rect x="140" y="230" width="120" height="12" fill="#334155" stroke="#334155" stroke-width="1"/>
+<rect x="190" y="218" width="20" height="12" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+<line x1="200" y1="218" x2="155" y2="150" stroke="#334155" stroke-width="2.0"/>
+<line x1="200" y1="218" x2="245" y2="150" stroke="#334155" stroke-width="2.0"/>
+<line x1="155" y1="150" x2="245" y2="150" stroke="#334155" stroke-width="1.5"/>
+<line x1="200" y1="218" x2="170" y2="180" stroke="#334155" stroke-width="1.0"/>
+<line x1="200" y1="218" x2="230" y2="180" stroke="#334155" stroke-width="1.0"/>
+<line x1="180" y1="165" x2="220" y2="165" stroke="#334155" stroke-width="1.0"/>
+<line x1="155" y1="150" x2="185" y2="180" stroke="#334155" stroke-width="1.0" opacity="0.60"/>
+<line x1="215" y1="180" x2="245" y2="150" stroke="#334155" stroke-width="1.0" opacity="0.60"/>
+<line x1="190" y1="150" x2="210" y2="150" stroke="#334155" stroke-width="2.0"/>
+<line x1="195" y1="150" x2="195" y2="60" stroke="#334155" stroke-width="3.0"/>
+<line x1="205" y1="150" x2="205" y2="60" stroke="#334155" stroke-width="3.0"/>
+<line x1="200" y1="60" x2="200" y2="30" stroke="#FF6600" stroke-width="2.0"/>
+<circle cx="200" cy="28" r="4.0" fill="#FF6600"/>
+<rect x="194" y="53" width="12" height="7" fill="#1e293b" stroke="#FF6600" stroke-width="1"/>
+<path d="M 190 28 Q 175 40 160 53" stroke="#FF6600" stroke-width="2.0" fill="none" opacity="0.90"/>
+<path d="M 210 28 Q 225 40 240 53" stroke="#FF6600" stroke-width="2.0" fill="none" opacity="0.90"/>
+<path d="M 190 28 Q 163 50 135 73" stroke="#FF6600" stroke-width="1.5" fill="none" opacity="0.70"/>
+<path d="M 210 28 Q 237 50 265 73" stroke="#FF6600" stroke-width="1.5" fill="none" opacity="0.70"/>
+<path d="M 190 28 Q 150 59 110 90" stroke="#FF6600" stroke-width="1.0" fill="none" opacity="0.50"/>
+<path d="M 210 28 Q 250 59 290 90" stroke="#FF6600" stroke-width="1.0" fill="none" opacity="0.50"/>
+<path d="M 190 28 Q 138 67 85 106" stroke="#FF6600" stroke-width="1.0" fill="none" opacity="0.30"/>
+<path d="M 210 28 Q 262 67 315 106" stroke="#FF6600" stroke-width="1.0" fill="none" opacity="0.30"/>
+<ellipse cx="200" cy="28" rx="40" ry="16" fill="none" stroke="#FF6600" stroke-width="1" opacity="0.58"/>
+<ellipse cx="200" cy="28" rx="70" ry="28" fill="none" stroke="#FF6600" stroke-width="1" opacity="0.41"/>
+<ellipse cx="200" cy="28" rx="100" ry="40" fill="none" stroke="#FF6600" stroke-width="1" opacity="0.24"/>
+<ellipse cx="200" cy="28" rx="130" ry="52" fill="none" stroke="#FF6600" stroke-width="1" opacity="0.10"/>
+<text x="350" y="25" font-family="monospace" font-size="12" fill="#FF6600" font-weight="bold">LIVESTREAM CDN - ACTIVE</text>
+<text x="350" y="40" font-family="monospace" font-size="10" fill="#94a3b8">NDP 2024 NATIONAL DAY PARADE</text>
+<rect x="350" y="55" width="80" height="35" fill="#1e293b" stroke="#FF6600" stroke-width="1.5" rx="2"/>
+<text x="358" y="68" font-family="monospace" font-size="9" fill="#FF6600">INGEST</text>
+<text x="358" y="80" font-family="monospace" font-size="8" fill="#94a3b8">SG-INGEST-01</text>
+<circle cx="422" cy="72" r="4.0" fill="#FF6600"/>
+<rect x="480" y="55" width="80" height="35" fill="#1e293b" stroke="#FF6600" stroke-width="1" rx="2" opacity="0.90"/>
+<text x="488" y="68" font-family="monospace" font-size="9" fill="#FF6600">EDGE-SG</text>
+<circle cx="546" cy="72" r="4.0" fill="#FF6600" opacity="0.90"/>
+<line x1="430" y1="72" x2="480" y2="72" stroke="#FF6600" stroke-width="1.0" opacity="0.54"/>
+<rect x="580" y="55" width="80" height="35" fill="#1e293b" stroke="#94a3b8" stroke-width="1" rx="2" opacity="0.60"/>
+<text x="588" y="68" font-family="monospace" font-size="9" fill="#94a3b8">EDGE-MY</text>
+<circle cx="646" cy="72" r="4.0" fill="#94a3b8" opacity="0.60"/>
+<line x1="430" y1="72" x2="580" y2="72" stroke="#94a3b8" stroke-width="1.0" opacity="0.36"/>
+<rect x="680" y="55" width="80" height="35" fill="#1e293b" stroke="#94a3b8" stroke-width="1" rx="2" opacity="0.50"/>
+<text x="688" y="68" font-family="monospace" font-size="9" fill="#94a3b8">EDGE-AU</text>
+<circle cx="746" cy="72" r="4.0" fill="#94a3b8" opacity="0.50"/>
+<line x1="430" y1="72" x2="680" y2="72" stroke="#94a3b8" stroke-width="1.0" opacity="0.30"/>
+<rect x="480" y="115" width="80" height="35" fill="#1e293b" stroke="#94a3b8" stroke-width="1" rx="2" opacity="0.40"/>
+<text x="488" y="128" font-family="monospace" font-size="9" fill="#94a3b8">EDGE-US</text>
+<circle cx="546" cy="132" r="4.0" fill="#94a3b8" opacity="0.40"/>
+<line x1="430" y1="72" x2="480" y2="132" stroke="#94a3b8" stroke-width="1.0" opacity="0.24"/>
+<rect x="580" y="115" width="80" height="35" fill="#1e293b" stroke="#94a3b8" stroke-width="1" rx="2" opacity="0.50"/>
+<text x="588" y="128" font-family="monospace" font-size="9" fill="#94a3b8">EDGE-EU</text>
+<circle cx="646" cy="132" r="4.0" fill="#94a3b8" opacity="0.50"/>
+<line x1="430" y1="72" x2="580" y2="132" stroke="#94a3b8" stroke-width="1.0" opacity="0.30"/>
+<rect x="680" y="115" width="80" height="35" fill="#1e293b" stroke="#94a3b8" stroke-width="1" rx="2" opacity="0.60"/>
+<text x="688" y="128" font-family="monospace" font-size="9" fill="#94a3b8">EDGE-JP</text>
+<circle cx="746" cy="132" r="4.0" fill="#94a3b8" opacity="0.60"/>
+<line x1="430" y1="72" x2="680" y2="132" stroke="#94a3b8" stroke-width="1.0" opacity="0.36"/>
+<rect x="350" y="170" width="420" height="100" fill="#1e293b" stroke="#334155" stroke-width="1" rx="2"/>
+<text x="360" y="188" font-family="monospace" font-size="11" fill="#e2e8f0">LIVE VIEWERS</text>
+<text x="360" y="210" font-family="monospace" font-size="20" fill="#FF6600" font-weight="bold">2,847,391</text>
+<text x="360" y="232" font-family="monospace" font-size="9" fill="#94a3b8">PEAK BITRATE: 38.4 Gbps</text>
+<text x="360" y="248" font-family="monospace" font-size="9" fill="#94a3b8">LATENCY: 3.2s (edge)</text>
+<text x="360" y="263" font-family="monospace" font-size="9" fill="#22c55e">BUFFER: 0.0% (nominal)</text>
+<rect x="575" y="248" width="8" height="20" fill="#FF6600" rx="1" opacity="0.30"/>
+<rect x="586" y="233" width="8" height="35" fill="#FF6600" rx="1" opacity="0.34"/>
+<rect x="597" y="240" width="8" height="28" fill="#FF6600" rx="1" opacity="0.38"/>
+<rect x="608" y="226" width="8" height="42" fill="#FF6600" rx="1" opacity="0.42"/>
+<rect x="619" y="250" width="8" height="18" fill="#FF6600" rx="1" opacity="0.46"/>
+<rect x="630" y="230" width="8" height="38" fill="#FF6600" rx="1" opacity="0.50"/>
+<rect x="641" y="238" width="8" height="30" fill="#FF6600" rx="1" opacity="0.54"/>
+<rect x="652" y="223" width="8" height="45" fill="#FF6600" rx="1" opacity="0.58"/>
+<rect x="663" y="246" width="8" height="22" fill="#FF6600" rx="1" opacity="0.62"/>
+<rect x="674" y="232" width="8" height="36" fill="#FF6600" rx="1" opacity="0.66"/>
+<rect x="685" y="240" width="8" height="28" fill="#FF6600" rx="1" opacity="0.70"/>
+<rect x="696" y="228" width="8" height="40" fill="#FF6600" rx="1" opacity="0.74"/>
+<rect x="707" y="252" width="8" height="16" fill="#FF6600" rx="1" opacity="0.78"/>
+<rect x="718" y="234" width="8" height="34" fill="#FF6600" rx="1" opacity="0.82"/>
+<rect x="729" y="242" width="8" height="26" fill="#FF6600" rx="1" opacity="0.86"/>
+<rect x="10" y="266" width="236" height="22" fill="#0f172a" opacity="0.85"/>
+<text x="16" y="281" font-family="monospace" font-size="12" fill="#e2e8f0">ARC 1 CH 4 - BROADCAST TOWER</text>
+</svg>
