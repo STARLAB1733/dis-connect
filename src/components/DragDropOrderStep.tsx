@@ -165,7 +165,7 @@ function SortableItem({
   return (
     <div
       ref={setNodeRef}
-      style={{ transform: CSS.Transform.toString(transform), transition }}
+      style={{ transform: CSS.Transform.toString(transform), transition, touchAction: 'none' }}
       {...attributes}
       {...listeners}
       onClick={() => onTap(id)}

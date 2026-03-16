@@ -102,7 +102,7 @@ function SortableItem({
       {...attributes}
       {...listeners}
       onClick={onTap}
-      style={{ transform: CSS.Transform.toString(transform), transition }}
+      style={{ transform: CSS.Transform.toString(transform), transition, touchAction: 'none' }}
       className={`p-3 min-h-[48px] flex items-center border rounded shadow cursor-pointer text-[#e2e8f0] text-sm leading-snug transition-all ${
         isSelected
           ? 'bg-[#FF6600]/10 border-[#FF6600] ring-2 ring-[#FF6600]'
