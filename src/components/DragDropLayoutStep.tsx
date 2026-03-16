@@ -121,6 +121,12 @@ export default function DragDropLayoutStep({
   dropZones,
   onComplete,
 }: DragDropLayoutStepProps) {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMobile(window.innerWidth < 640 || window.matchMedia('(hover: none)').matches);
+  }, []);
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 8 },
@@ -215,9 +221,13 @@ export default function DragDropLayoutStep({
     }
   };
 
-  const hint = selectedId
-    ? 'Tap a zone to place it · tap palette to return it'
-    : 'Tap an item to select it · drag to place · all items must be assigned';
+  const hint = isMobile
+    ? selectedId
+      ? 'Tap a zone to place it · tap palette to return it'
+      : 'Hold and drag items to zones · or tap to select and place · all items must be assigned'
+    : selectedId
+      ? 'Tap a zone to place it · tap palette to return it'
+      : 'Tap an item to select it · drag to place · all items must be assigned';
 
   return (
     <div className="flex flex-col h-full">
