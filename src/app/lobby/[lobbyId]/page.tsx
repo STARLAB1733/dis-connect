@@ -16,6 +16,8 @@ import QRCode from 'react-qr-code';
 
 type Player = { uid: string; name: string };
 
+const MAX_PLAYERS = 3;
+
 export default function LobbyPage() {
   const { lobbyId } = useParams() as { lobbyId: string };
   const router = useRouter();
@@ -88,6 +90,7 @@ export default function LobbyPage() {
 
   const joinLobby = async () => {
     if (!name || !userUid) return;
+    if (players.length >= MAX_PLAYERS) return;
     await updateDoc(doc(db, 'lobbies', lobbyId), { players: arrayUnion({ uid: userUid, name }) });
   };
 
@@ -115,6 +118,7 @@ export default function LobbyPage() {
   };
 
   const isHost = players.length > 0 && players[0]?.uid === userUid;
+  const lobbyFull = !myPlayer && players.length >= MAX_PLAYERS;
 
   if (isStarting) {
     return (
@@ -188,8 +192,24 @@ export default function LobbyPage() {
         </div>
       )}
 
+      {/* Pre-game — lobby full message */}
+      {userUid && lobbyFull && !gameStarted && (
+        <div className="mt-8 text-center space-y-2 border border-[#334155] rounded-xl p-6">
+          <p className="text-[#FF6600] font-semibold uppercase tracking-widest text-sm">Lobby Full</p>
+          <p className="text-[#94a3b8] text-sm leading-relaxed">
+            This lobby is at maximum capacity (3 players). New players cannot join.
+          </p>
+          <button
+            onClick={() => router.push('/')}
+            className="mt-4 px-5 py-3 text-sm text-[#94a3b8] border border-[#334155] rounded-lg hover:border-[#FF6600] hover:text-[#FF6600] transition"
+          >
+            Back to Home
+          </button>
+        </div>
+      )}
+
       {/* Pre-game — join form for new players */}
-      {userUid && !myPlayer && !gameStarted && (
+      {userUid && !lobbyFull && !myPlayer && !gameStarted && (
         <div className="space-y-3 mb-6 sm:mb-12 mt-6">
           <input
             type="text"
@@ -212,7 +232,7 @@ export default function LobbyPage() {
         <div className="w-full mt-4">
           <div className="border-y border-[#334155] py-1 border-y-2">
             <h2 className="flex justify-center tracking-wider text-[#94a3b8]">
-              <span className="font-semibold">PLAYERS ({players.length})</span>
+              <span className="font-semibold">PLAYERS ({players.length}/{MAX_PLAYERS})</span>
             </h2>
           </div>
           <ul className="mt-2 space-y-2 text-center">
