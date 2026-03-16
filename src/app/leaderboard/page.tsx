@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 import { useEffect, useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { collection, getDocs, orderBy, query, limit } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { db, initAuth } from '@/lib/firebase';
 
 type IndividualEntry = { uid: string; name: string; teamName?: string; score: number; vocation: string };
 type TeamEntry = { teamName: string; totalScore: number; playerCount: number; avgScore: number };
@@ -20,6 +20,7 @@ function LeaderboardContent() {
   useEffect(() => {
     async function load() {
       try {
+        await initAuth();
         const [tSnap, iSnap] = await Promise.all([
           getDocs(query(collection(db, 'teams'), orderBy('groupScore', 'desc'), limit(20))),
           getDocs(query(collection(db, 'events', 'global', 'scores'), orderBy('score', 'desc'), limit(20))),
