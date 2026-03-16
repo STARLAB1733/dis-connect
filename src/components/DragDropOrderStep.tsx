@@ -36,6 +36,12 @@ function shuffleArray<T>(arr: T[]): T[] {
 }
 
 export default function DragDropOrderStep({ items, onComplete }: DragDropOrderStepProps) {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMobile(window.innerWidth < 640 || window.matchMedia('(hover: none)').matches);
+  }, []);
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 8 },
@@ -96,9 +102,13 @@ export default function DragDropOrderStep({ items, onComplete }: DragDropOrderSt
     <div className="flex flex-col h-full">
       {/* Tap hint */}
       <p className="text-[10px] sm:text-xs text-[#64748b] mb-2 text-center">
-        {selectedId
-          ? 'Now tap another item to swap positions'
-          : 'Tap an item to select it, then tap another to swap · or drag to reorder'}
+        {isMobile
+          ? selectedId
+            ? 'Tap another item to swap or drag to reorder'
+            : 'Hold and drag to reorder · or tap to select and swap'
+          : selectedId
+            ? 'Now tap another item to swap positions'
+            : 'Tap an item to select it, then tap another to swap · or drag to reorder'}
       </p>
 
       <DndContext
@@ -165,7 +175,7 @@ function SortableItem({
   return (
     <div
       ref={setNodeRef}
-      style={{ transform: CSS.Transform.toString(transform), transition }}
+      style={{ transform: CSS.Transform.toString(transform), transition, touchAction: 'none' }}
       {...attributes}
       {...listeners}
       onClick={() => onTap(id)}

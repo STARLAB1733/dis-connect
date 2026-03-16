@@ -102,7 +102,7 @@ function SortableItem({
       {...attributes}
       {...listeners}
       onClick={onTap}
-      style={{ transform: CSS.Transform.toString(transform), transition }}
+      style={{ transform: CSS.Transform.toString(transform), transition, touchAction: 'none' }}
       className={`p-3 min-h-[48px] flex items-center border rounded shadow cursor-pointer text-[#e2e8f0] text-sm leading-snug transition-all ${
         isSelected
           ? 'bg-[#FF6600]/10 border-[#FF6600] ring-2 ring-[#FF6600]'
@@ -121,6 +121,12 @@ export default function DragDropLayoutStep({
   dropZones,
   onComplete,
 }: DragDropLayoutStepProps) {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMobile(window.innerWidth < 640 || window.matchMedia('(hover: none)').matches);
+  }, []);
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 8 },
@@ -215,9 +221,13 @@ export default function DragDropLayoutStep({
     }
   };
 
-  const hint = selectedId
-    ? 'Tap a zone to place it · tap palette to return it'
-    : 'Tap an item to select it · drag to place · all items must be assigned';
+  const hint = isMobile
+    ? selectedId
+      ? 'Tap a zone to place it · tap palette to return it'
+      : 'Hold and drag items to zones · or tap to select and place · all items must be assigned'
+    : selectedId
+      ? 'Tap a zone to place it · tap palette to return it'
+      : 'Tap an item to select it · drag to place · all items must be assigned';
 
   return (
     <div className="flex flex-col h-full">
