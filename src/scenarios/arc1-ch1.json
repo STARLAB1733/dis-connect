@@ -5,20 +5,20 @@
   "image": "/chapters/arc1-ch1.svg",
   "arc": 0,
   "chapter": 0,
-  "storyContext": "Three weeks before NDP and your phone buzzes at 2am. The committee just approved a last-minute parade segment, and they want a companion app feature ready for 40,000 attendees. Your team lead forwards the message with one line: \"We ship this or we don't ship at all.\" The office lights are still on. Nobody's going home tonight.",
+  "storyContext": "2am. Phone buzzes. The NDP committee just approved a last-minute parade segment and wants a companion app feature for 40,000 people in three weeks. Your team lead's message: \"We ship this or we don't ship at all.\"",
   "subScenarios": {
     "software-engineer": {
       "type": "drag-drop",
       "variant": "order",
       "title": "Plan the Parade App Feature",
-      "instruction": "The NDP app needs a feature where spectators can point their phone at parade floats and see fun facts pop up on screen. Put these steps in the right order so the team can build it without breaking the existing app.",
-      "hint": "What happens if two teams build the same feature at the same time without talking? When should you test the hardest part?",
+      "instruction": "Spectators will point their phones at parade floats to see fun facts. Arrange the build steps in the right order.",
+      "hint": "What if two teams build the same thing without coordinating? When should you test the riskiest part?",
       "items": [
-        { "id": "api-spec", "label": "Write a shared rulebook so different parts of the team can build at the same time without conflicting with each other" },
-        { "id": "ar-prototype", "label": "Build a quick test to see if the phone camera can actually recognise the parade floats" },
-        { "id": "backend-endpoints", "label": "Set up the servers that send float information to people's phones" },
-        { "id": "integration-test", "label": "Test the new feature inside the existing NDP app to make sure nothing breaks" },
-        { "id": "load-test", "label": "Simulate 40,000 people using the app at once to see if the servers can handle it" }
+        { "id": "api-spec", "label": "Write a shared plan so teams can build different parts without clashing" },
+        { "id": "ar-prototype", "label": "Quick test: can the phone camera actually recognise the floats?" },
+        { "id": "backend-endpoints", "label": "Set up the system that sends float info to phones" },
+        { "id": "integration-test", "label": "Test the new feature inside the existing NDP app" },
+        { "id": "load-test", "label": "Simulate 40,000 people using it at once" }
       ],
       "correctOrder": ["api-spec", "ar-prototype", "backend-endpoints", "integration-test", "load-test"],
       "axisImpact": {
@@ -29,8 +29,8 @@
     "data-scientist": {
       "type": "numeric-input",
       "title": "Forecast App Downloads",
-      "instruction": "Marketing needs to know how many people will download the app in the final week before NDP to book enough server space. The graph shows weekly downloads over the past four weeks. Look at how fast the numbers are climbing and estimate where they land next.",
-      "hint": "Downloads are climbing as the event gets closer. How fast is that climb accelerating?",
+      "instruction": "Marketing needs next week's download estimate to prepare capacity. The graph shows the last four weeks. Where does it land next?",
+      "hint": "The climb is accelerating — each week jumps more than the last. By how much is that jump growing?",
       "chartData": [8, 15, 28, 52],
       "expected": 95,
       "tolerance": 25,
@@ -42,27 +42,27 @@
     "cloud-engineer": {
       "type": "binary-choice",
       "title": "Pick a Hosting Plan",
-      "instruction": "The NDP app needs servers that can handle 40,000 people on the day but won't cost a fortune to run the other 364 days when nobody is using it. Which approach do you go with?",
-      "hint": "Your budget has to cover 364 quiet days and one very loud one. What matters most: how much it costs to run, upfront reliability, or flexibility?",
+      "instruction": "The app must handle 40,000 people on NDP day without costing a fortune the other 364 days. Which approach?",
+      "hint": "One loud day, 364 quiet ones. Think about what matters most — saving money, guaranteed reliability, or raw speed.",
       "options": [
         {
           "id": "serverless",
-          "label": "These servers cost nothing when idle and scale up automatically on NDP day. The catch is the very first users each hour may wait an extra 2 seconds while the system wakes up.",
+          "label": "Costs nothing when idle, scales up automatically on the day. First users each hour may wait 2 extra seconds while it wakes up.",
           "axisImpact": { "Cost-Conscious": 1, "Innovation": 0.5, "Speed": -0.3 }
         },
         {
           "id": "reserved-burst",
-          "label": "Book a fixed number of servers and add extra capacity just for NDP day. Performance is reliable but you pay for those servers even when nobody is using them.",
+          "label": "Book a fixed set of machines plus extra for NDP day. Reliable, but you pay even when idle.",
           "axisImpact": { "Stability": 1, "Performance-First": 0.5, "Cost-Conscious": -0.5 }
         },
         {
           "id": "cdn-edge",
-          "label": "Spread the app across servers all over Singapore so it loads instantly for everyone. Works well for images and text. The float scanner feature may not update as quickly though.",
+          "label": "Spread the app across locations all over Singapore for instant loading. Great for content, but the float scanner may lag.",
           "axisImpact": { "Speed": 1, "Performance-First": 0.5, "Innovation": -0.3 }
         },
         {
           "id": "hybrid-partner",
-          "label": "Partner with a local provider that already hosts government services. Data stays in Singapore and reliability is guaranteed. You have less freedom to customise things though.",
+          "label": "Partner with a local provider already running government services. Reliable and local, but less flexibility.",
           "axisImpact": { "Collaboration": 1, "Stability": 0.5, "Autonomy": -0.5 }
         }
       ]

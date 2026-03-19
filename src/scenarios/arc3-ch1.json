@@ -5,20 +5,20 @@
   "image": "/chapters/arc3-ch1.svg",
   "arc": 2,
   "chapter": 0,
-  "storyContext": "It starts with a flicker. Power readings from substations across Singapore spike and dip in a pattern that does not match any known equipment fault. Your team at DIS pulls up the grid monitoring feed and the room goes quiet. The fluctuations are too coordinated to be coincidence. Someone is inside the control systems. You have maybe hours before they escalate. The question is: how far have they already gone?",
+  "storyContext": "It starts with a flicker. Power readings from substations across Singapore spike and dip in a pattern that doesn't match any known fault. Your team pulls up the grid monitoring feed and the room goes quiet. Too coordinated to be coincidence. Someone is inside the control systems.",
   "subScenarios": {
     "software-engineer": {
       "type": "drag-drop",
       "variant": "order",
       "title": "Set Up the Early Warning System",
-      "instruction": "You need to deploy monitoring sensors across the power grid's control systems to catch the intrusion pattern before it escalates. Put the deployment steps in the right order.",
-      "hint": "You can't spot anomalies without knowing what normal looks like. Set a baseline before you start looking for trouble.",
+      "instruction": "Deploy monitoring sensors across the power grid's control systems to catch the intrusion before it escalates. Arrange the steps.",
+      "hint": "You can't spot unusual behaviour without knowing what normal looks like. Establish a baseline first, then set your tripwires.",
       "items": [
-        { "id": "map-systems", "label": "Map all control system devices and how they're connected to each other" },
-        { "id": "deploy-sensors", "label": "Install lightweight monitoring sensors on each control system device" },
-        { "id": "baseline-normal", "label": "Record 2 hours of normal behaviour to understand what a healthy system looks like" },
-        { "id": "set-thresholds", "label": "Set alert thresholds based on the baseline so anything unusual triggers a warning" },
-        { "id": "alert-pipeline", "label": "Connect the alerts to the security team so they're notified the moment something unusual appears" }
+        { "id": "map-systems", "label": "Map all control system devices and how they connect to each other" },
+        { "id": "deploy-sensors", "label": "Install monitoring sensors on each control system device" },
+        { "id": "baseline-normal", "label": "Record 2 hours of normal behaviour as a baseline" },
+        { "id": "set-thresholds", "label": "Set alert levels based on the baseline — anything unusual triggers a warning" },
+        { "id": "alert-pipeline", "label": "Connect alerts to the security team for instant notification" }
       ],
       "correctOrder": ["map-systems", "deploy-sensors", "baseline-normal", "set-thresholds", "alert-pipeline"],
       "axisImpact": { "Precision": 1, "Stability": 0.5 }
@@ -26,8 +26,8 @@
     "data-scientist": {
       "type": "numeric-input",
       "title": "Estimate How Far It Has Spread",
-      "instruction": "The intrusion may have been active for days. The graph shows what percentage of devices were flagging unusual activity across four monitoring windows. If the trend continues, how many of the 200 control system devices may already be compromised?",
-      "hint": "The percentage of affected devices is climbing. Project the next value in the trend, then apply that percentage to the 200 total devices.",
+      "instruction": "The intrusion may have been active for days. The graph shows the percentage of devices flagging unusual activity across four monitoring windows. If the trend continues, how many of the 200 control devices may already be compromised?",
+      "hint": "The percentage is climbing. Project the next value in the trend, then apply that percentage to the 200 total devices.",
       "chartData": [2, 5, 12, 22],
       "expected": 70,
       "tolerance": 20,
@@ -36,27 +36,27 @@
     "cloud-engineer": {
       "type": "binary-choice",
       "title": "Deploy the Detection Toolkit",
-      "instruction": "The sensor readings show a pattern unlike anything in the records. Your team needs to deploy the right detection tools to classify this threat before leadership decides how to respond. What approach do you deploy?",
-      "hint": "Novel threats are tricky for automated tools trained only on known patterns. More methods combined tend to give more reliable answers than one fast method alone.",
+      "instruction": "The readings don't match anything in the records. Your team needs the right detection tools to classify this threat before leadership responds. What approach?",
+      "hint": "New threats are tricky for systems trained only on known patterns. Multiple methods combined tend to be more reliable than one fast method alone.",
       "options": [
         {
           "id": "ml-classify",
-          "label": "Run the data through the automated threat detection system. Get an answer in 5 minutes but the system was only trained on known attack patterns, and this one looks new.",
+          "label": "Run it through the automated threat detector. Answer in 5 minutes, but it was only trained on known attack patterns and this one looks new.",
           "axisImpact": { "Speed": 1, "Innovation": 0.5, "Precision": -0.3 }
         },
         {
           "id": "manual-analysis",
-          "label": "Manually compare the pattern against historical incidents and threat intelligence. Takes the full 30 minutes but produces a high-confidence answer.",
+          "label": "Manually compare the pattern against past incidents and intelligence reports. Takes 30 minutes but produces a high-confidence answer.",
           "axisImpact": { "Precision": 1, "Stability": 0.5, "Speed": -0.5 }
         },
         {
           "id": "ensemble-method",
-          "label": "Run three different detection methods and go with the majority verdict. Slower than one method alone but much more reliable against something new.",
+          "label": "Run three different detection methods and go with the majority verdict. Slower than one alone, but much more reliable against something new.",
           "axisImpact": { "Precision": 0.8, "Innovation": 0.5, "Speed": -0.3 }
         },
         {
           "id": "ally-intel",
-          "label": "Share the unusual pattern with partner cybersecurity teams and ask if they have seen it before. Could get an answer in 10 minutes but you would be showing your hand to external parties.",
+          "label": "Share the pattern with partner cybersecurity teams. Could get an answer in 10 minutes, but you'd be showing your hand to external parties.",
           "axisImpact": { "Collaboration": 1, "Speed": 0.5, "Autonomy": -0.8 }
         }
       ]

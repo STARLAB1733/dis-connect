@@ -5,20 +5,20 @@
   "image": "/chapters/arc1-ch3.svg",
   "arc": 0,
   "chapter": 2,
-  "storyContext": "It's 1:30pm on NDP afternoon. You're half awake at your desk when the Slack channel explodes. A contractor ran a cleanup script against the wrong database, and the production data is gone. The last backup is 6 hours old. Gates open at 4:30pm. Three hours to bring it all back, with 40,000 people expecting a working app when they walk in.",
+  "storyContext": "1:30pm, NDP afternoon. Someone ran a cleanup on the wrong system and all the live data is gone. Last backup is 6 hours old. Gates open at 4:30pm. Three hours to bring it all back.",
   "subScenarios": {
     "software-engineer": {
       "type": "drag-drop",
       "variant": "order",
-      "title": "Rescue the Database",
-      "instruction": "The live database was just wiped. Restore it before 40,000 people walk through the gates. One wrong step and data is gone for good. Put the rescue steps in the right order.",
-      "hint": "First, stop anything else from being destroyed. Then work out what was lost. Then fix it. Only switch things back live once you are sure.",
+      "title": "Rescue the Data",
+      "instruction": "The live data was just wiped. Restore it before gates open — one wrong step and it's gone for good.",
+      "hint": "Stop the bleeding first. Figure out what's lost. Fix it carefully. Only go live when you're sure everything checks out.",
       "items": [
-        { "id": "stop-writes", "label": "Immediately stop all new data from being written so nothing else gets corrupted" },
-        { "id": "assess-damage", "label": "Compare the current state against the backup to see exactly what was lost" },
-        { "id": "restore-backup", "label": "Restore from the 6-hour-old backup into a test environment first, not live" },
-        { "id": "replay-logs", "label": "Replay the record of actions from the last 6 hours to recover the most recent changes" },
-        { "id": "verify-switch", "label": "Run checks to confirm everything looks right, then switch the live app over to the restored database" }
+        { "id": "stop-writes", "label": "Stop all new activity so nothing else gets corrupted" },
+        { "id": "assess-damage", "label": "Compare what's left against the backup to see what's missing" },
+        { "id": "restore-backup", "label": "Restore the backup into a safe test area — not live" },
+        { "id": "replay-logs", "label": "Replay the last 6 hours of recorded activity to recover recent changes" },
+        { "id": "verify-switch", "label": "Verify everything, then switch the live app over" }
       ],
       "correctOrder": ["stop-writes", "assess-damage", "restore-backup", "replay-logs", "verify-switch"],
       "axisImpact": {
@@ -28,28 +28,28 @@
     },
     "data-scientist": {
       "type": "binary-choice",
-      "title": "Recover the Lost Data",
-      "instruction": "The wiped database included 6 hours of user activity that marketing needs for their NDP social media campaign. The raw records still exist in a separate system but they are messy and unprocessed. What is your plan?",
-      "hint": "Something useful delivered in time beats something perfect delivered too late. But think about whether the data is even still relevant.",
+      "title": "Recover the Missing Info",
+      "instruction": "The wipe erased 6 hours of user activity that marketing needs for their campaign. Raw records exist in another system but they're messy. What's your plan?",
+      "hint": "Good enough on time beats perfect too late. But ask yourself — is the lost data even the most valuable data right now?",
       "options": [
         {
           "id": "rebuild-full",
-          "label": "Reconstruct all the missing data from raw records. Takes 2 hours but marketing gets complete and accurate numbers for their campaign.",
+          "label": "Rebuild everything from raw records. Takes 2 hours, but marketing gets complete numbers.",
           "axisImpact": { "Precision": 1, "Stability": 0.5, "Speed": -0.5 }
         },
         {
           "id": "estimate-stats",
-          "label": "Use a sample of the records to estimate the missing numbers in 30 minutes. Accuracy drops to about 85% but marketing gets something useful in time.",
+          "label": "Use a sample to estimate the missing numbers in 30 minutes. About 85% accurate.",
           "axisImpact": { "Speed": 1, "Innovation": 0.5, "Precision": -0.3 }
         },
         {
           "id": "focus-forward",
-          "label": "Skip recovery and set up better tracking for NDP day itself. The actual show data will be far more valuable than rehearsal week numbers anyway.",
+          "label": "Skip it. Set up better tracking for the actual show — that data matters more anyway.",
           "axisImpact": { "Speed": 0.8, "Innovation": 0.8, "Precision": -0.5 }
         },
         {
           "id": "crowdsource-data",
-          "label": "Ask marketing to match their social media numbers against whatever data you can salvage. Not perfect, but fills the gaps by working together.",
+          "label": "Ask marketing to cross-check their social media numbers against whatever you salvage.",
           "axisImpact": { "Collaboration": 1, "Innovation": 0.5, "Autonomy": -0.3 }
         }
       ]
@@ -57,16 +57,16 @@
     "cloud-engineer": {
       "type": "drag-drop",
       "variant": "layout",
-      "title": "Rebuild the Infrastructure",
-      "instruction": "The whole system needs to come back online. Drag each part to the right slot. Slot 1 is the first thing to restore. Slots 2 and 3 can run at the same time. Slot 4 is your final check before going live.",
-      "hint": "The thing everything else depends on must come back first. Think about what the app absolutely cannot work without.",
+      "title": "Rebuild the System",
+      "instruction": "The whole system needs to come back online. Slot 1 comes first. Slots 2 and 3 run together. Slot 4 is your final check.",
+      "hint": "The thing everything else depends on must come back first. What can't the app work without at all?",
       "items": [
-        { "id": "load-balancer", "label": "Traffic Director (spreads visitors across servers)" },
-        { "id": "db-primary", "label": "Main Database (stores all app data)" },
-        { "id": "db-replica", "label": "Backup Database (handles lookups when the main database is busy)" },
-        { "id": "cache-layer", "label": "Speed Cache (remembers common answers so the main database is not swamped)" },
-        { "id": "api-servers", "label": "App Servers (handle requests from phones)" },
-        { "id": "monitoring", "label": "Health Monitor (watches everything for problems)" }
+        { "id": "load-balancer", "label": "Traffic Director — spreads visitors across machines" },
+        { "id": "db-primary", "label": "Main Storage — holds all app data" },
+        { "id": "db-replica", "label": "Backup Storage — handles lookups when main is busy" },
+        { "id": "cache-layer", "label": "Speed Memory — remembers common answers to reduce load" },
+        { "id": "api-servers", "label": "App Workers — handle requests from phones" },
+        { "id": "monitoring", "label": "Health Monitor — watches everything for problems" }
       ],
       "dropZones": [
         { "id": "zone-1", "label": "Restore First" },

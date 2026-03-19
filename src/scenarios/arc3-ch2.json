@@ -5,32 +5,32 @@
   "image": "/chapters/arc3-ch2.svg",
   "arc": 2,
   "chapter": 1,
-  "storyContext": "The lights went out across Jurong and Tuas at 3:14am. Within minutes, Tampines and Bedok followed. The attacker now controls 12 substations and your grid operations centre is in full crisis mode. Red phones are ringing. The Minister wants a situation report in 30 minutes. Every second the attacker stays connected, they can reach more of the grid.",
+  "storyContext": "Lights went out across Jurong and Tuas at 3:14am. Tampines and Bedok followed within minutes. The attacker now controls 12 substations. Red phones ringing. The Minister wants a situation report in 30 minutes. Every second they stay connected, they can reach more of the grid.",
   "subScenarios": {
     "software-engineer": {
       "type": "binary-choice",
-      "title": "Stop the Attacker Spreading",
-      "instruction": "The attacker controls 12 power substations and is moving to the next ones. You can see their next target. How do you stop the spread?",
-      "hint": "When a threat is actively spreading, stopping it quickly is more important than understanding it perfectly. Speed of containment beats elegance.",
+      "title": "Stop the Spread",
+      "instruction": "The attacker controls 12 substations and is moving to the next ones. You can see their target. How do you stop the spread?",
+      "hint": "When a threat is actively spreading, stopping it fast matters more than understanding it perfectly. Speed of containment beats elegance.",
       "options": [
         {
           "id": "network-isolation",
-          "label": "Cut all network connections to the 12 compromised substations immediately. They switch to manual control. Stops the spread instantly but those stations can't be managed remotely until they're cleaned.",
+          "label": "Cut all connections to the 12 compromised stations immediately. They switch to manual control. Stops the spread but those stations can't be managed remotely until cleaned.",
           "axisImpact": { "Stability": 1, "Speed": 0.8, "Autonomy": -0.3 }
         },
         {
           "id": "honeypot-divert",
-          "label": "Set up decoy systems on the attacker's likely next targets. Let them think they've succeeded while you watch their moves. Risky if they don't take the bait.",
+          "label": "Set up decoy systems on the attacker's likely next targets. Let them think they've succeeded while you watch. Risky if they don't take the bait.",
           "axisImpact": { "Innovation": 1, "Precision": 0.5, "Stability": -0.5 }
         },
         {
           "id": "credential-rotation",
-          "label": "Emergency reset of every password across every device in the grid. If they're using stolen login details, this locks them out. Changing passwords on live critical infrastructure mid-incident is risky though.",
+          "label": "Emergency reset of every password across the entire grid. Locks them out if they're using stolen logins — but changing passwords on live critical systems mid-crisis is risky.",
           "axisImpact": { "Precision": 1, "Stability": 0.3, "Speed": -0.3 }
         },
         {
           "id": "deceptive-traffic",
-          "label": "Flood the network with fake signals to confuse the attacker's automated tools. Buys time but makes it harder for your own team to see what's real.",
+          "label": "Flood the network with fake signals to confuse the attacker's tools. Buys time, but makes it harder for your own team to see what's real.",
           "axisImpact": { "Innovation": 0.8, "Speed": 0.5, "Precision": -0.5 }
         }
       ]
@@ -39,14 +39,14 @@
       "type": "drag-drop",
       "variant": "order",
       "title": "Reconstruct How They Got In",
-      "instruction": "Leadership needs to know how the attacker entered and what they've touched. You need to reconstruct the intrusion timeline from logs. Put these steps in order.",
-      "hint": "Arrange everything chronologically first. Then look backward from the attack moment to find where it started.",
+      "instruction": "Leadership needs to know how the attacker entered and what they've touched. Reconstruct the intrusion timeline. Arrange the steps.",
+      "hint": "Gather all the evidence first, then arrange it chronologically. Work backward from the attack moment to find where it started.",
       "items": [
-        { "id": "collect-logs", "label": "Gather logs from every network device, login system, and power station controller" },
-        { "id": "timeline-build", "label": "Arrange all events in order using timestamps to build a chronological picture" },
-        { "id": "find-patient-zero", "label": "Find the very first infected device by looking for the earliest unusual event" },
-        { "id": "map-lateral", "label": "Trace how the attacker moved from device to device using login and connection records" },
-        { "id": "ioc-extract", "label": "Extract the attacker's digital fingerprints so you can block them from coming back" }
+        { "id": "collect-logs", "label": "Gather logs from every network device, login system, and station controller" },
+        { "id": "timeline-build", "label": "Arrange all events chronologically using timestamps" },
+        { "id": "find-patient-zero", "label": "Find the very first infected device — the earliest unusual event" },
+        { "id": "map-lateral", "label": "Trace how the attacker moved from device to device" },
+        { "id": "ioc-extract", "label": "Extract the attacker's digital fingerprints to block them from returning" }
       ],
       "correctOrder": ["collect-logs", "timeline-build", "find-patient-zero", "map-lateral", "ioc-extract"],
       "axisImpact": { "Precision": 1, "Speed": 0.5 }
@@ -55,15 +55,15 @@
       "type": "drag-drop",
       "variant": "layout",
       "title": "Isolate the Network Zones",
-      "instruction": "You need to split the power grid's network into isolated sections to stop the attacker jumping between them. Drag each part of the network to the right isolation level. Zone 1 is fully cut off. Zones 2 and 3 are partially restricted. Zone 4 continues normally.",
-      "hint": "The most dangerous zones need the most restrictions. The further from the threat, the more normal operations can continue.",
+      "instruction": "Split the grid's network into isolated sections to stop the attacker jumping between them. Zone 1: fully cut off. Zones 2-3: partially restricted. Zone 4: continues normally.",
+      "hint": "The most dangerous zones get the most restrictions. The further from the threat, the more normal operations can continue.",
       "items": [
-        { "id": "compromised-substations", "label": "The 12 Compromised Stations (attacker is in control)" },
-        { "id": "adjacent-substations", "label": "Neighbouring Stations (at risk of being targeted next)" },
-        { "id": "control-centre", "label": "Central Control Room (where commanders manage the grid)" },
-        { "id": "clean-substations", "label": "Confirmed Safe Stations (verified clean)" },
-        { "id": "corporate-network", "label": "Office IT Network (admin and support systems)" },
-        { "id": "external-vendors", "label": "Contractor Remote Access (external vendors with maintenance access)" }
+        { "id": "compromised-substations", "label": "The 12 Compromised Stations — attacker is in control" },
+        { "id": "adjacent-substations", "label": "Neighbouring Stations — at risk of being targeted next" },
+        { "id": "control-centre", "label": "Central Control Room — where commanders manage the grid" },
+        { "id": "clean-substations", "label": "Confirmed Safe Stations — verified clean" },
+        { "id": "corporate-network", "label": "Office IT Network — admin and support systems" },
+        { "id": "external-vendors", "label": "Contractor Remote Access — external vendors with maintenance access" }
       ],
       "dropZones": [
         { "id": "zone-1", "label": "Fully Isolated" },
