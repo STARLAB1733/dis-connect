@@ -230,11 +230,11 @@ The team is building and operating a companion app for 40,000 NDP 2026 attendees
 **Software Engineer — "Plan the Parade App Feature" (drag-drop order)**
 
 Correct sequence:
-1. Write a shared rulebook so different parts of the team can build at the same time without conflicting
-2. Build a quick test to see if the phone camera can recognise the parade floats
-3. Set up the servers that send float information to phones
-4. Test the new feature inside the existing NDP app to make sure nothing breaks
-5. Simulate 40,000 people using the app at once to see if the servers can handle it
+1. Write a shared plan so teams can build different parts without clashing
+2. Quick test: can the phone camera actually recognise the floats?
+3. Set up the system that sends float info to phones
+4. Test the new feature inside the existing NDP app
+5. Simulate 40,000 people using it at once
 
 **Why:** The API specification comes first so parallel development doesn't create conflicts. The AR prototype (camera recognition) is the riskiest unknown and must be proven before investing in backend work. Integration testing happens before load testing — you test correctness before testing scale.
 
@@ -297,11 +297,11 @@ Axes awarded: Performance-First +1, Cost-Conscious +0.5
 **Cloud Engineer — "Investigate the Infrastructure Failure" (drag-drop order)**
 
 Correct sequence:
-1. Pull up the live dashboard to see which parts of the system are under pressure
-2. Look through the error logs from the last 10 minutes to spot repeating patterns
-3. Match the spike timing to specific parts of the app to pinpoint where things are breaking
-4. Follow individual slow requests through the system to see exactly where time is being lost
-5. Write up the findings with charts so the rest of the team can act on them
+1. Pull up the live dashboard — what's under pressure?
+2. Check error messages from the last 10 minutes for patterns
+3. Match the spike timing to specific parts of the app
+4. Follow individual slow requests to see where time is lost
+5. Write up findings so the team can act
 
 **Why:** Start with the broadest view (dashboard) before narrowing to logs, then correlate the spike timing to isolate the component, then trace individual requests for root-cause depth. Report last — you document after you understand.
 
@@ -314,11 +314,11 @@ Axes awarded: Precision +1, Speed +0.5
 **Software Engineer — "Rescue the Database" (drag-drop order)**
 
 Correct sequence:
-1. Immediately stop all new data from being written so nothing else gets corrupted
-2. Compare the current state against the backup to see exactly what was lost
-3. Restore from the 6-hour-old backup into a test environment first, not live
-4. Replay the record of actions from the last 6 hours to recover the most recent changes
-5. Run checks to confirm everything looks right, then switch the live app over to the restored database
+1. Stop all new activity so nothing else gets corrupted
+2. Compare what's left against the backup to see what's missing
+3. Restore the backup into a safe test area — not live
+4. Replay the last 6 hours of recorded activity to recover recent changes
+5. Verify everything, then switch the live app over
 
 **Why:** Stopping writes first is critical — any new write while the database is in an unknown state could compound the damage. Damage assessment before restoration prevents restoring to the wrong baseline. The backup goes to a test environment (never live) to validate before any cutover.
 
@@ -342,12 +342,12 @@ Axes awarded: Precision +1, Stability +0.8
 **Cloud Engineer — "Rebuild the Infrastructure" (drag-drop layout)**
 
 Correct zone assignment:
-- **Slot 1 (Restore First):** Main Database — everything else depends on it
-- **Slot 2 (Parallel Track A):** App Servers — can spin up once the database is available
-- **Slot 3 (Parallel Track B):** Speed Cache — parallel to app servers, populates from database
+- **Slot 1 (Restore First):** Main Storage — everything else depends on it
+- **Slot 2 (Parallel Track A):** App Workers — can spin up once the database is available
+- **Slot 3 (Parallel Track B):** Speed Memory — parallel to app workers, populates from storage
 - **Slot 4 (Final Verification):** Health Monitor — verify system health before going live
 
-Items that are distractors (Load Balancer, Backup Database): these belong in a full production setup but are not in the scored correct-order list; they can be placed anywhere.
+Items that are distractors (Traffic Director, Backup Storage): these belong in a full production setup but are not in the scored correct-order list; they can be placed anywhere.
 
 **Why:** The database is the foundation — nothing works without data. App servers and cache can restore in parallel once the database is confirmed healthy. The health monitor verifies the full stack before accepting live traffic.
 
@@ -384,11 +384,11 @@ Axes awarded: Precision +1, Speed +0.5
 **Cloud Engineer — "Reroute the Traffic" (drag-drop order)**
 
 Correct sequence:
-1. Check that all backup servers in other regions are healthy and ready
-2. Load the backup servers with the latest video so viewers don't get a blank screen
-3. Update the internet's address book to point traffic to multiple regions
-4. Move 30% of traffic to backup servers first as a test run
-5. Once confirmed stable, spread traffic evenly across all healthy servers
+1. Check that backup systems are healthy and ready
+2. Load the latest video content onto backups
+3. Update routing so traffic can reach multiple locations
+4. Move 30% of traffic to backups as a test
+5. Once stable, spread traffic evenly across everything
 
 **Why:** You must confirm backup servers are healthy before sending traffic. Pre-warming (loading them with video content) prevents black screens when DNS routes viewers to them. The gradual 30% test run validates stability before committing the full shift.
 
@@ -412,7 +412,7 @@ Correct zone assignment:
 - **Slot 3 (Right Panel):** Unit List and Readiness — reference panel
 - **Slot 4 (Status Bar):** Radio Network Status — lightweight status info at a glance
 
-Items that are distractors: Alert Feed, Weather Overlay — these are not in the scored list but can be placed in remaining slots.
+Items that are distractors: Live Alert Feed, Weather Conditions — these are not in the scored list but can be placed in remaining slots.
 
 **Why:** The live map is what commanders scan every few seconds during an exercise — it gets the most screen real estate. Supply and unit readiness are important reference data shown in side panels. Comms status is a lightweight indicator suited to a status bar.
 
@@ -436,11 +436,11 @@ Axes awarded: Innovation +1, Precision +0.5
 **Cloud Engineer — "Set Up the Field Network" (drag-drop order)**
 
 Correct sequence:
-1. Walk the training ground to find areas with no signal and note any obstacles
-2. Set up portable network relay nodes at key positions across the area
-3. Configure a satellite uplink as a backup for when mobile signal drops completely
-4. Test data speeds from the furthest unit position back to the command post
-5. Set up automatic switching so devices seamlessly jump to the best available network
+1. Walk the training ground to find dead zones and obstacles
+2. Set up portable relay nodes at key positions across the area
+3. Configure a satellite link as backup for when mobile drops completely
+4. Test data speeds from the furthest position back to the command post
+5. Set up automatic switching so devices jump to the best available network
 
 **Why:** You must survey the terrain before you can place relay nodes intelligently. Satellite backup is configured next because it needs to be ready before testing proves the primary network insufficient. Testing validates the deployment before failover automation is configured — no point automating a system that hasn't been verified.
 
@@ -477,11 +477,11 @@ Axes awarded: Precision +1, Cost-Conscious +0.5
 **Cloud Engineer — "Run the Stress Test" (drag-drop order)**
 
 Correct sequence:
-1. Record normal performance with 100 simulated users as a starting reference
-2. Gradually increase to 500 users and note where things start getting slow
-3. Push beyond 500 users to find the exact moment the system breaks
-4. Check server load, memory, and network at the breaking point to find the root cause
-5. Apply the fix and run the entire test again from scratch to confirm the new limit
+1. Record normal performance with 100 simulated users as a baseline
+2. Gradually increase to 500 users — note where things slow down
+3. Push past 500 to find the exact moment it breaks and how
+4. Check machine load, memory, and network at the breaking point
+5. Apply the fix, then run the full test again from scratch
 
 **Why:** You need a baseline before load testing — you can't spot degradation without a normal reference. Incremental ramp-up locates the start of degradation before finding the break point. Profiling at the break point identifies *why* it failed. The full re-test after fixing confirms the fix actually works at scale.
 
@@ -494,11 +494,11 @@ Axes awarded: Precision +1, Stability +0.5
 **Software Engineer — "Track Down the Stale Data" (drag-drop order)**
 
 Correct sequence:
-1. Confirm that GPS devices in the field are actually sending fresh updates
-2. Check if updates are piling up somewhere between the field and the server
-3. Check if the system is showing old saved answers instead of fetching fresh ones
-4. Verify that the live connection between servers and commander screens is actually pushing updates
-5. Deploy the fix and confirm fresh data starts flowing to screens
+1. Confirm field devices are actually sending fresh updates
+2. Check if updates are piling up somewhere between field and command
+3. Check if the system is showing old saved answers instead of fresh ones
+4. Verify the live connection is actually pushing updates to screens
+5. Deploy the fix and confirm fresh data flows to commander screens
 
 **Why:** Start at the data source (GPS devices), then trace the pipeline forward: field → server pipeline → server cache → websocket push to screens. This end-to-end trace isolates exactly where staleness enters. Deploying the fix is always the last step, after diagnosis.
 
@@ -522,12 +522,12 @@ Axes awarded: Speed +1, Precision +0.5
 **Cloud Engineer — "Rebuild the Data Pipeline" (drag-drop layout)**
 
 Correct zone assignment:
-- **Stage 1 (Data Arrives):** Field Device Radio Hub (MQTT Broker)
-- **Stage 2 (Processing A):** Live Data Sorter (Stream Processor)
-- **Stage 3 (Processing B):** Old Data Cleaner (Cache Invalidator)
-- **Stage 4 (Delivered to Screens):** Live Update Relay (WebSocket Gateway)
+- **Stage 1 (Data Arrives):** Field Receiver — collects all incoming data from field devices
+- **Stage 2 (Processing A):** Live Sorter — processes and organises incoming updates
+- **Stage 3 (Processing B):** Old Data Cleaner — marks stale data so fresh data replaces it
+- **Stage 4 (Delivered to Screens):** Live Relay — pushes fresh data to commander screens
 
-Items that are distractors: Failed Message Store (Dead-Letter Queue), System Health Watcher — these are important in production but are not part of the scored pipeline sequence.
+Items that are distractors: Failed Message Store, System Watcher — these are important in production but are not part of the scored pipeline sequence.
 
 **Why:** Data flows: field devices → message broker → stream processing → cache invalidation → websocket push to screens. Cache invalidation happens *before* the data reaches screens to ensure commanders never see stale cached data.
 
@@ -553,11 +553,11 @@ Axes awarded: Speed +1, Stability +0.5
 **Data Engineer — "Calculate Unit Readiness Scores" (drag-drop order)**
 
 Correct sequence:
-1. Clean the raw data by removing sensor errors and duplicate entries
-2. Agree with exercise planners on what readiness actually means and how to measure it
+1. Clean the raw data — remove errors and duplicate entries
+2. Agree with exercise planners on what 'readiness' means and how to measure it
 3. Calculate a readiness score for each unit using the agreed definition
-4. Compare scores against what human observers reported to catch any mistakes
-5. Show results to command with charts and an honest note on confidence levels
+4. Compare scores against what human observers reported to catch mistakes
+5. Present results to command with an honest note on confidence levels
 
 **Why:** Data cleaning must precede any analysis — garbage in, garbage out. Defining the metric *before* calculating it prevents the analyst from reverse-engineering a definition to fit a result. Cross-validation against human observer reports catches systematic errors before they reach the general. Presenting with confidence levels is intellectual honesty in data science.
 
@@ -587,11 +587,11 @@ The team responds to a sophisticated cyber intrusion into Singapore's power grid
 **Software Engineer — "Set Up the Early Warning System" (drag-drop order)**
 
 Correct sequence:
-1. Map all control system devices and how they're connected to each other
-2. Install lightweight monitoring sensors on each control system device
-3. Record 2 hours of normal behaviour to understand what a healthy system looks like
-4. Set alert thresholds based on the baseline so anything unusual triggers a warning
-5. Connect alerts to the security team so they're notified the moment something unusual appears
+1. Map all control system devices and how they connect to each other
+2. Install monitoring sensors on each control system device
+3. Record 2 hours of normal behaviour as a baseline
+4. Set alert levels based on the baseline — anything unusual triggers a warning
+5. Connect alerts to the security team for instant notification
 
 **Why:** You cannot deploy sensors to devices you haven't mapped. Sensors must be deployed before you can record normal behaviour. The baseline defines what "normal" looks like — only then can you set meaningful thresholds. Alert pipelines connect everything together last.
 
@@ -641,11 +641,11 @@ Axes awarded: Precision +1, Cost-Conscious +0.5
 **Data Engineer — "Reconstruct How They Got In" (drag-drop order)**
 
 Correct sequence:
-1. Gather logs from every network device, login system, and power station controller
-2. Arrange all events in order using timestamps to build a chronological picture
-3. Find the very first infected device by looking for the earliest unusual event
-4. Trace how the attacker moved from device to device using login and connection records
-5. Extract the attacker's digital fingerprints so you can block them from coming back
+1. Gather logs from every network device, login system, and station controller
+2. Arrange all events chronologically using timestamps
+3. Find the very first infected device — the earliest unusual event
+4. Trace how the attacker moved from device to device
+5. Extract the attacker's digital fingerprints to block them from returning
 
 **Why:** You cannot analyse logs you haven't collected. Building a timeline orders the evidence. Patient-zero identification works backward from the timeline to find the earliest infection. Lateral movement mapping shows how far the attacker spread. Extracting indicators of compromise (IoCs) is the output — the actionable intelligence for defence.
 
@@ -674,11 +674,11 @@ Axes awarded: Stability +1, Precision +0.5
 **Software Engineer — "Program the Restoration Automation Sequence" (drag-drop order)**
 
 Correct sequence:
-1. Confirm every compromised station has been wiped and is definitely clean
-2. Bring back the main transmission stations that supply power to multiple zones
-3. Run a test load to verify the backbone can handle the demand before connecting more
-4. Restore district stations in priority order: hospitals and critical services first
-5. Restore residential areas last, zone by zone based on grid capacity
+1. Confirm every compromised station has been wiped clean
+2. Bring back the main transmission stations that supply multiple zones
+3. Run a test load to verify the backbone can handle demand
+4. Restore district stations — hospitals and critical services first
+5. Restore residential areas last, zone by zone
 
 **Why:** Never restore a system that hasn't been confirmed clean — you would hand the attacker back control. The backbone (transmission stations) must be stable before district stations can connect to it. A test load validates the backbone before adding more demand. Hospitals and emergency services are life-critical; residential areas are last.
 
@@ -728,11 +728,11 @@ Axes awarded: Precision +1, Stability +0.8
 **Data Engineer — "Build the Evidence Case" (drag-drop order)**
 
 Correct sequence:
-1. Compare attacker methods against a database of known criminal groups
-2. Trace network traffic backward through relay points to find the attack's origin
-3. Study the malicious code for stylistic clues to identify who wrote it
-4. Check when the attacks happened against working hours of suspected groups
-5. Combine all evidence into a clear statement with an honest confidence note
+1. Compare the attacker's methods against a database of known groups
+2. Trace network traffic backwards through disguised relay points to find the source
+3. Study the malicious code for stylistic clues — like analysing handwriting
+4. Check when attacks happened against working hours and time zones of suspected groups
+5. Combine all evidence into a clear statement for Parliament with an honest confidence level
 
 **Why:** Attribution builds from the most concrete evidence (tool/technique matching) to increasingly circumstantial corroboration (code style, timing). Each step adds a layer of evidence. The confidence statement is last — it summarises what all the evidence points to, with honest uncertainty. A Parliament brief must be credible, not sensationalised.
 
@@ -743,10 +743,10 @@ Axes awarded: Precision +1, Collaboration +0.5
 **Cloud Engineer — "Design the Resilience Architecture" (drag-drop layout)**
 
 Correct zone assignment:
-- **Layer 1 (Stop Attacks — Prevention):** Traffic Filter (WAF) and Weakness Finder (Vuln Scanner)
-- **Layer 2 (Spot Attacks — Detection):** Threat Detection Console (SIEM)
-- **Layer 3 (React to Attacks — Response):** Auto-Response Engine (SOAR)
-- **Layer 4 (Recover and Restore):** Backup Control Centre (DR Site) and Protected Backup Vault
+- **Layer 1 (Stop Attacks — Prevention):** Traffic Filter and Weakness Finder
+- **Layer 2 (Spot Attacks — Detection):** Threat Detector
+- **Layer 3 (React to Attacks — Response):** Auto-Responder
+- **Layer 4 (Recover and Restore):** Backup Control Centre and Protected Backup Vault
 
 Note: The `correctOrder` array in the JSON is `["waf", "siem", "soar", "dr-site"]` — representing one item per zone. The Weakness Finder and Backup Vault are additional items that fit logically into Layers 1 and 4 respectively, even though they are not in the scored correctOrder.
 
