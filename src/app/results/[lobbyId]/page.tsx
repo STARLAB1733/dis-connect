@@ -12,8 +12,9 @@ import {
   orderBy,
   query,
   limit,
+  serverTimestamp,
 } from 'firebase/firestore';
-import { auth, db } from '@/lib/firebase';
+import { auth, db, initAuth } from '@/lib/firebase';
 import { computePersona, computePerRoleScores, Impact } from '@/lib/persona';
 import { getPersonaIdentity, getVocationRecommendation } from '@/lib/personaMapping';
 import type { Axis } from '@/lib/persona';
@@ -85,10 +86,12 @@ export default function ResultsPage() {
 
   useEffect(() => {
     if (!lobbyId || !user) return;
-    const currentUser = user;
 
     async function loadResults() {
       try {
+        // Ensure auth is initialized
+        await initAuth();
+
         const lobbySnap = await getDoc(doc(db, 'lobbies', lobbyId));
         const lobbyData = lobbySnap.data() || {};
         const teamName: string | null = lobbyData.teamName || null;
@@ -143,6 +146,12 @@ export default function ResultsPage() {
         setResults(finalResults);
 
         // ── Write scores to Firestore ──────────────────────────────────────
+        // Get fresh auth state right before writing (in case session changed during async work)
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+          throw new Error('Authentication lost during results page load. Please refresh and try again.');
+        }
+
         // Always write to "global" event, also write to team-named event if set
         const myResult = finalResults.find(r => r.playerId === currentUser.uid);
         if (myResult) {
@@ -153,7 +162,7 @@ export default function ResultsPage() {
             score: myResult.totalScore,
             vocation: myResult.vocation.label,
             lobbyId,
-            timestamp: new Date(),
+            timestamp: serverTimestamp(),
           };
 
           // Write to global leaderboard
@@ -184,7 +193,7 @@ export default function ResultsPage() {
               teamName,
               groupScore,
               playerCount,
-              updatedAt: new Date(),
+              updatedAt: serverTimestamp(),
             }, { merge: true });
           }
         }
