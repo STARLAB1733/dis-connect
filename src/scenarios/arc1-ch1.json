@@ -1,26 +1,28 @@
 {
   "id": "arc1-ch1",
   "title": "NDP 2026: T-Minus 3 Weeks",
-  "description": "The NDP committee just approved a brand new parade segment and they want a companion app feature for 40,000 attendees. You have 3 weeks to ship it.",
+  "description": "Three weeks to ship a brand-new parade app feature for 40,000 people. No pressure.",
   "image": "/chapters/arc1-ch1.svg",
   "arc": 0,
   "chapter": 0,
-  "storyContext": "2am. Phone buzzes. The NDP committee just approved a last-minute parade segment and wants a companion app feature for 40,000 people in three weeks. Your team lead's message: \"We ship this or we don't ship at all.\"",
+  "storyContext": "2am. Phone buzzes. The NDP committee wants a brand-new app feature for 40,000 spectators — in three weeks. Your team lead: \"We ship this or we don't ship at all.\"",
   "subScenarios": {
     "software-engineer": {
       "type": "drag-drop",
       "variant": "order",
-      "title": "Plan the Parade App Feature",
-      "instruction": "Spectators will point their phones at parade floats to see fun facts. Arrange the build steps in the right order.",
-      "hint": "What if two teams build the same thing without coordinating? When should you test the riskiest part?",
+      "title": "Plan the Build",
+      "instruction": "Fans point phones at floats, fun facts pop up. Put the build steps in order.",
+      "hint": "Agree on a plan first. Test the riskiest part early.",
       "items": [
-        { "id": "api-spec", "label": "Write a shared plan so teams can build different parts without clashing" },
-        { "id": "ar-prototype", "label": "Quick test: can the phone camera actually recognise the floats?" },
-        { "id": "backend-endpoints", "label": "Set up the system that sends float info to phones" },
-        { "id": "integration-test", "label": "Test the new feature inside the existing NDP app" },
+        { "id": "api-spec", "label": "Write a shared plan so teams don't clash" },
+        { "id": "ar-prototype", "label": "Quick test: can the camera actually recognise floats?" },
+        { "id": "backend-endpoints", "label": "Build the system that sends float info to phones" },
+        { "id": "integration-test", "label": "Test the feature inside the real NDP app" },
         { "id": "load-test", "label": "Simulate 40,000 people using it at once" }
       ],
       "correctOrder": ["api-spec", "ar-prototype", "backend-endpoints", "integration-test", "load-test"],
+      "consequenceSuccess": "Clean plan. Your lead pins it in the team chat: \"THIS is how we ship.\" 🚀",
+      "consequenceFail": "Two teams build the same thing twice. Annoying — but now you know why plans come first.",
       "axisImpact": {
         "Speed": 1,
         "Precision": 0.5
@@ -29,11 +31,13 @@
     "data-scientist": {
       "type": "numeric-input",
       "title": "Forecast App Downloads",
-      "instruction": "Marketing needs next week's download estimate to prepare capacity. The graph shows the last four weeks. Where does it land next?",
-      "hint": "The climb is accelerating — each week jumps more than the last. By how much is that jump growing?",
+      "instruction": "Marketing needs next week's download estimate. Four weeks of data on the graph — where does it land next?",
+      "hint": "Each weekly jump is bigger than the last. How much bigger?",
       "chartData": [8, 15, 28, 52],
       "expected": 95,
       "tolerance": 25,
+      "consequenceSuccess": "Nailed it. Marketing preps exactly enough capacity and buys you bubble tea. 🧋",
+      "consequenceFail": "Downloads blow past your estimate. Marketing panics, then forgives you. Growth curves are sneaky.",
       "axisImpact": {
         "Precision": 1,
         "Cost-Conscious": 0.5
@@ -42,27 +46,31 @@
     "cloud-engineer": {
       "type": "binary-choice",
       "title": "Pick a Hosting Plan",
-      "instruction": "The app must handle 40,000 people on NDP day without costing a fortune the other 364 days. Which approach?",
-      "hint": "One loud day, 364 quiet ones. Think about what matters most — saving money, guaranteed reliability, or raw speed.",
+      "instruction": "40,000 users on NDP day, near-zero the other 364. Pick your hosting.",
+      "hint": "One loud day, 364 quiet ones. What matters most?",
       "options": [
         {
           "id": "serverless",
-          "label": "Costs nothing when idle, scales up automatically on the day. First users each hour may wait 2 extra seconds while it wakes up.",
+          "label": "[[Serverless]] — costs nothing when idle, scales up on the day. First users each hour wait 2 extra seconds.",
+          "consequence": "Serverless it is — the finance team sends a heart emoji. Just don't be the first user each hour. 💸",
           "axisImpact": { "Cost-Conscious": 1, "Innovation": 0.5, "Speed": -0.3 }
         },
         {
           "id": "reserved-burst",
-          "label": "Book a fixed set of machines plus extra for NDP day. Reliable, but you pay even when idle.",
+          "label": "Book fixed machines plus extras for NDP day. Rock solid, but you pay while they sit idle.",
+          "consequence": "The machines hum along — fully paid, mostly napping. Finance raises an eyebrow. Reliability isn't free.",
           "axisImpact": { "Stability": 1, "Performance-First": 0.5, "Cost-Conscious": -0.5 }
         },
         {
           "id": "cdn-edge",
-          "label": "Spread the app across locations all over Singapore for instant loading. Great for content, but the float scanner may lag.",
+          "label": "Spread the app across Singapore for instant loading. Great for content; the float scanner may lag.",
+          "consequence": "Pages load lightning-fast island-wide. The float scanner? It's... thinking. The crowd taps impatiently.",
           "axisImpact": { "Speed": 1, "Performance-First": 0.5, "Innovation": -0.3 }
         },
         {
           "id": "hybrid-partner",
-          "label": "Partner with a local provider already running government services. Reliable and local, but less flexibility.",
+          "label": "Partner with a local provider already running government services. Reliable and local, less flexible.",
+          "consequence": "The partner's team slots right in. Fewer knobs for you to turn, but someone experienced has your back.",
           "axisImpact": { "Collaboration": 1, "Stability": 0.5, "Autonomy": -0.5 }
         }
       ]

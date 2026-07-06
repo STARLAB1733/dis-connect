@@ -1,62 +1,73 @@
 {
   "id": "arc3-ch1",
   "title": "Ops Resilience: First Signs",
-  "description": "Unusual power fluctuations across Singapore's grid. The readings don't match any known fault pattern. DIS suspects a sophisticated cyber intrusion into critical infrastructure.",
+  "description": "Strange power readings across Singapore's grid. Too coordinated to be coincidence.",
   "image": "/chapters/arc3-ch1.svg",
   "arc": 2,
   "chapter": 0,
-  "storyContext": "It starts with a flicker. Power readings from substations across Singapore spike and dip in a pattern that doesn't match any known fault. Your team pulls up the grid monitoring feed and the room goes quiet. Too coordinated to be coincidence. Someone is inside the control systems.",
+  "storyContext": "It starts with a flicker. Substation readings spike and dip in a pattern matching no known fault. Your team pulls up the grid feed and the room goes quiet. Too coordinated for coincidence. Someone is inside the control systems.",
+  "callbacks": {
+    "arc1-ch1:hybrid-partner": "Your old NDP hosting partner calls first: \"Our grid readings look wrong too.\" When they worry, you worry."
+  },
   "subScenarios": {
     "software-engineer": {
       "type": "drag-drop",
       "variant": "order",
       "title": "Set Up the Early Warning System",
-      "instruction": "Deploy monitoring sensors across the power grid's control systems to catch the intrusion before it escalates. Arrange the steps.",
-      "hint": "You can't spot unusual behaviour without knowing what normal looks like. Establish a baseline first, then set your tripwires.",
+      "instruction": "Wire the grid's control systems with monitoring before the intruder escalates. Order the steps.",
+      "hint": "You can't spot 'unusual' without knowing 'normal' first.",
       "items": [
-        { "id": "map-systems", "label": "Map all control system devices and how they connect to each other" },
-        { "id": "deploy-sensors", "label": "Install monitoring sensors on each control system device" },
-        { "id": "baseline-normal", "label": "Record 2 hours of normal behaviour as a baseline" },
-        { "id": "set-thresholds", "label": "Set alert levels based on the baseline — anything unusual triggers a warning" },
-        { "id": "alert-pipeline", "label": "Connect alerts to the security team for instant notification" }
+        { "id": "map-systems", "label": "Map every control device and how they connect" },
+        { "id": "deploy-sensors", "label": "Install monitoring sensors on each device" },
+        { "id": "baseline-normal", "label": "Record 2 hours of normal behaviour" },
+        { "id": "set-thresholds", "label": "Set alert levels — anything unusual triggers a warning" },
+        { "id": "alert-pipeline", "label": "Wire alerts straight to the security team" }
       ],
       "correctOrder": ["map-systems", "deploy-sensors", "baseline-normal", "set-thresholds", "alert-pipeline"],
+      "consequenceSuccess": "Tripwires armed. Twenty minutes later the first alert fires — now you're watching them, not the reverse.",
+      "consequenceFail": "Alarms set before recording normal — they scream at everything. Wolf-crying sensors get ignored fast.",
       "axisImpact": { "Precision": 1, "Stability": 0.5 }
     },
     "data-scientist": {
       "type": "numeric-input",
       "title": "Estimate How Far It Has Spread",
-      "instruction": "The intrusion may have been active for days. The graph shows the percentage of devices flagging unusual activity across four monitoring windows. If the trend continues, how many of the 200 control devices may already be compromised?",
-      "hint": "The percentage is climbing. Project the next value in the trend, then apply that percentage to the 200 total devices.",
+      "instruction": "The graph shows the percentage of devices flagging weird activity at each check. If the trend holds, how many of the 200 control devices are compromised?",
+      "hint": "Project the next percentage, then apply it to 200 devices.",
       "chartData": [2, 5, 12, 22],
       "expected": 70,
       "tolerance": 20,
+      "consequenceSuccess": "Your projection lands. Leadership finally grasps the scale — this isn't a glitch, it's an invasion.",
+      "consequenceFail": "The spread outruns your estimate. Whoever this is, they move faster than the maths said.",
       "axisImpact": { "Precision": 1, "Cost-Conscious": 0.5 }
     },
     "cloud-engineer": {
       "type": "binary-choice",
       "title": "Deploy the Detection Toolkit",
-      "instruction": "The readings don't match anything in the records. Your team needs the right detection tools to classify this threat before leadership responds. What approach?",
-      "hint": "New threats are tricky for systems trained only on known patterns. Multiple methods combined tend to be more reliable than one fast method alone.",
+      "instruction": "The pattern matches nothing on record. Pick how to classify the threat before leadership responds.",
+      "hint": "New threats fool tools trained only on old ones.",
       "options": [
         {
           "id": "ml-classify",
-          "label": "Run it through the automated threat detector. Answer in 5 minutes, but it was only trained on known attack patterns and this one looks new.",
+          "label": "Run the automated threat detector. Answer in 5 minutes — but it only knows old attack patterns.",
+          "consequence": "Five minutes later: \"no known threat detected.\" Which is exactly what a brand-new threat looks like. Hmm.",
           "axisImpact": { "Speed": 1, "Innovation": 0.5, "Precision": -0.3 }
         },
         {
           "id": "manual-analysis",
-          "label": "Manually compare the pattern against past incidents and intelligence reports. Takes 30 minutes but produces a high-confidence answer.",
+          "label": "Compare the pattern by hand against past incidents and intel. 30 minutes, high confidence.",
+          "consequence": "Thirty careful minutes later you have a confident answer — and a knot in your stomach. It's real.",
           "axisImpact": { "Precision": 1, "Stability": 0.5, "Speed": -0.5 }
         },
         {
           "id": "ensemble-method",
-          "label": "Run three different detection methods and go with the majority verdict. Slower than one alone, but much more reliable against something new.",
+          "label": "Run three different detection methods; majority verdict wins. Slower, far more reliable on new threats.",
+          "consequence": "Two of three methods agree: coordinated intrusion. The third shrugs. Good enough to sound the alarm.",
           "axisImpact": { "Precision": 0.8, "Innovation": 0.5, "Speed": -0.3 }
         },
         {
           "id": "ally-intel",
-          "label": "Share the pattern with partner cybersecurity teams. Could get an answer in 10 minutes, but you'd be showing your hand to external parties.",
+          "label": "Share the pattern with partner cyber teams. Answer in 10 minutes — but you show your hand.",
+          "consequence": "A partner team replies in eight minutes: \"We've seen this. Brace yourselves.\" Sharing paid off — this time.",
           "axisImpact": { "Collaboration": 1, "Speed": 0.5, "Autonomy": -0.8 }
         }
       ]

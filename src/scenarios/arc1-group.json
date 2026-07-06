@@ -5,29 +5,41 @@
     {
       "type": "group-wager-choice",
       "title": "The Debrief",
-      "storyContext": "8:15pm. Last firework fades. Your team is in the ops room — dashboards green for the first time all day. You survived: the 3-week build, the rehearsal crash, the data wipe, the livestream meltdown. The NDP committee chair walks in, sits down: \"I want to know what really happened.\"",
-      "facilitatorPrompt": "She's asking us directly. Do we tell her everything, or keep it clean? Think about what happens if she finds out from someone else later.",
+      "storyContext": "8:15pm. Last firework fades. Ops room dashboards are green for the first time all day. You survived the build, the crash, the wipe, the meltdown. The committee chair sits down: \"I want to know what really happened.\"",
+      "facilitatorPrompt": "Do we tell her everything, or keep it clean? What if she hears it from someone else later?",
       "image": "/chapters/arc1-group-q1.svg",
       "wagerOptions": [1, 2, 3],
       "options": [
         {
           "id": "full-transparency",
-          "label": "Tell her everything — the 2am call, the crashes, the data wipe, the stream nearly dying. She deserves the truth, and it's better coming from us.",
+          "label": "Tell her everything — the 2am call, the crashes, the wipe, the stream nearly dying. Better it comes from us.",
+          "pros": ["Builds real trust", "No nasty surprises later"],
+          "cons": ["Might look chaotic", "Could invite tighter oversight"],
+          "consequence": "She listens in silence, then nods: \"Thank you for trusting me with that.\" Your budget doubles next year.",
           "axisImpact": { "Collaboration": 1.5, "Stability": 0.8, "Autonomy": -0.5 }
         },
         {
           "id": "professional-frame",
-          "label": "Keep it professional. The app ran successfully with minor adjustments. She doesn't need to know how close we cut it. The show worked.",
+          "label": "Keep it professional: the app ran, minor adjustments made. She doesn't need to know how close it was.",
+          "pros": ["Team looks polished", "Meeting ends quickly"],
+          "cons": ["Truth may leak later", "Trust gone if it does"],
+          "consequence": "The meeting is smooth and short. Then a contractor's group chat leaks. She calls again — colder this time.",
           "axisImpact": { "Autonomy": 1.2, "Speed": 0.8, "Collaboration": -1.0, "Stability": -0.5 }
         },
         {
           "id": "resilience-frame",
-          "label": "Walk her through the problems, but frame them as lessons learned. Not a damage report — a resilience report. She sees a team that got hit four times and kept standing.",
+          "label": "Share the problems, framed as lessons learned. Not a damage report — a resilience report.",
+          "pros": ["Honest and confident", "Failures become strengths"],
+          "cons": ["Can sound rehearsed", "Spin may irritate her"],
+          "consequence": "\"Hit four times and kept standing,\" she repeats, writing it down. Your framing just became her framing.",
           "axisImpact": { "Precision": 1.5, "Collaboration": 0.8, "Innovation": 0.5, "Speed": -0.3 }
         },
         {
           "id": "data-driven",
-          "label": "Show her the numbers. 99.2% uptime, 40,000 served, positive social media after fireworks. Let the data speak for itself.",
+          "label": "Show the numbers: 99.2% [[uptime]], 40,000 served, positive social buzz after fireworks. Let the data speak.",
+          "pros": ["Hard to argue with", "Feels fair and objective"],
+          "cons": ["Numbers hide the drama", "Can feel evasive"],
+          "consequence": "She studies the charts, then looks up: \"Nice numbers. But what happened at 1:30pm?\" She already knows.",
           "axisImpact": { "Precision": 1.2, "Stability": 0.5, "Collaboration": -0.3, "Innovation": -0.3 }
         }
       ]
@@ -35,29 +47,41 @@
     {
       "type": "group-wager-choice",
       "title": "One Shot",
-      "storyContext": "A week later, the Minister calls your team in. She's read the debrief — three crises in three weeks for a national event. \"I can fund one investment over five years to make sure this never happens again. What do you want?\"",
-      "facilitatorPrompt": "One shot. What was the real root cause across everything we faced? If we fix one thing, what prevents the most damage?",
+      "storyContext": "A week later, the Minister calls your team in. Three crises in three weeks for a national event. \"I can fund one investment over five years to make sure this never happens again. What do you want?\"",
+      "facilitatorPrompt": "One shot. What was the real root cause across everything we faced? Which fix prevents the most damage?",
       "image": "/chapters/arc1-group-q2.svg",
       "wagerOptions": [1, 2, 4],
       "options": [
         {
           "id": "command-centre",
-          "label": "A permanent command centre for national events. Dedicated systems, dedicated team, year-round standby. We were scrambling because none of this existed.",
+          "label": "A permanent command centre for national events — dedicated systems, dedicated team, year-round standby.",
+          "pros": ["Never scramble again", "Experts always on duty"],
+          "cons": ["Expensive to keep running", "Idle most of the year"],
+          "consequence": "Two years later, the F1 weekend app wobbles at 8pm — and a standing team catches it by 8:03.",
           "axisImpact": { "Stability": 2.0, "Collaboration": 0.5, "Cost-Conscious": -1.0, "Innovation": -0.3 }
         },
         {
           "id": "predictive-ai",
-          "label": "An AI system that predicts failures, scales up automatically, and catches dangerous actions before they cause damage. That data wipe? The system stops it before it happens.",
+          "label": "An AI that predicts failures, scales up automatically, and blocks dangerous actions before they cause damage.",
+          "pros": ["Stops problems before they start", "Works at machine speed"],
+          "cons": ["New tech, new risks", "Costly to build well"],
+          "consequence": "Eighteen months in, the AI blocks a sleepy admin from wiping the wrong database. Sound familiar?",
           "axisImpact": { "Innovation": 2.0, "Speed": 0.8, "Stability": -0.3, "Cost-Conscious": -0.8 }
         },
         {
           "id": "distributed-platform",
-          "label": "A system where no single failure brings everything down. Fifty smaller pieces instead of one big app. Problems stay contained instead of spreading.",
+          "label": "Rebuild as fifty small pieces instead of one big app. No single failure can bring everything down.",
+          "pros": ["Failures stay small", "Fix pieces one by one"],
+          "cons": ["Many pieces to manage", "Takes years to rebuild"],
+          "consequence": "Next year a payment module dies mid-parade — and nobody notices, because the other 49 pieces keep humming.",
           "axisImpact": { "Innovation": 1.5, "Stability": 1.0, "Cost-Conscious": -0.5 }
         },
         {
           "id": "trained-people",
-          "label": "Train 200 digital officers across government with step-by-step crisis guides. Technology breaks. People saved us every time. Scale that.",
+          "label": "Train 200 digital officers across government with crisis playbooks. Technology breaks — people saved us every time.",
+          "pros": ["People adapt, tech doesn't", "Helps every agency"],
+          "cons": ["Slow to show results", "Skills fade without practice"],
+          "consequence": "Next crisis, a ministry you've never met handles it alone — using the playbook with your team's name on page one.",
           "axisImpact": { "Collaboration": 2.0, "Precision": 0.5, "Innovation": -0.5 }
         }
       ]

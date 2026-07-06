@@ -5,29 +5,41 @@
     {
       "type": "group-wager-choice",
       "title": "The General's Question",
-      "storyContext": "Briefing room, SAFTI Military Institute. Your report is done — two weeks of analysis from mountains of data. The Chief picks up your executive summary, reads it, puts it down. \"My commanders were making decisions on positions that were twenty minutes old. Before that, the screen crashed at 500 users. Before that, we couldn't get signal in half the training area.\" He looks at each of you. \"Was this a technology problem, a design problem, or a people problem?\"",
-      "facilitatorPrompt": "He's looking at all of us. What actually caused the stale data? Was it the jungle network? The system not built for failure? Or commanders who were never trained to question what the screen was showing them?",
+      "storyContext": "SAFTI briefing room. The Chief reads your summary, puts it down. \"Commanders acted on 20-minute-old positions. The screen crashed at 500 users. Half the training area had no signal.\" He looks up: \"Technology problem, design problem, or people problem?\"",
+      "facilitatorPrompt": "What actually caused the stale data? The jungle network? A system that hid failure? Or commanders who never questioned the screen?",
       "image": "/chapters/arc2-group-q1.svg",
       "wagerOptions": [1, 2, 3],
       "options": [
         {
           "id": "network-problem",
-          "label": "Network problem, sir. Dead zones we couldn't fully solve. Data got stuck in transit. Invest in portable relay equipment and satellite backup for every exercise, and the data arrives on time.",
+          "label": "Network problem, sir. Dead zones stalled the data. Fund portable relays and satellite backup for every exercise.",
+          "pros": ["Clear, fixable cause", "Equipment is buyable"],
+          "cons": ["Jungle always wins somewhere", "Ignores software and training"],
+          "consequence": "The Chief nods slowly. \"Radios have failed in every war ever fought. What's your plan for when these fail too?\"",
           "axisImpact": { "Stability": 1.5, "Performance-First": 0.8, "Innovation": -0.5, "Cost-Conscious": -0.5 }
         },
         {
           "id": "design-problem",
-          "label": "Design problem, sir. When data was stale, the system showed it as if it were fresh — no timestamp, no warning. It should have flagged it instead of pretending everything was fine.",
+          "label": "Design problem, sir. Stale data looked identical to fresh data. The screen should have warned instead of pretending.",
+          "pros": ["Cheap fix, big payoff", "Honest screens build trust"],
+          "cons": ["Warnings can overwhelm", "Doesn't fix the network"],
+          "consequence": "\"The screen lied by omission.\" The Chief writes that down word for word. Design reviews will never be the same.",
           "axisImpact": { "Innovation": 1.5, "Precision": 1.0, "Stability": -0.3 }
         },
         {
           "id": "doctrine-problem",
-          "label": "Doctrine problem, sir. Commanders trusted the screen like a map. But screens can be wrong. Train every officer to cross-reference digital info with radio reports and their own eyes.",
+          "label": "People problem, sir. Commanders trusted the screen like a map. Train every officer to cross-check digital with radio and their own eyes.",
+          "pros": ["People adapt anywhere", "No new equipment needed"],
+          "cons": ["Training takes years", "Sounds like blaming users"],
+          "consequence": "A colonel at the back mutters, \"Finally someone said it.\" The Chief pretends not to hear — and smiles.",
           "axisImpact": { "Collaboration": 1.8, "Precision": 0.5, "Performance-First": -0.5 }
         },
         {
           "id": "all-three",
-          "label": "Honestly sir, all three. Network unreliable, software didn't handle it gracefully, commanders weren't trained to question it. We have a phased plan — but it takes three years and significant budget.",
+          "label": "Honestly sir, all three. Network, software, and training each failed. We have a phased three-year plan — it isn't cheap.",
+          "pros": ["Complete and honest", "Nothing left unfixed"],
+          "cons": ["Expensive and slow", "Might sound indecisive"],
+          "consequence": "Silence. Then: \"Expensive answers I can argue with. Honest ones I can fund.\" He keeps your report.",
           "axisImpact": { "Precision": 1.5, "Stability": 0.8, "Speed": -1.0, "Cost-Conscious": -0.5 }
         }
       ]
@@ -35,29 +47,41 @@
     {
       "type": "group-wager-choice",
       "title": "The Next Generation",
-      "storyContext": "The Chief nods. Then: \"Tell me something bigger. We're building a new generation of soldiers who fight in a world that's as much digital as physical. I can fast-track one capability into the SAF's training roadmap for the next five years. Every recruit and officer will be shaped by what you recommend. What should it be?\"",
-      "facilitatorPrompt": "This shapes the next generation of the SAF. What was the hardest thing we faced during Northstar — not just the technical problems? What capability, if our people had it, would have changed the outcome?",
+      "storyContext": "The Chief nods, then goes bigger: \"The next generation of soldiers fights in a world as digital as it is physical. I can fast-track one capability into five years of SAF training. Every recruit will be shaped by it. Choose.\"",
+      "facilitatorPrompt": "What was the hardest thing we faced in Northstar — not just technically? Which capability would have changed the outcome?",
       "image": "/chapters/arc2-group-q2.svg",
       "wagerOptions": [1, 3, 5],
       "options": [
         {
           "id": "autonomous-ai",
-          "label": "Battlefield AI, sir. Specialists who deploy AI systems in the field — machines that learn from live data and suggest tactical options in real time. It's where warfare is heading.",
+          "label": "Battlefield AI, sir — specialists deploying systems that learn from live data and suggest tactics in real time.",
+          "pros": ["Future-facing edge", "Faster decisions than humans"],
+          "cons": ["Unproven in real combat", "Machines make weird mistakes"],
+          "consequence": "Five years on, an AI suggests a flanking route no human considered. The umpires check the rules twice. It's allowed.",
           "axisImpact": { "Innovation": 2.5, "Speed": 0.8, "Collaboration": -1.0, "Stability": -0.5 }
         },
         {
           "id": "cyber-physical",
-          "label": "People who understand both the digital and the physical, sir. Right now tech teams don't think about terrain and field commanders don't think about data. Train specialists who live in both worlds.",
+          "label": "Specialists fluent in both worlds, sir. Tech teams who understand terrain, commanders who understand data.",
+          "pros": ["Bridges the two worlds", "Fixes real Northstar gaps"],
+          "cons": ["Rare people, hard to train", "Takes years to grow"],
+          "consequence": "The first hybrid cohort graduates in three years. At their exercise, tech and terrain finally speak the same language.",
           "axisImpact": { "Collaboration": 1.5, "Precision": 1.0, "Innovation": 0.5 }
         },
         {
           "id": "resilient-comms",
-          "label": "Resilient communications, sir. Everything fell apart the moment the network dropped. Portable relays, satellite fallback, manual radio procedures. Without comms, nothing else we build matters.",
+          "label": "Resilient communications, sir. Everything collapsed when the network dropped. Relays, satellites, radio drills — without comms, nothing else matters.",
+          "pros": ["Fixes the root failure", "Useful in every scenario"],
+          "cons": ["Unglamorous investment", "Enemy jammers keep evolving"],
+          "consequence": "Next Northstar, the network drops for an hour — and nobody panics. The fallbacks click in like muscle memory.",
           "axisImpact": { "Stability": 2.0, "Performance-First": 0.8, "Innovation": -0.5 }
         },
         {
           "id": "data-literacy",
-          "label": "Data literacy across every rank, sir. From private to general, everyone learns to read, question, and act on digital information. The stale data crisis happened because commanders trusted a screen they didn't understand.",
+          "label": "Data literacy for every rank, sir. From private to general, everyone learns to read, question, and act on digital information.",
+          "pros": ["Lifts everyone at once", "Screens stop being magic"],
+          "cons": ["Slow cultural change", "Hard to measure progress"],
+          "consequence": "Two years later, a corporal spots a sensor glitch a captain missed. The story becomes training-day legend.",
           "axisImpact": { "Collaboration": 2.0, "Precision": 0.8, "Speed": -0.3, "Autonomy": -0.5 }
         }
       ]

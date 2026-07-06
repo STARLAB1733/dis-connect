@@ -1,36 +1,43 @@
 {
   "id": "arc3-ch2",
   "title": "Ops Resilience: The Lights Go Out",
-  "description": "The intrusion was real. Parts of Singapore have lost power. The attacker has taken control of 12 substations. You have minutes to isolate them and secure the rest of the grid.",
+  "description": "Blackout. The attacker controls 12 substations and keeps moving.",
   "image": "/chapters/arc3-ch2.svg",
   "arc": 2,
   "chapter": 1,
-  "storyContext": "Lights went out across Jurong and Tuas at 3:14am. Tampines and Bedok followed within minutes. The attacker now controls 12 substations. Red phones ringing. The Minister wants a situation report in 30 minutes. Every second they stay connected, they can reach more of the grid.",
+  "storyContext": "3:14am — Jurong and Tuas go dark. Tampines and Bedok follow. The attacker holds 12 substations. The Minister wants answers in 30 minutes. Every second connected, they reach deeper into the grid.",
+  "callbacks": {
+    "arc2-ch3:radio-reports": "Those radio check-in drills from Northstar? Grid operators are running the exact same procedure by torchlight right now."
+  },
   "subScenarios": {
     "software-engineer": {
       "type": "binary-choice",
       "title": "Stop the Spread",
-      "instruction": "The attacker controls 12 substations and is moving to the next ones. You can see their target. How do you stop the spread?",
-      "hint": "When a threat is actively spreading, stopping it fast matters more than understanding it perfectly. Speed of containment beats elegance.",
+      "instruction": "The attacker holds 12 substations and is moving to the next. Stop the spread.",
+      "hint": "Containing fast beats understanding perfectly.",
       "options": [
         {
           "id": "network-isolation",
-          "label": "Cut all connections to the 12 compromised stations immediately. They switch to manual control. Stops the spread but those stations can't be managed remotely until cleaned.",
+          "label": "Cut all connections to the 12 stations now. They go manual until cleaned.",
+          "consequence": "Twelve stations go dark to the attacker — and to you. Manual crews roll out. The spread stops cold.",
           "axisImpact": { "Stability": 1, "Speed": 0.8, "Autonomy": -0.3 }
         },
         {
           "id": "honeypot-divert",
-          "label": "Set up decoy systems on the attacker's likely next targets. Let them think they've succeeded while you watch. Risky if they don't take the bait.",
+          "label": "Set [[honeypot]] decoys on their next targets; watch them attack fakes. Risky if they don't bite.",
+          "consequence": "They take the bait and attack a fake substation. You record every move. Sneaky. Brilliant. Terrifying.",
           "axisImpact": { "Innovation": 1, "Precision": 0.5, "Stability": -0.5 }
         },
         {
           "id": "credential-rotation",
-          "label": "Emergency reset of every password across the entire grid. Locks them out if they're using stolen logins — but changing passwords on live critical systems mid-crisis is risky.",
+          "label": "Emergency-reset every password grid-wide. Locks out stolen logins — risky on live systems mid-crisis.",
+          "consequence": "Every password resets at once. Somewhere, the attacker's session dies mid-keystroke. So does one unlucky technician's.",
           "axisImpact": { "Precision": 1, "Stability": 0.3, "Speed": -0.3 }
         },
         {
           "id": "deceptive-traffic",
-          "label": "Flood the network with fake signals to confuse the attacker's tools. Buys time, but makes it harder for your own team to see what's real.",
+          "label": "Flood the network with fake signals to blind the attacker. Buys time; blinds you a little too.",
+          "consequence": "The network fills with ghost signals. The attacker slows, confused. So does your own team. Chaos cuts both ways.",
           "axisImpact": { "Innovation": 0.8, "Speed": 0.5, "Precision": -0.5 }
         }
       ]
@@ -39,31 +46,33 @@
       "type": "drag-drop",
       "variant": "order",
       "title": "Reconstruct How They Got In",
-      "instruction": "Leadership needs to know how the attacker entered and what they've touched. Reconstruct the intrusion timeline. Arrange the steps.",
-      "hint": "Gather all the evidence first, then arrange it chronologically. Work backward from the attack moment to find where it started.",
+      "instruction": "Leadership needs the intrusion timeline — how they got in, what they touched.",
+      "hint": "Evidence first, then chronology. Work back to patient zero.",
       "items": [
-        { "id": "collect-logs", "label": "Gather logs from every network device, login system, and station controller" },
-        { "id": "timeline-build", "label": "Arrange all events chronologically using timestamps" },
-        { "id": "find-patient-zero", "label": "Find the very first infected device — the earliest unusual event" },
-        { "id": "map-lateral", "label": "Trace how the attacker moved from device to device" },
-        { "id": "ioc-extract", "label": "Extract the attacker's digital fingerprints to block them from returning" }
+        { "id": "collect-logs", "label": "Gather logs from every device and login system" },
+        { "id": "timeline-build", "label": "Arrange every event by timestamp" },
+        { "id": "find-patient-zero", "label": "Find the very first infected device" },
+        { "id": "map-lateral", "label": "Trace how they hopped device to device" },
+        { "id": "ioc-extract", "label": "Extract their digital fingerprints to block re-entry" }
       ],
       "correctOrder": ["collect-logs", "timeline-build", "find-patient-zero", "map-lateral", "ioc-extract"],
+      "consequenceSuccess": "The timeline snaps into focus: one fake email, three weeks of patient spreading. Now you can hunt.",
+      "consequenceFail": "Conclusions before evidence — you chase a false trail while the real entry point sits in unread logs.",
       "axisImpact": { "Precision": 1, "Speed": 0.5 }
     },
     "cloud-engineer": {
       "type": "drag-drop",
       "variant": "layout",
       "title": "Isolate the Network Zones",
-      "instruction": "Split the grid's network into isolated sections to stop the attacker jumping between them. Zone 1: fully cut off. Zones 2-3: partially restricted. Zone 4: continues normally.",
-      "hint": "The most dangerous zones get the most restrictions. The further from the threat, the more normal operations can continue.",
+      "instruction": "Split the network so the attacker can't jump zones. Zone 1: cut off. Zones 2-3: restricted. Zone 4: normal.",
+      "hint": "The scarier the zone, the tighter the lock.",
       "items": [
-        { "id": "compromised-substations", "label": "The 12 Compromised Stations — attacker is in control" },
-        { "id": "adjacent-substations", "label": "Neighbouring Stations — at risk of being targeted next" },
-        { "id": "control-centre", "label": "Central Control Room — where commanders manage the grid" },
-        { "id": "clean-substations", "label": "Confirmed Safe Stations — verified clean" },
-        { "id": "corporate-network", "label": "Office IT Network — admin and support systems" },
-        { "id": "external-vendors", "label": "Contractor Remote Access — external vendors with maintenance access" }
+        { "id": "compromised-substations", "label": "The 12 Compromised Stations — attacker inside" },
+        { "id": "adjacent-substations", "label": "Neighbouring Stations — likely next targets" },
+        { "id": "control-centre", "label": "Central Control Room — grid command" },
+        { "id": "clean-substations", "label": "Verified Safe Stations" },
+        { "id": "corporate-network", "label": "Office IT Network — admin systems" },
+        { "id": "external-vendors", "label": "Contractor Remote Access — outside vendors" }
       ],
       "dropZones": [
         { "id": "zone-1", "label": "Fully Isolated" },
@@ -72,6 +81,8 @@
         { "id": "zone-4", "label": "Normal Operations" }
       ],
       "correctOrder": ["compromised-substations", "external-vendors", "adjacent-substations", "control-centre"],
+      "consequenceSuccess": "Zones lock down in sequence. The attacker probes and hits walls everywhere. The grid holds.",
+      "consequenceFail": "One zone too loose — the attacker slips through contractor access into a clean station. Tighten and retry.",
       "axisImpact": { "Stability": 1, "Precision": 0.5 }
     }
   }

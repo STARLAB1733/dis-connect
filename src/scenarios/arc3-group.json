@@ -5,29 +5,41 @@
     {
       "type": "group-wager-choice",
       "title": "What Does the PM Say?",
-      "storyContext": "The brief is done. Before Parliament sees it, the PM wants your advice. He's addressing the nation at 8am tomorrow. Six million people remember the night the lights went out — hospitals on backup generators, MRT stations going dark. They want to know if it will happen again. The PM asks: \"What should I tell them?\"",
-      "facilitatorPrompt": "Whatever he says, six million people hear it. And the full truth will eventually come out. If we say stay calm and it leaks that 12 substations were under enemy control for hours — how does that look? But if we scare people with the full picture, what does that do to confidence?",
+      "storyContext": "Before Parliament sees the brief, the PM wants your advice. He addresses the nation at 8am. Six million people remember the night the lights went out. They want to know: will it happen again? \"What should I tell them?\"",
+      "facilitatorPrompt": "Six million people hear whatever he says — and the full truth eventually comes out. Reassure and risk a leak, or tell all and risk fear?",
       "image": "/chapters/arc3-group-q1.svg",
       "wagerOptions": [1, 2, 3],
       "options": [
         {
           "id": "reassurance-first",
-          "label": "Tell them the threat was dealt with quickly and systems performed as designed. Keep it reassuring. Going into detail about 12 compromised substations risks panic over something already resolved.",
+          "label": "Say the threat was handled quickly and systems worked as designed. Details about 12 substations risk panic.",
+          "pros": ["Keeps the country calm", "Gives attackers nothing"],
+          "cons": ["Leaks destroy trust", "Feels like a cover-up"],
+          "consequence": "Calm holds for nine days. Then a foreign newspaper prints \"12 SUBSTATIONS\" and the questions get much louder.",
           "axisImpact": { "Stability": 1.0, "Speed": 1.0, "Collaboration": -1.5, "Precision": -0.5 }
         },
         {
           "id": "radical-truth",
-          "label": "Tell the truth. Singapore was attacked. 12 substations compromised. It was serious, it lasted hours. Then explain exactly how the team contained it and brought the grid back. People can handle honesty.",
+          "label": "Tell everything: Singapore was attacked, 12 substations fell, it lasted hours — and here's exactly how we won.",
+          "pros": ["Nothing left to leak", "Trust earned the hard way"],
+          "cons": ["May frighten people", "Hands attackers a scoreboard"],
+          "consequence": "The speech trends worldwide: scary, honest, calm. Polls wobble for a week — then trust climbs past pre-blackout levels.",
           "axisImpact": { "Collaboration": 2.0, "Precision": 1.0, "Stability": -0.5, "Cost-Conscious": -0.5 }
         },
         {
           "id": "measured-honesty",
-          "label": "Acknowledge a significant cyber incident without dramatising it. Detected early, contained, full review underway. Honest about the severity without giving details that help the next attacker.",
+          "label": "Acknowledge a serious cyber incident — detected, contained, under review — without details that help the next attacker.",
+          "pros": ["Honest without panic", "Reveals nothing useful"],
+          "cons": ["Vagueness invites rumours", "Press will dig anyway"],
+          "consequence": "The 8am address lands steady and sober. Most people nod and go to work. The rumour mill hums — quietly.",
           "axisImpact": { "Stability": 1.5, "Collaboration": 1.0, "Precision": 0.5, "Speed": -0.3 }
         },
         {
           "id": "redirect-forward",
-          "label": "Skip attack details. Announce the $500M cybersecurity investment. Talk about what comes next. People care less about what happened and more about whether it'll happen again. Give them a plan.",
+          "label": "Skip the attack details. Announce the $500M cybersecurity plan and talk about what comes next. Give them a plan, not a post-mortem.",
+          "pros": ["Focuses on the future", "Shows decisive action"],
+          "cons": ["Dodges the question", "The past will resurface"],
+          "consequence": "The $500M headline drowns out the blackout for a news cycle. In Parliament, someone still asks: \"But what happened?\"",
           "axisImpact": { "Innovation": 1.0, "Speed": 0.8, "Precision": -1.0, "Collaboration": -0.5 }
         }
       ]
@@ -35,29 +47,41 @@
     {
       "type": "group-wager-choice",
       "title": "What Do We Build?",
-      "storyContext": "Parliament approved $500M in emergency cybersecurity funding. Your team presents the strategic direction. This isn't just a technical decision — it's about what kind of digital nation Singapore becomes. You watched the anomalous readings climb, fought the attacker inside the grid, raced to restore 200,000 homes, and built the case for Parliament. Now you decide what Singapore builds so nobody has to do what your team just did.",
-      "facilitatorPrompt": "Five hundred million dollars and ten years of national strategy. What was the real lesson of the blackout? Was our infrastructure too fragile? Were we too slow? Were we fighting alone when we shouldn't have been?",
+      "storyContext": "Parliament approves $500M in emergency funding. You watched the readings climb, fought the intruder, relit 200,000 homes, built the case. Now the strategic call: what does Singapore build so nobody has to do what your team just did?",
+      "facilitatorPrompt": "Ten years of national strategy. What was the blackout's real lesson — fragile systems, slow recovery, or fighting alone?",
       "image": "/chapters/arc3-group-q2.svg",
       "wagerOptions": [1, 2, 5],
       "options": [
         {
           "id": "fortress-sg",
-          "label": "Lock everything down. Nothing trusted by default, even from inside government buildings. Disconnect the most sensitive systems from the internet forever. The attacker got in because there were gaps. Close every single one.",
+          "label": "Lock everything down. Trust nothing by default. Disconnect the most sensitive systems from the internet forever. Close every gap.",
+          "pros": ["Hardest possible target", "Simple to explain"],
+          "cons": ["Slows everything down", "Walls age badly"],
+          "consequence": "Singapore becomes the region's hardest target — and its slowest shipper. Attackers move to easier prey. Mostly.",
           "axisImpact": { "Stability": 2.5, "Precision": 0.8, "Innovation": -1.0, "Collaboration": -0.5, "Speed": -0.5 }
         },
         {
           "id": "adaptive-resilience",
-          "label": "Build systems that expect to be attacked. Spread critical functions across many independent parts, add self-repairing networks, let AI handle the first wave. The blackout lasted hours because recovery was manual. Make the next one last minutes.",
+          "label": "Assume attacks will happen. Spread critical functions, self-repairing networks, AI handling the first wave. Make the next blackout last minutes, not hours.",
+          "pros": ["Failures stay tiny", "Recovers at machine speed"],
+          "cons": ["Very expensive", "Complex systems surprise you"],
+          "consequence": "Three years later, an attacker breaches a water plant — and the system reroutes around them in 40 seconds. They leave confused.",
           "axisImpact": { "Innovation": 2.0, "Stability": 1.0, "Speed": 0.5, "Cost-Conscious": -1.5 }
         },
         {
           "id": "regional-alliance",
-          "label": "Singapore can't defend alone. Create a Southeast Asian cyber defence alliance — shared intelligence, joint response teams, collective defence agreements. Turn Singapore from a single target into the anchor of a regional shield.",
+          "label": "Singapore can't defend alone. Build a Southeast Asian cyber defence alliance — shared intel, joint response teams, collective defence.",
+          "pros": ["Attack one, warn all", "Shared cost and talent"],
+          "cons": ["Depends on neighbours", "Secrets get shared too"],
+          "consequence": "Two years in, a partner state flags malware aimed at your port — days early. The shield is bigger than the island now.",
           "axisImpact": { "Collaboration": 2.5, "Innovation": 0.5, "Autonomy": -2.0 }
         },
         {
           "id": "citizen-resilience",
-          "label": "Invest in the people. Every citizen learns basic cyber hygiene. Every business gets a security audit. Stand up a national cyber reserve corps. The best firewall is six million people who know what a phishing email looks like.",
+          "label": "Invest in people. Cyber hygiene for every citizen, security audits for every business, a national cyber reserve corps.",
+          "pros": ["Six million defenders", "Cheapest per person"],
+          "cons": ["Results take a decade", "Hard to keep attention"],
+          "consequence": "Five years on, a retiree reports a [[phishing]] email that turns out to be the opening move of a campaign. The reserve corps traces it.",
           "axisImpact": { "Collaboration": 1.5, "Precision": 1.0, "Cost-Conscious": 0.5, "Performance-First": -0.5 }
         }
       ]

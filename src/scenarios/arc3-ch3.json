@@ -1,62 +1,73 @@
 {
   "id": "arc3-ch3",
   "title": "Ops Resilience: Restoration Race",
-  "description": "Grid secured. Now comes the hard part: restoring power to 200,000 homes and businesses without triggering another cascade failure. Every decision affects real people.",
+  "description": "Grid secured. Now restore power to 200,000 homes without breaking it again.",
   "image": "/chapters/arc3-ch3.svg",
   "arc": 2,
   "chapter": 2,
-  "storyContext": "Grid secured, but 200,000 homes still dark. Hospitals running on backup generators with maybe four hours of fuel. MRT stations on emergency lighting. The Minister just promised power by morning on national TV. One wrong move in the restoration and you overload the healthy grid — turning a partial blackout into a total one.",
+  "storyContext": "Grid secured — but 200,000 homes are dark. Hospitals have four hours of generator fuel. The Minister promised power by morning. Restore too fast and you overload the healthy grid: partial blackout becomes total.",
+  "callbacks": {
+    "arc1-ch3:rebuild-full": "Rebuilding everything from raw records after the NDP wipe taught you patience under pressure. Tonight needs all of it."
+  },
   "subScenarios": {
     "software-engineer": {
       "type": "drag-drop",
       "variant": "order",
       "title": "Program the Restoration Sequence",
-      "instruction": "Configure the scripts that bring each station back online. Wrong sequence risks overloading the healthy grid. Arrange the steps.",
-      "hint": "The backbone that feeds everything else comes first. Hospitals before homes. Test before you go full-scale.",
+      "instruction": "Script the power-up, station by station. Wrong order overloads the healthy grid. Arrange the steps.",
+      "hint": "Backbone first. Hospitals before homes. Test before full power.",
       "items": [
-        { "id": "verify-clean", "label": "Confirm every compromised station has been wiped clean" },
-        { "id": "restore-backbone", "label": "Bring back the main transmission stations that supply multiple zones" },
-        { "id": "test-load", "label": "Run a test load to verify the backbone can handle demand" },
-        { "id": "restore-district", "label": "Restore district stations — hospitals and critical services first" },
-        { "id": "residential-last", "label": "Restore residential areas last, zone by zone" }
+        { "id": "verify-clean", "label": "Confirm every hacked station is wiped clean" },
+        { "id": "restore-backbone", "label": "Bring back the main transmission stations" },
+        { "id": "test-load", "label": "Run a test load on the backbone" },
+        { "id": "restore-district", "label": "Restore districts — hospitals and critical services first" },
+        { "id": "residential-last", "label": "Restore homes last, zone by zone" }
       ],
       "correctOrder": ["verify-clean", "restore-backbone", "test-load", "restore-district", "residential-last"],
+      "consequenceSuccess": "Station by station, the island relights in perfect sequence. Hospital generators spin down. You breathe.",
+      "consequenceFail": "Too much load too soon — breakers trip and two districts go dark again. Slow is smooth, smooth is fast.",
       "axisImpact": { "Stability": 1, "Precision": 0.8 }
     },
     "data-scientist": {
       "type": "numeric-input",
       "title": "Find the Safe Restoration Speed",
-      "instruction": "Restoring too fast can overload the lines and trigger another blackout. The graph shows what percentage of normal load the grid safely handled each hour during testing. How much can you safely restore in the next hour?",
-      "hint": "The safe limit is growing each hour. Look at how much it grows between each hour and carry that pattern forward.",
+      "instruction": "The graph shows the load percentage the grid safely handled each hour. How much can you restore next hour?",
+      "hint": "The safe limit grows each hour. Carry the pattern forward.",
       "chartData": [10, 22, 38, 51],
       "expected": 65,
       "tolerance": 12,
+      "consequenceSuccess": "You ride the safe limit exactly. Maximum homes lit, zero overloads. Precision heroics.",
+      "consequenceFail": "Past the limit, breakers slam shut. The grid forgives nothing tonight. Recalculate and go again.",
       "axisImpact": { "Precision": 1, "Stability": 0.8 }
     },
     "cloud-engineer": {
       "type": "binary-choice",
       "title": "Secure Stations Before Restoring Power",
-      "instruction": "Compromised control systems must be fully secured before going back online. 200,000 people are still without power, so time matters. What do you do?",
-      "hint": "Speed matters because people are in the dark, but restoring a system that still has the attacker inside just hands them back control.",
+      "instruction": "Hacked stations must be secured before reconnecting — but 200,000 people wait. How thorough do you go?",
+      "hint": "Restore a station the attacker still owns, and you hand them the grid back.",
       "options": [
         {
           "id": "full-rebuild",
-          "label": "Complete rebuild from scratch — every device gets a fresh install. Takes 6 hours but you're 100% certain the attacker left no traces.",
+          "label": "Rebuild every device from scratch. Takes 6 hours, but you're 100% certain the attacker is gone.",
+          "consequence": "Six long hours. But when the grid reconnects, you know — not hope, know — it's clean.",
           "axisImpact": { "Stability": 1, "Precision": 0.8, "Speed": -0.8 }
         },
         {
           "id": "forensic-patch",
-          "label": "Surgically remove only the malicious parts found and close the gaps used. Done in 2 hours but 15% chance of missing something hidden.",
+          "label": "Remove only the malicious bits you found and patch the gaps. 2 hours; 15% chance of missing something.",
+          "consequence": "Two hours and lights-on. For weeks after, every flicker makes your heart skip. Probably fine. Probably.",
           "axisImpact": { "Speed": 1, "Cost-Conscious": 0.5, "Stability": -0.5 }
         },
         {
           "id": "shadow-monitor",
-          "label": "Bring systems back under intense observation. If the attacker left anything, they'll reveal themselves when they try to act. Risky but gives the best picture.",
+          "label": "Reconnect under intense observation. If the attacker left anything behind, they'll reveal themselves acting.",
+          "consequence": "You reconnect with tripwires everywhere. Day three: a leftover implant twitches — and you catch it live.",
           "axisImpact": { "Innovation": 1, "Precision": 0.5, "Stability": -0.8 }
         },
         {
           "id": "hardware-swap",
-          "label": "Replace the physical equipment entirely. Most expensive, takes 12 hours, but eliminates any possibility of hidden threats surviving.",
+          "label": "Replace the physical equipment entirely. 12 hours, most expensive, zero doubt.",
+          "consequence": "Twelve hours, a convoy of new hardware, an eye-watering bill — and absolute certainty. Sleep comes easy.",
           "axisImpact": { "Stability": 0.8, "Precision": 1, "Cost-Conscious": -0.8 }
         }
       ]

@@ -15,6 +15,12 @@ export const GLOSSARY: Record<string, string> = {
   cdn: 'Copies of your content stored all around the region so pages load fast for everyone nearby.',
   pipeline: 'An automatic assembly line that moves data or code through a series of steps.',
   backend: 'The behind-the-scenes part of an app that stores data and does the heavy lifting.',
+  cache: 'A memory of recent answers so the app replies instantly instead of working everything out again.',
+  'stress test': 'Deliberately overloading a system before launch to find out exactly when and how it breaks.',
+  honeypot: 'A fake system left out as bait so attackers waste time on it while you watch and learn.',
+  'zero trust': 'A security setup where nothing gets access without proving who it is — every single time.',
+  uptime: 'The percentage of time an app stays up and working — 99% means almost never down.',
+  phishing: 'A fake message pretending to be from someone you trust, designed to trick you into giving access.',
 };
 
 /** Case-insensitive glossary lookup. Returns undefined if the term is unknown. */

@@ -1,36 +1,43 @@
 {
   "id": "arc2-ch2",
   "title": "Exercise Northstar: D-7",
-  "description": "One week out. Stress testing shows the command screen crashes when more than 500 users connect at once. The exercise will have 3,000. Time to fix this before the generals notice.",
+  "description": "One week out. The command screen crashes at 500 users. The exercise has 3,000.",
   "image": "/chapters/arc2-ch2.svg",
   "arc": 1,
   "chapter": 1,
-  "storyContext": "One week out. Stress test results: the command screen crashes at 500 users. The exercise will have 3,000. Your team lead slides the report across the table: \"The generals demo this on Thursday. Fix it or we explain to a two-star why his screen went blank.\"",
+  "storyContext": "One week out. The [[stress test]] says the screen dies at 500 users. The exercise has 3,000. Your lead slides the report over: \"The generals demo it Thursday. Fix it, or explain a blank screen to a two-star.\"",
+  "callbacks": {
+    "arc1-ch2:cache-layer": "That caching trick from rehearsal night is page one of your team playbook now. Time to write page two."
+  },
   "subScenarios": {
     "software-engineer": {
       "type": "binary-choice",
       "title": "Fix the Overload",
-      "instruction": "The screen works for 500 users but crashes at 3,000. Each user currently gets their own private data stream — 3,000 streams all fighting for the same resources. How do you fix it?",
-      "hint": "When too many people share a limited resource, either make them share smarter or add more of that resource. Which can you do in 7 days?",
+      "instruction": "3,000 users, each demanding a private data stream. The system chokes at 500. Fix it in 7 days.",
+      "hint": "Share the resource smarter, or add more of it. Which fits 7 days?",
       "options": [
         {
           "id": "connection-pooling",
-          "label": "Group users so 50 share one data stream instead of getting their own. Cuts load by 95% but adds a 1-second delay.",
+          "label": "Group users — 50 share one data stream instead of one each. Cuts load 95%, adds a 1-second delay.",
+          "consequence": "Load collapses by 95%. Nobody notices the one-second delay. The budget officer notices the savings.",
           "axisImpact": { "Cost-Conscious": 1, "Performance-First": 0.5, "Speed": -0.3 }
         },
         {
           "id": "horizontal-scale",
-          "label": "Add more identical machines and spread users evenly. Each handles 500 comfortably. More expensive but needs zero changes in 7 days.",
+          "label": "Add more identical machines and spread users evenly. Costs more; needs zero code changes.",
+          "consequence": "More machines, zero drama. The invoice makes finance whimper, but Thursday's demo purrs.",
           "axisImpact": { "Stability": 1, "Speed": 0.5, "Cost-Conscious": -0.8 }
         },
         {
           "id": "rewrite-async",
-          "label": "Rewrite the connection system so one machine handles thousands at once. Could support 10,000 users — but it's a big rewrite with 7 days left.",
+          "label": "Rewrite the connection system so one machine handles thousands. Could hit 10,000 users — big rewrite, 7 days left.",
+          "consequence": "You bet everything on a rewrite... and it works Wednesday midnight. Legendary or reckless — nobody's sure.",
           "axisImpact": { "Innovation": 1, "Performance-First": 0.8, "Stability": -0.5 }
         },
         {
           "id": "tiered-access",
-          "label": "Generals get live updates, officers get 10-second delays, everyone else gets 30-second snapshots. Cuts live connections to under 200.",
+          "label": "Generals get live updates, officers 10-second delays, everyone else 30-second snapshots. Under 200 live connections.",
+          "consequence": "Under 200 live connections. Generals get real-time; somewhere a corporal mutters about his 30-second snapshots.",
           "axisImpact": { "Precision": 0.8, "Cost-Conscious": 0.5, "Collaboration": -0.3 }
         }
       ]
@@ -38,11 +45,13 @@
     "data-scientist": {
       "type": "numeric-input",
       "title": "Estimate Peak Users",
-      "instruction": "Not all 3,000 log in at once. The graph shows the peak simultaneous users from each previous exercise (in hundreds). Estimate the peak for this one.",
-      "hint": "Look at how the peak grows from exercise to exercise. Is it linear or accelerating? Where does the pattern land next?",
+      "instruction": "Not all 3,000 log in at once. The graph shows peak simultaneous users (in hundreds) from past exercises. Estimate this one's peak.",
+      "hint": "Is the growth steady or accelerating? Extend the pattern.",
       "chartData": [2, 5, 9, 14],
       "expected": 20,
       "tolerance": 5,
+      "consequenceSuccess": "Your estimate lands in range. Capacity gets sized just right — no crash, no waste.",
+      "consequenceFail": "Peak users blow past your guess and the screen wobbles. Growth curves strike again.",
       "axisImpact": {
         "Precision": 1,
         "Cost-Conscious": 0.5
@@ -52,16 +61,18 @@
       "type": "drag-drop",
       "variant": "order",
       "title": "Run the Stress Test",
-      "instruction": "Before fixing the crash, you need to understand every breaking point. Arrange the test steps.",
-      "hint": "Every good test starts by recording what normal looks like. Then push until it breaks, and figure out why.",
+      "instruction": "Before fixing anything, find every breaking point. Order the test steps.",
+      "hint": "Record normal first. Then push until it breaks.",
       "items": [
-        { "id": "baseline", "label": "Record normal performance with 100 simulated users as a baseline" },
-        { "id": "ramp-up", "label": "Gradually increase to 500 users — note where things slow down" },
-        { "id": "break-point", "label": "Push past 500 to find the exact moment it breaks and how" },
-        { "id": "profile-bottleneck", "label": "Check machine load, memory, and network at the breaking point" },
-        { "id": "fix-and-retest", "label": "Apply the fix, then run the full test again from scratch" }
+        { "id": "baseline", "label": "Record normal performance with 100 fake users" },
+        { "id": "ramp-up", "label": "Climb to 500 users — note where things slow" },
+        { "id": "break-point", "label": "Push past 500 until it breaks" },
+        { "id": "profile-bottleneck", "label": "Check machine load and memory at the break" },
+        { "id": "fix-and-retest", "label": "Apply the fix, then run it all again" }
       ],
       "correctOrder": ["baseline", "ramp-up", "break-point", "profile-bottleneck", "fix-and-retest"],
+      "consequenceSuccess": "You find the exact bolt that snaps at user 517. The fix team knows precisely what to fix.",
+      "consequenceFail": "You push to the crash without a baseline — now you can't tell broken from normal. Restart the test.",
       "axisImpact": {
         "Precision": 1,
         "Stability": 0.5

@@ -1,36 +1,40 @@
 {
   "id": "arc1-ch4",
   "title": "NDP 2026: Showtime",
-  "description": "The show is live. 40,000 in the stands, millions watching from home. Then the livestream starts buffering. You have 20 minutes before the fireworks finale. The whole nation is watching.",
+  "description": "The show is live, millions watching — and the livestream starts buffering.",
   "image": "/chapters/arc1-ch4.svg",
   "arc": 0,
   "chapter": 3,
-  "storyContext": "The show is live. Millions streaming from home. Then the video starts freezing and social media blows up. 20 minutes to fireworks. The whole nation is watching.",
+  "storyContext": "The show is live. Millions streaming at home. Then the video freezes and social media erupts. Twenty minutes to the fireworks finale. The whole nation is watching you.",
   "subScenarios": {
     "software-engineer": {
       "type": "binary-choice",
       "title": "Fix the Livestream",
-      "instruction": "The stream is freezing for millions of viewers. 20 minutes to fireworks. What do you do?",
-      "hint": "Something that works for everyone now beats a perfect fix that might fail halfway through. Think scale, not perfection.",
+      "instruction": "The stream is freezing for millions. Twenty minutes to fireworks. Your move.",
+      "hint": "Works-for-everyone-now beats perfect-but-risky.",
       "options": [
         {
           "id": "reduce-quality",
-          "label": "Lower video quality. Smooth playback instantly, but the committee wanted top quality for the drone formation.",
+          "label": "Lower video quality. Smooth playback instantly — but the drone show won't look as crisp.",
+          "consequence": "The buffering stops dead. The drones look slightly soft. Social media complains, then watches anyway.",
           "axisImpact": { "Speed": 1, "Stability": 0.8, "Performance-First": -0.5 }
         },
         {
           "id": "parallel-encode",
-          "label": "Spin up extra machines to share the workload. Uses 10 of your 20 minutes to set up, but quality stays perfect if it works.",
+          "label": "Spin up extra machines to share the load. Burns 10 of your 20 minutes; perfect quality if it works.",
+          "consequence": "Ten sweaty minutes... then crystal-clear video for millions. Biggest gamble of your life pays off.",
           "axisImpact": { "Innovation": 1, "Performance-First": 0.8, "Stability": -0.3 }
         },
         {
           "id": "cdn-switch",
           "label": "Switch to a backup streaming network. Quick to activate, but you lose some viewer statistics.",
+          "consequence": "The backup network takes the load like a champ. The analytics team lights a candle for the lost stats.",
           "axisImpact": { "Speed": 0.8, "Collaboration": 0.5, "Autonomy": -0.5 }
         },
         {
           "id": "adaptive-bitrate",
-          "label": "Smart streaming — each viewer gets the best quality their connection can handle. Nobody freezes, but not everyone sees top quality.",
+          "label": "Smart streaming — each viewer gets the best quality their connection handles. Nobody freezes; not everyone gets HD.",
+          "consequence": "Freezing stops for everyone at once. Some watch in HD, some in potato-vision, all see the finale.",
           "axisImpact": { "Innovation": 0.8, "Collaboration": 0.3, "Performance-First": 0.5 }
         }
       ]
@@ -38,11 +42,13 @@
     "data-scientist": {
       "type": "numeric-input",
       "title": "Predict Viewer Drop-off",
-      "instruction": "Viewers are leaving because the stream keeps freezing. The graph shows thousands still watching each minute. How many at the next check?",
-      "hint": "Look at how much drops each minute. Is the drop steady, speeding up, or slowing down? Carry the pattern forward.",
+      "instruction": "Viewers are bailing while the stream stutters. The graph shows thousands watching each minute. How many at the next check?",
+      "hint": "Is the drop steady, speeding up, or slowing? Carry it forward.",
       "chartData": [850, 780, 690, 610],
       "expected": 530,
       "tolerance": 60,
+      "consequenceSuccess": "Your forecast lands. The team knows exactly how long they have before the audience is gone.",
+      "consequenceFail": "The audience drains faster than your maths. Trend lines don't care about feelings. Recheck the drops.",
       "axisImpact": {
         "Precision": 1,
         "Speed": 0.5
@@ -52,16 +58,18 @@
       "type": "drag-drop",
       "variant": "order",
       "title": "Spread the Load",
-      "instruction": "Main system is overwhelmed. Spread traffic to backups in other locations. One mistake and the stream goes dark.",
-      "hint": "Always check and prepare backups before sending traffic to them. Test with a small portion before going all-in.",
+      "instruction": "The main system is drowning. Shift traffic to backups — one mistake and the stream goes dark.",
+      "hint": "Prep backups before sending traffic. Test small before going all-in.",
       "items": [
-        { "id": "health-check", "label": "Check that backup systems are healthy and ready" },
-        { "id": "dns-update", "label": "Update routing so traffic can reach multiple locations" },
-        { "id": "warm-cache", "label": "Load the latest video content onto backups" },
-        { "id": "gradual-shift", "label": "Move 30% of traffic to backups as a test" },
-        { "id": "full-balance", "label": "Once stable, spread traffic evenly across everything" }
+        { "id": "health-check", "label": "Check the backups are healthy and ready" },
+        { "id": "dns-update", "label": "Update routing so traffic can reach them" },
+        { "id": "warm-cache", "label": "Load the latest video onto the backups" },
+        { "id": "gradual-shift", "label": "Send 30% of traffic over as a test" },
+        { "id": "full-balance", "label": "Once stable, spread traffic evenly" }
       ],
       "correctOrder": ["health-check", "warm-cache", "dns-update", "gradual-shift", "full-balance"],
+      "consequenceSuccess": "Traffic glides across the backups. The stream steadies just as the first firework lifts. Chef's kiss.",
+      "consequenceFail": "You shift traffic to cold backups and they choke. Warm-up first, spotlight second.",
       "axisImpact": {
         "Stability": 1,
         "Speed": 0.5

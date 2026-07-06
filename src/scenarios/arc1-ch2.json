@@ -1,36 +1,40 @@
 {
   "id": "arc1-ch2",
   "title": "NDP 2026: Rehearsal Night Chaos",
-  "description": "It's the combined rehearsal and 40,000 people just opened the app at once. The servers are struggling to keep up. You must stabilize things before the show ends.",
+  "description": "Rehearsal night. 40,000 phones open the app at once. Everything goes red.",
   "image": "/chapters/arc1-ch2.svg",
   "arc": 0,
   "chapter": 1,
-  "storyContext": "Combined rehearsal. 40,000 people just opened the app at once and everything is going red. Fix it before fireworks, or the committee kills the feature for the real show.",
+  "storyContext": "Combined rehearsal. 40,000 people open the app at once and every dashboard goes red. Fix it before the fireworks — or the committee kills the feature for the real show.",
   "subScenarios": {
     "software-engineer": {
       "type": "binary-choice",
       "title": "Emergency Fix",
-      "instruction": "The app takes 8 seconds to load and people are giving up. Time for one fix before fireworks. Which one?",
-      "hint": "A quick fix that works now usually beats a perfect fix that takes too long. What gets the most people back fastest?",
+      "instruction": "The app takes 8 seconds to load and people are giving up. One fix before fireworks. Pick.",
+      "hint": "A quick fix now beats a perfect fix too late.",
       "options": [
         {
           "id": "cache-layer",
-          "label": "Save recent answers so the app stops asking the system every single time. Fixes 60% of the slowness, but some info may be a few minutes stale.",
+          "label": "Add a [[cache]] — save recent answers instead of re-asking every time. Fixes 60% of the slowness; some info goes slightly stale.",
+          "consequence": "Load time drops from 8 seconds to 3. A few fun facts are five minutes old. Nobody notices. 😮‍💨",
           "axisImpact": { "Speed": 1, "Performance-First": 0.8, "Precision": -0.3 }
         },
         {
           "id": "kill-features",
-          "label": "Turn off the float scanner, show text only. Instant speed boost but the main feature is gone tonight.",
+          "label": "Turn off the float scanner, show text only. Instant speed, but the star feature is gone tonight.",
+          "consequence": "The app flies again — minus its star feature. The committee notices the missing scanner. Oof.",
           "axisImpact": { "Stability": 1, "Speed": 0.5, "Innovation": -0.5 }
         },
         {
           "id": "optimize-queries",
-          "label": "Fix the slowest searches at the root. Takes longer but permanently solves the problem.",
+          "label": "Fix the slowest searches at the root. Takes longer, but solves it forever.",
+          "consequence": "You fix it properly... twenty minutes after the fireworks. Tomorrow's you says thanks. Tonight's crowd, less so.",
           "axisImpact": { "Precision": 1, "Stability": 0.5, "Speed": -0.5 }
         },
         {
           "id": "queue-requests",
-          "label": "Add a waiting queue with a loading animation instead of error messages. Nobody gets kicked out, but nobody gets instant results.",
+          "label": "Add a friendly waiting queue instead of error screens. Nobody gets kicked out, nobody gets instant results.",
+          "consequence": "No more error screens — just a cute loading animation. The crowd waits. Patiently-ish.",
           "axisImpact": { "Collaboration": 0.5, "Stability": 0.8, "Performance-First": -0.3 }
         }
       ]
@@ -38,11 +42,13 @@
     "data-scientist": {
       "type": "numeric-input",
       "title": "How Many Machines Do We Need?",
-      "instruction": "More people join every few minutes. Each machine handles about 5,000 people. The graph shows thousands online at four check-ins. How many machines for the peak?",
-      "hint": "Project where the crowd tops out, then divide by 5,000. Round up — you can't have half a machine.",
+      "instruction": "Each machine handles about 5,000 people. The graph shows thousands online at four check-ins. How many machines for the peak?",
+      "hint": "Project the peak, divide by 5,000, round up.",
       "chartData": [4, 12, 28, 40],
       "expected": 11,
       "tolerance": 3,
+      "consequenceSuccess": "Machines spin up right as the crowd peaks. The dashboard fades from red to green. You exhale.",
+      "consequenceFail": "Your estimate misses the peak — error screens for the overflow crowd. Capacity maths is brutal. Round up!",
       "axisImpact": {
         "Performance-First": 1,
         "Cost-Conscious": 0.5
@@ -52,16 +58,18 @@
       "type": "drag-drop",
       "variant": "order",
       "title": "Find What's Broken",
-      "instruction": "Warning screen is lit up. Find what's actually broken and why. Arrange the investigation steps.",
-      "hint": "Start with the big picture before zooming in. Look at what's already visible before digging for hidden clues.",
+      "instruction": "Every warning light is on. Order the investigation steps to find what's actually broken.",
+      "hint": "Big picture first. Visible clues before hidden ones.",
       "items": [
         { "id": "check-metrics", "label": "Pull up the live dashboard — what's under pressure?" },
-        { "id": "identify-bottleneck", "label": "Match the spike timing to specific parts of the app" },
-        { "id": "sample-logs", "label": "Check error messages from the last 10 minutes for patterns" },
-        { "id": "trace-requests", "label": "Follow individual slow requests to see where time is lost" },
-        { "id": "report-findings", "label": "Write up findings so the team can act" }
+        { "id": "identify-bottleneck", "label": "Match the spike to specific parts of the app" },
+        { "id": "sample-logs", "label": "Scan the last 10 minutes of error messages" },
+        { "id": "trace-requests", "label": "Follow slow requests to see where time is lost" },
+        { "id": "report-findings", "label": "Tell the team what you found" }
       ],
       "correctOrder": ["check-metrics", "sample-logs", "identify-bottleneck", "trace-requests", "report-findings"],
+      "consequenceSuccess": "You find the choke point in minutes. The fix team moves before the drones even launch.",
+      "consequenceFail": "You dig into details before checking the dashboard — the answer was on screen the whole time. Classic.",
       "axisImpact": {
         "Precision": 1,
         "Speed": 0.5

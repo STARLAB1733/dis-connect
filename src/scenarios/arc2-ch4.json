@@ -1,36 +1,40 @@
 {
   "id": "arc2-ch4",
   "title": "Exercise Northstar: After Action",
-  "description": "The exercise is over. Command wants a data-driven report analysing unit readiness, decision speed, and logistics efficiency. Your analysis will shape how the SAF trains for the next 5 years.",
+  "description": "Exercise over. Now turn mountains of data into the report that shapes SAF training.",
   "image": "/chapters/arc2-ch4.svg",
   "arc": 1,
   "chapter": 3,
-  "storyContext": "Northstar is over. Vehicles rolling back to camp, everyone exhausted. But the Chief of Army wants a report on unit readiness, decision speed, and logistics efficiency within two weeks. Your findings will shape how the SAF trains for the next five years. Mountains of GPS tracks, supply logs, radio transcripts, and decision timestamps. Time to turn raw data into answers.",
+  "storyContext": "Northstar's over; everyone's exhausted. But the Chief of Army wants a report — readiness, decision speed, logistics — in two weeks. Your findings shape SAF training for five years. Time to make the data talk.",
   "subScenarios": {
     "software-engineer": {
       "type": "binary-choice",
       "title": "Build the Review Tool",
-      "instruction": "The generals want a tool that lets them replay the entire exercise on a timeline, like a video player, to see how decisions played out. How do you build it?",
-      "hint": "Rich and interactive takes time. Simple and shareable is faster. What does the deadline allow, and what do generals actually need to make decisions?",
+      "instruction": "Generals want to replay the whole exercise on a timeline, like a video. How do you build it?",
+      "hint": "Rich takes time. Simple ships fast. What do generals actually need?",
       "options": [
         {
           "id": "timeline-replay",
-          "label": "Full replay tool with the actual map, unit movements, and decision markers. Takes 2 weeks, but commanders can rewatch the entire exercise.",
+          "label": "Full replay with map, movements, and decision markers. Two weeks; commanders can rewatch everything.",
+          "consequence": "Two weeks vanish, but generals scrub the timeline like a Netflix drama. Nobody leaves the room.",
           "axisImpact": { "Performance-First": 1, "Innovation": 0.8, "Speed": -0.5 }
         },
         {
           "id": "static-report",
-          "label": "Report with charts, key-moment screenshots, and auto-generated insights. Done in 3 days, easy to share. No interactive replay though.",
+          "label": "Charts, key-moment screenshots, auto-generated insights. Done in 3 days, easy to share. No replay.",
+          "consequence": "Done in three days, forwarded to every unit by Friday. Not flashy — but everyone actually reads it.",
           "axisImpact": { "Speed": 1, "Cost-Conscious": 0.5, "Innovation": -0.3 }
         },
         {
           "id": "ai-highlights",
-          "label": "Use AI to find the 20 most critical moments and generate a short analysis for each. Fast and novel, but the AI might miss events that don't look dramatic in the data.",
+          "label": "AI picks the 20 most critical moments and analyses each. Fast, but may miss quiet moments.",
+          "consequence": "The AI nails 18 of 20 key moments — and completely misses the quiet supply crisis. Humans still needed.",
           "axisImpact": { "Innovation": 1, "Speed": 0.5, "Precision": -0.3 }
         },
         {
           "id": "collaborative-tool",
-          "label": "Shared tool where unit commanders mark up the timeline with their own observations. Richer insights, but takes time to collect everyone's input.",
+          "label": "Shared timeline that unit commanders mark up with their own observations. Richer insights, slower to collect.",
+          "consequence": "Commanders pile in with notes you'd never have found in the data. Worth every extra day.",
           "axisImpact": { "Collaboration": 1, "Precision": 0.5, "Speed": -0.5 }
         }
       ]
@@ -39,16 +43,18 @@
       "type": "drag-drop",
       "variant": "order",
       "title": "Calculate Readiness Scores",
-      "instruction": "The generals want a single readiness score for each unit. You have GPS tracks, supply requests, radio logs, and decision timestamps. Arrange the analysis steps.",
-      "hint": "Bad data makes bad scores. Always agree on what you're measuring before you measure it. Then check your results against what people actually observed.",
+      "instruction": "One readiness score per unit, from GPS, supply, radio and decision data. Order the analysis steps.",
+      "hint": "Agree what you're measuring before measuring. Check results against reality.",
       "items": [
-        { "id": "clean-data", "label": "Clean the raw data — remove errors and duplicate entries" },
-        { "id": "define-metrics", "label": "Agree with exercise planners on what 'readiness' means and how to measure it" },
-        { "id": "compute-scores", "label": "Calculate a readiness score for each unit using the agreed definition" },
-        { "id": "cross-validate", "label": "Compare scores against what human observers reported to catch mistakes" },
-        { "id": "present-findings", "label": "Present results to command with an honest note on confidence levels" }
+        { "id": "clean-data", "label": "Scrub errors and duplicates from the raw data" },
+        { "id": "define-metrics", "label": "Agree with planners what 'readiness' even means" },
+        { "id": "compute-scores", "label": "Calculate each unit's score using that definition" },
+        { "id": "cross-validate", "label": "Compare scores against human observer reports" },
+        { "id": "present-findings", "label": "Present to command with honest confidence levels" }
       ],
       "correctOrder": ["clean-data", "define-metrics", "compute-scores", "cross-validate", "present-findings"],
+      "consequenceSuccess": "Scores match what observers saw on the ground. Command trusts every number in your report.",
+      "consequenceFail": "One unit scores 9/10 while its own commander calls it a shambles. Back to the definitions.",
       "axisImpact": {
         "Precision": 1,
         "Collaboration": 0.5
@@ -57,11 +63,13 @@
     "cloud-engineer": {
       "type": "numeric-input",
       "title": "Estimate Storage Needed",
-      "instruction": "The exercise ran 14 days and all data must be saved for future training. The graph shows terabytes produced each day over the last 4 days. Estimate total storage for all 14 days, then add 30% for the filing system overhead.",
-      "hint": "Estimate the total for 14 days first using the daily trend, then multiply by 1.3 for the 30% overhead.",
+      "instruction": "The 14-day exercise's data must be archived. The graph shows daily terabytes for the last 4 days. Estimate the 14-day total plus 30% overhead.",
+      "hint": "Total all 14 days from the trend, then multiply by 1.3.",
       "chartData": [2, 3, 5, 8],
       "expected": 82,
       "tolerance": 20,
+      "consequenceSuccess": "Storage arrives sized just right — every byte of Northstar archived for future trainees.",
+      "consequenceFail": "The archive runs out of room on day 11. Someone has to delete drone footage. Painful.",
       "axisImpact": {
         "Cost-Conscious": 1,
         "Precision": 0.5

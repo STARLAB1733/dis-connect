@@ -1,36 +1,40 @@
 {
   "id": "arc3-ch4",
   "title": "Ops Resilience: Never Again",
-  "description": "Power is restored. The PM wants answers: who did this, how did they do it, and what stops it happening again? DIS has one week to brief Parliament.",
+  "description": "Power's back. Parliament wants answers — and a plan.",
   "image": "/chapters/arc3-ch4.svg",
   "arc": 2,
   "chapter": 3,
-  "storyContext": "Power is back. Most people will never know how close it got. But the PM knows, and Parliament wants answers. Your team has one week to explain who did this, how they got in, and what stops it from ever happening again. Your evidence will shape national cybersecurity policy for the next decade.",
+  "storyContext": "Power is back; most people will never know how close it got. The PM knows. One week to tell Parliament who did this, how, and what stops it forever.",
   "subScenarios": {
     "software-engineer": {
       "type": "binary-choice",
       "title": "Design the Permanent Defence",
-      "instruction": "The attack exploited a gap between the power station systems and the office network. Leadership wants a permanent fix. What do you propose?",
-      "hint": "The best long-term defence closes the gap without creating new problems — like making it impossible to manage systems when you need to.",
+      "instruction": "The attack slipped through the gap between station systems and office networks. Propose the fix.",
+      "hint": "Close the gap without locking yourself out too.",
       "options": [
         {
           "id": "zero-trust-ot",
-          "label": "Every connection between stations and office networks must prove it's legitimate before being allowed through. Nothing trusted by default. Gold standard, but takes 18 months to roll out.",
+          "label": "[[Zero trust]] — every connection must prove itself, nothing trusted by default. Gold standard; takes 18 months.",
+          "consequence": "Eighteen months of rollout begins. Painful, slow — and every audit after calls it the decision that mattered.",
           "axisImpact": { "Stability": 1, "Precision": 0.8, "Speed": -0.5 }
         },
         {
           "id": "ai-soc",
-          "label": "AI-powered security centre that watches everything around the clock, flags suspicious activity, and auto-responds to known threats. Operational in 3 months.",
+          "label": "AI security centre watching around the clock, auto-responding to known threats. Live in 3 months.",
+          "consequence": "Three months later, the AI catches its first intruder at 4am and locks them out before anyone wakes. Nice.",
           "axisImpact": { "Innovation": 1, "Speed": 0.5, "Cost-Conscious": -0.5 }
         },
         {
           "id": "air-gap",
-          "label": "Physically cut all internet connections to critical systems forever. Ultimate defence, but every update needs an engineer on-site. No remote management.",
+          "label": "Cut critical systems from the internet forever. Ultimate defence; every update needs someone on-site.",
+          "consequence": "The cables are cut — literally. Attackers can't get in remotely. Neither can your engineers. The vans get busy.",
           "axisImpact": { "Stability": 1, "Autonomy": 0.5, "Innovation": -0.8 }
         },
         {
           "id": "threat-sharing",
-          "label": "Regional programme where neighbouring countries' utilities share attack details in real time. One country detecting an attack means everyone is warned instantly.",
+          "label": "Regional programme — neighbouring utilities share attack intel in real time. One detects, all are warned.",
+          "consequence": "Six months in, a neighbour flags an attack at 2am — same pattern. This time, Singapore is ready first.",
           "axisImpact": { "Collaboration": 1, "Innovation": 0.5, "Autonomy": -0.5 }
         }
       ]
@@ -39,31 +43,33 @@
       "type": "drag-drop",
       "variant": "order",
       "title": "Build the Evidence Case",
-      "instruction": "Intelligence suggests a state-backed attacker but the PM needs solid evidence for Parliament. Arrange the investigation steps.",
-      "hint": "Gather all evidence before drawing conclusions. Build from concrete facts toward the bigger picture, and always be honest about how certain you are.",
+      "instruction": "Intel points to a state-backed group; Parliament needs solid proof. Order the investigation.",
+      "hint": "Facts before conclusions. Be honest about certainty.",
       "items": [
-        { "id": "ttps-match", "label": "Compare the attacker's methods against a database of known groups" },
-        { "id": "infrastructure-trace", "label": "Trace network traffic backwards through disguised relay points to find the source" },
-        { "id": "code-analysis", "label": "Study the malicious code for stylistic clues — like analysing handwriting" },
-        { "id": "timing-analysis", "label": "Check when attacks happened against working hours and time zones of suspected groups" },
-        { "id": "confidence-statement", "label": "Combine all evidence into a clear statement for Parliament with an honest confidence level" }
+        { "id": "ttps-match", "label": "Compare their methods against known attacker groups" },
+        { "id": "infrastructure-trace", "label": "Trace traffic back through disguised relays" },
+        { "id": "code-analysis", "label": "Study the malicious code like handwriting" },
+        { "id": "timing-analysis", "label": "Match attack times to suspects' time zones" },
+        { "id": "confidence-statement", "label": "State conclusions with honest confidence" }
       ],
       "correctOrder": ["ttps-match", "infrastructure-trace", "code-analysis", "timing-analysis", "confidence-statement"],
+      "consequenceSuccess": "Method, source, style, and timing all point one way. Parliament gets a case that stands up.",
+      "consequenceFail": "Conclusion first, evidence after — a sharp MP pulls one thread and the case wobbles. Rebuild it properly.",
       "axisImpact": { "Precision": 1, "Collaboration": 0.5 }
     },
     "cloud-engineer": {
       "type": "drag-drop",
       "variant": "layout",
       "title": "Design the Defence Architecture",
-      "instruction": "Design an infrastructure that survives future attacks. Layer 1: stops attacks. Layers 2-3: detect and respond. Layer 4: recovers when things go wrong.",
-      "hint": "Think about each tool's job — stopping, spotting, reacting, or recovering. Match each to the layer that fits its purpose.",
+      "instruction": "Defend in layers: stop, spot, react, recover. Match each tool to its layer.",
+      "hint": "Each tool has one job — which layer is it?",
       "items": [
-        { "id": "waf", "label": "Traffic Filter — blocks suspicious incoming traffic at the gate" },
-        { "id": "siem", "label": "Threat Detector — monitors and flags suspicious events" },
-        { "id": "soar", "label": "Auto-Responder — automatically acts on confirmed threats" },
-        { "id": "dr-site", "label": "Backup Control Centre — takes over if the main site goes down" },
-        { "id": "vuln-scanner", "label": "Weakness Finder — scans for security gaps before attackers do" },
-        { "id": "backup-system", "label": "Protected Backup Vault — stores clean backups the attacker can't reach" }
+        { "id": "waf", "label": "Traffic Filter — blocks suspicious traffic" },
+        { "id": "siem", "label": "Threat Detector — flags suspicious events" },
+        { "id": "soar", "label": "Auto-Responder — acts on confirmed threats" },
+        { "id": "dr-site", "label": "Backup Control Centre — takes over if main falls" },
+        { "id": "vuln-scanner", "label": "Weakness Finder — finds gaps before attackers" },
+        { "id": "backup-system", "label": "Protected Backup Vault — clean, untouchable backups" }
       ],
       "dropZones": [
         { "id": "zone-1", "label": "Stop Attacks (Prevention)" },
@@ -72,6 +78,8 @@
         { "id": "zone-4", "label": "Recover and Restore" }
       ],
       "correctOrder": ["waf", "siem", "soar", "dr-site"],
+      "consequenceSuccess": "Four layers, each covering the next one's blind spot. The red team hired to test it comes back humbled.",
+      "consequenceFail": "A responder in the prevention layer means attacks get answered but never blocked. Swap the layers around.",
       "axisImpact": { "Stability": 1, "Innovation": 0.5 }
     }
   }

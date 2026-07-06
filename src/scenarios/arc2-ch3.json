@@ -1,26 +1,31 @@
 {
   "id": "arc2-ch3",
   "title": "Exercise Northstar: D-Day",
-  "description": "The exercise is live. But field commanders are reporting stale information on their screens. Units moved 20 minutes ago but the screen still shows them at their old positions. Decisions are being made on outdated intel.",
+  "description": "The exercise is live — and commanders are staring at 20-minute-old positions.",
   "image": "/chapters/arc2-ch3.svg",
   "arc": 1,
   "chapter": 2,
-  "storyContext": "Exercise is live, 3,000 in the field. Then the radio crackles: \"Command, why does my screen show Alpha Company at their old position? They moved to the ridge 20 minutes ago.\" Commanders are making decisions on stale information. In a real operation, that gets people hurt.",
+  "storyContext": "Exercise live, 3,000 in the field. The radio crackles: \"Command, my screen shows Alpha Company at their old position. They moved 20 minutes ago.\" In a real operation, stale data gets people hurt.",
+  "callbacks": {
+    "arc2-ch1:micro-batch": "Your 5-second batching kept the display so clean that everyone trusted the screen completely. That trust is exactly the problem now."
+  },
   "subScenarios": {
     "software-engineer": {
       "type": "drag-drop",
       "variant": "order",
-      "title": "Track Down the Stale Data",
-      "instruction": "Commanders are seeing 20-minute-old positions. Trace where in the chain the data is getting stuck. Arrange the investigation steps.",
-      "hint": "Data can get stuck anywhere — at the source, in transit, in storage, or on the screen. Trace the path step by step from start to end.",
+      "title": "Find the Stale Data",
+      "instruction": "Positions are 20 minutes old. Trace where data gets stuck, field to screen.",
+      "hint": "Data jams at the source, in transit, in storage, or on screen.",
       "items": [
-        { "id": "check-source", "label": "Confirm field devices are actually sending fresh updates" },
-        { "id": "check-pipeline", "label": "Check if updates are piling up somewhere between field and command" },
-        { "id": "check-cache", "label": "Check if the system is showing old saved answers instead of fresh ones" },
-        { "id": "check-websocket", "label": "Verify the live connection is actually pushing updates to screens" },
-        { "id": "deploy-fix", "label": "Deploy the fix and confirm fresh data flows to commander screens" }
+        { "id": "check-source", "label": "Confirm field devices are sending fresh updates" },
+        { "id": "check-pipeline", "label": "Check if updates pile up in transit" },
+        { "id": "check-cache", "label": "Check if stale saved answers get shown" },
+        { "id": "check-websocket", "label": "Verify the live connection pushes to screens" },
+        { "id": "deploy-fix", "label": "Deploy the fix, confirm fresh data flows" }
       ],
       "correctOrder": ["check-source", "check-pipeline", "check-cache", "check-websocket", "deploy-fix"],
+      "consequenceSuccess": "Found it — updates jammed mid-route. Twenty minutes later, dots move in real time and the radios go quiet.",
+      "consequenceFail": "You start at the screen and work backwards — an hour lost. The jam was near the source.",
       "axisImpact": {
         "Speed": 1,
         "Precision": 0.5
@@ -29,27 +34,31 @@
     "data-scientist": {
       "type": "binary-choice",
       "title": "Help Commanders Decide Now",
-      "instruction": "While engineers fix the data problem, commanders still need to make decisions with 20-minute-old positions. How do you give them a usable picture right now?",
-      "hint": "Think about what commanders need most: a confident guess, trusted manual reports, honest uncertainty markers, or a completely different source of truth?",
+      "instruction": "Engineers are fixing the flow. Commanders need a usable picture now. What do you give them?",
+      "hint": "Confident guess, trusted radio, honest uncertainty, or another source?",
       "options": [
         {
           "id": "predict-positions",
-          "label": "Use each unit's last known speed and direction to estimate where they probably are now. Surprisingly accurate for short time gaps.",
+          "label": "Estimate each unit's spot from its last speed and direction. Surprisingly accurate for short gaps.",
+          "consequence": "Your predicted dots land within 100 metres of reality. Maths quietly saves the morning.",
           "axisImpact": { "Innovation": 1, "Speed": 0.8, "Precision": -0.3 }
         },
         {
           "id": "radio-reports",
-          "label": "Have each unit call in their position by radio every 5 minutes. Old school but 100% accurate.",
+          "label": "Units call in positions by radio every 5 minutes. Old school, but 100% true.",
+          "consequence": "Radios crackle every five minutes. Slower, noisier — and every position is true. Old school delivers.",
           "axisImpact": { "Stability": 1, "Precision": 0.5, "Innovation": -0.5 }
         },
         {
           "id": "confidence-overlay",
-          "label": "Show old positions but add a growing ring around each dot so commanders see how outdated the info is. Honest, but might cause decision paralysis.",
+          "label": "Show old positions with a growing 'staleness ring' around each dot. Honest — maybe paralysing.",
+          "consequence": "Rings grow around every dot. Commanders finally see what the screen doesn't know. A few freeze up.",
           "axisImpact": { "Precision": 1, "Collaboration": 0.5, "Speed": -0.3 }
         },
         {
           "id": "drone-feed",
-          "label": "Show live drone camera feeds so commanders can literally see where units are. Works perfectly unless clouds roll in.",
+          "label": "Live drone cameras — commanders literally see units. Perfect until clouds roll in.",
+          "consequence": "Live drone footage — commanders love it. Then a cloud bank rolls over the western sector. Uh oh.",
           "axisImpact": { "Performance-First": 1, "Innovation": 0.5, "Cost-Conscious": -0.5 }
         }
       ]
@@ -58,15 +67,15 @@
       "type": "drag-drop",
       "variant": "layout",
       "title": "Rebuild the Data Pipeline",
-      "instruction": "Updates are getting stuck between field and screen. Redesign the route. Stage 1: data arrives. Stages 2 and 3: processing. Stage 4: delivered to screens.",
-      "hint": "Follow the natural flow — data arrives, gets sorted, gets cleaned, then gets pushed out to whoever needs it.",
+      "instruction": "Rebuild the route: data arrives, gets processed, gets delivered.",
+      "hint": "Sort before cleaning. Deliver last.",
       "items": [
-        { "id": "mqtt-broker", "label": "Field Receiver — collects all incoming data from field devices" },
-        { "id": "stream-processor", "label": "Live Sorter — processes and organises incoming updates" },
-        { "id": "cache-invalidator", "label": "Old Data Cleaner — marks stale data so fresh data replaces it" },
-        { "id": "websocket-gateway", "label": "Live Relay — pushes fresh data to commander screens" },
-        { "id": "dead-letter-queue", "label": "Failed Message Store — holds undelivered updates for retry" },
-        { "id": "health-monitor", "label": "System Watcher — alerts the team if any stage stops working" }
+        { "id": "mqtt-broker", "label": "Field Receiver — collects incoming field data" },
+        { "id": "stream-processor", "label": "Live Sorter — organises incoming updates" },
+        { "id": "cache-invalidator", "label": "Old Data Cleaner — flags stale data" },
+        { "id": "websocket-gateway", "label": "Live Relay — pushes fresh data to screens" },
+        { "id": "dead-letter-queue", "label": "Failed Message Store — holds undelivered updates" },
+        { "id": "health-monitor", "label": "System Watcher — alerts when stages stop" }
       ],
       "dropZones": [
         { "id": "zone-1", "label": "Data Arrives" },
@@ -75,6 +84,8 @@
         { "id": "zone-4", "label": "Delivered to Screens" }
       ],
       "correctOrder": ["mqtt-broker", "stream-processor", "cache-invalidator", "websocket-gateway"],
+      "consequenceSuccess": "Data flows clean, field to screen in seconds. The ops room actually applauds.",
+      "consequenceFail": "One stage out of place and updates loop endlessly — the screen shows yesterday. Re-trace the flow.",
       "axisImpact": {
         "Speed": 1,
         "Stability": 0.5
