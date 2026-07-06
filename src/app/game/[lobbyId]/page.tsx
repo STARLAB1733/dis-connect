@@ -4,8 +4,9 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { auth, db, initAuth } from '@/lib/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { doc, onSnapshot, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, onSnapshot, updateDoc, serverTimestamp, collection, getDocs } from 'firebase/firestore';
 import ScenarioWrapper from '@/components/ScenarioWrapper';
+import GlossaryText from '@/components/GlossaryText';
 import GroupQuestionPhase from '@/components/GroupQuestionPhase';
 import { getScenario, getGroupScenario } from '@/lib/scenarioLoader';
 import {
@@ -116,6 +117,38 @@ export default function GamePage() {
     setSkipReady(false);
     setPromoteReady(false);
   }, [chapterKey]);
+
+  // Ripple callbacks: if this chapter declares callbacks ("scenarioId:optionId"
+  // → extra story line), check the team's earlier logged choices and surface
+  // any matches so the story visibly remembers past decisions. Best-effort
+  // flavor only — failures never block the game.
+  const [callbackLines, setCallbackLines] = useState<string[]>([]);
+  const lobbyLoaded = !!lobby;
+  useEffect(() => {
+    setCallbackLines([]);
+    const callbacks = getScenario(arcIdx, chapterIdx)?.callbacks;
+    if (!callbacks || !lobbyId || !lobbyLoaded) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const snap = await getDocs(collection(db, 'lobbies', lobbyId, 'logs'));
+        const madeChoices = new Set<string>();
+        snap.forEach(d => {
+          const data = d.data() as { scenarioId?: string; result?: unknown };
+          if (data.scenarioId && typeof data.result === 'string') {
+            madeChoices.add(`${data.scenarioId}:${data.result}`);
+          }
+        });
+        const lines = Object.entries(callbacks)
+          .filter(([key]) => madeChoices.has(key))
+          .map(([, line]) => line);
+        if (!cancelled && lines.length > 0) setCallbackLines(lines);
+      } catch {
+        // flavor text only — ignore read failures
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [lobbyId, chapterKey, lobbyLoaded]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Skip timer: fires after this player has answered but others haven't.
   // Uses a 5s delay when the only pending players are confirmed dropouts (fast auto-advance),
@@ -504,9 +537,18 @@ export default function GamePage() {
           </div>
         )}
 
-        {scenario.storyContext && (
+        {(scenario.storyContext || callbackLines.length > 0) && (
           <div className="bg-[#0f172a] border border-[#1e293b] rounded-lg p-4 mb-4 text-center">
-            <p className="text-sm text-[#cbd5e1] italic leading-relaxed">{scenario.storyContext}</p>
+            {scenario.storyContext && (
+              <p className="text-sm text-[#cbd5e1] italic leading-relaxed">
+                <GlossaryText text={scenario.storyContext} />
+              </p>
+            )}
+            {callbackLines.map((line, i) => (
+              <p key={i} className="text-sm text-[#FF6600] italic leading-relaxed mt-2">
+                📡 {line}
+              </p>
+            ))}
           </div>
         )}
 

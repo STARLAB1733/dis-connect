@@ -58,7 +58,12 @@ DISConnect is designed for **1–3 players** playing on their own devices (phone
 4. Host enters an optional **Team Name** (only meaningful for 2+ players; automatically disabled for solo play)
 5. Host clicks **Start Game** when ready (can start with 1, 2, or 3 players)
 
-### Game (15–20 minutes)
+### Game (30–45 minutes solo/quick pace; 45–90 minutes with group discussion)
+Playtime is player-paced — there is no countdown timer. A solo player clicking
+through takes ~30 minutes; a 3-player team that actually discusses the group
+questions should budget **45–90 minutes** (see ADMIN.md). Event facilitators:
+do not book a slot shorter than 45 minutes for team play.
+
 The game consists of **12 chapters** across 3 mission arcs:
 - **Arc 1 — NDP 2026**: Infrastructure and systems operations
 - **Arc 2 — Exercise Northstar**: Intelligence and data operations

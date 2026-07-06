@@ -9,6 +9,8 @@ import DragDropLayoutStep from './DragDropLayoutStep';
 import DragDropOrderStep from './DragDropOrderStep';
 import NumericInputStep from './NumericInputStep';
 import BinaryChoiceStep from './BinaryChoiceStep';
+import ConsequenceBeat from './ConsequenceBeat';
+import GlossaryText from './GlossaryText';
 import { Scenario, SubScenario, AxisImpact } from '@/types/scenario';
 import type {
   DragDropLayoutScenario,
@@ -30,6 +32,7 @@ type Props = {
 export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcIdx, chapterIdx }: Props) {
   const [user] = useAuthState(auth);
   const [hintShown, setHintShown] = useState(false);
+  const [beat, setBeat] = useState<{ text: string; tone: 'success' | 'fail' | 'neutral' } | null>(null);
   const sub: SubScenario | undefined = scenario.subScenarios[role];
 
    /**
@@ -51,6 +54,13 @@ export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcId
     if (!user) return;
 
     let weightedImpact: AxisImpact = {};
+    // Reactive story beat to show after submit (success/fail for scored
+    // tasks at a 0.6 ratio threshold, per-option for choices)
+    let nextBeat: { text: string; tone: 'success' | 'fail' | 'neutral' } | null = null;
+    const pickOutcomeBeat = (s: { consequenceSuccess?: string; consequenceFail?: string }, ratio: number) => {
+      const text = ratio >= 0.6 ? s.consequenceSuccess : s.consequenceFail;
+      if (text) nextBeat = { text, tone: ratio >= 0.6 ? 'success' : 'fail' };
+    };
 
     // 1) DRAG‐DROP scenarios
     if (sub.type === 'drag-drop') {
@@ -77,6 +87,7 @@ export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcId
         Object.entries(baseImpact).forEach(([axis, value]) => {
           weightedImpact[axis] = (value ?? 0) * ratio;
         });
+        pickOutcomeBeat(orderSub, ratio);
       }
 
       // CASE B: “layout” variant (user assigns items into zones with continuous-distance scoring)
@@ -131,6 +142,7 @@ export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcId
         Object.entries(baseImpact).forEach(([axis, value]) => {
           weightedImpact[axis] = (value ?? 0) * ratio;
         });
+        pickOutcomeBeat(layoutSub, ratio);
       }
     }
 
@@ -151,6 +163,7 @@ export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcId
       Object.entries(baseImpact).forEach(([axis, value]) => {
         weightedImpact[axis] = (value ?? 0) * ratio;
       });
+      pickOutcomeBeat(numSub, ratio);
     }
 
     // 3) BINARY‐CHOICE scenario
@@ -166,6 +179,9 @@ export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcId
         weightedImpact = { ...chosenOption.axisImpact };
       } else {
         weightedImpact = {};
+      }
+      if (chosenOption?.consequence) {
+        nextBeat = { text: chosenOption.consequence, tone: 'neutral' };
       }
     }
 
@@ -189,16 +205,31 @@ export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcId
       timestamp: serverTimestamp(),
     });
 
-    // Move on to the next turn
-    onNext();
+    // Show the reactive beat if one exists; onNext fires when it's dismissed
+    if (nextBeat) {
+      setBeat(nextBeat);
+    } else {
+      onNext();
+    }
   };
 
   return (
     <div className="space-y-4">
+      {beat && (
+        <ConsequenceBeat
+          text={beat.text}
+          tone={beat.tone}
+          onDismiss={() => {
+            setBeat(null);
+            onNext();
+          }}
+        />
+      )}
+
       {/* Role header (always rendered) */}
       <section className="space-y-1">
         <h2 className="text-xl font-semibold text-[#e2e8f0]">{sub.title}</h2>
-        <p className="text-sm text-[#94a3b8] italic whitespace-pre-line">{sub.instruction}</p>
+        <p className="text-sm text-[#94a3b8] italic whitespace-pre-line"><GlossaryText text={sub.instruction} /></p>
       </section>
 
       {/* Hint system */}
@@ -215,7 +246,7 @@ export default function ScenarioWrapper({ lobbyId, scenario, role, onNext, arcId
           ) : (
             <div className="px-3 py-2 bg-[#1e293b]">
               <p className="text-xs text-[#FF6600] font-semibold mb-1">💡 Hint <span className="text-[#94a3b8] font-normal">(−30% applied)</span></p>
-              <p className="text-sm text-[#cbd5e1]">{sub.hint}</p>
+              <p className="text-sm text-[#cbd5e1]"><GlossaryText text={sub.hint} /></p>
             </div>
           )}
         </div>
