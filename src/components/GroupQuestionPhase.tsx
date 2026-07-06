@@ -4,9 +4,10 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '@/lib/firebase';
 import { doc, updateDoc, addDoc, collection, serverTimestamp, onSnapshot } from 'firebase/firestore';
-import { GroupWagerChoiceScenario } from '@/types/scenario';
+import { GroupWagerChoiceScenario, GroupChoiceOption } from '@/types/scenario';
 import Image from 'next/image';
 import { useAudio } from '@/components/AudioProvider';
+import GlossaryText from '@/components/GlossaryText';
 
 type Props = {
   lobbyId: string;
@@ -19,7 +20,7 @@ type Props = {
   onNext: () => void;
 };
 
-type Phase = 'wager' | 'answer' | 'reveal';
+type Phase = 'vote' | 'wager' | 'answer' | 'reveal';
 
 function getImpactLabel(value: number): { label: string; icon: string; color: string } {
   if (value >= 3) return { label: 'Major advantage', icon: '↑↑', color: 'text-green-400' };
@@ -38,6 +39,103 @@ function getOverallVerdict(totalImpact: number): { text: string; color: string }
   return { text: 'Hard lesson. Recovery will take deliberate effort.', color: 'text-red-400' };
 }
 
+/**
+ * Compact + / − tradeoff lists rendered under an option label so
+ * non-technical players can reason about the choice on screen.
+ */
+function TradeoffList({ option }: { option: GroupChoiceOption }) {
+  const hasPros = !!option.pros && option.pros.length > 0;
+  const hasCons = !!option.cons && option.cons.length > 0;
+  if (!hasPros && !hasCons) return null;
+  return (
+    <div className="mt-1.5 space-y-0.5">
+      {option.pros?.map((pro, i) => (
+        <p key={`pro-${i}`} className="text-[10px] sm:text-xs text-green-400 leading-snug flex gap-1">
+          <span className="shrink-0 font-bold">+</span>
+          <span><GlossaryText text={pro} /></span>
+        </p>
+      ))}
+      {option.cons?.map((con, i) => (
+        <p key={`con-${i}`} className="text-[10px] sm:text-xs text-orange-400 leading-snug flex gap-1">
+          <span className="shrink-0 font-bold">−</span>
+          <span><GlossaryText text={con} /></span>
+        </p>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Horizontal vote-split bars: one bar per option, showing how many
+ * (and which) players leaned that way. Purely informational — votes
+ * never affect scoring. Bars grow with a small stagger on mount so
+ * the reveal feels like a moment.
+ */
+function VoteSplit({
+  options,
+  votes,
+  players,
+  animate,
+}: {
+  options: GroupChoiceOption[];
+  votes: Record<string, string>;
+  players: Array<{ uid: string; name: string }>;
+  animate: boolean;
+}) {
+  const [grown, setGrown] = useState(!animate);
+
+  useEffect(() => {
+    if (!animate) return;
+    const id = requestAnimationFrame(() => setGrown(true));
+    return () => cancelAnimationFrame(id);
+  }, [animate]);
+
+  const totalVotes = players.filter(p => !!votes[p.uid]).length;
+  const nonVoters = players.filter(p => !votes[p.uid]);
+
+  return (
+    <div className="bg-[#1e293b] border border-[#334155] rounded-lg p-3 sm:p-4">
+      <p className="text-[10px] sm:text-xs text-[#94a3b8] uppercase tracking-widest mb-2 sm:mb-3">
+        Team Vote Split
+      </p>
+      <div className="space-y-2.5 sm:space-y-3">
+        {options.map((option, i) => {
+          const voters = players.filter(p => votes[p.uid] === option.id);
+          const pct = totalVotes > 0 ? (voters.length / totalVotes) * 100 : 0;
+          return (
+            <div key={option.id} className="min-w-0">
+              <div className="flex justify-between items-baseline gap-2 mb-1">
+                <p className="text-xs sm:text-sm text-[#cbd5e1] font-semibold min-w-0">
+                  <GlossaryText text={option.label} />
+                </p>
+                <span className="text-xs sm:text-sm font-bold text-[#FF6600] shrink-0">
+                  {voters.length}
+                </span>
+              </div>
+              <div className="h-2.5 sm:h-3 w-full bg-[#0f172a] border border-[#334155] rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-[#FF6600] rounded-full transition-all duration-700 ease-out"
+                  style={{ width: grown ? `${pct}%` : '0%', transitionDelay: `${i * 150}ms` }}
+                />
+              </div>
+              {voters.length > 0 && (
+                <p className="text-[10px] sm:text-xs text-[#94a3b8] mt-1 break-words">
+                  {voters.map(v => v.name).join(', ')}
+                </p>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      {nonVoters.length > 0 && (
+        <p className="text-[10px] sm:text-xs text-[#475569] mt-2 sm:mt-3 break-words">
+          No vote: {nonVoters.map(p => p.name).join(', ')}
+        </p>
+      )}
+    </div>
+  );
+}
+
 export default function GroupQuestionPhase({
   lobbyId,
   groupQuestion,
@@ -45,23 +143,40 @@ export default function GroupQuestionPhase({
   groupQuestionIdx,
   facilitatorUid,
   facilitatorName,
+  players,
   onNext,
 }: Props) {
   const [user] = useAuthState(auth);
   const { playSfx } = useAudio();
-  const [phase, setPhase] = useState<Phase>('wager');
+  const [phase, setPhase] = useState<Phase>('vote');
   const [selectedWager, setSelectedWager] = useState<number | null>(null);
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [firebaseWager, setFirebaseWager] = useState<number | null>(null);
+  // Per-player option votes (informational only — never affects scoring).
+  const [votes, setVotes] = useState<Record<string, string>>({});
+  const [votesRevealed, setVotesRevealed] = useState(false);
+  const [myLocalVote, setMyLocalVote] = useState<string | null>(null);
+  // Local flag: has this client dismissed the consequence story beat?
+  const [consequenceSeen, setConsequenceSeen] = useState(false);
 
   const isFacilitator = user?.uid === facilitatorUid;
 
-  // Sync wager lock, answer submission, and phase transitions across all players
+  // Votes are stored on the lobby doc keyed by arc + question index, so
+  // stale votes from a previous question can never leak into this one
+  // (the game page doesn't know about these fields and never resets them).
+  const voteKey = `q${arcIdx}_${groupQuestionIdx}`;
+
+  // Sync votes, wager lock, answer submission, and phase transitions across all players
   useEffect(() => {
     if (!lobbyId) return;
     const unsubscribe = onSnapshot(doc(db, 'lobbies', lobbyId), (snap) => {
       const data = snap.data();
+      // Best-effort vote sync: missing/partial vote data must never crash
+      // (players can join mid-question or refresh at any time).
+      const voteMap = (data?.groupVotes?.[voteKey] ?? {}) as Record<string, string>;
+      setVotes(voteMap && typeof voteMap === 'object' ? voteMap : {});
+      setVotesRevealed(Boolean(data?.groupVotesRevealed?.[voteKey]));
       // Reveal sync: when facilitator submits, everyone sees the result
       if (data?.groupAnswerSubmitted && data.groupAnswerOptionId) {
         setSelectedOptionId(data.groupAnswerOptionId);
@@ -73,7 +188,48 @@ export default function GroupQuestionPhase({
       }
     });
     return unsubscribe;
-  }, [lobbyId]);
+  }, [lobbyId, voteKey]);
+
+  const votedCount = players.filter(p => !!votes[p.uid]).length;
+  const allVoted = players.length > 0 && players.every(p => !!votes[p.uid]);
+  const splitRevealed = votesRevealed || allVoted;
+
+  // Once every connected player has voted (or the facilitator forced the
+  // reveal), promote everyone from the vote phase to the wager phase.
+  useEffect(() => {
+    if (!splitRevealed) return;
+    setPhase(prev => (prev === 'vote' ? 'wager' : prev));
+  }, [splitRevealed]);
+
+  const myVote = (user && votes[user.uid]) || myLocalVote;
+
+  const handleVote = async (optionId: string) => {
+    if (!user || splitRevealed) return;
+    setMyLocalVote(optionId);
+    try {
+      await updateDoc(doc(db, 'lobbies', lobbyId), {
+        [`groupVotes.${voteKey}.${user.uid}`]: optionId,
+      });
+    } catch (error) {
+      // Votes are best-effort and informational only — never block the game.
+      console.error('Failed to record vote:', error);
+    }
+  };
+
+  // Facilitator fallback so one AFK player can't stall the question.
+  const handleRevealVotes = async () => {
+    if (!isFacilitator || isSubmitting) return;
+    setIsSubmitting(true);
+    try {
+      await updateDoc(doc(db, 'lobbies', lobbyId), {
+        [`groupVotesRevealed.${voteKey}`]: true,
+      });
+    } catch (error) {
+      console.error('Failed to reveal votes:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleWagerSelect = async (wager: number) => {
     if (!isFacilitator || isSubmitting) return;
@@ -126,6 +282,8 @@ export default function GroupQuestionPhase({
         facilitatorUid,
         result: selectedOptionId,
         axisImpact: wageredImpact,
+        // Informational record of individual leanings — never used in scoring.
+        votes,
         timestamp: serverTimestamp(),
       });
 
@@ -148,16 +306,26 @@ export default function GroupQuestionPhase({
     [selectedOptionId, groupQuestion.options]
   );
 
-  // ────── WAGER PHASE ──────────────────────────────────────────
-  if (phase === 'wager') {
+  // Option cards contain GlossaryText (which renders its own tap-to-define
+  // buttons), so cards are divs — ignore taps that started on a glossary chip.
+  const cardTapGuard = (e: React.MouseEvent, action: () => void) => {
+    if ((e.target as HTMLElement).closest('button')) return;
+    action();
+  };
+
+  // ────── VOTE PHASE — everyone privately picks a preferred option ──────
+  if (phase === 'vote') {
+    const waitingOn = players.filter(p => !votes[p.uid]).map(p => p.name);
     return (
       <div className="min-h-dvh flex flex-col bg-[#0f172a] p-3 sm:p-6">
         <div className="page-container flex flex-col gap-4 sm:gap-6">
           {/* Story context */}
           <div className="bg-[#1e293b] border border-[#334155] rounded-lg p-3 sm:p-5">
-            <h1 className="text-lg sm:text-2xl font-bold text-[#e2e8f0] mb-3 sm:mb-4">{groupQuestion.title}</h1>
+            <h1 className="text-lg sm:text-2xl font-bold text-[#e2e8f0] mb-3 sm:mb-4">
+              <GlossaryText text={groupQuestion.title} />
+            </h1>
             <p className="text-xs sm:text-sm text-[#cbd5e1] leading-relaxed whitespace-pre-line">
-              {groupQuestion.storyContext}
+              <GlossaryText text={groupQuestion.storyContext} />
             </p>
           </div>
 
@@ -182,26 +350,93 @@ export default function GroupQuestionPhase({
               {isFacilitator ? 'Facilitator Prompt' : 'Discussion Guide'}
             </p>
             <p className="text-xs sm:text-sm text-[#cbd5e1] leading-relaxed whitespace-pre-line">
-              {groupQuestion.facilitatorPrompt}
+              <GlossaryText text={groupQuestion.facilitatorPrompt} />
             </p>
           </div>
 
-          {/* Answer options — all can see while discussing */}
+          {/* Everyone votes privately */}
           <div>
-            <p className="text-xs sm:text-sm text-[#94a3b8] uppercase tracking-widest mb-2 sm:mb-3">
-              Options to Discuss
+            <p className="text-xs sm:text-sm text-[#94a3b8] uppercase tracking-widest mb-1 sm:mb-2">
+              Cast Your Vote
+            </p>
+            <p className="text-[10px] sm:text-xs text-[#cbd5e1] mb-2 sm:mb-3">
+              Everyone picks privately — votes are revealed together. They guide the discussion but don&apos;t affect the score.
             </p>
             <div className="grid grid-cols-1 gap-2 sm:gap-3">
               {groupQuestion.options.map(option => (
                 <div
                   key={option.id}
-                  className="p-3 sm:p-4 rounded-lg text-left border bg-[#1e293b] border-[#334155]"
+                  role="button"
+                  tabIndex={0}
+                  onClick={(e) => cardTapGuard(e, () => handleVote(option.id))}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') handleVote(option.id);
+                  }}
+                  className={`p-3 sm:p-4 rounded-lg text-left transition border cursor-pointer ${
+                    myVote === option.id
+                      ? 'bg-[#FF6600]/20 border-[#FF6600]'
+                      : 'bg-[#1e293b] border-[#334155] hover:border-[#FF6600]'
+                  }`}
                 >
-                  <p className="font-semibold text-xs sm:text-sm text-[#cbd5e1]">{option.label}</p>
+                  <p className={`font-semibold text-xs sm:text-sm ${myVote === option.id ? 'text-[#FF6600]' : 'text-[#cbd5e1]'}`}>
+                    <GlossaryText text={option.label} />
+                  </p>
+                  <TradeoffList option={option} />
                 </div>
               ))}
             </div>
           </div>
+
+          {/* Vote progress */}
+          <div className="text-center p-2 sm:p-3 bg-[#1e293b] border border-[#334155] rounded-lg">
+            <p className="text-[#94a3b8] text-xs sm:text-sm">
+              {votedCount}/{players.length} voted
+              {waitingOn.length > 0 && ` — waiting on ${waitingOn.join(', ')}`}
+            </p>
+            {myVote && (
+              <p className="text-[10px] sm:text-xs text-[#475569] mt-1">
+                You can change your vote until everyone&apos;s in.
+              </p>
+            )}
+          </div>
+
+          {/* Facilitator fallback so an AFK player can't stall the team */}
+          {isFacilitator && (
+            <button
+              onClick={handleRevealVotes}
+              disabled={isSubmitting}
+              className="px-4 sm:px-6 py-3 bg-[#1e293b] border border-[#FF6600] text-[#FF6600] hover:bg-[#FF6600]/10 rounded-lg font-semibold uppercase tracking-wider text-xs sm:text-sm transition disabled:opacity-50"
+            >
+              {isSubmitting ? 'Revealing...' : 'Reveal Votes Now'}
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // ────── WAGER PHASE — split revealed, facilitator sets the multiplier ──────
+  if (phase === 'wager') {
+    return (
+      <div className="min-h-dvh flex flex-col bg-[#0f172a] p-3 sm:p-6">
+        <div className="page-container flex flex-col gap-4 sm:gap-6">
+          {/* Story context */}
+          <div className="bg-[#1e293b] border border-[#334155] rounded-lg p-3 sm:p-5">
+            <h1 className="text-lg sm:text-2xl font-bold text-[#e2e8f0] mb-3 sm:mb-4">
+              <GlossaryText text={groupQuestion.title} />
+            </h1>
+            <p className="text-xs sm:text-sm text-[#cbd5e1] leading-relaxed whitespace-pre-line">
+              <GlossaryText text={groupQuestion.storyContext} />
+            </p>
+          </div>
+
+          {/* Vote split reveal — the moment where alignment (or not) shows */}
+          <VoteSplit
+            options={groupQuestion.options}
+            votes={votes}
+            players={players}
+            animate
+          />
 
           {/* Wager section */}
           <div>
@@ -239,7 +474,7 @@ export default function GroupQuestionPhase({
           {!isFacilitator && (
             <div className="text-center p-2 sm:p-3 bg-[#1e293b] border border-[#334155] rounded-lg">
               <p className="text-[#94a3b8] text-xs sm:text-sm">
-                {facilitatorName} is setting the wager. Discuss the options above.
+                {facilitatorName} is setting the wager. Talk through the split above.
               </p>
             </div>
           )}
@@ -248,7 +483,7 @@ export default function GroupQuestionPhase({
     );
   }
 
-  // ────── ANSWER PHASE ──────────────────────────────────────────
+  // ────── ANSWER PHASE — facilitator decides with the split on screen ──────
   if (phase === 'answer') {
     const lockedWager = firebaseWager ?? selectedWager;
     return (
@@ -256,14 +491,24 @@ export default function GroupQuestionPhase({
         <div className="page-container flex flex-col gap-4 sm:gap-6">
           {/* Story context with wager badge */}
           <div className="bg-[#1e293b] border border-[#334155] rounded-lg p-3 sm:p-5">
-            <h1 className="text-lg sm:text-2xl font-bold text-[#e2e8f0] mb-3 sm:mb-4">{groupQuestion.title}</h1>
+            <h1 className="text-lg sm:text-2xl font-bold text-[#e2e8f0] mb-3 sm:mb-4">
+              <GlossaryText text={groupQuestion.title} />
+            </h1>
             <p className="text-xs sm:text-sm text-[#cbd5e1] leading-relaxed mb-3 sm:mb-4 whitespace-pre-line">
-              {groupQuestion.storyContext}
+              <GlossaryText text={groupQuestion.storyContext} />
             </p>
             <div className="inline-block bg-[#FF6600] text-white px-3 py-1 rounded-full text-xs sm:text-sm font-bold">
               Wager Locked: {lockedWager}×
             </div>
           </div>
+
+          {/* Vote split stays on screen while the call is made */}
+          <VoteSplit
+            options={groupQuestion.options}
+            votes={votes}
+            players={players}
+            animate={false}
+          />
 
           {/* Options — everyone sees, only facilitator can select */}
           <div>
@@ -272,20 +517,33 @@ export default function GroupQuestionPhase({
             </p>
             <div className="grid grid-cols-1 gap-2 sm:gap-3">
               {groupQuestion.options.map(option => (
-                <button
+                <div
                   key={option.id}
-                  onClick={() => isFacilitator && handleOptionSelect(option.id)}
-                  disabled={!isFacilitator}
+                  role={isFacilitator ? 'button' : undefined}
+                  tabIndex={isFacilitator ? 0 : undefined}
+                  onClick={isFacilitator ? (e) => cardTapGuard(e, () => handleOptionSelect(option.id)) : undefined}
+                  onKeyDown={isFacilitator ? (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') handleOptionSelect(option.id);
+                  } : undefined}
                   className={`p-3 sm:p-4 rounded-lg text-left transition border ${
                     !isFacilitator
-                      ? 'bg-[#1e293b] text-[#475569] border-[#334155] cursor-not-allowed'
+                      ? 'bg-[#1e293b] border-[#334155] cursor-not-allowed'
                       : selectedOptionId === option.id
-                      ? 'bg-[#FF6600]/20 text-[#FF6600] border-[#FF6600] cursor-pointer hover:bg-[#FF6600]/30'
-                      : 'bg-[#1e293b] text-[#cbd5e1] border-[#334155] cursor-pointer hover:border-[#FF6600]'
+                      ? 'bg-[#FF6600]/20 border-[#FF6600] cursor-pointer hover:bg-[#FF6600]/30'
+                      : 'bg-[#1e293b] border-[#334155] cursor-pointer hover:border-[#FF6600]'
                   }`}
                 >
-                  <p className="font-semibold text-xs sm:text-sm mb-1">{option.label}</p>
-                </button>
+                  <p className={`font-semibold text-xs sm:text-sm mb-1 ${
+                    !isFacilitator
+                      ? 'text-[#475569]'
+                      : selectedOptionId === option.id
+                      ? 'text-[#FF6600]'
+                      : 'text-[#cbd5e1]'
+                  }`}>
+                    <GlossaryText text={option.label} />
+                  </p>
+                  <TradeoffList option={option} />
+                </div>
               ))}
             </div>
           </div>
@@ -305,10 +563,41 @@ export default function GroupQuestionPhase({
           {!isFacilitator && (
             <div className="text-center p-2 sm:p-3 bg-[#1e293b] border border-[#334155] rounded-lg">
               <p className="text-[#94a3b8] text-xs sm:text-sm">
-                {facilitatorName} will submit the team&apos;s answer when ready.
+                Waiting for {facilitatorName} to lock it in...
               </p>
             </div>
           )}
+        </div>
+      </div>
+    );
+  }
+
+  // ────── CONSEQUENCE BEAT — reactive story beat before the impact reveal ──────
+  if (phase === 'reveal' && selectedOption?.consequence && !consequenceSeen) {
+    return (
+      <div className="min-h-dvh flex flex-col items-center justify-center p-3 sm:p-6 bg-[#0f172a]">
+        <div className="page-container">
+          <p className="text-[10px] sm:text-xs text-[#94a3b8] uppercase tracking-widest mb-2 sm:mb-3 text-center">
+            What Happens Next
+          </p>
+          <div className="bg-[#1e293b] border border-[#FF6600]/50 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6">
+            <p className="text-[10px] sm:text-xs text-[#94a3b8] uppercase tracking-widest mb-2">Team Answer</p>
+            <p className="text-[#FF6600] font-semibold text-xs sm:text-sm mb-3 sm:mb-4">
+              <GlossaryText text={selectedOption.label} />
+            </p>
+            <p className="text-[#e2e8f0] text-sm sm:text-base leading-relaxed whitespace-pre-line">
+              <GlossaryText text={selectedOption.consequence} />
+            </p>
+          </div>
+          <button
+            onClick={() => {
+              playSfx('advance');
+              setConsequenceSeen(true);
+            }}
+            className="w-full px-4 sm:px-6 py-3 sm:py-4 bg-[#FF6600] hover:bg-[#e65a00] text-white rounded-lg font-semibold uppercase tracking-wider text-xs sm:text-sm transition"
+          >
+            Continue →
+          </button>
         </div>
       </div>
     );
@@ -330,13 +619,15 @@ export default function GroupQuestionPhase({
         <div className="page-container">
           {/* Title */}
           <h2 className="text-lg sm:text-2xl font-bold text-[#e2e8f0] text-center mb-4 sm:mb-6">
-            {groupQuestion.title}
+            <GlossaryText text={groupQuestion.title} />
           </h2>
 
           {/* Chosen option */}
           <div className="bg-[#1e293b] border border-[#FF6600] rounded-lg p-3 sm:p-5 mb-4 sm:mb-6">
             <p className="text-[10px] sm:text-xs text-[#94a3b8] uppercase tracking-widest mb-2">Team Answer</p>
-            <p className="text-[#e2e8f0] font-semibold text-xs sm:text-sm mb-2 sm:mb-3">{selectedOption.label}</p>
+            <p className="text-[#e2e8f0] font-semibold text-xs sm:text-sm mb-2 sm:mb-3">
+              <GlossaryText text={selectedOption.label} />
+            </p>
             <div className="inline-block bg-[#FF6600] text-white px-3 py-1 rounded-full text-xs sm:text-sm font-bold">
               {wagerToUse}× Wager
             </div>
