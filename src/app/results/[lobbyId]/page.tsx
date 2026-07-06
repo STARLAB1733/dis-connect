@@ -16,8 +16,10 @@ import {
 } from 'firebase/firestore';
 import { auth, db, initAuth } from '@/lib/firebase';
 import { computePersona, computePerRoleScores, Impact } from '@/lib/persona';
-import { getPersonaIdentity, getVocationRecommendation } from '@/lib/personaMapping';
+import { getPersonaIdentity, getVocationRecommendation, getTeammateCallouts } from '@/lib/personaMapping';
+import type { PersonaIdentity } from '@/lib/personaMapping';
 import type { Axis } from '@/lib/persona';
+import PersonaShareCard from '@/components/PersonaShareCard';
 import Image from 'next/image';
 import {
   Chart as ChartJS,
@@ -43,7 +45,7 @@ const GLOBAL_EVENT = 'global';
 type PersonaResult = {
   playerId: string;
   normalized: Record<Axis, number>;
-  identity: { name: string; description: string; svgPath: string };
+  identity: PersonaIdentity;
   vocation: { roleKey: string; label: string; scores: { key: string; label: string; score: number }[] };
   totalScore: number;
 };
@@ -82,7 +84,18 @@ export default function ResultsPage() {
   const [individualLeaderboard, setIndividualLeaderboard] = useState<IndividualEntry[]>([]);
   const [myTeamName, setMyTeamName] = useState<string | null>(null);
   const [tab, setTab] = useState<'team' | 'individual'>('team');
+  const [playerNames, setPlayerNames] = useState<Record<string, string>>({});
+  // Reveal staging: 0 = suspense, 1 = top axes teased, 2 = persona revealed
+  const [revealStage, setRevealStage] = useState(0);
   const router = useRouter();
+
+  // Short, skippable build-up before the persona card appears (~1.6s total)
+  useEffect(() => {
+    if (loading || error) return;
+    const t1 = setTimeout(() => setRevealStage(s => Math.max(s, 1)), 600);
+    const t2 = setTimeout(() => setRevealStage(s => Math.max(s, 2)), 1600);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [loading, error]);
 
   useEffect(() => {
     if (!lobbyId || !user) return;
@@ -101,6 +114,7 @@ export default function ResultsPage() {
         (lobbyData.players || []).forEach((p: { uid: string; name: string }) => {
           playerNames[p.uid] = p.name;
         });
+        setPlayerNames(playerNames);
 
         // Get all answer logs
         const logsSnap = await getDocs(query(
@@ -265,6 +279,15 @@ export default function ResultsPage() {
 
   const { normalized, identity, vocation } = myResult;
 
+  // Top 2 axes for the share card + reveal tease (read-only over game data)
+  const topAxes = (Object.entries(normalized) as [Axis, number][])
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([axis, score]) => ({ axis, score }));
+
+  // One-line teammate comparisons — only shown when 2+ players have results
+  const callouts = getTeammateCallouts(user.uid, results, playerNames);
+
   const barData = {
     labels: vocation.scores.map(s => s.label),
     datasets: [{
@@ -322,8 +345,67 @@ export default function ResultsPage() {
   return (
     <main className="page-container p-4 pb-12">
 
+      {/* 0. Persona reveal — short staged build-up, tap anywhere to skip */}
+      <section className="mb-8 pt-4" onClick={() => setRevealStage(2)}>
+        {revealStage < 2 && (
+          <div className="bg-[#1e293b] border border-[#334155] rounded-2xl w-full max-w-sm mx-auto aspect-square flex flex-col items-center justify-center gap-4 px-6 cursor-pointer select-none">
+            <div className="w-10 h-10 border-4 border-[#FF6600] border-t-transparent rounded-full animate-spin" />
+            <p className="text-sm text-[#e2e8f0] font-semibold animate-pulse text-center">
+              Decrypting your decision DNA…
+            </p>
+            <div
+              className={`flex flex-wrap justify-center gap-2 transition-all duration-500 ${
+                revealStage >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+              }`}
+            >
+              {topAxes.map(({ axis }) => (
+                <span
+                  key={axis}
+                  className="px-3 py-1 rounded-full bg-[#FF6600]/15 border border-[#FF6600]/40 text-[#FF6600] text-xs font-semibold uppercase tracking-wider"
+                >
+                  {axis}
+                </span>
+              ))}
+            </div>
+            <p className="text-[10px] text-[#94a3b8] uppercase tracking-widest">Tap to skip</p>
+          </div>
+        )}
+
+        <div
+          className={`transition-all duration-700 ease-out ${
+            revealStage >= 2
+              ? 'opacity-100 translate-y-0 scale-100'
+              : 'opacity-0 translate-y-6 scale-95 h-0 overflow-hidden pointer-events-none'
+          }`}
+        >
+          <PersonaShareCard
+            personaName={identity.name}
+            zinger={identity.zinger}
+            topAxes={topAxes}
+            teamName={myTeamName}
+            playerName={playerNames[user.uid]}
+          />
+          <p className="text-center text-xs text-[#94a3b8] mt-3">
+            📸 Screenshot &amp; share your persona!
+          </p>
+
+          {callouts.length > 0 && (
+            <div className="max-w-sm mx-auto mt-4 space-y-2">
+              {callouts.map((line, i) => (
+                <p
+                  key={i}
+                  className="bg-[#1e293b] border border-[#334155] rounded-lg px-4 py-2.5 text-sm text-[#cbd5e1] text-center"
+                >
+                  {line}
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* 1. Score + Team — single unified card */}
-      <section className="mb-6 pt-4">
+      <section className="mb-6">
         <div className="bg-[#1e293b] border border-[#334155] rounded-xl overflow-hidden text-center">
           {/* Individual score */}
           <div className="p-5">
@@ -461,12 +543,28 @@ export default function ResultsPage() {
       {/* 5. Persona archetype */}
       <section className="text-center mb-6">
         <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-2">Your Decision Style</p>
+        <h2 className="text-2xl font-bold text-[#FF6600] mb-3">{identity.name}</h2>
         {identity.svgPath && (
           <div className="w-full h-48 sm:h-60 relative mx-auto mb-4 persona-image">
             <Image src={identity.svgPath} alt={identity.name} fill style={{ objectFit: 'contain' }} priority />
           </div>
         )}
-        <p className="text-[#cbd5e1] text-center">{identity.description}</p>
+        <p className="text-[#cbd5e1] text-center mb-4">{identity.description}</p>
+
+        {identity.traits.length > 0 && (
+          <div className="bg-[#1e293b] border border-[#334155] rounded-xl p-4 text-left max-w-sm mx-auto">
+            <p className="text-xs text-[#94a3b8] uppercase tracking-widest mb-2 text-center">Signature Moves</p>
+            <ul className="space-y-1.5">
+              {identity.traits.map((trait, i) => (
+                <li key={i} className="text-sm text-[#e2e8f0] flex gap-2">
+                  <span className="text-[#FF6600] shrink-0">▸</span>
+                  <span>{trait}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-[#94a3b8] italic mt-3 text-center">{identity.watchOut}</p>
+          </div>
+        )}
       </section>
 
       {/* 6. Radar chart */}
