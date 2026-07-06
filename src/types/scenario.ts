@@ -25,9 +25,22 @@ export interface LayoutZone {
 }
 
 /**
+ * Reactive story beats shown right after a player submits, so choices
+ * visibly "talk back" instead of only feeding the hidden axis scores.
+ * Success/fail applies to scenarios with a correct answer (drag-drop,
+ * numeric-input); option-level consequences apply to choice scenarios.
+ */
+export interface ConsequenceBeats {
+  /** Shown when the player's answer was correct / within tolerance */
+  consequenceSuccess?: string;
+  /** Shown when the player's answer was wrong / outside tolerance */
+  consequenceFail?: string;
+}
+
+/**
  * Drag & Drop scenario in "layout" mode (assign items to zones).
  */
-export interface DragDropLayoutScenario {
+export interface DragDropLayoutScenario extends ConsequenceBeats {
   type: 'drag-drop';
   variant: 'layout';
   title: string;
@@ -43,7 +56,7 @@ export interface DragDropLayoutScenario {
 /**
  * Drag & Drop scenario in "order" mode (reorder a list).
  */
-export interface DragDropOrderScenario {
+export interface DragDropOrderScenario extends ConsequenceBeats {
   type: 'drag-drop';
   variant: 'order';
   title: string;
@@ -58,7 +71,7 @@ export interface DragDropOrderScenario {
 /**
  * Numeric input scenario (user enters a number to match expected value).
  */
-export interface NumericInputScenario {
+export interface NumericInputScenario extends ConsequenceBeats {
   type: 'numeric-input';
   title: string;
   instruction: string;
@@ -77,6 +90,8 @@ export interface BinaryChoiceOption {
   id: string;
   label: string;
   axisImpact?: AxisImpact;
+  /** Reactive beat shown after picking this option */
+  consequence?: string;
 }
 
 /**
@@ -117,6 +132,12 @@ export interface GroupChoiceOption {
   id: string;
   label: string;
   axisImpact?: AxisImpact;
+  /** Reactive beat shown to the whole team after this option is locked in */
+  consequence?: string;
+  /** 1-2 short plain-language upsides, shown on-screen during discussion */
+  pros?: string[];
+  /** 1-2 short plain-language downsides, shown on-screen during discussion */
+  cons?: string[];
 }
 
 /**
@@ -162,6 +183,13 @@ export interface Scenario {
   round?: number;
   /** Narrative story context shown before the mission begins */
   storyContext?: string;
+  /**
+   * Ripple callbacks: extra story lines shown when an earlier choice matches.
+   * Key format: "<earlierScenarioId>:<optionId>" (e.g. "arc1-ch1:serverless").
+   * When the team made that choice, the value is appended to storyContext,
+   * so the story visibly "remembers" earlier decisions.
+   */
+  callbacks?: Record<string, string>;
   /** Leaderboard configuration for team ranking */
   leaderboard?: LeaderboardConfig;
   subScenarios: Record<string, SubScenario>;
